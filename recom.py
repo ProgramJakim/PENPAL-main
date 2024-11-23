@@ -1,6 +1,9 @@
 import mysql.connector  
 import networkx as nx
+
+# Hellow Kalelle, it's me jakim.
 # Connect to MySQL database
+
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
