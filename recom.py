@@ -159,8 +159,7 @@ def main():
         if not logged_in_user:
             print("1. Create Account")
             print("2. Log In")
-            print("3. View All Registered Users")
-            print("4. Exit")
+            print("3. Exit")
         else:
             print("1. View Friend Recommendations")
             print("2. Add Friend Menu")
@@ -182,9 +181,6 @@ def main():
             password = input("Enter password: ")
             logged_in_user = login(username, password)
 
-        elif choice == "3" and not logged_in_user:
-            sm_graph.view_all_users()
-
         elif choice == "1" and logged_in_user:
             recommendations = sm_graph.recommend_friends(logged_in_user)
             if recommendations:
@@ -197,37 +193,38 @@ def main():
         elif choice == "2" and logged_in_user:
             while True:
                 print("\n--- Friend Menu ---")
-                print("1. View Friend Requests")
-                print("2. Send Friend Request")
-                print("3. Accept Friend Request")
-                print("4. Decline Friend Request")
-                print("5. Back to Main Menu")
+                print("1. Send Friend Request")
+                print("2. Accept Friend Request")
+                print("3. Decline Friend Request")
+                print("4. Back to Main Menu")
                 sub_choice = input("Enter your choice: ")
 
-                if sub_choice == "1":
-                    friend_requests = sm_graph.get_friend_requests(logged_in_user)
-                    print(f"Friend requests for {logged_in_user}: {friend_requests}")
                 
-                elif sub_choice == "2":
+                if sub_choice == "1":
+                    sm_graph.view_all_users() 
+
                     friend_username = input("Enter the username of the friend you want to add: ")
                     sm_graph.send_friend_request(logged_in_user, friend_username)
 
-                elif sub_choice == "3":
+                elif sub_choice == "2":
+                    friend_requests = sm_graph.get_friend_requests(logged_in_user)
+                    print(f"Friend requests for {logged_in_user}: {friend_requests}")
+                
                     friend_username = input("Enter the username of the friend to accept: ")
                     sm_graph.accept_friend_request(logged_in_user, friend_username)
 
-                elif sub_choice == "4":
+                elif sub_choice == "3":
                     friend_username = input("Enter the username of the friend to decline: ")
                     sm_graph.decline_friend_request(logged_in_user, friend_username)
 
-                elif sub_choice == "5":
+                elif sub_choice == "4":
                     break
 
         elif choice == "3" and logged_in_user:
             logged_in_user = None
             print("Logged out successfully.")
 
-        elif choice == "4" and not logged_in_user:
+        elif choice == "3" and not logged_in_user:
             print("Exiting the system. Goodbye!")
             break
 
