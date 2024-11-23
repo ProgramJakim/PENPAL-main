@@ -1,14 +1,12 @@
 import mysql.connector  
 import networkx as nx
-
-# Hellow Kalelle, it's me jakim.
 # Connect to MySQL database
-
+#kal
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="social_media"
+    database="interests"
 )
 
 db_cursor = db_connection.cursor()
@@ -39,8 +37,8 @@ class SocialMediaGraph:
             return False
 
         db_cursor.execute(
-            "INSERT INTO users (username, age, location, gender, interests, password, social_media_link) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            (username, user_data["age"], user_data["location"], user_data["gender"], ", ".join(user_data["interests"]), user_data["password"], user_data["social_media_link"] )
+            "INSERT INTO users (username, age, location, gender, password, social_media_link) VALUES (%s, %s, %s, %s, %s, %s)",
+            (username, user_data["age"], user_data["location"], user_data["gender"], user_data["password"], user_data["social_media_link"] )
         )
         db_connection.commit()
         self.graph.add_node(username)
@@ -151,34 +149,80 @@ class SocialMediaGraph:
             print(f"Error fetching users: {err}")
 
 # Account creation and login functions
-def create_account(username, age, location, gender, interests, password):
+def create_account(username, age, location, gender, password):
     sm_graph = SocialMediaGraph()
     user_data = {
         "age": age,
         "location": location,
         "gender": gender,
-        "interests": interests,
         "password": password
     }
 
-    add_social_media = input("Do you want to add a social media account link? (yes/no): ").strip().lower()
-    if add_social_media == "yes":
-        social_media_link = input("Enter your social media account link: ").strip()
-        user_data["social_media_link"] = social_media_link
-    else:
-        user_data["social_media_link"] = None 
+    
+    social_media_link = input("Enter your social media account link (required): ").strip()
+    user_data["social_media_link"] = social_media_link
+
+    terms = input("Do you agree to the Terms and Conditions? (yes/no): ").lower()
+
+    if terms != "yes":
+        print("You must agree to the Terms and Conditions to create an account.")
+        return
+    
 
     if sm_graph.add_user(username, user_data):
         print(f"Account for {username} created successfully.")
+        print("Let's set up your interests!")
+        choose_interests(username)
     else:
         print("Account creation failed.")
 
+def choose_interests(username):
+    predefined_interests = [
+        "Sports", "Music", "Movies", "Technology", "Travel", 
+        "Books", "Gaming", "Cooking", "Fitness", "Art", 
+        "Fashion", "Science", "Photography", "Education", "Business"
+    ]
+    
+    print("\n--- Choose Your Interests ---")
+    print("Select at least 5 interests from the list below:")
+    for i, interest in enumerate(predefined_interests, 1):
+        print(f"{i}. {interest}")
+    
+    selected_interests = []
+    while len(selected_interests) < 5:
+        try:
+            choice = int(input(f"Select interest ({len(selected_interests)+1}/5): "))
+            if choice < 1 or choice > len(predefined_interests):
+                print("Invalid choice. Please select a valid number.")
+            elif predefined_interests[choice - 1] in selected_interests:
+                print("You have already selected this interest.")
+            else:
+                selected_interests.append(predefined_interests[choice - 1])
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    # Add selected interests to the database
+    for interest in selected_interests:
+        db_cursor.execute(
+            "INSERT INTO user_interests (username, interest) VALUES (%s, %s)", 
+            (username, interest)
+        )
+
+    db_connection.commit()
+    print(f"Your interests have been saved: {', '.join(selected_interests)}")
 
 def login(username, password):
     db_cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
     result = db_cursor.fetchone()
     if result and result[0] == password:
         print(f"Welcome back, {username}!")
+
+        db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
+        interests = db_cursor.fetchall()
+        if not interests:
+            print("You haven't selected your interests yet. Let's do that now!")
+            choose_interests(username)
+
         return username
     else:
         print("Invalid username or password.")
@@ -209,8 +253,7 @@ def main():
             age = int(input("Enter age: "))
             location = input("Enter location: ")
             gender = input("Enter gender: ")
-            interests = input("Enter interests (comma-separated): ").split(", ")
-            create_account(username, age, location, gender, interests, password)
+            create_account(username, age, location, gender, password)
         
         elif choice == "2" and not logged_in_user:
             username = input("Enter username: ")
