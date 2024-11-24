@@ -1,6 +1,7 @@
 import mysql.connector  
 import networkx as nx
 # Connect to MySQL database
+#cute ko par
 #kal
 db_connection = mysql.connector.connect(
     host="localhost",
@@ -150,6 +151,11 @@ class SocialMediaGraph:
 
 # Account creation and login functions
 def create_account(username, age, location, gender, password):
+
+    if age <=17:
+        print("Sorry, you must be at least 18 years old  to create an account.")
+        return
+    
     sm_graph = SocialMediaGraph()
     user_data = {
         "age": age,
@@ -159,7 +165,7 @@ def create_account(username, age, location, gender, password):
     }
 
     
-    social_media_link = input("Enter your social media account link (required): ").strip()
+    social_media_link = input("Enter your social media account link (optional): ").strip()
     user_data["social_media_link"] = social_media_link
 
     terms = input("Do you agree to the Terms and Conditions? (yes/no): ").lower()
@@ -310,8 +316,9 @@ def main():
             logged_in_user = None
             print("Logged out successfully.")
 
+
         elif choice == "4" and not logged_in_user:
-            print("Exiting the system. Goodbye!")
+            print(f"Exiting the system. Goodbye, {username}")
             break
 
         else:
