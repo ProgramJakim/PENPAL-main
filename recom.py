@@ -2,6 +2,7 @@ import mysql.connector
 import networkx as nx
 # Connect to MySQL database
 #cute ko par
+#TINGINTININITNIGN
 #kal
 db_connection = mysql.connector.connect(
     host="localhost",
@@ -113,6 +114,37 @@ class SocialMediaGraph:
         sorted_recommendations = dict(sorted(recommendations.items(), key=lambda item: item[1], reverse=True))
 
         return sorted_recommendations
+    
+    def recommend_friends_by_location(self, username):
+        # Check if the user exists in the database
+        db_cursor.execute("SELECT location FROM users WHERE username = %s", (username,))
+        result = db_cursor.fetchone()
+        if not result:
+            print(f"User {username} does not exist.")
+            return []
+
+        user_location = result[0]
+
+        # Fetch users in the same location but not already friends
+        db_cursor.execute("""
+            SELECT username FROM users
+            WHERE location = %s AND username != %s
+            AND username NOT IN (
+                SELECT user2 FROM friendships WHERE user1 = %s
+                UNION
+                SELECT user1 FROM friendships WHERE user2 = %s
+            )
+        """, (user_location, username, username, username))
+        
+        potential_friends = [row[0] for row in db_cursor.fetchall()]
+        
+        if potential_friends:
+            print(f"Recommended friends based on location ({user_location}): {', '.join(potential_friends)}")
+        else:
+            print(f"No friend recommendations found for {username} based on location.")
+        
+        return potential_friends
+
     
     def view_all_friends(self, username):
         """View all friends of a user from the database."""
@@ -258,7 +290,7 @@ def main():
             password = input("Enter password: ")
             age = int(input("Enter age: "))
             location = input("Enter location: ")
-            gender = input("Enter gender: ")
+            gender = input("Enter gender (Male/Female): ")
             create_account(username, age, location, gender, password)
         
         elif choice == "2" and not logged_in_user:
@@ -270,13 +302,45 @@ def main():
             sm_graph.view_all_users()
 
         elif choice == "1" and logged_in_user:
-            recommendations = sm_graph.recommend_friends(logged_in_user)
-            if recommendations:
-                print(f"Friend recommendations for {logged_in_user}:")
-                for user, mutual_count in recommendations.items():
-                    print(f"Recommended friend: {user}, Mutual friends: {mutual_count}")
-            else:
-                print("No friend recommendations found.")
+            while True:
+                print("\n --View Friend Recommendations--")
+                print("1. Based on Mutual Friends")
+                print("2. Based on Shared Location")
+                print("3. Based on Shared Interests")
+                print("4. Based on Gender")
+                print("5. Based on Age")
+                print("6. Back to Main Menu")
+                fr_choice = input("Enter your choice: ")
+
+                if fr_choice == "1":
+                    recommendations = sm_graph.recommend_friends(logged_in_user)
+                    if recommendations:
+                        print(f"Friend recommendations for {logged_in_user} based on Mutual Friends:")
+                    for user, mutual_count in recommendations.items():
+                        print(f"Recommended friend: {user}, Mutual friends: {mutual_count}")
+                    else:
+                        print("No friend recommendations found.")
+
+                elif fr_choice == "2":
+                    recommendations = sm_graph.recommend_friends_by_location(logged_in_user)
+                    if recommendations:
+                        print(f"friend recommendations for {logged_in_user} based on location: ")
+                        for user in recommendations:
+                            print(f"- {user}")
+                    else:
+                        print("No recommendations found based on location")
+
+                elif fr_choice == "3":
+                    print("Based on Shared Interests")
+
+                elif fr_choice == "4":
+                    print("Based on Gender")
+
+                elif fr_choice == "5":
+                    print("Based on Age")
+
+                elif fr_choice == "6":
+                    break
 
         elif choice == "2" and logged_in_user:
             while True:
