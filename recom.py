@@ -187,8 +187,8 @@ class SocialMediaGraph:
     
         if sorted_recommendations:
             print(f"Friend recommendations for {username} based on shared interests:")
-        for user, shared_interests in sorted_recommendations.items():
-            print(f"User: {user}, Shared Interests: {', '.join(shared_interests)}")
+            for user, shared_interests in sorted_recommendations.items():
+                print(f"User: {user}, Shared Interests: {', '.join(shared_interests)}")
         else:
             print("No friend recommendations found based on shared interests.")
     
@@ -378,8 +378,8 @@ def main():
                     recommendations = sm_graph.recommend_friends(logged_in_user)
                     if recommendations:
                         print(f"Friend recommendations for {logged_in_user} based on Mutual Friends:")
-                    for user, mutual_count in recommendations.items():
-                        print(f"- {user}, Mutual friends: {mutual_count}")
+                        for user, mutual_count in recommendations.items():
+                            print(f"- {user}, Mutual friends: {mutual_count}")
                     else:
                         print("No friend recommendations found based on mutual friends.")
 
