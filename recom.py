@@ -251,9 +251,12 @@ def choose_interests(username):
     db_connection.commit()
     print(f"Your interests have been saved: {', '.join(selected_interests)}")
 
+
 def login(username, password):
+    # Fetch the hashed password for the provided username
     db_cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
     result = db_cursor.fetchone()
+
     if result:
         stored_hashed_password = result[0].encode('utf-8')  # Convert str back to bytes
 
@@ -261,16 +264,21 @@ def login(username, password):
         if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password):
             print(f"Welcome back, {username}!")
 
-        db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
-        interests = db_cursor.fetchall()
-        if not interests:
-            print("You haven't selected your interests yet. Let's do that now!")
-            choose_interests(username)
+            # Check for user interests after successful login
+            db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
+            interests = db_cursor.fetchall()
 
-        return username
+            if not interests:
+                print("You haven't selected your interests yet. Let's do that now!")
+                choose_interests(username)
+
+            return username  # Return the username only if login is successful
+        else:
+            print("Invalid password.")  # Inform the user of an incorrect password
     else:
-        print("Invalid username or password.")
-        return None
+        print("Invalid username.")  # Inform the user of an invalid username
+
+    return None  # Return None if login fails
 
 # Interactive menu for user actions
 def main():
