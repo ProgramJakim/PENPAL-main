@@ -164,7 +164,7 @@ def create_account(username, age, location, gender, password):
         "age": age,
         "location": location,
         "gender": gender,
-         "password": hashed_password  # Store as str
+        "password": hashed_password  # Store as str
     }
 
     
