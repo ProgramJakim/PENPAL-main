@@ -556,39 +556,47 @@ def main():
                 elif fr_choice == "5":
                     break
 
-        elif choice == "2" and logged_in_user:
+         elif choice == "2" and logged_in_user:
             while True:
                 print("\n--- Friend Menu ---")
-                print(f"Currently logged in Penpal: {logged_in_user}")
-                print("1. View Friend Requests")
+                print("1. Manage Friend Requests (accept, decline, view)")
                 print("2. Send Friend Request")
-                print("3. Accept Friend Request")
-                print("4. Decline Friend Request")
-                print("5. View your friends")
-                print("6. Back to Main Menu")
+                print("3. View Your Friends")
+                print("4. Back to Main Menu")
                 sub_choice = input("Enter your choice: ")
 
+               
                 if sub_choice == "1":
-                    friend_requests = sm_graph.get_friend_requests(logged_in_user)
-                    print(f"Friend requests for {logged_in_user}: {friend_requests}")
-                
+                    while True:
+                        print("\n--- Manage Friend Requests ---")
+                        print("1. View Friend Requests")
+                        print("2. Accept Friend Request")
+                        print("3. Decline Friend Request")
+                        print("4. Back to Friend Menu")
+                        manage_choice = input("Enter your choice: ")
+
+                        if manage_choice == "1":
+                            friend_requests = sm_graph.get_friend_requests(logged_in_user)
+                            print(f"Friend requests for {logged_in_user}: {friend_requests}")
+                        elif manage_choice == "2":
+                            friend_username = input("Enter the username of the friend to accept: ")
+                            sm_graph.accept_friend_request(logged_in_user, friend_username)
+                        elif manage_choice == "3":
+                            friend_username = input("Enter the username of the friend to decline: ")
+                            sm_graph.decline_friend_request(logged_in_user, friend_username)
+                        elif manage_choice == "4":
+                            break
+                        else:
+                            print("Invalid choice. Please try again.")
+
                 elif sub_choice == "2":
                     friend_username = input("Enter the username of the friend you want to add: ")
                     sm_graph.send_friend_request(logged_in_user, friend_username)
 
                 elif sub_choice == "3":
-                    friend_username = input("Enter the username of the friend to accept: ")
-                    sm_graph.accept_friend_request(logged_in_user, friend_username)
+                    sm_graph.view_all_friends(logged_in_user)
 
                 elif sub_choice == "4":
-                    friend_username = input("Enter the username of the friend to decline: ")
-                    sm_graph.decline_friend_request(logged_in_user, friend_username)
-
-                elif sub_choice == "5":
-                    sm_graph.view_all_friends(logged_in_user)
-                    break
-
-                elif sub_choice == "6":
                     break
 
         elif choice == "3" and logged_in_user:
