@@ -1,10 +1,13 @@
 import mysql.connector  
 import networkx as nx
 import bcrypt
+import sys
+import msvcrt 
 
-#latestt
+#latesttt
 #interest - kal
 #strongpass -annie
+#maskedpass "*" -annie
 
 db_connection = mysql.connector.connect(
     host="localhost",
@@ -264,13 +267,35 @@ def create_account():
         else:
             break  # Exit loop if the password is valid
 
-    age = int(input("Enter age: ").strip())
-    if age <= 17:
-        print("Sorry, you must be at least 18 years old to create an account.")
-        return
+    
+    #age requirement
+    while True:
+        try:
+            # Get and process the age input
+            age = int(input("Enter age: ").strip())  # Convert to int and strip any extra spaces
+        except ValueError:
+            # Handle non-numeric inputs
+            print("Invalid input! Please enter a valid number for your age.")
+            continue  # Re-prompt if the input is invalid
+
+        # Validate ages
+        if age < 18:
+            print("You must be at least 18 years old to create an account.")
+        elif age >= 100:
+            print("The age you entered is not valid. Please enter a valid age less than 100 years.")
+        else:
+            break  # Exit the loop when the age is valid
 
     location = input("Enter location: ").strip()
-    gender = input("Enter gender (Male/Female): ").strip()
+    
+    while True:
+        gender = input("Enter gender (Male/Female): ").strip()
+
+        # Check if the gender is valid
+        if gender.lower() not in ["male", "female"]:
+            print("Invalid choice! Please enter 'Male' or 'Female'.")
+        else:
+            break  # Exit loop if valid choice
 
     # Hash the password before storing it
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')  # Decode to str
@@ -333,7 +358,32 @@ def choose_interests(username):
     db_connection.commit()
     print(f"Your interests have been saved: {', '.join(selected_interests)}")
 
+def masked_input(prompt=""):
+    """
+    Custom function to accept input while showing '*' for each character typed.
+    Works on Windows (using msvcrt).
+    """
+    print(prompt, end="", flush=True)
+    
+    password = []
+    while True:
+        char = msvcrt.getch()  # Get a single character from the user
+        if char == b'\r':  # Enter key pressed (Carriage return)
+            break
+        elif char == b'\x08':  # Backspace key pressed
+            if password:
+                password.pop()
+                sys.stdout.write("\b \b")  # Erase the last '*' on the screen
+                sys.stdout.flush()
+        else:
+            password.append(char.decode())  # Append the character to the password list
+            sys.stdout.write('*')  # Mask the character with '*'
+            sys.stdout.flush()
+    
+    print()  # Move to the next line after password input
+    return ''.join(password)
 
+# login function with custom masked password
 def login(username, password):
     # Fetch the hashed password for the provided username
     db_cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
@@ -354,13 +404,13 @@ def login(username, password):
                 print("You haven't selected your interests yet. Let's do that now!")
                 choose_interests(username)
 
-            return username  # Return the username only if login is successful
+            return username  
         else:
-            print("Invalid password.")  # Inform the user of an incorrect password
+            print("Invalid password.")  
     else:
-        print("Invalid username.")  # Inform the user of an invalid username
+        print("Invalid username.")  
 
-    return None  # Return None if login fails
+    return None  
 
 # Interactive menu for user actions
 def main():
@@ -385,10 +435,15 @@ def main():
            create_account()
         
         elif choice == "2" and not logged_in_user:
-            username = input("Enter username: ")
-            password = input("Enter password: ")
-            logged_in_user = login(username, password)
-
+                
+                username = input("Enter username: ").strip() 
+                password = masked_input("Enter password: ") 
+                logged_in_user = login(username, password)
+              
+                if logged_in_user:
+                    print(f"Logged in as {logged_in_user}")
+                else:
+                    print("Login failed. Please try again.")
 
         elif choice == "1" and logged_in_user:
             while True:
