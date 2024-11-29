@@ -1,9 +1,9 @@
 import mysql.connector  
 import networkx as nx
-import bcrypt
-
-#latestttt -nie
-#Stronger Password -nie
+# Connect to MySQL database
+#cute ko par
+#TINGINTININITNIGN
+#kal
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
@@ -144,6 +144,57 @@ class SocialMediaGraph:
             print(f"No friend recommendations found for {username} based on location.")
         
         return potential_friends
+    
+    def recommend_friends_by_interests(self, username):
+        # Fetch the user's interests
+        db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
+        user_interests = {row[0] for row in db_cursor.fetchall()}
+    
+        if not user_interests:
+            print("No interests found for the user. Encourage the user to select interests.")
+            return []
+    
+        # Fetch all other users' interests and exclude current friends
+        db_cursor.execute("""
+            SELECT u.username, ui.interest 
+            FROM users u
+            JOIN user_interests ui ON u.username = ui.username
+            WHERE u.username != %s 
+            AND u.username NOT IN (
+                SELECT user2 FROM friendships WHERE user1 = %s
+                UNION
+                SELECT user1 FROM friendships WHERE user2 = %s
+            )
+        """, (username, username, username))
+    
+        potential_friends = {}
+        for other_user, interest in db_cursor.fetchall():
+            if other_user not in potential_friends:
+                potential_friends[other_user] = set()
+            potential_friends[other_user].add(interest)
+    
+        # Calculate shared interests
+        recommendations = {
+            user: user_interests.intersection(interests)
+            for user, interests in potential_friends.items()
+        }
+    
+        # Filter out users with no shared interests and sort by the number of shared interests
+        sorted_recommendations = {
+        user: shared_interests
+        for user, shared_interests in sorted(recommendations.items(), key=lambda item: len(item[1]), reverse=True)
+        if shared_interests
+        }
+    
+        if sorted_recommendations:
+            print(f"Friend recommendations for {username} based on shared interests:")
+        for user, shared_interests in sorted_recommendations.items():
+            print(f"User: {user}, Shared Interests: {', '.join(shared_interests)}")
+        else:
+            print("No friend recommendations found based on shared interests.")
+    
+        return sorted_recommendations
+
 
     
     def view_all_friends(self, username):
@@ -204,19 +255,13 @@ def create_account():
     if age <= 17:
         print("Sorry, you must be at least 18 years old to create an account.")
         return
-
-    location = input("Enter location: ").strip()
-    gender = input("Enter gender (Male/Female): ").strip()
-
-    # Hash the password before storing it
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')  # Decode to str
-
+    
     sm_graph = SocialMediaGraph()
     user_data = {
         "age": age,
         "location": location,
         "gender": gender,
-        "password": hashed_password  # Store hashed password
+        "password": password
     }
 
     social_media_link = input("Enter your social media account link (optional): ").strip()
@@ -343,21 +388,15 @@ def main():
                     if recommendations:
                         print(f"Friend recommendations for {logged_in_user} based on Mutual Friends:")
                     for user, mutual_count in recommendations.items():
-                        print(f"Recommended friend: {user}, Mutual friends: {mutual_count}")
+                        print(f"- {user}, Mutual friends: {mutual_count}")
                     else:
-                        print("No friend recommendations found.")
+                        print("No friend recommendations found based on mutual friends.")
 
                 elif fr_choice == "2":
-                    recommendations = sm_graph.recommend_friends_by_location(logged_in_user)
-                    if recommendations:
-                        print(f"friend recommendations for {logged_in_user} based on location: ")
-                        for user in recommendations:
-                            print(f"- {user}")
-                    else:
-                        print("No recommendations found based on location")
+                     sm_graph.recommend_friends_by_location(logged_in_user)
 
                 elif fr_choice == "3":
-                    print("Based on Shared Interests")
+                     sm_graph.recommend_friends_by_interests(logged_in_user)                      
 
                 elif fr_choice == "4":
                     print("Based on Gender")
