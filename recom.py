@@ -265,12 +265,34 @@ def create_account():
             break  # Exit loop if the password is valid
 
     age = int(input("Enter age: ").strip())
-    if age <= 17:
-        print("Sorry, you must be at least 18 years old to create an account.")
-        return
+    #age requirement
+    while True:
+        try:
+            # Get and process the age input
+            age = int(input("Enter age: ").strip())  # Convert to int and strip any extra spaces
+        except ValueError:
+            # Handle non-numeric inputs
+            print("Invalid input! Please enter a valid number for your age.")
+            continue  # Re-prompt if the input is invalid
+
+        # Validate ages
+        if age < 18:
+            print("You must be at least 18 years old to create an account.")
+        elif age >= 100:
+            print("The age you entered is not valid. Please enter a valid age less than 100 years.")
+        else:
+            break  # Exit the loop when the age is valid
 
     location = input("Enter location: ").strip()
     gender = input("Enter gender (Male/Female): ").strip()
+    while True:
+        gender = input("Enter gender (Male/Female): ").strip()
+
+        # Check if the gender is valid
+        if gender.lower() not in ["male", "female"]:
+            print("Invalid choice! Please enter 'Male' or 'Female'.")
+        else:
+            break  # Exit loop if valid choice
 
     # Hash the password before storing it
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')  # Decode to str
