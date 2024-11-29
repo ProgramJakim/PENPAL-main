@@ -4,6 +4,7 @@ import networkx as nx
 #cute ko par
 #SAY YAAHHYAAAHHYAAA
 #JCC FRIEND MENU
+# updated friend menu
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
