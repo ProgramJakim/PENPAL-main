@@ -36,13 +36,13 @@ class SocialMediaGraph:
     def classify_user_generation(self, age):
         """Classify user into a generation based on age."""
         if 12 <= age <= 27:
-            return "Generation Z (Gen Z) - 12 to 27 years old"
+            return "Generation Z (Gen Z)"
         elif 28 <= age <= 43:
-            return "Millennials (Gen Y) - 28 to 43 years old"
+            return "Millennials (Gen Y)"
         elif 44 <= age <= 59:
-            return "Generation X (Gen X) - 44 to 59 years old"
+            return "Generation X (Gen X)"
         elif 60 <= age <= 78:
-            return "Baby Boomers - 60 to 78 years old"
+            return "Baby Boomers"
         else:
             return "Age out of range"
 
