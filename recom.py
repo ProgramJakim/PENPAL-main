@@ -3,6 +3,7 @@ import networkx as nx
 import bcrypt
 import sys
 import msvcrt 
+import random
 
 #latesttt
 #interest - kal
@@ -35,6 +36,84 @@ class SocialMediaGraph:
         friendships = db_cursor.fetchall()
         for user1, user2 in friendships:
             self.graph.add_edge(user1, user2)
+
+    def classify_user_generation(self, age):
+        """Classify user into a generation based on age."""
+        if 12 <= age <= 27:
+            return "Generation Z (Gen Z)"
+        elif 28 <= age <= 43:
+            return "Millennials (Gen Y)"
+        elif 44 <= age <= 59:
+            return "Generation X (Gen X)"
+        elif 60 <= age <= 78:
+            return "Baby Boomers"
+        else:
+            return "Age out of range"
+
+    def view_friend_recommendations_based_on_age(self, username):
+        """Find and recommend friends based on the user's generation."""
+        db_cursor.execute("SELECT age FROM users WHERE username = %s", (username,))
+        result = db_cursor.fetchone()
+        if not result:
+            print(f"User {username} does not exist.")
+            return []
+        
+        age = result[0]
+        generation = self.classify_user_generation(age)
+        print(f"\nREGISTERED USER is: {generation}")
+
+        # Find friends of the same generation
+        db_cursor.execute("SELECT username, age FROM users WHERE username != %s", (username,))
+        users = db_cursor.fetchall()
+
+        same_generation_friends = []
+        for user in users:
+            user_username, user_age = user
+            if self.classify_user_generation(user_age) == generation:
+                same_generation_friends.append(user_username)
+
+        # Output friend recommendations
+        print(f"Friend recommendations for {username} based on {generation}: {', '.join(same_generation_friends)}")
+        return same_generation_friends
+
+    def find_people(self, username, count=5, gender_filter=None):
+        """
+        Find random registered users who are not friends with the logged-in user,
+        with an optional gender filter.
+        """
+        # Check if the user exists
+        db_cursor.execute("SELECT username FROM users WHERE username = %s", (username,))
+        if not db_cursor.fetchone():
+            print(f"User {username} does not exist.")
+            return []
+
+        # Get friends of the user
+        db_cursor.execute(""" 
+            SELECT user2 FROM friendships WHERE user1 = %s
+            UNION 
+            SELECT user1 FROM friendships WHERE user2 = %s
+        """, (username, username))
+        friends = {row[0] for row in db_cursor.fetchall()}
+        friends.add(username)  # Include the user themselves to exclude them
+
+        # Get all registered users
+        db_cursor.execute("SELECT username, gender, age FROM users")
+        all_users = db_cursor.fetchall()
+
+        # Filter users based on gender
+        if gender_filter:
+            all_users = [user for user in all_users if user[1].lower() == gender_filter.lower()]
+        else:
+            all_users = [user for user in all_users]
+
+        # Exclude friends and the user themselves
+        non_friends = list(set(all_users) - friends)
+
+        # Randomly select up to `count` users
+        random_users = random.sample(non_friends, min(count, len(non_friends)))
+        print(f"\nRecommended people to connect with: {', '.join([user[0] for user in random_users])}")
+
+        return [user[0] for user in random_users]
 
     def add_user(self, username, user_data):
         """Add a new user to the system."""
@@ -452,9 +531,8 @@ def main():
                 print("1. Based on Mutual Friends")
                 print("2. Based on Shared Location")
                 print("3. Based on Shared Interests")
-                print("4. Based on Gender")
-                print("5. Based on Age")
-                print("6. Back to Main Menu")
+                print("4. Based on Age")
+                print("5. Back to Main Menu")
                 fr_choice = input("Enter your choice: ")
 
                 if fr_choice == "1":
@@ -473,12 +551,9 @@ def main():
                      sm_graph.recommend_friends_by_interests(logged_in_user)                      
 
                 elif fr_choice == "4":
-                    print("Based on Gender")
+                    sm_graph.view_friend_recommendations_based_on_age(logged_in_user)
 
                 elif fr_choice == "5":
-                    print("Based on Age")
-
-                elif fr_choice == "6":
                     break
 
         elif choice == "2" and logged_in_user:
