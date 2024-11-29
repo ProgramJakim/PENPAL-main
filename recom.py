@@ -2,12 +2,12 @@ import mysql.connector
 import networkx as nx
 import bcrypt
 
-#latest-nie
+#latesttt-nie
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="social_media"
+    database="interests"
 )
 
 db_cursor = db_connection.cursor()
@@ -292,6 +292,7 @@ def main():
             print("2. Log In")
             print("3. Exit")
         else:
+            print(f"\nCurrently logged in Penpal: {logged_in_user}")
             print("1. View Friend Recommendations")
             print("2. Add Friend Menu")
             print("3. Log Out")
@@ -314,7 +315,8 @@ def main():
 
         elif choice == "1" and logged_in_user:
             while True:
-                print("\n --View Friend Recommendations--")
+                print(f"\nCurrently logged in Penpal: {logged_in_user}")
+                print("--View Friend Recommendations--")
                 print("1. Based on Mutual Friends")
                 print("2. Based on Shared Location")
                 print("3. Based on Shared Interests")
@@ -355,7 +357,8 @@ def main():
 
         elif choice == "2" and logged_in_user:
             while True:
-                print("\n--- Friend Menu ---")
+                print(f"\nCurrently logged in Penpal: {logged_in_user}")
+                print("--- Friend Menu ---")
                 print("1. View Friend Requests")
                 print("2. Send Friend Request")
                 print("3. Accept Friend Request")
