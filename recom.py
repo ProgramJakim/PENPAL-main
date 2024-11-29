@@ -1,9 +1,11 @@
 import mysql.connector  
 import networkx as nx
-# Connect to MySQL database
-#cute ko par
-#TINGINTININITNIGN
-#kal
+import bcrypt
+
+#latestt
+#interest - kal
+#strongpass -annie
+
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
@@ -188,8 +190,8 @@ class SocialMediaGraph:
     
         if sorted_recommendations:
             print(f"Friend recommendations for {username} based on shared interests:")
-        for user, shared_interests in sorted_recommendations.items():
-            print(f"User: {user}, Shared Interests: {', '.join(shared_interests)}")
+            for user, shared_interests in sorted_recommendations.items():
+                print(f"User: {user}, Shared Interests: {', '.join(shared_interests)}")
         else:
             print("No friend recommendations found based on shared interests.")
     
@@ -221,6 +223,17 @@ class SocialMediaGraph:
         
         return friends
     
+    def view_all_users(self):
+        """Display all registered usernames."""
+        try:
+            db_cursor.execute("SELECT username FROM users")
+            users = db_cursor.fetchall()
+            print("\nAll Registered Users:")
+            for user in users:
+                print(user[0])
+        except mysql.connector.Error as err:
+            print(f"Error fetching users: {err}")
+
 def validate_password(password):
     """Check if the password is strong enough."""
     if len(password) < 8:
@@ -255,13 +268,19 @@ def create_account():
     if age <= 17:
         print("Sorry, you must be at least 18 years old to create an account.")
         return
-    
+
+    location = input("Enter location: ").strip()
+    gender = input("Enter gender (Male/Female): ").strip()
+
+    # Hash the password before storing it
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')  # Decode to str
+
     sm_graph = SocialMediaGraph()
     user_data = {
         "age": age,
         "location": location,
         "gender": gender,
-        "password": password
+        "password": hashed_password  # Store hashed password
     }
 
     social_media_link = input("Enter your social media account link (optional): ").strip()
@@ -355,7 +374,7 @@ def main():
             print("2. Log In")
             print("3. Exit")
         else:
-            print(f"\nCurrently logged in Penpal: {logged_in_user}")
+            print(f"Currently logged in Penpal: {logged_in_user}")
             print("1. View Friend Recommendations")
             print("2. Add Friend Menu")
             print("3. Log Out")
@@ -363,7 +382,7 @@ def main():
         choice = input("Enter your choice: ")
 
         if choice == "1" and not logged_in_user:
-            create_account()
+           create_account()
         
         elif choice == "2" and not logged_in_user:
             username = input("Enter username: ")
@@ -373,8 +392,8 @@ def main():
 
         elif choice == "1" and logged_in_user:
             while True:
-                print(f"\nCurrently logged in Penpal: {logged_in_user}")
-                print("--View Friend Recommendations--")
+                print("\n --View Friend Recommendations--")
+                print(f"Currently logged in Penpal: {logged_in_user}")
                 print("1. Based on Mutual Friends")
                 print("2. Based on Shared Location")
                 print("3. Based on Shared Interests")
@@ -387,8 +406,8 @@ def main():
                     recommendations = sm_graph.recommend_friends(logged_in_user)
                     if recommendations:
                         print(f"Friend recommendations for {logged_in_user} based on Mutual Friends:")
-                    for user, mutual_count in recommendations.items():
-                        print(f"- {user}, Mutual friends: {mutual_count}")
+                        for user, mutual_count in recommendations.items():
+                            print(f"- {user}, Mutual friends: {mutual_count}")
                     else:
                         print("No friend recommendations found based on mutual friends.")
 
@@ -409,8 +428,8 @@ def main():
 
         elif choice == "2" and logged_in_user:
             while True:
-                print(f"\nCurrently logged in Penpal: {logged_in_user}")
-                print("--- Friend Menu ---")
+                print("\n--- Friend Menu ---")
+                print(f"Currently logged in Penpal: {logged_in_user}")
                 print("1. View Friend Requests")
                 print("2. Send Friend Request")
                 print("3. Accept Friend Request")
