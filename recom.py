@@ -385,9 +385,8 @@ def main():
                 print("1. Based on Mutual Friends")
                 print("2. Based on Shared Location")
                 print("3. Based on Shared Interests")
-                print("4. Find People")
-                print("5. Based on Age")
-                print("6. Back to Main Menu")
+                print("4. Based on Age")
+                print("5. Back to Main Menu")
                 fr_choice = input("Enter your choice: ")
 
                 if fr_choice == "1":
@@ -410,16 +409,11 @@ def main():
 
                 elif fr_choice == "3":
                     print("Based on Shared Interests")
-
-                elif fr_choice == "4":
-                    print("\n-- Find People --")
-                    gender_filter = input("Which gender do you want to find? (male/female/both gender): ").lower()
-                    sm_graph.find_people(logged_in_user, gender_filter=gender_filter)
                 
-                elif fr_choice == "5":
+                elif fr_choice == "4":
                     sm_graph.view_friend_recommendations_based_on_age(logged_in_user)
 
-                elif fr_choice == "6":
+                elif fr_choice == "5":
                     break
 
         elif choice == "2" and logged_in_user:
