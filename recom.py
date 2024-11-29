@@ -3,6 +3,7 @@ import networkx as nx
 import bcrypt
 
 #latestttt -nie
+#Stronger Password -nie
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
@@ -169,24 +170,44 @@ class SocialMediaGraph:
         
         return friends
     
-    def view_all_users(self):
-        """Display all registered usernames."""
-        try:
-            db_cursor.execute("SELECT username FROM users")
-            users = db_cursor.fetchall()
-            print("\nAll Registered Users:")
-            for user in users:
-                print(user[0])
-        except mysql.connector.Error as err:
-            print(f"Error fetching users: {err}")
+def validate_password(password):
+    """Check if the password is strong enough."""
+    if len(password) < 8:
+        return "Password must be at least 8 characters long."
+    if not any(char.isdigit() for char in password):
+        return "Password must include at least one number."
+    if not any(char.isupper() for char in password):
+        return "Password must include at least one uppercase letter."
+    if not any(char in "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|" for char in password):
+        return "Password must include at least one special character."
+    return None
 
 # Account creation and login functions
-def create_account(username, age, location, gender, password):
-
-    if age <=17:
-        print("Sorry, you must be at least 18 years old  to create an account.")
-        return
+def create_account():
+    """Create a new account with user inputs and validations."""
     
+    username = input("Enter username: ").strip()
+
+    # Loop until a strong password is provided
+    while True:
+        password = input("Enter password: ").strip()
+
+        # Validate password strength
+        password_issue = validate_password(password)
+        if password_issue:
+            print(f"Password issue: {password_issue}")
+            print("Please try again with a stronger password.")
+        else:
+            break  # Exit loop if the password is valid
+
+    age = int(input("Enter age: ").strip())
+    if age <= 17:
+        print("Sorry, you must be at least 18 years old to create an account.")
+        return
+
+    location = input("Enter location: ").strip()
+    gender = input("Enter gender (Male/Female): ").strip()
+
     # Hash the password before storing it
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')  # Decode to str
 
@@ -195,19 +216,16 @@ def create_account(username, age, location, gender, password):
         "age": age,
         "location": location,
         "gender": gender,
-         "password": hashed_password  # Store as str
+        "password": hashed_password  # Store hashed password
     }
 
-    
     social_media_link = input("Enter your social media account link (optional): ").strip()
     user_data["social_media_link"] = social_media_link
 
     terms = input("Do you agree to the Terms and Conditions? (yes/no): ").lower()
-
     if terms != "yes":
         print("You must agree to the Terms and Conditions to create an account.")
         return
-    
 
     if sm_graph.add_user(username, user_data):
         print(f"Account for {username} created successfully.")
@@ -300,12 +318,7 @@ def main():
         choice = input("Enter your choice: ")
 
         if choice == "1" and not logged_in_user:
-            username = input("Enter username: ")
-            password = input("Enter password: ")
-            age = int(input("Enter age: "))
-            location = input("Enter location: ")
-            gender = input("Enter gender (Male/Female): ")
-            create_account(username, age, location, gender, password)
+            create_account()
         
         elif choice == "2" and not logged_in_user:
             username = input("Enter username: ")
