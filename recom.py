@@ -5,6 +5,7 @@ import sys
 import msvcrt 
 import random
 
+# jc friend menu update
 #latesttt
 #interest - kal
 #strongpass -annie
@@ -556,14 +557,14 @@ def main():
                 elif fr_choice == "5":
                     break
 
-         elif choice == "2" and logged_in_user:
-            while True:
-                print("\n--- Friend Menu ---")
-                print("1. Manage Friend Requests (accept, decline, view)")
-                print("2. Send Friend Request")
-                print("3. View Your Friends")
-                print("4. Back to Main Menu")
-                sub_choice = input("Enter your choice: ")
+                elif choice == "2" and logged_in_user:
+                 while True:
+                    print("\n--- Friend Menu ---")
+                    print("1. Manage Friend Requests (accept, decline, view)")
+                    print("2. Send Friend Request")
+                    print("3. View Your Friends")
+                    print("4. Back to Main Menu")
+                    sub_choice = input("Enter your choice: ")
 
                
                 if sub_choice == "1":
