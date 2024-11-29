@@ -7,12 +7,13 @@ import msvcrt
 #latesttt
 #interest - kal
 #strongpass -annie
+#maskedpass "*" -annie
 
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="interests"
+    database="social_media"
 )
 
 db_cursor = db_connection.cursor()
@@ -266,7 +267,7 @@ def create_account():
         else:
             break  # Exit loop if the password is valid
 
-    age = int(input("Enter age: ").strip())
+    
     #age requirement
     while True:
         try:
@@ -286,7 +287,7 @@ def create_account():
             break  # Exit the loop when the age is valid
 
     location = input("Enter location: ").strip()
-    gender = input("Enter gender (Male/Female): ").strip()
+    
     while True:
         gender = input("Enter gender (Male/Female): ").strip()
 
