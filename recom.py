@@ -2,12 +2,12 @@ import mysql.connector
 import networkx as nx
 import bcrypt
 
-# Connect to MySQL database
+#latest-nie
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="social_media"
+    database="interests"
 )
 
 db_cursor = db_connection.cursor()
@@ -114,6 +114,37 @@ class SocialMediaGraph:
 
         return sorted_recommendations
     
+    def recommend_friends_by_location(self, username):
+        # Check if the user exists in the database
+        db_cursor.execute("SELECT location FROM users WHERE username = %s", (username,))
+        result = db_cursor.fetchone()
+        if not result:
+            print(f"User {username} does not exist.")
+            return []
+
+        user_location = result[0]
+
+        # Fetch users in the same location but not already friends
+        db_cursor.execute("""
+            SELECT username FROM users
+            WHERE location = %s AND username != %s
+            AND username NOT IN (
+                SELECT user2 FROM friendships WHERE user1 = %s
+                UNION
+                SELECT user1 FROM friendships WHERE user2 = %s
+            )
+        """, (user_location, username, username, username))
+        
+        potential_friends = [row[0] for row in db_cursor.fetchall()]
+        
+        if potential_friends:
+            print(f"Recommended friends based on location ({user_location}): {', '.join(potential_friends)}")
+        else:
+            print(f"No friend recommendations found for {username} based on location.")
+        
+        return potential_friends
+
+    
     def view_all_friends(self, username):
         """View all friends of a user from the database."""
         # Check if the user exists in the database
@@ -138,12 +169,24 @@ class SocialMediaGraph:
         
         return friends
     
+    def view_all_users(self):
+        """Display all registered usernames."""
+        try:
+            db_cursor.execute("SELECT username FROM users")
+            users = db_cursor.fetchall()
+            print("\nAll Registered Users:")
+            for user in users:
+                print(user[0])
+        except mysql.connector.Error as err:
+            print(f"Error fetching users: {err}")
+
 # Account creation and login functions
 def create_account(username, age, location, gender, password):
-    if age <= 17:
-        print("Sorry, you must be at least 18 years old to create an account.")
-        return
 
+    if age <=17:
+        print("Sorry, you must be at least 18 years old  to create an account.")
+        return
+    
     # Hash the password before storing it
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')  # Decode to str
 
@@ -152,17 +195,19 @@ def create_account(username, age, location, gender, password):
         "age": age,
         "location": location,
         "gender": gender,
-        "password": hashed_password  # Store as str
+         "password": hashed_password  # Store as str
     }
 
-    social_media_link = input("Enter your social media account link (Optional): ").strip()
+    
+    social_media_link = input("Enter your social media account link (optional): ").strip()
     user_data["social_media_link"] = social_media_link
 
-    terms = input("Do you agree to the Terms and Conditions? (Yes/No): ").lower()
+    terms = input("Do you agree to the Terms and Conditions? (yes/no): ").lower()
 
     if terms != "yes":
         print("You must agree to the Terms and Conditions to create an account.")
         return
+    
 
     if sm_graph.add_user(username, user_data):
         print(f"Account for {username} created successfully.")
@@ -206,7 +251,9 @@ def choose_interests(username):
     db_connection.commit()
     print(f"Your interests have been saved: {', '.join(selected_interests)}")
 
+
 def login(username, password):
+    # Fetch the hashed password for the provided username
     db_cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
     result = db_cursor.fetchone()
 
@@ -217,20 +264,21 @@ def login(username, password):
         if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password):
             print(f"Welcome back, {username}!")
 
+            # Check for user interests after successful login
             db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
             interests = db_cursor.fetchall()
+
             if not interests:
                 print("You haven't selected your interests yet. Let's do that now!")
                 choose_interests(username)
 
-            return username
+            return username  # Return the username only if login is successful
         else:
-            print("Invalid username or password.")
-            return None
+            print("Invalid password.")  # Inform the user of an incorrect password
     else:
-        print("Invalid username or password.")
-        return None
+        print("Invalid username.")  # Inform the user of an invalid username
 
+    return None  # Return None if login fails
 
 # Interactive menu for user actions
 def main():
@@ -238,7 +286,7 @@ def main():
     sm_graph = SocialMediaGraph()
 
     while True:
-        print("\n--- Social Media Friend Recommendation System ---")
+        print("\n--- PENPAL: Social Media Friend Recommendation System ---")
         if not logged_in_user:
             print("1. Create Account")
             print("2. Log In")
@@ -251,26 +299,59 @@ def main():
         choice = input("Enter your choice: ")
 
         if choice == "1" and not logged_in_user:
-            username = input("Enter Username: ")
-            password = input("Enter Password: ")
-            age = int(input("Enter Age: "))
-            location = input("Enter Location: ")
-            gender = input("Enter Gender (Male/Female): ")
+            username = input("Enter username: ")
+            password = input("Enter password: ")
+            age = int(input("Enter age: "))
+            location = input("Enter location: ")
+            gender = input("Enter gender (Male/Female): ")
             create_account(username, age, location, gender, password)
         
         elif choice == "2" and not logged_in_user:
-            username = input("Enter Username: ")
-            password = input("Enter Password: ")
+            username = input("Enter username: ")
+            password = input("Enter password: ")
             logged_in_user = login(username, password)
 
+
         elif choice == "1" and logged_in_user:
-            recommendations = sm_graph.recommend_friends(logged_in_user)
-            if recommendations:
-                print(f"Friend recommendations for {logged_in_user}:")
-                for user, mutual_count in recommendations.items():
-                    print(f"Recommended friend: {user}, Mutual friends: {mutual_count}")
-            else:
-                print("No friend recommendations found.")
+            while True:
+                print("\n --View Friend Recommendations--")
+                print("1. Based on Mutual Friends")
+                print("2. Based on Shared Location")
+                print("3. Based on Shared Interests")
+                print("4. Based on Gender")
+                print("5. Based on Age")
+                print("6. Back to Main Menu")
+                fr_choice = input("Enter your choice: ")
+
+                if fr_choice == "1":
+                    recommendations = sm_graph.recommend_friends(logged_in_user)
+                    if recommendations:
+                        print(f"Friend recommendations for {logged_in_user} based on Mutual Friends:")
+                    for user, mutual_count in recommendations.items():
+                        print(f"Recommended friend: {user}, Mutual friends: {mutual_count}")
+                    else:
+                        print("No friend recommendations found.")
+
+                elif fr_choice == "2":
+                    recommendations = sm_graph.recommend_friends_by_location(logged_in_user)
+                    if recommendations:
+                        print(f"friend recommendations for {logged_in_user} based on location: ")
+                        for user in recommendations:
+                            print(f"- {user}")
+                    else:
+                        print("No recommendations found based on location")
+
+                elif fr_choice == "3":
+                    print("Based on Shared Interests")
+
+                elif fr_choice == "4":
+                    print("Based on Gender")
+
+                elif fr_choice == "5":
+                    print("Based on Age")
+
+                elif fr_choice == "6":
+                    break
 
         elif choice == "2" and logged_in_user:
             while True:
@@ -312,7 +393,7 @@ def main():
 
 
         elif choice == "3" and not logged_in_user:
-            print(f"Exiting the system. Goodbye! Thank You For Using Penpal!")
+            print(f"Exiting the system. Goodbye! Thank you for using Penpal")
             break
 
         else:
