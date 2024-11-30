@@ -493,48 +493,6 @@ def login(username, password):
 
     return None  
 
-
-# FOR SETTING OPTION
-def edit_username(current_username):
-    new_username = input("Enter your new username: ").strip()
-
-    # Check if the new username is already taken
-    db_cursor.execute("SELECT username FROM users WHERE username = %s", (new_username,))
-    if db_cursor.fetchone():
-        print("This username is already taken. Please try a different one.")
-        return current_username
-
-    try:
-        # Ensure there is no pending transaction
-        print("Resetting transaction state...")
-        db_connection.commit()  # Commit any previous transaction, if active
-
-        print("Starting new transaction...")
-        db_connection.start_transaction()
-
-        # Update the username in the users table
-        print("Updating users table...")
-        db_cursor.execute("UPDATE users SET username = %s WHERE username = %s", (new_username, current_username))
-
-        # Update the username in dependent tables
-        print("Updating user_interests table...")
-        db_cursor.execute("UPDATE user_interests SET username = %s WHERE username = %s", (new_username, current_username))
-
-        print("Updating friendships table...")
-        db_cursor.execute("UPDATE friendships SET user1 = %s WHERE user1 = %s", (new_username, current_username))
-        db_cursor.execute("UPDATE friendships SET user2 = %s WHERE user2 = %s", (new_username, current_username))
-
-        # Commit the transaction
-        print("Committing transaction...")
-        db_connection.commit()
-        print("Username updated successfully.")
-        return new_username
-    except mysql.connector.Error as e:
-        # Rollback if any part of the transaction fails
-        db_connection.rollback()
-        print(f"An error occurred while updating the username: {e}")
-        return current_username
-
 # FOR SETTING OPTION
 def edit_password(username):
     while True:
@@ -698,24 +656,22 @@ def main():
         elif choice == "3" and logged_in_user:
             while True:
                 print("\n--- Account Settings ---")
-                print("1. Edit Username")
-                print("2. Edit Password")
-                print("3. Edit Social Media Link")
-                print("4. Delete Account")
-                print("5. Back to Main Menu")
+                print("1. Edit Password")
+                print("2. Edit Social Media Link")
+                print("3. Delete Account")
+                print("4. Back to Main Menu")
                 settings_choice = input("Enter your choice: ")
 
                 if settings_choice == "1":
-                    logged_in_user = edit_username(logged_in_user)
-                elif settings_choice == "2":
                     edit_password(logged_in_user)
-                elif settings_choice == "3":
+
+                elif settings_choice == "2":
                     edit_social_media_link(logged_in_user)
-                elif settings_choice == "4":
+                elif settings_choice == "3":
                     if delete_account(logged_in_user):
                         logged_in_user = None
                         break
-                elif settings_choice == "5":
+                elif settings_choice == "4":
                     break
                 else:
                     print("Invalid choice. Please try again.")
