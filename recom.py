@@ -6,7 +6,7 @@ import msvcrt
 import random
 
 # jc goods recommendation
-# jc friend menu update
+# jc friend menu update 
 #latesttt
 #interest - kal
 #strongpass -annie
