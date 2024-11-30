@@ -16,7 +16,7 @@ db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="interests"
+    database="social_media"
 )
 
 db_cursor = db_connection.cursor()
@@ -586,11 +586,6 @@ def delete_account(username):
         print("Account deletion canceled.")
         return False
 
-
-
-
-
-
 # Interactive menu for user actions
 def main():
     logged_in_user = None
@@ -612,18 +607,17 @@ def main():
         choice = input("Enter your choice: ")
 
         if choice == "1" and not logged_in_user:
-           create_account()
+            create_account()
         
         elif choice == "2" and not logged_in_user:
-                
-                username = input("Enter username: ").strip() 
-                password = masked_input("Enter password: ") 
-                logged_in_user = login(username, password)
+            username = input("Enter username: ").strip()
+            password = masked_input("Enter password: ")
+            logged_in_user = login(username, password)
               
-                if logged_in_user:
-                    print(f"Logged in as {logged_in_user}")
-                else:
-                    print("Login failed. Please try again.")
+            if logged_in_user:
+                print(f"Logged in as {logged_in_user}")
+            else:
+                print("Login failed. Please try again.")
 
         elif choice == "1" and logged_in_user:
             while True:
@@ -646,10 +640,10 @@ def main():
                         print("No friend recommendations found based on mutual friends.")
 
                 elif fr_choice == "2":
-                     sm_graph.recommend_friends_by_location(logged_in_user)
+                    sm_graph.recommend_friends_by_location(logged_in_user)
 
                 elif fr_choice == "3":
-                     sm_graph.recommend_friends_by_interests(logged_in_user)                      
+                    sm_graph.recommend_friends_by_interests(logged_in_user)                      
 
                 elif fr_choice == "4":
                     sm_graph.view_friend_recommendations_based_on_age(logged_in_user)
@@ -657,16 +651,15 @@ def main():
                 elif fr_choice == "5":
                     break
 
-                elif choice == "2" and logged_in_user:
-                 while True:
-                    print("\n--- Friend Menu ---")
-                    print("1. Manage Friend Requests (accept, decline, view)")
-                    print("2. Send Friend Request")
-                    print("3. View Your Friends")
-                    print("4. Back to Main Menu")
-                    sub_choice = input("Enter your choice: ")
+        elif choice == "2" and logged_in_user:
+            while True:
+                print("\n--- Friend Menu ---")
+                print("1. Manage Friend Requests (accept, decline, view)")
+                print("2. Send Friend Request")
+                print("3. View Your Friends")
+                print("4. Back to Main Menu")
+                sub_choice = input("Enter your choice: ")
 
-               
                 if sub_choice == "1":
                     while True:
                         print("\n--- Manage Friend Requests ---")
@@ -730,7 +723,6 @@ def main():
         elif choice == "4" and logged_in_user:
             logged_in_user = None
             print("Logged out successfully.")
-
 
         elif choice == "3" and not logged_in_user:
             print(f"Exiting the system. Goodbye! Thank you for using Penpal")
