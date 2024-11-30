@@ -5,6 +5,13 @@ import sys
 import msvcrt 
 import random
 
+# jc goods recommendation
+# jc friend menu update
+#latesttt
+#interest - kal
+#strongpass -annie
+#maskedpass "*" -annie
+
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
@@ -732,5 +739,5 @@ def main():
         else:
             print("Invalid choice. Please try again.")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
