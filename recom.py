@@ -5,11 +5,7 @@ import sys
 import msvcrt 
 import random
 
-# jc friend menu update
-#latesttt
-#interest - kal
-#strongpass -annie
-#maskedpass "*" -annie
+# ayos na iyong subchoice error
 
 db_connection = mysql.connector.connect(
     host="localhost",
@@ -38,6 +34,7 @@ class SocialMediaGraph:
         for user1, user2 in friendships:
             self.graph.add_edge(user1, user2)
 
+# age 
     def classify_user_generation(self, age):
         """Classify user into a generation based on age."""
         if 12 <= age <= 27:
@@ -534,9 +531,9 @@ def main():
                 print("3. Based on Shared Interests")
                 print("4. Based on Age")
                 print("5. Back to Main Menu")
-                fr_choice = input("Enter your choice: ")
+                sub_choice = input("Enter your choice: ")
 
-                if fr_choice == "1":
+                if sub_choice == "1":
                     recommendations = sm_graph.recommend_friends(logged_in_user)
                     if recommendations:
                         print(f"Friend recommendations for {logged_in_user} based on Mutual Friends:")
@@ -545,16 +542,16 @@ def main():
                     else:
                         print("No friend recommendations found based on mutual friends.")
 
-                elif fr_choice == "2":
+                elif sub_choice == "2":
                      sm_graph.recommend_friends_by_location(logged_in_user)
 
-                elif fr_choice == "3":
+                elif sub_choice == "3":
                      sm_graph.recommend_friends_by_interests(logged_in_user)                      
 
-                elif fr_choice == "4":
+                elif sub_choice == "4":
                     sm_graph.view_friend_recommendations_based_on_age(logged_in_user)
 
-                elif fr_choice == "5":
+                elif sub_choice == "5":
                     break
 
                 elif choice == "2" and logged_in_user:
@@ -565,7 +562,6 @@ def main():
                     print("3. View Your Friends")
                     print("4. Back to Main Menu")
                     sub_choice = input("Enter your choice: ")
-
                
                 if sub_choice == "1":
                     while True:
