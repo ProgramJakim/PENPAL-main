@@ -5,7 +5,12 @@ import sys
 import msvcrt 
 import random
 
-# ayos na iyong subchoice error
+# jc goods recommendation
+# jc friend menu update
+#latesttt
+#interest - kal
+#strongpass -annie
+#maskedpass "*" -annie
 
 db_connection = mysql.connector.connect(
     host="localhost",
@@ -34,7 +39,6 @@ class SocialMediaGraph:
         for user1, user2 in friendships:
             self.graph.add_edge(user1, user2)
 
-# age 
     def classify_user_generation(self, age):
         """Classify user into a generation based on age."""
         if 12 <= age <= 27:
@@ -107,7 +111,7 @@ class SocialMediaGraph:
         # Exclude friends and the user themselves
         non_friends = list(set(all_users) - friends)
 
-        # Randomly select up to `count` users
+        # Randomly select up to count users
         random_users = random.sample(non_friends, min(count, len(non_friends)))
         print(f"\nRecommended people to connect with: {', '.join([user[0] for user in random_users])}")
 
@@ -454,7 +458,7 @@ def masked_input(prompt=""):
                 sys.stdout.flush()
         else:
             password.append(char.decode())  # Append the character to the password list
-            sys.stdout.write('*')  # Mask the character with '*'
+            sys.stdout.write('')  # Mask the character with ''
             sys.stdout.flush()
     
     print()  # Move to the next line after password input
@@ -489,6 +493,104 @@ def login(username, password):
 
     return None  
 
+
+# FOR SETTING OPTION
+def edit_username(current_username):
+    new_username = input("Enter your new username: ").strip()
+
+    # Check if the new username is already taken
+    db_cursor.execute("SELECT username FROM users WHERE username = %s", (new_username,))
+    if db_cursor.fetchone():
+        print("This username is already taken. Please try a different one.")
+        return current_username
+
+    try:
+        # Ensure there is no pending transaction
+        print("Resetting transaction state...")
+        db_connection.commit()  # Commit any previous transaction, if active
+
+        print("Starting new transaction...")
+        db_connection.start_transaction()
+
+        # Update the username in the users table
+        print("Updating users table...")
+        db_cursor.execute("UPDATE users SET username = %s WHERE username = %s", (new_username, current_username))
+
+        # Update the username in dependent tables
+        print("Updating user_interests table...")
+        db_cursor.execute("UPDATE user_interests SET username = %s WHERE username = %s", (new_username, current_username))
+
+        print("Updating friendships table...")
+        db_cursor.execute("UPDATE friendships SET user1 = %s WHERE user1 = %s", (new_username, current_username))
+        db_cursor.execute("UPDATE friendships SET user2 = %s WHERE user2 = %s", (new_username, current_username))
+
+        # Commit the transaction
+        print("Committing transaction...")
+        db_connection.commit()
+        print("Username updated successfully.")
+        return new_username
+    except mysql.connector.Error as e:
+        # Rollback if any part of the transaction fails
+        db_connection.rollback()
+        print(f"An error occurred while updating the username: {e}")
+        return current_username
+
+# FOR SETTING OPTION
+def edit_password(username):
+    while True:
+        new_password = input("Enter your new password: ").strip()
+        password_issue = validate_password(new_password)
+        if password_issue:
+            print(f"Password issue: {password_issue}")
+        else:
+            hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            db_cursor.execute("UPDATE users SET password = %s WHERE username = %s", (hashed_password, username))
+            db_connection.commit()
+            print("Password updated successfully.")
+            break
+# FOR SETTING OPTION
+def edit_social_media_link(username):
+    new_link = input("Enter your new social media link: ").strip()
+    db_cursor.execute("UPDATE users SET social_media_link = %s WHERE username = %s", (new_link, username))
+    db_connection.commit()
+    print("Social media link updated successfully.")
+
+# FOR SETTING OPTION
+def delete_account(username):
+    confirm = input("Are you sure you want to delete your account? This action cannot be undone. (yes/no): ").lower()
+    if confirm == "yes":
+        try:
+            print("Deleting related data in dependent tables...")
+
+            # Delete from user_interests
+            db_cursor.execute("DELETE FROM user_interests WHERE username = %s", (username,))
+
+            # Delete from friendships
+            db_cursor.execute("DELETE FROM friendships WHERE user1 = %s", (username,))
+            db_cursor.execute("DELETE FROM friendships WHERE user2 = %s", (username,))
+
+            # Finally, delete the user
+            print("Deleting user account...")
+            db_cursor.execute("DELETE FROM users WHERE username = %s", (username,))
+
+            # Commit the transaction
+            db_connection.commit()
+            print("Account deleted successfully.")
+            return True
+        except mysql.connector.Error as e:
+            # Rollback in case of any errors
+            db_connection.rollback()
+            print(f"An error occurred while deleting the account: {e}")
+            return False
+    else:
+        print("Account deletion canceled.")
+        return False
+
+
+
+
+
+
 # Interactive menu for user actions
 def main():
     logged_in_user = None
@@ -504,7 +606,8 @@ def main():
             print(f"Currently logged in Penpal: {logged_in_user}")
             print("1. View Friend Recommendations")
             print("2. Add Friend Menu")
-            print("3. Log Out")
+            print("3. Account Settings")
+            print("4. Log Out")
         
         choice = input("Enter your choice: ")
 
@@ -531,9 +634,9 @@ def main():
                 print("3. Based on Shared Interests")
                 print("4. Based on Age")
                 print("5. Back to Main Menu")
-                sub_choice = input("Enter your choice: ")
+                fr_choice = input("Enter your choice: ")
 
-                if sub_choice == "1":
+                if fr_choice == "1":
                     recommendations = sm_graph.recommend_friends(logged_in_user)
                     if recommendations:
                         print(f"Friend recommendations for {logged_in_user} based on Mutual Friends:")
@@ -542,16 +645,16 @@ def main():
                     else:
                         print("No friend recommendations found based on mutual friends.")
 
-                elif sub_choice == "2":
+                elif fr_choice == "2":
                      sm_graph.recommend_friends_by_location(logged_in_user)
 
-                elif sub_choice == "3":
+                elif fr_choice == "3":
                      sm_graph.recommend_friends_by_interests(logged_in_user)                      
 
-                elif sub_choice == "4":
+                elif fr_choice == "4":
                     sm_graph.view_friend_recommendations_based_on_age(logged_in_user)
 
-                elif sub_choice == "5":
+                elif fr_choice == "5":
                     break
 
                 elif choice == "2" and logged_in_user:
@@ -562,6 +665,7 @@ def main():
                     print("3. View Your Friends")
                     print("4. Back to Main Menu")
                     sub_choice = input("Enter your choice: ")
+
                
                 if sub_choice == "1":
                     while True:
@@ -595,8 +699,35 @@ def main():
 
                 elif sub_choice == "4":
                     break
+                else:
+                    print("Invalid choice. Please try again.")
 
         elif choice == "3" and logged_in_user:
+            while True:
+                print("\n--- Account Settings ---")
+                print("1. Edit Username")
+                print("2. Edit Password")
+                print("3. Edit Social Media Link")
+                print("4. Delete Account")
+                print("5. Back to Main Menu")
+                settings_choice = input("Enter your choice: ")
+
+                if settings_choice == "1":
+                    logged_in_user = edit_username(logged_in_user)
+                elif settings_choice == "2":
+                    edit_password(logged_in_user)
+                elif settings_choice == "3":
+                    edit_social_media_link(logged_in_user)
+                elif settings_choice == "4":
+                    if delete_account(logged_in_user):
+                        logged_in_user = None
+                        break
+                elif settings_choice == "5":
+                    break
+                else:
+                    print("Invalid choice. Please try again.")
+
+        elif choice == "4" and logged_in_user:
             logged_in_user = None
             print("Logged out successfully.")
 
