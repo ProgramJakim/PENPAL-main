@@ -3,6 +3,7 @@ import networkx as nx
 import bcrypt
 import sys
 import msvcrt 
+import random 
 
 # jc friend menu update
 #latesttt
