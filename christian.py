@@ -3,16 +3,18 @@ import networkx as nx
 import bcrypt
 import sys
 import msvcrt 
-import random 
+import random
 
-# no more errors
-# but if you notice something, please don't hesitate to chat it out - jakim
+#latesttt
+#interest - kal
+#strongpass -annie
+#maskedpass "*" -annie
 
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="interests"
+    database="social_media"
 )
 
 db_cursor = db_connection.cursor()
@@ -143,7 +145,7 @@ class SocialMediaGraph:
             return
 
         db_cursor.execute(
-            "INSERT INTO friend_requests (from_user, to_user, status) VALUES (%s, %s, 'Pending')",
+            "INSERT INTO friend_requests (from_user, to_user, status) VALUES (%s, %s, 'pending')",
             (from_user, to_user)
         )
         db_connection.commit()
@@ -155,10 +157,11 @@ class SocialMediaGraph:
             print("No friend request found from this user.")
             return
 
-    # Remove any redundant friend requests between these two users
-        db_cursor.execute("DELETE FROM friend_requests WHERE (from_user = %s AND to_user = %s) OR (from_user = %s AND to_user = %s)", 
-                      (user, from_user, from_user, user))
-
+        db_cursor.execute("UPDATE friend_requests SET status = 'accepted' WHERE from_user = %s AND to_user = %s", (from_user, user))
+        db_cursor.execute(
+            "INSERT INTO friendships (user1, user2) VALUES (%s, %s), (%s, %s)",
+            (user, from_user, from_user, user)
+        )
         db_connection.commit()
         print(f"{user} accepted the friend request from {from_user}")
 
@@ -175,7 +178,7 @@ class SocialMediaGraph:
     def get_friend_requests(self, user):
         db_cursor.execute("SELECT from_user, status FROM friend_requests WHERE to_user = %s", (user,))
         requests = db_cursor.fetchall()
-        return [{"User": row[0], "Status": row[1]} for row in requests]
+        return [{"from_user": row[0], "status": row[1]} for row in requests]
 
     def recommend_friends(self, username):
         if username not in self.graph:
@@ -276,6 +279,8 @@ class SocialMediaGraph:
     
         return sorted_recommendations
 
+
+    
     def view_all_friends(self, username):
         """View all friends of a user from the database."""
         # Check if the user exists in the database
@@ -300,6 +305,17 @@ class SocialMediaGraph:
         
         return friends
     
+    def view_all_users(self):
+        """Display all registered usernames."""
+        try:
+            db_cursor.execute("SELECT username FROM users")
+            users = db_cursor.fetchall()
+            print("\nAll Registered Users:")
+            for user in users:
+                print(user[0])
+        except mysql.connector.Error as err:
+            print(f"Error fetching users: {err}")
+
 def validate_password(password):
     """Check if the password is strong enough."""
     if len(password) < 8:
@@ -440,7 +456,7 @@ def masked_input(prompt=""):
                 sys.stdout.flush()
         else:
             password.append(char.decode())  # Append the character to the password list
-            sys.stdout.write('*')  # Mask the character with '*'
+            sys.stdout.write('')  # Mask the character with ''
             sys.stdout.flush()
     
     print()  # Move to the next line after password input
@@ -475,57 +491,6 @@ def login(username, password):
 
     return None  
 
-# FOR SETTING OPTION
-def edit_password(username):
-    while True:
-        new_password = input("Enter your new password: ").strip()
-        password_issue = validate_password(new_password)
-        if password_issue:
-            print(f"Password issue: {password_issue}")
-        else:
-            hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-            db_cursor.execute("UPDATE users SET password = %s WHERE username = %s", (hashed_password, username))
-            db_connection.commit()
-            print("Password updated successfully.")
-            break
-# FOR SETTING OPTION
-def edit_social_media_link(username):
-    new_link = input("Enter your new social media link: ").strip()
-    db_cursor.execute("UPDATE users SET social_media_link = %s WHERE username = %s", (new_link, username))
-    db_connection.commit()
-    print("Social media link updated successfully.")
-
-# FOR SETTING OPTION
-def delete_account(username):
-    confirm = input("Are you sure you want to delete your account? This action cannot be undone. (yes/no): ").lower()
-    if confirm == "yes":
-        try:
-            print("Deleting related data in dependent tables...")
-
-            # Delete from user_interests
-            db_cursor.execute("DELETE FROM user_interests WHERE username = %s", (username,))
-
-            # Delete from friendships
-            db_cursor.execute("DELETE FROM friendships WHERE user1 = %s", (username,))
-            db_cursor.execute("DELETE FROM friendships WHERE user2 = %s", (username,))
-
-            # Finally, delete the user
-            print("Deleting user account...")
-            db_cursor.execute("DELETE FROM users WHERE username = %s", (username,))
-
-            # Commit the transaction
-            db_connection.commit()
-            print("Account deleted successfully.")
-            return True
-        except mysql.connector.Error as e:
-            # Rollback in case of any errors
-            db_connection.rollback()
-            print(f"An error occurred while deleting the account: {e}")
-            return False
-    else:
-        print("Account deletion canceled.")
-        return False
-
 # Interactive menu for user actions
 def main():
     logged_in_user = None
@@ -541,23 +506,23 @@ def main():
             print(f"Currently logged in Penpal: {logged_in_user}")
             print("1. View Friend Recommendations")
             print("2. Add Friend Menu")
-            print("3. Account Settings")
-            print("4. Log Out")
+            print("3. Log Out")
         
         choice = input("Enter your choice: ")
 
         if choice == "1" and not logged_in_user:
-            create_account()
+           create_account()
         
         elif choice == "2" and not logged_in_user:
-            username = input("Enter username: ").strip()
-            password = masked_input("Enter password: ")
-            logged_in_user = login(username, password)
+                
+                username = input("Enter username: ").strip() 
+                password = masked_input("Enter password: ") 
+                logged_in_user = login(username, password)
               
-            if logged_in_user:
-                print(f"Logged in as {logged_in_user}")
-            else:
-                print("Login failed. Please try again.")
+                if logged_in_user:
+                    print(f"Logged in as {logged_in_user}")
+                else:
+                    print("Login failed. Please try again.")
 
         elif choice == "1" and logged_in_user:
             while True:
@@ -580,10 +545,10 @@ def main():
                         print("No friend recommendations found based on mutual friends.")
 
                 elif fr_choice == "2":
-                    sm_graph.recommend_friends_by_location(logged_in_user)
+                     sm_graph.recommend_friends_by_location(logged_in_user)
 
                 elif fr_choice == "3":
-                    sm_graph.recommend_friends_by_interests(logged_in_user)                      
+                     sm_graph.recommend_friends_by_interests(logged_in_user)                      
 
                 elif fr_choice == "4":
                     sm_graph.view_friend_recommendations_based_on_age(logged_in_user)
@@ -594,77 +559,43 @@ def main():
         elif choice == "2" and logged_in_user:
             while True:
                 print("\n--- Friend Menu ---")
-                print("1. Manage Friend Requests (accept, decline, view)")
+                print(f"Currently logged in Penpal: {logged_in_user}")
+                print("1. View Friend Requests")
                 print("2. Send Friend Request")
-                print("3. View Your Friends")
-                print("4. Back to Main Menu")
+                print("3. Accept Friend Request")
+                print("4. Decline Friend Request")
+                print("5. View your friends")
+                print("6. Back to Main Menu")
                 sub_choice = input("Enter your choice: ")
 
                 if sub_choice == "1":
-                    while True:
-                        print("\n--- Manage Friend Requests ---")
-                        print("1. View Friend Requests")
-                        print("2. Accept Friend Request")
-                        print("3. Decline Friend Request")
-                        print("4. Back to Friend Menu")
-                        manage_choice = input("Enter your choice: ")
-
-                        if manage_choice == "1":
-                            friend_requests = sm_graph.get_friend_requests(logged_in_user)
-                            print(f"Friend requests for {logged_in_user}: {friend_requests}")
-                        elif manage_choice == "2":
-                            friend_username = input("Enter the username of the friend to accept: ")
-                            sm_graph.accept_friend_request(logged_in_user, friend_username)
-                        elif manage_choice == "3":
-                            friend_username = input("Enter the username of the friend to decline: ")
-                            sm_graph.decline_friend_request(logged_in_user, friend_username)
-                        elif manage_choice == "4":
-                            break
-                        else:
-                            print("Invalid choice. Please try again.")
-
+                    friend_requests = sm_graph.get_friend_requests(logged_in_user)
+                    print(f"Friend requests for {logged_in_user}: {friend_requests}")
+                
                 elif sub_choice == "2":
                     friend_username = input("Enter the username of the friend you want to add: ")
                     sm_graph.send_friend_request(logged_in_user, friend_username)
 
                 elif sub_choice == "3":
-                    sm_graph.view_all_friends(logged_in_user)
+                    friend_username = input("Enter the username of the friend to accept: ")
+                    sm_graph.accept_friend_request(logged_in_user, friend_username)
 
                 elif sub_choice == "4":
+                    friend_username = input("Enter the username of the friend to decline: ")
+                    sm_graph.decline_friend_request(logged_in_user, friend_username)
+
+                elif sub_choice == "5":
+                    sm_graph.view_all_friends(logged_in_user)
                     break
-                else:
-                    print("Invalid choice. Please try again.")
+
+                elif sub_choice == "6":
+                    break
 
         elif choice == "3" and logged_in_user:
-            while True:
-                print("\n--- Account Settings ---")
-                print("1. Edit Password")
-                print("2. Edit Social Media Link")
-                print("3. Delete Account")
-                print("4. Back to Main Menu")
-                settings_choice = input("Enter your choice: ")
-
-                if settings_choice == "1":
-                    edit_password(logged_in_user)
-
-                elif settings_choice == "2":
-                    edit_social_media_link(logged_in_user)
-
-                elif settings_choice == "3":
-                    if delete_account(logged_in_user):
-                        logged_in_user = None
-                        break
-                elif settings_choice == "4":
-                    break
-                else:
-                    print("Invalid choice. Please try again.")
-
-        #log out in home menu
-        elif choice == "4" and logged_in_user:
             logged_in_user = None
             print("Logged out successfully.")
 
-        #exit from signup/login page
+
         elif choice == "3" and not logged_in_user:
             print(f"Exiting the system. Goodbye! Thank you for using Penpal")
             break
@@ -674,4 +605,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
