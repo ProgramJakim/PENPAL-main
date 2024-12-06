@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from FRONTEND.SignUpPage import Ui_SignUp  # Import Signup UI
+from SignUpPage import Ui_SignUp  # Import Signup UI
 import sys
 import os
 
