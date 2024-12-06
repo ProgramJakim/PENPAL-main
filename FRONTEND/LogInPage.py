@@ -242,6 +242,7 @@ class Ui_LogIn(object):
         self.logInWindow.hide()  # Hide the Login page
         self.signUpWindow.show()  # Show the Signup page
 
+    
     def retranslateUi(self, LogIn):
         _translate = QtCore.QCoreApplication.translate
         LogIn.setWindowTitle(_translate("LogIn", "Dialog"))
