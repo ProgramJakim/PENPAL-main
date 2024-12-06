@@ -9,6 +9,17 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QPixmap
+import sys
+import os
+
+
+# Get the absolute path of the current directory (LogInPage.py)
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Build the general path to the resources/images folder
+images_folder = os.path.join(current_directory, '..', 'resources', 'images')
+Sign_Up_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Sign_Up_assets')
 
 
 class Ui_SignUp(object):
@@ -35,7 +46,7 @@ class Ui_SignUp(object):
         self.SU_HeaderIcon.setStyleSheet("background: transparent;\n"
 "")
         self.SU_HeaderIcon.setText("")
-        self.SU_HeaderIcon.setPixmap(QtGui.QPixmap("C:\\PENPAL\\HeaderIcon.png"))
+        self.SU_HeaderIcon.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'HeaderIcon.png')))
         self.SU_HeaderIcon.setScaledContents(True)
         self.SU_HeaderIcon.setObjectName("SU_HeaderIcon")
         self.SU_MainPanel = QtWidgets.QFrame(SignUp)
@@ -53,7 +64,7 @@ class Ui_SignUp(object):
         self.SU_SidePanelBg = QtWidgets.QLabel(self.SU_SidePanel)
         self.SU_SidePanelBg.setGeometry(QtCore.QRect(-170, 0, 931, 601))
         self.SU_SidePanelBg.setText("")
-        self.SU_SidePanelBg.setPixmap(QtGui.QPixmap("C:\\PENPAL\\SU_SidePanel.png"))
+        self.SU_SidePanelBg.setPixmap(QtGui.QPixmap(os.path.join(Sign_Up_assets_folder, 'SU_SidePanel.png')))
         self.SU_SidePanelBg.setScaledContents(True)
         self.SU_SidePanelBg.setObjectName("SU_SidePanelBg")
         self.SU_WelcomeBackLBL = QtWidgets.QLabel(self.SU_SidePanel)
@@ -65,7 +76,7 @@ class Ui_SignUp(object):
         self.SU_WelcomeBackLBL.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.SU_WelcomeBackLBL.setText("")
-        self.SU_WelcomeBackLBL.setPixmap(QtGui.QPixmap("C:\\PENPAL\\SU_LogInStatement.png"))
+        self.SU_WelcomeBackLBL.setPixmap(QtGui.QPixmap(os.path.join(Sign_Up_assets_folder, 'SU_LogInStatement.png')))
         self.SU_WelcomeBackLBL.setScaledContents(True)
         self.SU_WelcomeBackLBL.setObjectName("SU_WelcomeBackLBL")
         self.SU_LogInPB = QtWidgets.QPushButton(self.SU_SidePanel)
@@ -87,7 +98,7 @@ class Ui_SignUp(object):
         self.SU_Icon.setStyleSheet("background: transparent;\n"
 "")
         self.SU_Icon.setText("")
-        self.SU_Icon.setPixmap(QtGui.QPixmap("C:\\PENPAL\\Icon.png"))
+        self.SU_Icon.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'Icon.png')))
         self.SU_Icon.setScaledContents(True)
         self.SU_Icon.setObjectName("SU_Icon")
         self.SU_UsernameLBL = QtWidgets.QLabel(self.SU_MainPanel)
@@ -230,7 +241,7 @@ class Ui_SignUp(object):
         self.SU_Shadow.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.SU_Shadow.setText("")
-        self.SU_Shadow.setPixmap(QtGui.QPixmap("C:\\PENPAL\\SU_Shadow.png"))
+        self.SU_Shadow.setPixmap(QtGui.QPixmap(os.path.join(Sign_Up_assets_folder, 'SU_Shadow.png')))
         self.SU_Shadow.setScaledContents(True)
         self.SU_Shadow.setObjectName("SU_Shadow")
         self.SU_CreateanAccount = QtWidgets.QLabel(self.SU_MainPanel)

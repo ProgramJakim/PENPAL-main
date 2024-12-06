@@ -19,7 +19,7 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Build the general path to the resources/images folder
 images_folder = os.path.join(current_directory, '..', 'resources', 'images')
-log_in_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'LogIn_assets')
+Log_In_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Log_In_assets')
 
 
 
@@ -71,7 +71,7 @@ class Ui_LogIn(object):
         self.LI_SidePanelBg = QtWidgets.QLabel(self.LI_SidePanel)
         self.LI_SidePanelBg.setGeometry(QtCore.QRect(-310, 0, 1071, 601))
         self.LI_SidePanelBg.setText("")
-        self.LI_SidePanelBg.setPixmap(QtGui.QPixmap(os.path.join(log_in_assets_folder, 'LI_SidePanel.png')))
+        self.LI_SidePanelBg.setPixmap(QtGui.QPixmap(os.path.join(Log_In_assets_folder, 'LI_SidePanel.png')))
         self.LI_SidePanelBg.setScaledContents(True)
         self.LI_SidePanelBg.setObjectName("LI_SidePanelBg")
         self.LI_StatementLBL = QtWidgets.QLabel(self.LI_SidePanel)
@@ -85,7 +85,7 @@ class Ui_LogIn(object):
         self.LI_StatementLBL.setStyleSheet("color: rgb(122, 12, 12);\n"
 "background: transparent;")
         self.LI_StatementLBL.setText("")
-        self.LI_StatementLBL.setPixmap(QtGui.QPixmap(os.path.join(log_in_assets_folder, 'LI_SignUpStatement.png')))
+        self.LI_StatementLBL.setPixmap(QtGui.QPixmap(os.path.join(Log_In_assets_folder, 'LI_SignUpStatement.png')))
         self.LI_StatementLBL.setScaledContents(True)
         self.LI_StatementLBL.setObjectName("LI_StatementLBL")
         self.LI_SignUpPB = QtWidgets.QPushButton(self.LI_SidePanel)
@@ -208,7 +208,7 @@ class Ui_LogIn(object):
         self.label.setStyleSheet("background: transparent;\n"
 "")
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap(os.path.join(log_in_assets_folder, 'LI_Shadow.png')))
+        self.label.setPixmap(QtGui.QPixmap(os.path.join(Log_In_assets_folder, 'LI_Shadow.png')))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
         self.label.raise_()
