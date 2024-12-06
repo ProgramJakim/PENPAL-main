@@ -10,9 +10,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
-from SignUpPage import Ui_SignUp  # Import Signup UI
+from PyQt5.QtWidgets import QMessageBox
+from SignUpPage import Ui_SignUp
 import sys
 import os 
+import requests
+
+
 
 # Get the absolute path of the current directory (LogInPage.py)
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -227,20 +231,60 @@ class Ui_LogIn(object):
         
          # Connect buttons
         self.LI_SignUpPB.clicked.connect(self.openSignUpPage)
+        self.LI_LogInPB.clicked.connect(self.handle_login)
         
          # Persistent windows
         self.logInWindow = LogIn
         self.signUpWindow = None  # Initialize later
+
+    def handle_login(self):
+        """Handle the login process by interacting with the Flask API."""
+        username = self.LI_UsernameLE.text()
+        password = self.LI_PasswordLE.text()
+
+        # Prepare data to send to the backend
+        data = {'username': username, 'password': password}
+
+        try:
+                # Send login request to the Flask API
+                response = requests.post('http://127.0.0.1:5000/login', json=data)
+                
+                # Check the response from the backend
+                if response.status_code == 200:
+                        # If login is successful, proceed to the main app or dashboard
+                        response_data = response.json()
+                        if response_data.get("status") == "success":
+                                # Proceed to next screen, e.g., main app window
+                                self.openMainAppWindow()
+                        else:
+                                # Show error message for invalid login credentials
+                                self.show_error_message("Login failed", "Invalid username or password.")
+                else:
+                # Handle failed request, e.g., server issues
+                  self.show_error_message("Server Error", "Failed to connect to the server.")
+        
+        except requests.exceptions.RequestException as e:
+                # Handle any request errors (network issues, etc.)
+                self.show_error_message("Connection Error", "Could not connect to the server.")
+
+    def show_error_message(self, title, message):
+        """Helper method to show error messages in a message box."""
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setWindowTitle(title)
+        msg.setText(message)
+        msg.exec_()
+
         
     def openSignUpPage(self):
         """Switch to the SignUp page."""
         if self.signUpWindow is None:  # Create only if not already created
-            self.signUpWindow = QtWidgets.QDialog()  # Create dialog
-            self.ui = Ui_SignUp()  # Use the imported SignUp class
-            self.ui.setupUi(self.signUpWindow)
+            self.signUpWindow = QtWidgets.QWidget()
+            self.ui_signUp = Ui_SignUp()
+            self.ui_signUp.setupUi(self.signUpWindow)
 
-        self.logInWindow.hide()  # Hide the Login page
-        self.signUpWindow.show()  # Show the Signup page
+        self.signUpWindow.show()
+        self.logInWindow.close()  # Close login page when switching to sign-up
 
     
     def retranslateUi(self, LogIn):
