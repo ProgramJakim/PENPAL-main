@@ -297,43 +297,71 @@ class Ui_SignUp(object):
         location = self.SU_LocationLE.text()
         social_media_link = self.SU_SocialLinkLE.text()
 
-        # Check if any required fields are empty
+        # Check if all fields are filled
         if not username or not password or not age or not location or not gender:
                 self.show_error_message("Please fill in all the required fields.")
-                return
+                return False  # Indicate that the sign-up process should not continue
 
-        # Prepare the data for the POST request
-        data = {
-                'username': username,
-                'password': password,
-                'age': int(age),
-                'gender': gender,
-                'location': location,
-                'social_media_link': social_media_link
-        }
+        # Validate password
+        password_issue = self.validate_password(password)
+        if password_issue:
+                self.show_error_message(f"Error: {password_issue}. Please re-enter your password.")
+                self.SU_PasswordLE.clear()  # Clear the password field to prompt re-entry
+                return False  # Indicate that the sign-up process should not continue
+
+        # Validate social media link
+        if not self.validate_social_link():
+                self.show_error_message("Invalid social media link. Please enter a valid link.")
+                self.SU_SocialLinkLE.clear()  # Clear the link field to prompt re-entry
+                return False  # Indicate that the sign-up process should not continue
+
+        # Check if username already exists
+        data = {'username': username}
 
         try:
-                response = requests.post('http://127.0.0.1:5000/signup', json=data)
+                # First, check if the username exists
+                response = requests.post('http://127.0.0.1:5000/check_username', json=data)
+
+                if response.status_code == 400:  # Assuming the backend returns 400 if the username exists
+                        self.show_error_message("Username already exists. Please choose another username.")
+                        self.SU_UsernameLE.clear()  # Clear the username field to prompt re-entry
+                        return False  # Indicate that the sign-up process should not continue
+
+                # If the username is available, proceed with the sign-up process
+                sign_up_data = {
+                        'username': username,
+                        'password': password,
+                        'age': int(age),
+                        'gender': gender,
+                        'location': location,
+                        'social_media_link': social_media_link
+                        }
+
+                # Send the data to the backend to create the account
+                response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
 
                 if response.status_code == 201:
                         self.show_success_message("Account created successfully!")
+
+                        # Clear the input fields after sign-up
+                        self.SU_UsernameLE.clear()
+                        self.SU_PasswordLE.clear()
+                        self.SU_AgeLE.clear()
+                        self.SU_GenderCB.setCurrentIndex(0)  # Reset to first item (if applicable)
+                        self.SU_LocationLE.clear()
+                        self.SU_SocialLinkLE.clear()
+
+                        self.show_success_message("You can continue creating another account or stay here.")
+
+                        return True  # Indicate that the sign-up process succeeded
                 else:
-                # Handle server error messages (e.g., password issue)
-                        try:
                                 error_message = response.json().get('error', 'Unknown error occurred')
-                        except ValueError:
-                         error_message = 'Invalid response from server or empty body'
+                                self.show_error_message(f"Error: {error_message}")
+                                return False  # Indicate failure
 
-                # If the error is related to the password, ask the user to re-enter the password
-                if "Password" in error_message:
-                        self.show_error_message(f"Error: {error_message}. Please re-enter your password.")
-                        self.SU_PasswordLE.clear()  # Clear the password field to let user re-enter
-                        self.SU_PasswordLE.setFocus()  # Optionally focus the password field for re-entry
-                        return  # Wait for the user to correct the password and click sign-up again
-
-                self.show_error_message(f"Error: {error_message}")
         except requests.exceptions.RequestException as e:
                 self.show_error_message(f"Request failed: {str(e)}")
+                return False  # Indicate failure
 
     def show_success_message(self, message):
         msg = QMessageBox()
@@ -349,17 +377,28 @@ class Ui_SignUp(object):
         msg.setWindowTitle("Error")
         msg.exec_()
 
+    def validate_password(self, password):
+        if len(password) < 8:
+            return "Password must be at least 8 characters long."
+        if not any(char.isdigit() for char in password):
+            return "Password must include at least one number."
+        if not any(char.isupper() for char in password):
+            return "Password must include at least one uppercase letter."
+        if not any(char in "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|" for char in password):
+            return "Password must include at least one special character."
+        return None
+
     def validate_social_link(self):
         social_link = self.SU_SocialLinkLE.text()
-        pattern = r"^(https?://)?(www\.)?([a-zA-Z0-9]+)\.[a-zA-Z]{2,6}(/[\w-]*)*/?$"
+        # Updated pattern to allow periods in the path
+        pattern = r"^(https?://)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}(/[\w\-\.]*)*$"
         return bool(re.match(pattern, social_link))
-
     def on_sign_up_button_click(self):
-        if self.validate_social_link():
-                self.handle_signup()
+        if self.handle_signup():  # If sign-up is successful, proceed
+            self.backtoLogInPage()
         else:
-                # Use 'self.SignUp' (the parent dialog) as the parent widget
-                QtWidgets.QMessageBox.warning(self.SignUp, "Invalid Link", "Please enter a valid social media link.")
+            # If there's an issue (password, social link, etc.), the user will have to fix it
+            pass
 
     def backtoLogInPage(self):
         from LogInPage import Ui_LogIn
