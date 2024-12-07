@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMessageBox, QMainWindow
 from SignUpPage import Ui_SignUp
+from HomePagetry import Ui_Homepage
 import sys
 import os 
 import requests
@@ -253,15 +254,15 @@ class Ui_LogIn(object):
                 if response.status_code == 200:
                         # If login is successful, proceed to the main app or dashboard
                         response_data = response.json()
-                        if response_data.get("status") == "success":
-                                # Proceed to next screen, e.g., main app window
+                        if "Welcome back" in response_data.get("message", ""):
+                                self.show_popup_message("Login Success", "Welcome back", username)
                                 self.openMainAppWindow()
                         else:
-                                # Show error message for invalid login credentials
-                                self.show_error_message("Login failed", "Invalid username or password.")
+                                # Show error message for invalid login credentialss
+                                self.show_error_message("Login failed", response_data.get("message", "Unknown error."))
                 else:
                 # Handle failed request, e.g., server issues
-                  self.show_error_message("Server Error", "Failed to connect to the server.")
+                  self.show_error_message("Login failed", "Invalid username or password.")
         
         except requests.exceptions.RequestException as e:
                 # Handle any request errors (network issues, etc.)
@@ -275,6 +276,13 @@ class Ui_LogIn(object):
         msg.setText(message)
         msg.exec_()
 
+    def show_popup_message(self, title, message, username):
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle(title)
+        msg_box.setText(f"{message}, {username}!")
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.exec_()
+   
         
     def openSignUpPage(self):
         from SignUpPage import Ui_SignUp  # Import inside the method to avoid circular imports
@@ -284,7 +292,13 @@ class Ui_LogIn(object):
 
         # Hide the login window and show the signup window
         self.logInWindow.hide()
-        
+
+    def openMainAppWindow(self):
+        # Create a QWidget for the Homepage
+        self.mainAppWindow = QtWidgets.QWidget()   # Create a QWidget (not just the UI layout)
+        self.ui = Ui_Homepage()  # Create the Ui_Homepage object
+        self.ui.setupUi(self.mainAppWindow)  # Set up the UI layout for the QWidget
+        self.mainAppWindow.show()  # Show the QWidget containing the UI layout
 
 
     
