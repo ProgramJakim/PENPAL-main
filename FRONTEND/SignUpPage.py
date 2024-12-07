@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
 import os
 
@@ -278,7 +279,7 @@ class Ui_SignUp(object):
         self.SU_LogInPB.clicked.connect(self.openLogInPage)
 
     def openLogInPage(self):
-        from FRONTEND.LogInPage import Ui_LogIn
+        from LogInPage import Ui_LogIn
         self.logInWindow = QtWidgets.QDialog()
         self.ui = Ui_LogIn()
         self.ui.setupUi(self.logInWindow)
