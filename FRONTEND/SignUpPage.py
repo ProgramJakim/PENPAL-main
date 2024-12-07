@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
 import os
 
