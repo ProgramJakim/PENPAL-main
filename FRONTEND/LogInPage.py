@@ -257,6 +257,7 @@ class Ui_LogIn(object):
                         if "Welcome back" in response_data.get("message", ""):
                                 self.show_popup_message("Login Success", "Welcome back", username)
                                 self.openMainAppWindow()
+                                self.logInWindow.close()  # Close the login window
                         else:
                                 # Show error message for invalid login credentialss
                                 self.show_error_message("Login failed", response_data.get("message", "Unknown error."))

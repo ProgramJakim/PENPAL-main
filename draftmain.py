@@ -44,14 +44,16 @@ class MainApp:
         self.logInWindow.show()
 
     def openMainAppWindow(self):
+        # Close the login window after login
+        self.logInWindow.close()
+
         # Create a QWidget for the Homepage
         self.mainAppWindow = QtWidgets.QWidget()  # Create a QWidget (not just the UI layout)
         self.ui = Ui_Homepage()  # Create the Ui_Homepage object
         self.ui.setupUi(self.mainAppWindow)  # Set up the UI layout for the QWidget
         self.mainAppWindow.show()  # Show the QWidget containing the UI layout
 
-        # Close the login window after login
-        self.logInWindow.close()
+       
 
     def run(self):
         # Show the login window
