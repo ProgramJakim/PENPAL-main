@@ -310,8 +310,3 @@ class Ui_SignUp(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    SignUp = QtWidgets.QDialog()
-    ui = Ui_SignUp()
-    ui.setupUi(SignUp)
-    SignUp.show()
-    sys.exit(app.exec_())

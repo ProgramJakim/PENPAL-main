@@ -14,6 +14,10 @@ db_connection = mysql.connector.connect(
 
 db_cursor = db_connection.cursor()
 
+@app.route("/sample", methods=['GET'])
+def sample():
+    return jsonify({"message":"I AM A SAMPLE GET ENDPOINT"}), 200
+
 @app.route('/login', methods=['POST'])
 def login():
     # Get JSON data from frontend
@@ -37,7 +41,7 @@ def login():
             if not interests:
                 return jsonify({"message": "You haven't selected your interests yet."}), 200
 
-            return jsonify({"message": f"Welcome back, {username}!", "username": username}), 200
+            return jsonify({"message": f"Welcome back, {username}!", "username": username, "accessToken": "sample"}), 200
         else:
             return jsonify({"message": "Invalid password."}), 400
     else:
@@ -45,3 +49,4 @@ def login():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

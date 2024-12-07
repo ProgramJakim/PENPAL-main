@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
 from LogInPage import Ui_LogIn
-
+from HomePagetry import Ui_Homepage
 
 class MainApp:
     def __init__(self):
@@ -31,6 +31,8 @@ class MainApp:
         # Connect the "Back to Login" button to go back to the login window
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
 
+       
+
     def openSignUpPage(self):
         # Hide the login window and show the signup window
         self.logInWindow.close()
@@ -40,6 +42,25 @@ class MainApp:
         # Close the signup window and show the login window
         self.signUpWindow.close()
         self.logInWindow.show()
+
+    def openMainAppWindow(self):
+        # Close the login window after login
+        self.logInWindow.close()
+
+        # Create a QWidget for the Homepage
+        self.mainAppWindow = QtWidgets.QWidget()  # Create a QWidget (not just the UI layout)
+        self.ui = Ui_Homepage()  # Create the Ui_Homepage object
+        self.ui.setupUi(self.mainAppWindow)  # Set up the UI layout for the QWidget
+        self.mainAppWindow.show()  # Show the QWidget containing the UI layout
+
+       
+
+    def run(self):
+        # Show the login window
+        self.logInWindow.show()
+
+        # Execute the app
+        sys.exit(self.app.exec_())
 
     def run(self):
         # Show the login window
