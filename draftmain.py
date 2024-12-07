@@ -1,27 +1,45 @@
 import sys
+import os
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from LogInPage import Ui_LogIn  # Import the LogIn UI from the LogInPage.py file
 
 
-class MainWindow(QMainWindow):
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
+from SignUpPage import Ui_SignUp
+from LogInPage import Ui_LogIn
+
+class MainApp:
     def __init__(self):
-        super().__init__()
+        # Create the application instance
+        self.app = QApplication(sys.argv)
 
-        # Create an instance of the Ui_LogIn class
-        self.ui = Ui_LogIn()
-        self.ui.setupUi(self)  # Setup the UI of the LogInPage in the main window
+        # Create instances for both windows
+        self.logInWindow = QMainWindow()
+        self.signUpWindow = QMainWindow()
 
-        # Set window properties
-        self.setWindowTitle("PenPal - Log In")
-        self.setGeometry(100, 100, 1440, 780)  # Set window size and position
+        # Setup UI for the login window
+        self.logInUI = Ui_LogIn()
+        self.logInUI.setupUi(self.logInWindow)
 
+        # Setup UI for the signup window
+        self.signUpUI = Ui_SignUp()
+        self.signUpUI.setupUi(self.signUpWindow)
 
-def run_app():
-    app = QApplication(sys.argv)  # Initialize the application
-    window = MainWindow()  # Create an instance of MainWindow
-    window.show()  # Show the window
-    sys.exit(app.exec_())  # Start the application event loop
+        # Connect the "Sign Up" button to open the signup window
+        self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
 
+    def openSignUpPage(self):
+        # Hide the login window and show the signup window
+        self.logInWindow.hide()
+        self.signUpWindow.show()
 
+    def run(self):
+        # Show the login window
+        self.logInWindow.show()
+
+        # Execute the app
+        sys.exit(self.app.exec_())
+
+# Run the application
 if __name__ == "__main__":
-    run_app()
+    mainApp = MainApp()
+    mainApp.run()
