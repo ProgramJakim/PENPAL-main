@@ -1,11 +1,12 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
 from LogInPage import Ui_LogIn
+
 
 class MainApp:
     def __init__(self):
@@ -27,10 +28,18 @@ class MainApp:
         # Connect the "Sign Up" button to open the signup window
         self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
 
+        # Connect the "Back to Login" button to go back to the login window
+        self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
+
     def openSignUpPage(self):
         # Hide the login window and show the signup window
-        self.logInWindow.hide()
+        self.logInWindow.close()
         self.signUpWindow.show()
+
+    def backtoLogInPage(self):
+        # Close the signup window and show the login window
+        self.signUpWindow.close()
+        self.logInWindow.show()
 
     def run(self):
         # Show the login window
@@ -38,6 +47,7 @@ class MainApp:
 
         # Execute the app
         sys.exit(self.app.exec_())
+
 
 # Run the application
 if __name__ == "__main__":
