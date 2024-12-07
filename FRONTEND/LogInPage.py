@@ -284,7 +284,7 @@ class Ui_LogIn(object):
 
         # Hide the login window and show the signup window
         self.logInWindow.hide()
-        self.signUpWindow.show()
+        
 
 
     

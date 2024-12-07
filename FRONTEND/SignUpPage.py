@@ -276,14 +276,19 @@ class Ui_SignUp(object):
         QtCore.QMetaObject.connectSlotsByName(SignUp)
         
          # Connect buttons
-        self.SU_LogInPB.clicked.connect(self.openLogInPage)
+        self.SU_LogInPB.clicked.connect(self.backtoLogInPage)
 
-    def openLogInPage(self):
+
+    def backtoLogInPage(self):
         from LogInPage import Ui_LogIn
         self.logInWindow = QtWidgets.QDialog()
+        self.signUpWindow = QMainWindow()
         self.ui = Ui_LogIn()
         self.ui.setupUi(self.logInWindow)
-        self.logInWindow.show()
+        self.signUpUI = Ui_SignUp()
+        self.signUpUI.setupUi(self.signUpWindow)
+        self.signUpWindow.close()
+        self.logInWindow.hide()
         
     def retranslateUi(self, SignUp):
         _translate = QtCore.QCoreApplication.translate
