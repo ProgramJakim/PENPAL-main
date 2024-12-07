@@ -1,7 +1,11 @@
 import sys
+import os
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from FRONTEND.SignUpPage import Ui_SignUp
-from FRONTEND.LogInPage import Ui_LogIn
+
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
+from SignUpPage import Ui_SignUp
+from LogInPage import Ui_LogIn
 
 class MainApp:
     def __init__(self):
