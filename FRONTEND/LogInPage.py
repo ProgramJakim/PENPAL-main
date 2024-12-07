@@ -286,14 +286,21 @@ class Ui_LogIn(object):
    
         
     def openSignUpPage(self):
-        """Switch to the SignUp page."""
-        if self.signUpWindow is None:  # Create only if not already created
-            self.signUpWindow = QtWidgets.QWidget()
-            self.ui_signUp = Ui_SignUp()
-            self.ui_signUp.setupUi(self.signUpWindow)
+        from SignUpPage import Ui_SignUp  # Import inside the method to avoid circular imports
+        self.signUpWindow = QMainWindow()
+        self.signUpUI = Ui_SignUp()
+        self.signUpUI.setupUi(self.signUpWindow)
 
-        self.signUpWindow.show()
-        self.logInWindow.close()  # Close login page when switching to sign-up
+        # Hide the login window and show the signup window
+        self.logInWindow.hide()
+
+    def openMainAppWindow(self):
+        # Create a QWidget for the Homepage
+        self.mainAppWindow = QtWidgets.QWidget()   # Create a QWidget (not just the UI layout)
+        self.ui = Ui_Homepage()  # Create the Ui_Homepage object
+        self.ui.setupUi(self.mainAppWindow)  # Set up the UI layout for the QWidget
+        self.mainAppWindow.show()  # Show the QWidget containing the UI layout
+
 
     
     def retranslateUi(self, LogIn):
