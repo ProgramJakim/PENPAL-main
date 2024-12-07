@@ -278,7 +278,7 @@ class Ui_SignUp(object):
         self.SU_LogInPB.clicked.connect(self.openLogInPage)
 
     def openLogInPage(self):
-        from FRONTEND.LogInPage import Ui_LogIn
+        from LogInPage import Ui_LogIn
         self.logInWindow = QtWidgets.QDialog()
         self.ui = Ui_LogIn()
         self.ui.setupUi(self.logInWindow)
