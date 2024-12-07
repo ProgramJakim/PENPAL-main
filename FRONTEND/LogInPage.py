@@ -10,7 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QMainWindow
 from SignUpPage import Ui_SignUp
 import sys
 import os 
@@ -277,14 +277,15 @@ class Ui_LogIn(object):
 
         
     def openSignUpPage(self):
-        """Switch to the SignUp page."""
-        if self.signUpWindow is None:  # Create only if not already created
-            self.signUpWindow = QtWidgets.QWidget()
-            self.ui_signUp = Ui_SignUp()
-            self.ui_signUp.setupUi(self.signUpWindow)
+        from SignUpPage import Ui_SignUp  # Import inside the method to avoid circular imports
+        self.signUpWindow = QMainWindow()
+        self.signUpUI = Ui_SignUp()
+        self.signUpUI.setupUi(self.signUpWindow)
 
+        # Hide the login window and show the signup window
+        self.logInWindow.hide()
         self.signUpWindow.show()
-        self.logInWindow.close()  # Close login page when switching to sign-up
+
 
     
     def retranslateUi(self, LogIn):
