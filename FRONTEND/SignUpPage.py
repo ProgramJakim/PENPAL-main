@@ -10,10 +10,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QMessageBox, QMainWindow
 import sys
 import os
-
+import requests
+import re
+from flask import Flask
+flask_app = Flask(__name__)
 
 # Get the absolute path of the current directory (LogInPage.py)
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -38,7 +41,7 @@ class Ui_SignUp(object):
 "    stop:1 #DC586D\n"
 ");\n"
 "\n"
-"")
+"")     # Header
         self.SU_Header.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.SU_Header.setFrameShadow(QtWidgets.QFrame.Raised)
         self.SU_Header.setObjectName("SU_Header")
@@ -169,6 +172,8 @@ class Ui_SignUp(object):
 "border: 3px solid #E58D76;\n"
 "border-radius: 5px;\n"
 "background: transparent;")
+       
+        # Gender ComboBox
         self.SU_GenderCB.setObjectName("SU_GenderCB")
         self.SU_GenderCB.addItem("")
         self.SU_GenderCB.addItem("")
@@ -278,18 +283,92 @@ class Ui_SignUp(object):
          # Connect buttons
         self.SU_LogInPB.clicked.connect(self.backtoLogInPage)
 
+        # Connect the SignUp button to the method to send data
+        self.SU_SignUpPB.clicked.connect(self.handle_signup)
+
+        self.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
+
+     
+    def handle_signup(self):
+        username = self.SU_UsernameLE.text()
+        password = self.SU_PasswordLE.text()
+        age = self.SU_AgeLE.text()
+        gender = self.SU_GenderCB.currentText()
+        location = self.SU_LocationLE.text()
+        social_media_link = self.SU_SocialLinkLE.text()
+
+        # Check if any required fields are empty
+        if not username or not password or not age or not location or not gender:
+                self.show_error_message("Please fill in all the required fields.")
+                return
+
+        # Prepare the data for the POST request
+        data = {
+                'username': username,
+                'password': password,
+                'age': int(age),
+                'gender': gender,
+                'location': location,
+                'social_media_link': social_media_link
+        }
+
+        try:
+                response = requests.post('http://127.0.0.1:5000/signup', json=data)
+
+                if response.status_code == 201:
+                        self.show_success_message("Account created successfully!")
+                else:
+                # Handle server error messages (e.g., password issue)
+                        try:
+                                error_message = response.json().get('error', 'Unknown error occurred')
+                        except ValueError:
+                         error_message = 'Invalid response from server or empty body'
+
+                # If the error is related to the password, ask the user to re-enter the password
+                if "Password" in error_message:
+                        self.show_error_message(f"Error: {error_message}. Please re-enter your password.")
+                        self.SU_PasswordLE.clear()  # Clear the password field to let user re-enter
+                        self.SU_PasswordLE.setFocus()  # Optionally focus the password field for re-entry
+                        return  # Wait for the user to correct the password and click sign-up again
+
+                self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+                self.show_error_message(f"Request failed: {str(e)}")
+
+    def show_success_message(self, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setText(message)
+        msg.setWindowTitle("Success")
+        msg.exec_()
+
+    def show_error_message(self, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText(message)
+        msg.setWindowTitle("Error")
+        msg.exec_()
+
+    def validate_social_link(self):
+        social_link = self.SU_SocialLinkLE.text()
+        pattern = r"^(https?://)?(www\.)?([a-zA-Z0-9]+)\.[a-zA-Z]{2,6}(/[\w-]*)*/?$"
+        return bool(re.match(pattern, social_link))
+
+    def on_sign_up_button_click(self):
+        if self.validate_social_link():
+                self.handle_signup()
+        else:
+                # Use 'self.SignUp' (the parent dialog) as the parent widget
+                QtWidgets.QMessageBox.warning(self.SignUp, "Invalid Link", "Please enter a valid social media link.")
 
     def backtoLogInPage(self):
         from LogInPage import Ui_LogIn
         self.logInWindow = QtWidgets.QDialog()
-        self.signUpWindow = QMainWindow()
         self.ui = Ui_LogIn()
         self.ui.setupUi(self.logInWindow)
-        self.signUpUI = Ui_SignUp()
-        self.signUpUI.setupUi(self.signUpWindow)
-        self.signUpWindow.close()
-        self.logInWindow.hide()
-        
+        self.SignUp.close()
+        self.logInWindow.show()
+
     def retranslateUi(self, SignUp):
         _translate = QtCore.QCoreApplication.translate
         SignUp.setWindowTitle(_translate("SignUp", "Dialog"))
@@ -308,5 +387,22 @@ class Ui_SignUp(object):
         self.SU_CreateanAccount.setText(_translate("SignUp", "Create an Account"))
 
 if __name__ == "__main__":
-    import sys
+    # Create the PyQt application
     app = QtWidgets.QApplication(sys.argv)
+
+    # Create and show the PyQt UI
+    window = Ui_SignUp()
+    SignUp = QtWidgets.QWidget()
+    window.setupUi(SignUp)
+    SignUp.show()
+
+    # Start the Flask app in a separate thread or process
+    from threading import Thread
+    def run_flask():
+        flask_app.run(host="127.0.0.1", port=5000)
+
+    flask_thread = Thread(target=run_flask)
+    flask_thread.start()
+
+    # Start the PyQt application event loop
+    sys.exit(app.exec_())
