@@ -25,7 +25,7 @@ db_cursor = db_connection.cursor()
 def sample():
     return jsonify({"message":"I AM A SAMPLE GET ENDPOINT"}), 200
 
-
+ph = PasswordHasher()  # Initialize Argon2 Password Hasher
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -55,7 +55,7 @@ def signup():
 
     hashed_password = argon2.hash(password)
 
-    db_cursor.execute("SELECT username FROM users WHERE username = %s", (username,))
+    db_cursor.execute("SELECT password FROM users WHERE LOWER(username) = LOWER(%s)", (username.lower(),))
     if db_cursor.fetchone():
         logging.error("Error: Username already exists.")
         return jsonify({"error": "Username already exists"}), 400
@@ -67,12 +67,13 @@ def signup():
         )
         db_connection.commit()
         logging.info("User account created successfully!")
+        print(f"Hashed password for {username}: {hashed_password}")
         return jsonify({"message": "Account created successfully!"}), 201
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
-    return jsonify({'message': 'Account created successfully!'}), 201
+
 
 def validate_password(password):
     if len(password) < 8:
@@ -85,9 +86,8 @@ def validate_password(password):
         return "Password must include at least one special character."
     return None
 
+ph = PasswordHasher()  # Initialize Argon2 Password Hasher
 
-
-ph = PasswordHasher()  # Initialize the Argon2 PasswordHasher
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -95,24 +95,28 @@ def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-    
+
+    logging.debug(f"Login attempt for username: {username}")
+
     # Fetch the hashed password for the provided username
     db_cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
     result = db_cursor.fetchone()
 
     if result:
-        stored_hashed_password = result[0]  # No need to encode here, argon2 already returns a string
+        stored_hashed_password = result[0]
+        logging.debug(f"Stored hash for user {username}: {stored_hashed_password}")
 
         try:
-            # Compare the entered password with the stored hashed password using Argon2
+            # Verify password using Argon2
             ph.verify(stored_hashed_password, password)
-            # Check for user interests after successful login
-
             return jsonify({"message": f"Welcome back, {username}!", "username": username, "accessToken": "sample"}), 200
         except Exception as e:
+            logging.error(f"Password verification failed: {e}")
             return jsonify({"message": "Invalid password."}), 400
     else:
+        logging.error("Username not found")
         return jsonify({"message": "Invalid username."}), 400
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
