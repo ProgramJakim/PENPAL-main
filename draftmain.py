@@ -62,12 +62,6 @@ class MainApp:
         # Execute the app
         sys.exit(self.app.exec_())
 
-    def run(self):
-        # Show the login window
-        self.logInWindow.show()
-
-        # Execute the app
-        sys.exit(self.app.exec_())
 
 
 # Run the application

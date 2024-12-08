@@ -403,10 +403,13 @@ class Ui_SignUp(object):
     def backtoLogInPage(self):
         from LogInPage import Ui_LogIn
         self.logInWindow = QtWidgets.QDialog()
+        self.signUpWindow = QMainWindow()
         self.ui = Ui_LogIn()
         self.ui.setupUi(self.logInWindow)
-        self.SignUp.close()
-        self.logInWindow.show()
+        self.signUpUI = Ui_SignUp()
+        self.signUpUI.setupUi(self.signUpWindow)
+        self.signUpWindow.close()
+        self.logInWindow.hide()
 
     def retranslateUi(self, SignUp):
         _translate = QtCore.QCoreApplication.translate
