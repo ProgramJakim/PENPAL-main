@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMessageBox, QMainWindow
 from SignUpPage import Ui_SignUp
-from HomePagetry import Ui_Homepage
+from FRONTEND.HomePage import Ui_Homepage
 import sys
 import os 
 import requests
