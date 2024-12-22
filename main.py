@@ -1,6 +1,6 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox
 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
@@ -62,12 +62,6 @@ class MainApp:
         # Execute the app
         sys.exit(self.app.exec_())
 
-    def run(self):
-        # Show the login window
-        self.logInWindow.show()
-
-        # Execute the app
-        sys.exit(self.app.exec_())
 
 
 # Run the application
