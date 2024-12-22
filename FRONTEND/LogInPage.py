@@ -16,7 +16,10 @@ from FRONTEND.HomePage import Ui_Homepage
 import sys
 import os 
 import requests
-
+from mysql.connector import errorcode
+from argon2 import PasswordHasher
+import logging
+ph = PasswordHasher()  # Initialize Argon2 Password Hasher
 
 
 # Get the absolute path of the current directory (LogInPage.py)
