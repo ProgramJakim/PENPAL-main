@@ -1,8 +1,6 @@
 from flask import Flask, request, jsonify
-import bcrypt
 import mysql.connector
 from passlib.hash import argon2
-import re
 import logging
 from mysql.connector import errorcode
 from argon2 import PasswordHasher
