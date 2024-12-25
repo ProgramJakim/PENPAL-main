@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QApplication, QPushButton, QDialog
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint
+from PyQt5.QtGui import QPixmap, QFont, QCursor
+from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
 import os
 import math
 
@@ -48,12 +48,52 @@ class Ui_Homepage(object):
         current_directory = os.path.dirname(os.path.abspath(__file__))
         background_image_path = os.path.join(current_directory, '..', 'resources', 'images', 'HOMEPAGE.png')
         if os.path.exists(background_image_path):
-            self.background_label.setPixmap(QPixmap(background_image_path).scaled(1440, 4104))
+            self.background_label.setPixmap(QPixmap(background_image_path).scaled(1426, 4104))
         else:
             print(f"Background image not found: {background_image_path}")
 
         # Add the background label to the content layout
         content_layout.addWidget(self.background_label)
+
+        # Create the LogIn_2 button
+        self.LogIn_2 = QPushButton("Log In", content_widget)
+        self.LogIn_2.setGeometry(QRect(1091, 75, 150, 45))
+        font = QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(-1)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.LogIn_2.setFont(font)
+        self.LogIn_2.setCursor(QCursor(Qt.PointingHandCursor))
+        self.LogIn_2.setStyleSheet("""
+            font:30px;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            background: transparent;
+            border-radius: 5px;
+        """)
+        self.LogIn_2.setObjectName("LogIn_2")
+
+        # Create the SignUp button
+        self.SignUp = QPushButton("Sign Up", content_widget)
+        self.SignUp.setGeometry(QRect(1252, 75, 150, 45))
+        font = QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(-1)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.SignUp.setFont(font)
+        self.SignUp.setCursor(QCursor(Qt.PointingHandCursor))
+        self.SignUp.setStyleSheet("""
+            font:30px;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            background: transparent;
+            border-radius: 5px;
+        """)
+        self.SignUp.setObjectName("SignUp")
 
         # Set the content widget as the scroll area's widget
         scroll_area.setWidget(content_widget)
@@ -64,7 +104,7 @@ class Ui_Homepage(object):
         main_layout.addWidget(scroll_area)
         Homepage.setLayout(main_layout)
 
-        # Create a floating circle button
+        # Create a floating circle button outside the scroll area
         self.circle_button = QPushButton(Homepage)
         self.circle_button.setGeometry(1300, 750, 50, 50)
         self.circle_button.setStyleSheet("""
@@ -75,7 +115,7 @@ class Ui_Homepage(object):
         """)
         self.circle_button.setText("+")
 
-        # Create the buttons that will appear with animations
+        # Create the buttons that will appear with animations outside the scroll area
         self.buttons = []
         button_labels = ["Page 1", "Page 2", "Page 3", "Page 4", "Page 5"]
         button_colors = ["#4CAF50", "#008CBA", "#f44336", "#FFC107", "#9C27B0"]
