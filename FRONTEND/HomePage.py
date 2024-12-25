@@ -227,6 +227,11 @@ class Ui_Homepage(object):
         self.buttons[3].clicked.connect(lambda: self.open_page("Page 4"))
         self.buttons[4].clicked.connect(lambda: self.open_page("Page 5"))
 
+        # Connect buttons
+        self.LogIn_2.clicked.connect(self.openLogInPage)
+        self.SignUp.clicked.connect(self.openSignUpPage)
+        
+
     def toggle_buttons(self):
         # Clear previous animations to prevent memory leaks
         self.animations.clear()
@@ -271,6 +276,26 @@ class Ui_Homepage(object):
         layout = QVBoxLayout(new_window)
         layout.addWidget(label)
         new_window.exec_()
+
+    def openSignUpPage(self):
+        # Logic to open the SignUp page
+        from SignUpPage import Ui_SignUp
+        self.signUpWindow = QDialog()
+        self.signUpUI = Ui_SignUp()
+        self.signUpUI.setupUi(self.signUpWindow)
+        self.signUpWindow.exec_()
+        
+      
+
+    def openLogInPage(self):
+        # Logic to open the LogIn page
+        from LogInPage import Ui_LogIn
+        self.login_window = QDialog()
+        self.login_ui = Ui_LogIn()
+        self.login_ui.setupUi(self.login_window)
+        self.login_window.exec_()
+       
+       
 
 if __name__ == "__main__":
     import sys

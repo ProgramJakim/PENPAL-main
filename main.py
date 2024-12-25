@@ -35,6 +35,9 @@ class MainApp:
         # Connect the "Back to Login" button to go back to the login window
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
 
+        # Connect the "Log In" button on the homepage to open the login window
+        self.homePageUI.LogIn_2.clicked.connect(self.openLogInPageFromHomepage)
+
     def openSignUpPage(self):
         # Hide the login window and show the signup window
         self.logInWindow.close()
@@ -43,6 +46,11 @@ class MainApp:
     def backtoLogInPage(self):
         # Close the signup window and show the login window
         self.signUpWindow.close()
+        self.logInWindow.show()
+
+    def openLogInPageFromHomepage(self):
+        # Close the homepage window and show the login window
+        self.homePageWindow.close()
         self.logInWindow.show()
 
     def run(self):
