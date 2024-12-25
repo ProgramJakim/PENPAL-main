@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEN
 from SignUpPage import Ui_SignUp
 from LogInPage import Ui_LogIn
 from HomePage import Ui_Homepage
+from InterestPage import Ui_Dialog as Ui_InterestPage
 
 class MainApp:
     def __init__(self):
@@ -16,6 +17,7 @@ class MainApp:
         self.logInWindow = QMainWindow()
         self.signUpWindow = QMainWindow()
         self.homePageWindow = QWidget()
+        self.interestPageWindow = QDialog()
 
         # Setup UI for the login window
         self.logInUI = Ui_LogIn()
@@ -29,6 +31,10 @@ class MainApp:
         self.homePageUI = Ui_Homepage()
         self.homePageUI.setupUi(self.homePageWindow)
 
+        # Setup UI for the interest page window
+        self.interestPageUI = Ui_InterestPage()
+        self.interestPageUI.setupUi(self.interestPageWindow)
+
         # Connect the "Sign Up" button to open the signup window
         self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
 
@@ -37,6 +43,9 @@ class MainApp:
 
         # Connect the "Log In" button on the homepage to open the login window
         self.homePageUI.LogIn_2.clicked.connect(self.openLogInPageFromHomepage)
+
+        # Connect the "Log In" button on the login page to open the interest page
+        self.logInUI.LI_LogInPB.clicked.connect(self.openInterestPage)
 
     def openSignUpPage(self):
         # Hide the login window and show the signup window
@@ -52,6 +61,11 @@ class MainApp:
         # Close the homepage window and show the login window
         self.homePageWindow.close()
         self.logInWindow.show()
+
+    def openInterestPage(self):
+        # Close the login window and show the interest page window
+        self.logInWindow.close()
+        self.interestPageWindow.show()
 
     def run(self):
         # Show the homepage window initially

@@ -9,6 +9,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QLineEdit, QCheckBox
 from SignUpPage import Ui_SignUp
 from FRONTEND.HomePage import Ui_Homepage
+from InterestPage import Ui_Dialog
 import requests
 import shelve
 from mysql.connector import errorcode
@@ -313,9 +314,9 @@ class Ui_LogIn(object):
     def openMainAppWindow(self):
         # Create a QWidget for the Homepage
         self.mainAppWindow = QtWidgets.QWidget()   # Create a QWidget (not just the UI layout)
-        self.ui = Ui_Homepage()  # Create the Ui_Homepage object
+        self.ui = Ui_Dialog()  # Create the Ui_Homepage object
         self.ui.setupUi(self.mainAppWindow)  # Set up the UI layout for the QWidget
-        self.mainAppWindow.show()  # Show the QWidget containing the UI layout
+        
 
     def retranslateUi(self, LogIn):
         _translate = QtCore.QCoreApplication.translate

@@ -115,13 +115,11 @@ class Ui_Homepage(object):
         """)
         self.AboutUs.setObjectName("AboutUs")
 
-        
         # Create the Terms and Conditions button in footer
         self.terms_conditions_button = QPushButton("Terms and Conditions", content_widget)
         self.terms_conditions_button.setGeometry(QRect(900, 3805, 370, 40))
         self.terms_conditions_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.terms_conditions_button.setStyleSheet("""
-            all: unset;
             border:none;
             background: transparent;
             margin-left: -60px;
@@ -136,7 +134,6 @@ class Ui_Homepage(object):
         self.privacy_policy_button.setGeometry(QRect(900, 3853, 357, 40))
         self.privacy_policy_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.privacy_policy_button.setStyleSheet("""
-            all: unset;
             border:none;
             background: transparent;
             margin-left: -60px;
@@ -151,7 +148,6 @@ class Ui_Homepage(object):
         self.about_us_button.setGeometry(QRect(580, 3805, 220, 30))
         self.about_us_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.about_us_button.setStyleSheet("""
-            all: unset;
             border:none;
             background: transparent;
             margin-left: -80px;
@@ -166,7 +162,6 @@ class Ui_Homepage(object):
         self.contact_us_button.setGeometry(QRect(580, 3853, 220, 30))
         self.contact_us_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.contact_us_button.setStyleSheet("""
-            all: unset;
             border:none;
             background: transparent;
             margin-left: -60px;
@@ -230,7 +225,6 @@ class Ui_Homepage(object):
         # Connect buttons
         self.LogIn_2.clicked.connect(self.openLogInPage)
         self.SignUp.clicked.connect(self.openSignUpPage)
-        
 
     def toggle_buttons(self):
         # Clear previous animations to prevent memory leaks
@@ -284,8 +278,6 @@ class Ui_Homepage(object):
         self.signUpUI = Ui_SignUp()
         self.signUpUI.setupUi(self.signUpWindow)
         self.signUpWindow.exec_()
-        
-      
 
     def openLogInPage(self):
         # Logic to open the LogIn page
@@ -294,8 +286,6 @@ class Ui_Homepage(object):
         self.login_ui = Ui_LogIn()
         self.login_ui.setupUi(self.login_window)
         self.login_window.exec_()
-       
-       
 
 if __name__ == "__main__":
     import sys
