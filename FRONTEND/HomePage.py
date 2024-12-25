@@ -278,6 +278,7 @@ class Ui_Homepage(object):
         self.signUpUI = Ui_SignUp()
         self.signUpUI.setupUi(self.signUpWindow)
         self.signUpWindow.exec_()
+       
 
     def openLogInPage(self):
         # Logic to open the LogIn page
@@ -286,6 +287,7 @@ class Ui_Homepage(object):
         self.login_ui = Ui_LogIn()
         self.login_ui.setupUi(self.login_window)
         self.login_window.exec_()
+        
 
 if __name__ == "__main__":
     import sys

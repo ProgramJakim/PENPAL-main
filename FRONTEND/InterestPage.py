@@ -9,6 +9,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import os
+
+# Get the absolute path of the current directory (LogInPage.py)
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Build the general path to the resources/images folder
+images_folder = os.path.join(current_directory, '..', 'resources', 'images')
+Interest_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Interest_assets')
 
 
 class Ui_Dialog(object):
@@ -39,7 +47,7 @@ class Ui_Dialog(object):
         self.HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.HeaderIcon.setText("")
-        self.HeaderIcon.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\HeaderIcon.png"))
+        self.HeaderIcon.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'HeaderIcon.png')))
         self.HeaderIcon.setScaledContents(True)
         self.HeaderIcon.setObjectName("HeaderIcon")
         self.INshape1 = QtWidgets.QFrame(Dialog)
@@ -57,7 +65,7 @@ class Ui_Dialog(object):
         self.INicon1.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon1.setText("")
-        self.INicon1.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon1.png"))
+        self.INicon1.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon1.png')))
         self.INicon1.setScaledContents(True)
         self.INicon1.setObjectName("INicon1")
         self.INTpushButton = QtWidgets.QPushButton(Dialog)
@@ -80,21 +88,21 @@ class Ui_Dialog(object):
         self.INTEREST.setGeometry(QtCore.QRect(590, 130, 301, 181))
         self.INTEREST.setStyleSheet("background: transparent;")
         self.INTEREST.setText("")
-        self.INTEREST.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INTEREST.png"))
+        self.INTEREST.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INTEREST.png')))
         self.INTEREST.setScaledContents(True)
         self.INTEREST.setObjectName("INTEREST")
         self.INtext_2 = QtWidgets.QLabel(Dialog)
         self.INtext_2.setGeometry(QtCore.QRect(1170, 80, 341, 301))
         self.INtext_2.setStyleSheet("background: transparent;")
         self.INtext_2.setText("")
-        self.INtext_2.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INimage1.png"))
+        self.INtext_2.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INimage1.png')))
         self.INtext_2.setScaledContents(True)
         self.INtext_2.setObjectName("INtext_2")
         self.INtext_3 = QtWidgets.QLabel(Dialog)
         self.INtext_3.setGeometry(QtCore.QRect(-240, 840, 601, 471))
         self.INtext_3.setStyleSheet("background: transparent;")
         self.INtext_3.setText("")
-        self.INtext_3.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INimage.png"))
+        self.INtext_3.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INimage.png')))
         self.INtext_3.setScaledContents(True)
         self.INtext_3.setObjectName("INtext_3")
         self.AUtext1 = QtWidgets.QLabel(Dialog)
@@ -128,7 +136,7 @@ class Ui_Dialog(object):
         self.INicon2.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon2.setText("")
-        self.INicon2.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon2.png"))
+        self.INicon2.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon2.png')))
         self.INicon2.setScaledContents(True)
         self.INicon2.setObjectName("INicon2")
         self.INshape3 = QtWidgets.QFrame(Dialog)
@@ -146,7 +154,7 @@ class Ui_Dialog(object):
         self.INicon3.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon3.setText("")
-        self.INicon3.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon3.png"))
+        self.INicon3.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon3.png')))
         self.INicon3.setScaledContents(True)
         self.INicon3.setObjectName("INicon3")
         self.INshape4 = QtWidgets.QFrame(Dialog)
@@ -214,7 +222,7 @@ class Ui_Dialog(object):
         self.INicon4.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon4.setText("")
-        self.INicon4.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon4.png"))
+        self.INicon4.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon4.png')))
         self.INicon4.setScaledContents(True)
         self.INicon4.setObjectName("INicon4")
         self.INshape5 = QtWidgets.QFrame(Dialog)
@@ -250,7 +258,7 @@ class Ui_Dialog(object):
         self.INicon6.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon6.setText("")
-        self.INicon6.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon6.png"))
+        self.INicon6.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon6.png')))
         self.INicon6.setScaledContents(True)
         self.INicon6.setObjectName("INicon6")
         self.INshape7 = QtWidgets.QFrame(Dialog)
@@ -268,7 +276,7 @@ class Ui_Dialog(object):
         self.INicon7.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon7.setText("")
-        self.INicon7.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon7.png"))
+        self.INicon7.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon7.png')))
         self.INicon7.setScaledContents(True)
         self.INicon7.setObjectName("INicon7")
         self.INshape8 = QtWidgets.QFrame(Dialog)
@@ -286,7 +294,7 @@ class Ui_Dialog(object):
         self.INicon8.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon8.setText("")
-        self.INicon8.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon8.png"))
+        self.INicon8.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon8.png')))
         self.INicon8.setScaledContents(True)
         self.INicon8.setObjectName("INicon8")
         self.INshape9 = QtWidgets.QFrame(Dialog)
@@ -304,7 +312,7 @@ class Ui_Dialog(object):
         self.INicon9.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon9.setText("")
-        self.INicon9.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon9.png"))
+        self.INicon9.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon9.png')))
         self.INicon9.setScaledContents(True)
         self.INicon9.setObjectName("INicon9")
         self.INshape10 = QtWidgets.QFrame(Dialog)
@@ -322,7 +330,7 @@ class Ui_Dialog(object):
         self.INicon10.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon10.setText("")
-        self.INicon10.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon10.png"))
+        self.INicon10.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon10.png')))
         self.INicon10.setScaledContents(True)
         self.INicon10.setObjectName("INicon10")
         self.INshape11 = QtWidgets.QFrame(Dialog)
@@ -340,7 +348,7 @@ class Ui_Dialog(object):
         self.INicon11.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon11.setText("")
-        self.INicon11.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon11.png"))
+        self.INicon11.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon11.png')))
         self.INicon11.setScaledContents(True)
         self.INicon11.setObjectName("INicon11")
         self.INshape12 = QtWidgets.QFrame(Dialog)
@@ -376,7 +384,7 @@ class Ui_Dialog(object):
         self.INicon13.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon13.setText("")
-        self.INicon13.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon13.png"))
+        self.INicon13.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon13.png')))
         self.INicon13.setScaledContents(True)
         self.INicon13.setObjectName("INicon13")
         self.INshape14 = QtWidgets.QFrame(Dialog)
@@ -394,7 +402,7 @@ class Ui_Dialog(object):
         self.INicon14.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon14.setText("")
-        self.INicon14.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon14.png"))
+        self.INicon14.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon.png')))
         self.INicon14.setScaledContents(True)
         self.INicon14.setObjectName("INicon14")
         self.INshape15 = QtWidgets.QFrame(Dialog)
