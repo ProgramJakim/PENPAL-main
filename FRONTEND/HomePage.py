@@ -115,7 +115,38 @@ class Ui_Homepage(object):
         """)
         self.AboutUs.setObjectName("AboutUs")
 
-        # Create the About Us button
+        
+        # Create the Terms and Conditions button in footer
+        self.terms_conditions_button = QPushButton("Terms and Conditions", content_widget)
+        self.terms_conditions_button.setGeometry(QRect(900, 3805, 370, 40))
+        self.terms_conditions_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.terms_conditions_button.setStyleSheet("""
+            all: unset;
+            border:none;
+            background: transparent;
+            margin-left: -60px;
+            color: #821B1A;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: 500;
+        """)
+
+        # Create the Privacy Policy button in footer
+        self.privacy_policy_button = QPushButton("Privacy Policy", content_widget)
+        self.privacy_policy_button.setGeometry(QRect(900, 3853, 357, 40))
+        self.privacy_policy_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.privacy_policy_button.setStyleSheet("""
+            all: unset;
+            border:none;
+            background: transparent;
+            margin-left: -60px;
+            color: #821B1A;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: 500;
+        """)
+
+        # Create the About Us button in footer
         self.about_us_button = QPushButton("About Us", content_widget)
         self.about_us_button.setGeometry(QRect(580, 3805, 220, 30))
         self.about_us_button.setCursor(QCursor(Qt.PointingHandCursor))
@@ -129,7 +160,8 @@ class Ui_Homepage(object):
             font-size: 30px;
             font-weight: 500;
         """)
-        # Create the Contact Us button
+
+        # Create the Contact Us button in footer
         self.contact_us_button = QPushButton("Contact Us", content_widget)
         self.contact_us_button.setGeometry(QRect(580, 3853, 220, 30))
         self.contact_us_button.setCursor(QCursor(Qt.PointingHandCursor))
