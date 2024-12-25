@@ -55,7 +55,7 @@ class Ui_Homepage(object):
         # Add the background label to the content layout
         content_layout.addWidget(self.background_label)
 
-        # Create the LogIn_2 button
+        # Create the LogIn button
         self.LogIn_2 = QPushButton("Log In", content_widget)
         self.LogIn_2.setGeometry(QRect(1091, 75, 150, 45))
         font = QFont()
@@ -94,6 +94,26 @@ class Ui_Homepage(object):
             border-radius: 5px;
         """)
         self.SignUp.setObjectName("SignUp")
+
+        # Create the About Us button
+        self.AboutUs = QPushButton("About Us", content_widget)
+        self.AboutUs.setGeometry(QRect(858, 2131, 150, 45))
+        font = QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(-1)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.AboutUs.setFont(font)
+        self.AboutUs.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AboutUs.setStyleSheet("""
+            font:30px;
+            color: #BE7928;
+            border: 2px solid #BE7928;
+            background: #FFFF00;
+            border-radius: 5px;
+        """)
+        self.AboutUs.setObjectName("AboutUs")
 
         # Set the content widget as the scroll area's widget
         scroll_area.setWidget(content_widget)
