@@ -115,6 +115,34 @@ class Ui_Homepage(object):
         """)
         self.AboutUs.setObjectName("AboutUs")
 
+    # Create the About Us hyperlink
+        self.about_us_link = QLabel(content_widget)
+        self.about_us_link.setGeometry(QRect(592, 3805, 200, 30))
+        self.about_us_link.setText('<a href="about_us">About Us</a>')
+        self.about_us_link.setOpenExternalLinks(True)
+        self.about_us_link.setStyleSheet("""
+            all: unset;
+            text-decoration: none;
+            text-color: red;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: Regular;
+        """)
+
+        # Create the Contact Us hyperlink
+        self.contact_us_link = QLabel(content_widget)
+        self.contact_us_link.setGeometry(QRect(592, 3853, 200, 30))
+        self.contact_us_link.setText('<a href="contact_us">Contact Us</a>')
+        self.contact_us_link.setOpenExternalLinks(True)
+        self.contact_us_link.setStyleSheet("""
+            all: unset;
+            text-decoration: none;
+            text-color: red;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: Regular;
+        """)
+
         # Set the content widget as the scroll area's widget
         scroll_area.setWidget(content_widget)
 
