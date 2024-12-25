@@ -110,37 +110,38 @@ class Ui_Homepage(object):
             font:30px;
             color: #BE7928;
             border: 2px solid #BE7928;
-            background: #FFFF00;
+            background: #FFF4CF;
             border-radius: 5px;
         """)
         self.AboutUs.setObjectName("AboutUs")
 
-    # Create the About Us hyperlink
-        self.about_us_link = QLabel(content_widget)
-        self.about_us_link.setGeometry(QRect(592, 3805, 200, 30))
-        self.about_us_link.setText('<a href="about_us">About Us</a>')
-        self.about_us_link.setOpenExternalLinks(True)
-        self.about_us_link.setStyleSheet("""
+        # Create the About Us button
+        self.about_us_button = QPushButton("About Us", content_widget)
+        self.about_us_button.setGeometry(QRect(580, 3805, 220, 30))
+        self.about_us_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.about_us_button.setStyleSheet("""
             all: unset;
-            text-decoration: none;
-            text-color: red;
+            border:none;
+            background: transparent;
+            margin-left: -80px;
+            color: #821B1A;
             font-family: 'Staatliches';
             font-size: 30px;
-            font-weight: Regular;
+            font-weight: 500;
         """)
-
-        # Create the Contact Us hyperlink
-        self.contact_us_link = QLabel(content_widget)
-        self.contact_us_link.setGeometry(QRect(592, 3853, 200, 30))
-        self.contact_us_link.setText('<a href="contact_us">Contact Us</a>')
-        self.contact_us_link.setOpenExternalLinks(True)
-        self.contact_us_link.setStyleSheet("""
+        # Create the Contact Us button
+        self.contact_us_button = QPushButton("Contact Us", content_widget)
+        self.contact_us_button.setGeometry(QRect(580, 3853, 220, 30))
+        self.contact_us_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.contact_us_button.setStyleSheet("""
             all: unset;
-            text-decoration: none;
-            text-color: red;
+            border:none;
+            background: transparent;
+            margin-left: -60px;
+            color: #821B1A;
             font-family: 'Staatliches';
             font-size: 30px;
-            font-weight: Regular;
+            font-weight: 500;
         """)
 
         # Set the content widget as the scroll area's widget
