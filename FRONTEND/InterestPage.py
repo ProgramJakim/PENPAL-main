@@ -402,7 +402,7 @@ class Ui_Dialog(object):
         self.INicon14.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon14.setText("")
-        self.INicon14.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon.png')))
+        self.INicon14.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon14.png')))
         self.INicon14.setScaledContents(True)
         self.INicon14.setObjectName("INicon14")
         self.INshape15 = QtWidgets.QFrame(Dialog)
@@ -420,7 +420,7 @@ class Ui_Dialog(object):
         self.INicon15.setStyleSheet("background: transparent;\n"
 "border:none;")
         self.INicon15.setText("")
-        self.INicon15.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\INimages/INicon15.png"))
+        self.INicon15.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon15.png')))
         self.INicon15.setScaledContents(True)
         self.INicon15.setObjectName("INicon15")
         self.pushButton_1 = QtWidgets.QPushButton(Dialog)
