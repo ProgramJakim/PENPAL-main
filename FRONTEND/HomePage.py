@@ -56,9 +56,9 @@ class Ui_Homepage(object):
         # Add the background label to the content layout
         content_layout.addWidget(self.background_label)
 
-        # Create the LogIn button
-        self.LogIn_2 = QPushButton("Log In", content_widget)
-        self.LogIn_2.setGeometry(QRect(1091, 75, 150, 45))
+       # Create the LogIn button
+        self.LogIn_2 = QPushButton("LOG IN", content_widget)
+        self.LogIn_2.setGeometry(QRect(1130, 437, 200, 60))
         font = QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
@@ -68,55 +68,39 @@ class Ui_Homepage(object):
         self.LogIn_2.setFont(font)
         self.LogIn_2.setCursor(QCursor(Qt.PointingHandCursor))
         self.LogIn_2.setStyleSheet("""
-            font:30px;
-            color: #FFFFFF;
-            border: 2px solid #FFFFFF;
-            background: transparent;
-            border-radius: 5px;
+            QPushButton {
+                font:40px;
+                color: #FFFFFF;
+                border: 4px solid #FFFFFF;
+                background: transparent;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #9E2932;
+            }
         """)
         self.LogIn_2.setObjectName("LogIn_2")
 
         # Create the SignUp button
-        self.SignUp = QPushButton("Sign Up", content_widget)
-        self.SignUp.setGeometry(QRect(1252, 75, 150, 45))
+        self.SignUp = QPushButton("SIGN UP", content_widget)
+        self.SignUp.setGeometry(QRect(1130, 516, 200, 60))
         self.SignUp.setFont(font)
         self.SignUp.setCursor(QCursor(Qt.PointingHandCursor))
         self.SignUp.setStyleSheet("""
-            font:30px;
-            color: #FFFFFF;
-            border: 2px solid #FFFFFF;
-            background: transparent;
-            border-radius: 5px;
+            QPushButton {
+                font:40px;
+                color: #FFFFFF;
+                border: 4px solid #FFFFFF;
+                background: transparent;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #9E2932;
+            }
         """)
         self.SignUp.setObjectName("SignUp")
-
-        # Create the SIgnUp Button
-        self.SignUp = QPushButton("Sign Up", content_widget)
-        self.SignUp.setGeometry(QRect(1252, 75, 150, 45))
-        self.SignUp.setFont(font)
-        self.SignUp.setCursor(QCursor(Qt.PointingHandCursor))
-        self.SignUp.setStyleSheet("""
-            font:30px;
-            color: #FFFFFF;
-            border: 2px solid #FFFFFF;
-            background: transparent;
-            border-radius: 5px;
-        """)
-        self.SignUp.setObjectName("SignUp")
-       
-        # Create the Press To Continue button
-        self.press_to_continue = QPushButton("PRESS TO CONTINUE", content_widget)
-        self.press_to_continue.setGeometry(QRect(959, 613, 230, 60))
-        self.press_to_continue.setFont(font)
-        self.press_to_continue.setCursor(QCursor(Qt.PointingHandCursor))
-        self.press_to_continue.setStyleSheet("""
-            font:30px;
-            color: #9E2932;
-            border: 3px solid #9E2932; 
-            background: transparent;
-            border-radius: 15px;
-        """)
-        self.press_to_continue.setObjectName("PressToContinue")
 
         # Create the About Us button
         self.AboutUs = QPushButton("About Us", content_widget)

@@ -1,8 +1,11 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QDialog, QApplication
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QDialog, QApplication, QSizePolicy
 from PyQt5.QtGui import QPixmap, QFont, QCursor
-from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
+from PyQt5.QtCore import Qt, QRect
 import os
-import math
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
+from HomePage import Ui_Homepage
 
 class Ui_WelcomePage(object):
     def setupUi(self, WelcomePage):
@@ -15,59 +18,48 @@ class Ui_WelcomePage(object):
         content_layout = QVBoxLayout(content_widget)
         content_layout.setContentsMargins(0, 0, 0, 0)
 
-        # Create a label to hold the background image
+       # Create a label to hold the background image
         self.background_label = QLabel(content_widget)
-        self.background_label.setFixedSize(1440, 850)
+        self.background_label.setFixedSize(1700, 900)
 
         # Set the background image
         current_directory = os.path.dirname(os.path.abspath(__file__))
-        background_image_path = os.path.join(current_directory, '..', 'resources', 'images', 'WELCOME.png')
+        background_image_path = os.path.join(current_directory, '..', 'resources', 'images', 'WELCOMEPAGE.png')
         if os.path.exists(background_image_path):
-            self.background_label.setPixmap(QPixmap(background_image_path).scaled(1440, 850))
+            self.background_label.setPixmap(QPixmap(background_image_path).scaled(1700, 900))
         else:
             print(f"Background image not found: {background_image_path}")
 
         # Add the background label to the content layout
         content_layout.addWidget(self.background_label)
 
-        # Create the LogIn button
-        self.LogIn_2 = QPushButton("Log In", content_widget)
-        self.LogIn_2.setGeometry(QRect(1243, 523, 150, 45))
+        # Add the background label to the content layout
+        content_layout.addWidget(self.background_label)
+
+        # Create the Press To Continue button
+        self.press_to_continue = QPushButton("PRESS TO CONTINUE", content_widget)
+        self.press_to_continue.setGeometry(QRect(959, 613, 230, 60))
         font = QFont()
-        font.setFamily("Rockwell Condensed")
-        font.setPointSize(-1)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.LogIn_2.setFont(font)
-        self.LogIn_2.setCursor(QCursor(Qt.PointingHandCursor))
-        self.LogIn_2.setStyleSheet("""
-            font:30px;
-            color: #FFFFFF;
-            border: 2px solid #FFFFFF;
-            background: transparent;
-            border-radius: 5px;
+        font.setPointSize(30)
+        self.press_to_continue.setFont(font)
+        self.press_to_continue.setCursor(QCursor(Qt.PointingHandCursor))
+        self.press_to_continue.setStyleSheet("""
+            QPushButton {
+                font:20px;
+                color: #9E2932;
+                border: 3px solid #9E2932; 
+                background: transparent;
+                border-radius: 15px;
+            }
+            QPushButton:hover {
+                background-color: #9E2932;
+                color: #FFFFFF;
+            }
         """)
-        self.LogIn_2.setObjectName("LogIn_2")
+        self.press_to_continue.setObjectName("PressToContinue")
 
-        # Create the SignUp button
-        self.SignUp = QPushButton("Sign Up", content_widget)
-        self.SignUp.setGeometry(QRect(1243, 594, 150, 45))
-        self.SignUp.setFont(font)
-        self.SignUp.setCursor(QCursor(Qt.PointingHandCursor))
-        self.SignUp.setStyleSheet("""
-            font:30px;
-            color: #FFFFFF;
-            border: 2px solid #FFFFFF;
-            background: transparent;
-            border-radius: 5px;
-        """)
-        self.SignUp.setObjectName("SignUp")
-
-        
-
-       
-       
+        # Connect the button to the method to open the homepage
+        self.press_to_continue.clicked.connect(self.open_homepage)
 
         # Set the layout of the main window
         main_layout = QVBoxLayout(WelcomePage)
@@ -75,82 +67,6 @@ class Ui_WelcomePage(object):
         main_layout.addWidget(content_widget)
         WelcomePage.setLayout(main_layout)
 
-        # Create a floating circle button outside the scroll area
-        self.circle_button = QPushButton(WelcomePage)
-        self.circle_button.setGeometry(1300, 750, 50, 50)
-        self.circle_button.setStyleSheet("""
-            border-radius: 25px;
-            background-color: #FF9F89;
-            font-size: 20px;
-            color: white;
-        """)
-        self.circle_button.setText("+")
-
-        # Create the buttons that will appear with animations outside the scroll area
-        self.buttons = []
-        button_labels = ["Page 1", "Page 2", "Page 3", "Page 4", "Page 5"]
-        button_colors = ["#4CAF50", "#008CBA", "#f44336", "#FFC107", "#9C27B0"]
-        for i, label in enumerate(button_labels):
-            button = QPushButton(label, WelcomePage)
-            button.setGeometry(1300, 750, 50, 50)  # Initially place buttons at the circle position
-            button.setStyleSheet(f"""
-                background-color: {button_colors[i]};
-                border: none;
-                color: white;
-                text-align: center;
-                font-size: 15px;
-                border-radius: 25px;
-            """)
-            button.hide()
-            self.buttons.append(button)
-
-        # Add an attribute to store animations
-        self.animations = []
-
-        # Connect the circle button to the method to show/hide buttons with animations
-        self.circle_button.clicked.connect(self.toggle_buttons)
-
-        # Connect the buttons to their respective methods for redirection
-        self.buttons[0].clicked.connect(lambda: self.open_page("Page 1"))
-        self.buttons[1].clicked.connect(lambda: self.open_page("Page 2"))
-        self.buttons[2].clicked.connect(lambda: self.open_page("Page 3"))
-        self.buttons[3].clicked.connect(lambda: self.open_page("Page 4"))
-        self.buttons[4].clicked.connect(lambda: self.open_page("Page 5"))
-
-    def toggle_buttons(self):
-        # Clear previous animations to prevent memory leaks
-        self.animations.clear()
-
-        if self.buttons[0].isVisible():
-            # Animate buttons back to the circle button position and hide them
-            for button in self.buttons:
-                self.animate_button(button, 1300, 750, hide=True)
-            self.circle_button.setText("+")
-        else:
-            # Arrange buttons in a closer circular pattern around the circle button
-            radius = 60  # Reduced radius for closer arrangement
-            angle_step = 360 / len(self.buttons)  # Divide full circle by the number of buttons
-            for i, button in enumerate(self.buttons):
-                angle = angle_step * i
-                x = 1300 + int(radius * math.cos(math.radians(angle)))
-                y = 750 + int(radius * math.sin(math.radians(angle)))
-                self.animate_button(button, x, y, hide=False)
-            self.circle_button.setText("-")
-
-    def animate_button(self, button, x, y, hide):
-        button.show()
-        animation = QPropertyAnimation(button, b"pos")
-        animation.setDuration(250)
-        animation.setStartValue(button.pos())
-        animation.setEndValue(QPoint(x, y))
-        animation.start()
-
-        # Hide the button after animation if required
-        if hide:
-            animation.finished.connect(button.hide)
-
-        # Store the animation to prevent it from being garbage-collected
-        self.animations.append(animation)
 
     def open_page(self, page_name):
         welcome_page = QDialog()
@@ -161,6 +77,12 @@ class Ui_WelcomePage(object):
         layout = QVBoxLayout(welcome_page)
         layout.addWidget(label)
         welcome_page.exec_()
+
+    def open_homepage(self):
+        self.homepage_window = QDialog()
+        self.ui = Ui_Homepage()
+        self.ui.setupUi(self.homepage_window)
+        self.homepage_window.hide()
 
 if __name__ == "__main__":
     import sys
