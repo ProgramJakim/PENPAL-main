@@ -90,6 +90,34 @@ class Ui_Homepage(object):
         """)
         self.SignUp.setObjectName("SignUp")
 
+        # Create the SIgnUp Button
+        self.SignUp = QPushButton("Sign Up", content_widget)
+        self.SignUp.setGeometry(QRect(1252, 75, 150, 45))
+        self.SignUp.setFont(font)
+        self.SignUp.setCursor(QCursor(Qt.PointingHandCursor))
+        self.SignUp.setStyleSheet("""
+            font:30px;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            background: transparent;
+            border-radius: 5px;
+        """)
+        self.SignUp.setObjectName("SignUp")
+       
+        # Create the Press To Continue button
+        self.press_to_continue = QPushButton("PRESS TO CONTINUE", content_widget)
+        self.press_to_continue.setGeometry(QRect(959, 613, 230, 60))
+        self.press_to_continue.setFont(font)
+        self.press_to_continue.setCursor(QCursor(Qt.PointingHandCursor))
+        self.press_to_continue.setStyleSheet("""
+            font:30px;
+            color: #9E2932;
+            border: 3px solid #9E2932; 
+            background: transparent;
+            border-radius: 15px;
+        """)
+        self.press_to_continue.setObjectName("PressToContinue")
+
         # Create the About Us button
         self.AboutUs = QPushButton("About Us", content_widget)
         self.AboutUs.setGeometry(QRect(858, 2131, 150, 45))
