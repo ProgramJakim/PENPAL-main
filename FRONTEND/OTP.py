@@ -16,7 +16,7 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Build the general path to the resources/images folder
 images_folder = os.path.join(current_directory, '..', 'resources', 'images')
-
+Forget_Pass_assests_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Forget_Pass_assests')
 
 class Ui_OTP_Fullpage(object):
     def setupUi(self, OTP_Fullpage):
@@ -128,13 +128,13 @@ class Ui_OTP_Fullpage(object):
         self.OTP_Shadow.setGeometry(QtCore.QRect(0, 0, 1031, 601))
         self.OTP_Shadow.setStyleSheet("background: transparent;")
         self.OTP_Shadow.setText("")
-        self.OTP_Shadow.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/FPshadow.png"))
+        self.OTP_Shadow.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assests_folder, 'FPshadow.png')))
         self.OTP_Shadow.setScaledContents(True)
         self.OTP_Shadow.setObjectName("OTP_Shadow")
         self.OTP_Logo = QtWidgets.QLabel(self.frame)
         self.OTP_Logo.setGeometry(QtCore.QRect(-50, 0, 245, 127))
         self.OTP_Logo.setText("")
-        self.OTP_Logo.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/FPlogo.png"))
+        self.OTP_Logo.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assests_folder, 'FPlogo.png')))
         self.OTP_Logo.setScaledContents(True)
         self.OTP_Logo.setObjectName("OTP_Logo")
         self.OTP_TextWord = QtWidgets.QLabel(self.frame)
