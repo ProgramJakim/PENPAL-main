@@ -16,7 +16,7 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Build the general path to the resources/images folder
 images_folder = os.path.join(current_directory, '..', 'resources', 'images')
-Interest_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Interest_assets')
+Forget_Pass_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Forget_Pass_assets')
 
 
 class Ui_ForgotPassword_Fullpage(object):
@@ -48,7 +48,7 @@ class Ui_ForgotPassword_Fullpage(object):
         self.FP_HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.FP_HeaderIcon.setText("")
-        self.FP_HeaderIcon.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../../../Downloads/HeaderIcon.png"))
+        self.FP_HeaderIcon.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'HeaderIcon.png')))
         self.FP_HeaderIcon.setScaledContents(True)
         self.FP_HeaderIcon.setObjectName("FP_HeaderIcon")
         self.frame = QtWidgets.QFrame(ForgotPassword_Fullpage)
@@ -130,7 +130,7 @@ class Ui_ForgotPassword_Fullpage(object):
         self.FP_Shadow.setGeometry(QtCore.QRect(-30, 0, 1031, 601))
         self.FP_Shadow.setStyleSheet("background: transparent;")
         self.FP_Shadow.setText("")
-        self.FP_Shadow.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/FPshadow.png"))
+        self.FP_Shadow.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPshadow.png')))
         self.FP_Shadow.setScaledContents(True)
         self.FP_Shadow.setObjectName("FP_Shadow")
         self.FPimage1 = QtWidgets.QLabel(self.frame)
@@ -138,13 +138,13 @@ class Ui_ForgotPassword_Fullpage(object):
         self.FPimage1.setMinimumSize(QtCore.QSize(421, 602))
         self.FPimage1.setStyleSheet("background: transparent;")
         self.FPimage1.setText("")
-        self.FPimage1.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/FPimage1.png"))
+        self.FPimage1.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPimage1.png')))
         self.FPimage1.setScaledContents(True)
         self.FPimage1.setObjectName("FPimage1")
         self.FP_Logo = QtWidgets.QLabel(self.frame)
         self.FP_Logo.setGeometry(QtCore.QRect(-50, 0, 245, 127))
         self.FP_Logo.setText("")
-        self.FP_Logo.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/FPlogo.png"))
+        self.FP_Logo.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPlogo.png')))
         self.FP_Logo.setScaledContents(True)
         self.FP_Logo.setObjectName("FP_Logo")
 

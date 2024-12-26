@@ -16,7 +16,7 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Build the general path to the resources/images folder
 images_folder = os.path.join(current_directory, '..', 'resources', 'images')
-Interest_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Interest_assets')
+Forget_Pass_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Forget_Pass_assets')
 
 
 class Ui_CNP_Fullpage(object):
@@ -48,7 +48,7 @@ class Ui_CNP_Fullpage(object):
         self.CNP_HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.CNP_HeaderIcon.setText("")
-        self.CNP_HeaderIcon.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../../../Downloads/HeaderIcon.png"))
+        self.CNP_HeaderIcon.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'HeaderIcon.png')))
         self.CNP_HeaderIcon.setScaledContents(True)
         self.CNP_HeaderIcon.setObjectName("CNP_HeaderIcon")
         self.frame = QtWidgets.QFrame(CNP_Fullpage)
@@ -130,7 +130,7 @@ class Ui_CNP_Fullpage(object):
         self.CNP_Logo = QtWidgets.QLabel(self.frame)
         self.CNP_Logo.setGeometry(QtCore.QRect(-50, 0, 245, 127))
         self.CNP_Logo.setText("")
-        self.CNP_Logo.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/FPlogo.png"))
+        self.CNP_Logo.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPlogo.png')))
         self.CNP_Logo.setScaledContents(True)
         self.CNP_Logo.setObjectName("CNP_Logo")
         self.CNP_image1 = QtWidgets.QLabel(self.frame)
@@ -138,7 +138,7 @@ class Ui_CNP_Fullpage(object):
         self.CNP_image1.setMinimumSize(QtCore.QSize(421, 602))
         self.CNP_image1.setStyleSheet("background: transparent;")
         self.CNP_image1.setText("")
-        self.CNP_image1.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/FPimage1.png"))
+        self.CNP_image1.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPimage1.png')))
         self.CNP_image1.setScaledContents(True)
         self.CNP_image1.setObjectName("CNP_image1")
         self.CNP_ConNewPassText = QtWidgets.QLabel(self.frame)
@@ -170,7 +170,7 @@ class Ui_CNP_Fullpage(object):
         self.CNP_Shadow.setGeometry(QtCore.QRect(-30, 0, 1031, 601))
         self.CNP_Shadow.setStyleSheet("background: transparent;")
         self.CNP_Shadow.setText("")
-        self.CNP_Shadow.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/FPshadow.png"))
+        self.CNP_Shadow.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPshadow.png')))
         self.CNP_Shadow.setScaledContents(True)
         self.CNP_Shadow.setObjectName("CNP_Shadow")
 

@@ -9,6 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEN
 from SignUpPage import Ui_SignUp
 from LogInPage import Ui_LogIn
 from HomePage import Ui_Homepage
+from WelcomePage import Ui_WelcomePage
 from InterestPage import Ui_Dialog as Ui_InterestPage
 
 class MainApp:
@@ -21,6 +22,12 @@ class MainApp:
         self.signUpWindow = QMainWindow()
         self.homePageWindow = QWidget()
         self.interestPageWindow = QDialog()
+        self.welcomePageWindow = QWidget()
+
+        # Setup UI for the WelcomePage window
+        self.welcomePageWindow = QWidget()
+        self.welcomePageUI = Ui_WelcomePage()
+        self.welcomePageUI.setupUi(self.welcomePageWindow)
 
         # Setup UI for the login window
         self.logInUI = Ui_LogIn()
@@ -53,6 +60,14 @@ class MainApp:
         # Connect the "Sign Up" button on the homepage to open the signup window
         self.homePageUI.SignUp.clicked.connect(self.openSignupHomepage)
 
+        # Connect the button to the method to open the homepage
+        self.welcomePageUI.press_to_continue.clicked.connect(self.open_homepagefromwelcome)
+
+
+    def open_homepagefromwelcome(self):
+        self.welcomePageWindow.close()
+        self.homePageWindow.show()
+
 
     def openSignupHomepage(self):
         self.homePageWindow.close()
@@ -81,7 +96,8 @@ class MainApp:
 
     def run(self):
         # Show the homepage window initially
-        self.homePageWindow.show()
+        self.welcomePageWindow.show()
+        
         
 
         # Execute the app
