@@ -1,6 +1,9 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QWidget, QPushButton, QVBoxLayout, QLabel, QScrollArea
+from PyQt5.QtGui import QPixmap, QFont, QCursor
+from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
+import math
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
@@ -47,6 +50,15 @@ class MainApp:
         # Connect the "Log In" button on the login page to open the interest page
         self.logInUI.LI_LogInPB.clicked.connect(self.openInterestPage)
 
+        # Connect the "Sign Up" button on the homepage to open the signup window
+        self.homePageUI.SignUp.clicked.connect(self.openSignupHomepage)
+
+
+    def openSignupHomepage(self):
+        self.homePageWindow.close()
+        self.signUpWindow.show()
+
+
     def openSignUpPage(self):
         # Hide the login window and show the signup window
         self.logInWindow.close()
@@ -70,6 +82,7 @@ class MainApp:
     def run(self):
         # Show the homepage window initially
         self.homePageWindow.show()
+        
 
         # Execute the app
         sys.exit(self.app.exec_())

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QApplication, QPushButton, QDialog
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QPushButton, QDialog
 from PyQt5.QtGui import QPixmap, QFont, QCursor
 from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
 import os
@@ -7,7 +7,8 @@ import math
 class Ui_Homepage(object):
     def setupUi(self, Homepage):
         # Set the fixed size of the main window
-        Homepage.setFixedSize(1440, 780)
+        Homepage.setFixedSize(1440, 850)
+        Homepage.setObjectName("Homepage")
 
         # Create a scroll area
         scroll_area = QScrollArea(Homepage)
@@ -78,12 +79,6 @@ class Ui_Homepage(object):
         # Create the SignUp button
         self.SignUp = QPushButton("Sign Up", content_widget)
         self.SignUp.setGeometry(QRect(1252, 75, 150, 45))
-        font = QFont()
-        font.setFamily("Rockwell Condensed")
-        font.setPointSize(-1)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
         self.SignUp.setFont(font)
         self.SignUp.setCursor(QCursor(Qt.PointingHandCursor))
         self.SignUp.setStyleSheet("""
@@ -98,12 +93,6 @@ class Ui_Homepage(object):
         # Create the About Us button
         self.AboutUs = QPushButton("About Us", content_widget)
         self.AboutUs.setGeometry(QRect(858, 2131, 150, 45))
-        font = QFont()
-        font.setFamily("Rockwell Condensed")
-        font.setPointSize(-1)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
         self.AboutUs.setFont(font)
         self.AboutUs.setCursor(QCursor(Qt.PointingHandCursor))
         self.AboutUs.setStyleSheet("""
@@ -222,10 +211,6 @@ class Ui_Homepage(object):
         self.buttons[3].clicked.connect(lambda: self.open_page("Page 4"))
         self.buttons[4].clicked.connect(lambda: self.open_page("Page 5"))
 
-        # Connect buttons
-        self.LogIn_2.clicked.connect(self.openLogInPage)
-        self.SignUp.clicked.connect(self.openSignUpPage)
-
     def toggle_buttons(self):
         # Clear previous animations to prevent memory leaks
         self.animations.clear()
@@ -270,31 +255,3 @@ class Ui_Homepage(object):
         layout = QVBoxLayout(new_window)
         layout.addWidget(label)
         new_window.exec_()
-
-    def openSignUpPage(self):
-        # Logic to open the SignUp page
-        from SignUpPage import Ui_SignUp
-        self.signUpWindow = QDialog()
-        self.signUpUI = Ui_SignUp()
-        self.signUpUI.setupUi(self.signUpWindow)
-        self.signUpWindow.exec_()
-       
-
-    def openLogInPage(self):
-        # Logic to open the LogIn page
-        from LogInPage import Ui_LogIn
-        self.login_window = QDialog()
-        self.login_ui = Ui_LogIn()
-        self.login_ui.setupUi(self.login_window)
-        self.login_window.exec_()
-        
-
-if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-    Homepage = QWidget()
-    ui = Ui_Homepage()
-    ui.setupUi(Homepage)
-    Homepage.show()
-    sys.exit(app.exec_())
