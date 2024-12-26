@@ -10,6 +10,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import os
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+# Get the absolute path of the current directory (LogInPage.py)
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Build the general path to the resources/images folder
+images_folder = os.path.join(current_directory, '..', 'resources', 'images')
+FB_RV_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'FB_RV_assets')
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -40,7 +50,7 @@ class Ui_Dialog(object):
         self.LI_HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.LI_HeaderIcon.setText("")
-        self.LI_HeaderIcon.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\HeaderIcon.png"))
+        self.LI_HeaderIcon.setPixmap(QtGui.QPixmap(os.path.join(FB_RV_assets_folder, 'HeaderIcon.png')))
         self.LI_HeaderIcon.setScaledContents(True)
         self.LI_HeaderIcon.setObjectName("LI_HeaderIcon")
         self.HP_footer = QtWidgets.QFrame(Dialog)
@@ -60,7 +70,7 @@ class Ui_Dialog(object):
         self.HP_Icon.setStyleSheet("background: transparent;\n"
 "border: clear;")
         self.HP_Icon.setText("")
-        self.HP_Icon.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../Icon.png"))
+        self.HP_Icon.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'Icon.png')))
         self.HP_Icon.setScaledContents(True)
         self.HP_Icon.setObjectName("HP_Icon")
         self.LI_Icon = QtWidgets.QLabel(self.HP_footer)
@@ -72,7 +82,7 @@ class Ui_Dialog(object):
         self.LI_Icon.setStyleSheet("border: 1px solid transparent;\n"
 "background: transparent;")
         self.LI_Icon.setText("")
-        self.LI_Icon.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\Icon.png"))
+        self.LI_Icon.setPixmap(QtGui.QPixmap(os.path.join(FB_RV_assets_folder, 'Icon.png')))
         self.LI_Icon.setScaledContents(True)
         self.LI_Icon.setObjectName("LI_Icon")
         self.HPshape1_12 = QtWidgets.QFrame(self.HP_footer)
@@ -109,14 +119,14 @@ class Ui_Dialog(object):
         self.GPfp_7.setGeometry(QtCore.QRect(-40, -10, 261, 161))
         self.GPfp_7.setStyleSheet("background: transparent;")
         self.GPfp_7.setText("")
-        self.GPfp_7.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\HPimages/GPfp.png"))
+        self.GPfp_7.setPixmap(QtGui.QPixmap(os.path.join(FB_RV_assets_folder, 'GPfp_7.png')))
         self.GPfp_7.setScaledContents(True)
         self.GPfp_7.setObjectName("GPfp_7")
         self.HPelimage6_6 = QtWidgets.QLabel(self.HPshape1_15)
         self.HPelimage6_6.setGeometry(QtCore.QRect(170, 20, 291, 161))
         self.HPelimage6_6.setStyleSheet("background: transparent;")
         self.HPelimage6_6.setText("")
-        self.HPelimage6_6.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\HPimages/HPimage6.png"))
+        self.HPelimage6_6.setPixmap(QtGui.QPixmap(os.path.join(FB_RV_assets_folder, 'HPelimage6.png')))
         self.HPelimage6_6.setScaledContents(True)
         self.HPelimage6_6.setObjectName("HPelimage6_6")
         self.HPtext5 = QtWidgets.QLabel(self.HP_footer)
@@ -252,7 +262,7 @@ class Ui_Dialog(object):
 "background: transparent;\n"
 "border: none;")
         self.Shape1.setText("")
-        self.Shape1.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\Shape1.png"))
+        self.Shape1.setPixmap(QtGui.QPixmap(os.path.join(FB_RV_assets_folder, 'Shape1.png')))
         self.Shape1.setScaledContents(True)
         self.Shape1.setObjectName("Shape1")
         self.RV_FBT1 = QtWidgets.QLabel(Dialog)
@@ -265,7 +275,7 @@ class Ui_Dialog(object):
 "background: transparent;\n"
 "border: none;")
         self.RV_FBT1.setText("")
-        self.RV_FBT1.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\RV_FB/RV_FBT1.png"))
+        self.RV_FBT1.setPixmap(QtGui.QPixmap(os.path.join(FB_RV_assets_folder, 'RV_FBT1.png')))
         self.RV_FBT1.setScaledContents(True)
         self.RV_FBT1.setObjectName("RV_FBT1")
         self.RV_FBT2 = QtWidgets.QLabel(Dialog)
@@ -278,7 +288,7 @@ class Ui_Dialog(object):
 "background: transparent;\n"
 "border: none;")
         self.RV_FBT2.setText("")
-        self.RV_FBT2.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\RV_FB/RV_FBT2.png"))
+        self.RV_FBT2.setPixmap(QtGui.QPixmap(os.path.join(FB_RV_assets_folder, 'RV_FBT2.png')))
         self.RV_FBT2.setScaledContents(True)
         self.RV_FBT2.setObjectName("RV_FBT2")
         self.frame = QtWidgets.QFrame(Dialog)

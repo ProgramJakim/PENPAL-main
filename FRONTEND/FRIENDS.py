@@ -10,6 +10,17 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import os
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+# Get the absolute path of the current directory (LogInPage.py)
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Build the general path to the resources/images folder
+images_folder = os.path.join(current_directory, '..', 'resources', 'images')
+Interest_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Interest_assets')
+
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
