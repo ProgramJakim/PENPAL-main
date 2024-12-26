@@ -7,7 +7,7 @@ import math
 class Ui_Homepage(object):
     def setupUi(self, Homepage):
         # Set the fixed size of the main window
-        Homepage.setFixedSize(1450, 900)
+        Homepage.setFixedSize(1440, 780)
 
         # Create a scroll area
         scroll_area = QScrollArea(Homepage)

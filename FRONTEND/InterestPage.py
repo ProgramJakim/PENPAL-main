@@ -22,7 +22,7 @@ Interest_assets_folder = os.path.join(current_directory, '..', 'resources', 'ima
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1440, 1305)
+        Dialog.setFixedSize(1440, 780)
         Dialog.setStyleSheet("background-color:#FFF9F0;")
         self.CUHeader = QtWidgets.QFrame(Dialog)
         self.CUHeader.setGeometry(QtCore.QRect(0, 0, 1440, 105))
