@@ -18,8 +18,6 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Build the general path to the resources/images folder
 images_folder = os.path.join(current_directory, '..', 'resources', 'images')
-Interest_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Interest_assets')
-
 
 
 class Ui_Dialog(object):
@@ -51,7 +49,7 @@ class Ui_Dialog(object):
         self.HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.HeaderIcon.setText("")
-        self.HeaderIcon.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\HeaderIcon.png"))
+        self.HeaderIcon.setPixmap(QtGui.QPixmap(os.path.join(images_folder , "HeaderIcon.png")))
         self.HeaderIcon.setScaledContents(True)
         self.HeaderIcon.setObjectName("HeaderIcon")
         self.FRIENDS = QtWidgets.QLabel(Dialog)
@@ -63,7 +61,7 @@ class Ui_Dialog(object):
         self.FRIENDS.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.FRIENDS.setText("")
-        self.FRIENDS.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\FRIENDS.png"))
+        self.FRIENDS.setPixmap(QtGui.QPixmap(os.path.join(images_folder , "FRIENDS.png")))
         self.FRIENDS.setScaledContents(True)
         self.FRIENDS.setObjectName("FRIENDS")
         self.FRIENDS_2 = QtWidgets.QLabel(Dialog)
@@ -75,7 +73,7 @@ class Ui_Dialog(object):
         self.FRIENDS_2.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.FRIENDS_2.setText("")
-        self.FRIENDS_2.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\FRIENDS1.png"))
+        self.FRIENDS_2.setPixmap(QtGui.QPixmap(os.path.join(images_folder , "FRIENDS1.png")))
         self.FRIENDS_2.setScaledContents(True)
         self.FRIENDS_2.setObjectName("FRIENDS_2")
         self.CONT = QtWidgets.QPushButton(Dialog)
