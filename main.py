@@ -1,9 +1,8 @@
-import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect
+from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QWidget, QPushButton, QVBoxLayout, QLabel, QScrollArea
-from PyQt5.QtGui import QPixmap, QFont, QCursor
-from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
-import math
+import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
@@ -11,6 +10,55 @@ from LogInPage import Ui_LogIn
 from HomePage import Ui_Homepage
 from WelcomePage import Ui_WelcomePage
 from InterestPage import Ui_Dialog as Ui_InterestPage
+
+class SplashScreen(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setFixedSize(1000, 600)
+        self.setWindowFlags(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+
+        layout = QVBoxLayout(self)
+
+        # Add a spacer item to push the content upward
+        spacer = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        layout.addItem(spacer)
+
+        # Add logo
+        self.logo_label = QLabel(self)
+        logo_path = os.path.join(os.path.dirname(__file__), 'resources', 'images', 'Icon.png')
+        if os.path.exists(logo_path):
+            self.logo_label.setPixmap(QPixmap(logo_path).scaled(200, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        layout.addWidget(self.logo_label, alignment=Qt.AlignCenter)
+
+        # Add system name
+        self.label = QLabel("Penpal:\nA Social Media\n Friend Recommendation System", self)
+        font = QFont()
+        font.setPointSize(30)
+        self.label.setFont(font)
+        self.label.setAlignment(Qt.AlignCenter)
+        self.label.setStyleSheet("color: white;")  # Set text color to white
+        layout.addWidget(self.label)
+
+        # Add a spacer item to push the content upward
+        spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        layout.addItem(spacer)
+
+        # Create opacity effect
+        self.opacity_effect = QGraphicsOpacityEffect()
+        self.label.setGraphicsEffect(self.opacity_effect)
+
+        # Create animation
+        self.animation = QPropertyAnimation(self.opacity_effect, b"opacity")
+        self.animation.setDuration(500)
+        self.animation.setStartValue(0)
+        self.animation.setEndValue(1)
+        self.animation.start()
+
+        QTimer.singleShot(4000, self.close_splash)
+
+    def close_splash(self):
+        self.accept()
 
 class MainApp:
     def __init__(self):
@@ -58,7 +106,7 @@ class MainApp:
         self.logInUI.LI_LogInPB.clicked.connect(self.openInterestPage)
 
         # Connect the "Sign Up" button on the homepage to open the signup window
-        self.homePageUI.SignUp.clicked.connect(self.openSignupHomepage)
+        self.homePageUI.SignUp.clicked.connect(self.openSignupFromHomepage)
 
         # Connect the button to the method to open the homepage
         self.welcomePageUI.press_to_continue.clicked.connect(self.open_homepagefromwelcome)
@@ -68,10 +116,14 @@ class MainApp:
         self.welcomePageWindow.close()
         self.homePageWindow.show()
 
-
-    def openSignupHomepage(self):
+    def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
+
+    def openLogInPageFromHomepage(self):
+        # Close the homepage window and show the login window
+        self.homePageWindow.close()
+        self.logInWindow.show()
 
 
     def openSignUpPage(self):
@@ -83,25 +135,19 @@ class MainApp:
         # Close the signup window and show the login window
         self.signUpWindow.close()
         self.logInWindow.show()
-
-    def openLogInPageFromHomepage(self):
-        # Close the homepage window and show the login window
-        self.homePageWindow.close()
-        self.logInWindow.show()
-
+    
     def openInterestPage(self):
         # Close the login window and show the interest page window
         self.logInWindow.close()
         self.interestPageWindow.show()
 
     def run(self):
-        # Show the homepage window initially
-        self.welcomePageWindow.show()
-        
-        
-
-        # Execute the app
-        sys.exit(self.app.exec_())
+        # Show the splash screen
+        splash = SplashScreen()
+        if splash.exec_() == QDialog.Accepted:
+            # Show the welcome page after the splash screen
+            self.welcomePageWindow.show()
+            sys.exit(self.app.exec_())
 
 # Run the application
 if __name__ == "__main__":
