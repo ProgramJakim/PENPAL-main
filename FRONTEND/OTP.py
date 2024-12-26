@@ -16,7 +16,6 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Build the general path to the resources/images folder
 images_folder = os.path.join(current_directory, '..', 'resources', 'images')
-Interest_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Interest_assets')
 
 
 class Ui_OTP_Fullpage(object):
@@ -48,7 +47,7 @@ class Ui_OTP_Fullpage(object):
         self.OTP_HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
         self.OTP_HeaderIcon.setText("")
-        self.OTP_HeaderIcon.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../../../Downloads/HeaderIcon.png"))
+        self.OTP_HeaderIcon.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'HeaderIcon.png')))
         self.OTP_HeaderIcon.setScaledContents(True)
         self.OTP_HeaderIcon.setObjectName("OTP_HeaderIcon")
         self.frame = QtWidgets.QFrame(OTP_Fullpage)
@@ -190,7 +189,7 @@ class Ui_OTP_Fullpage(object):
         self.FPimage1.setMinimumSize(QtCore.QSize(421, 602))
         self.FPimage1.setStyleSheet("background: transparent;")
         self.FPimage1.setText("")
-        self.FPimage1.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/FPimage1.png"))
+        self.FPimage1.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'BGimage13.png')))
         self.FPimage1.setScaledContents(True)
         self.FPimage1.setObjectName("FPimage1")
 
