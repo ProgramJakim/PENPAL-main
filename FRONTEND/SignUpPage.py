@@ -29,7 +29,7 @@ Sign_Up_assets_folder = os.path.join(current_directory, '..', 'resources', 'imag
 class Ui_SignUp(object):
     def setupUi(self, SignUp):
         SignUp.setObjectName("SignUp")
-        SignUp.resize(1440, 780)
+        SignUp.setFixedSize(1440, 850)
         SignUp.setStyleSheet("background-color: rgb(255, 249, 240);")
         self.SU_Header = QtWidgets.QFrame(SignUp)
         self.SU_Header.setGeometry(QtCore.QRect(0, 0, 1440, 105))
@@ -91,7 +91,7 @@ class Ui_SignUp(object):
 "border: 3px solid #550808;\n"
 "background-color: rgb(229, 141, 118);\n"
 "border-radius: 10px;\n"
-"text-decoration: underline;\n"
+"text-decoration: none;\n"
 "box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);\n"
 "text-color: #E58D76;\n"
 "\n"
@@ -147,7 +147,7 @@ class Ui_SignUp(object):
         self.SU_SignUpPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 10px;\n"
-"text-decoration: underline;\n"
+"text-decoration: none;\n"
 "text-color: #E58D76;\n"
 "box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);\n"
 "background: transparent;\n"

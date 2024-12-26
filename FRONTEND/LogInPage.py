@@ -27,7 +27,7 @@ Log_In_assets_folder = os.path.join(current_directory, '..', 'resources', 'image
 class Ui_LogIn(object):
     def setupUi(self, LogIn):
         LogIn.setObjectName("LogIn")
-        LogIn.setFixedSize(1440, 780)
+        LogIn.setFixedSize(1440, 850)
         LogIn.setStyleSheet("background-color: rgb(255, 249, 240);\n"
 "\n"
 "")
