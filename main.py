@@ -106,7 +106,7 @@ class MainApp:
         self.logInUI.LI_LogInPB.clicked.connect(self.openInterestPage)
 
         # Connect the "Sign Up" button on the homepage to open the signup window
-        self.homePageUI.SignUp.clicked.connect(self.openSignupHomepage)
+        self.homePageUI.SignUp.clicked.connect(self.openSignupFromHomepage)
 
         # Connect the button to the method to open the homepage
         self.welcomePageUI.press_to_continue.clicked.connect(self.open_homepagefromwelcome)
@@ -116,10 +116,14 @@ class MainApp:
         self.welcomePageWindow.close()
         self.homePageWindow.show()
 
-
-    def openSignupHomepage(self):
+    def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
+
+    def openLogInPageFromHomepage(self):
+        # Close the homepage window and show the login window
+        self.homePageWindow.close()
+        self.logInWindow.show()
 
 
     def openSignUpPage(self):
@@ -131,12 +135,7 @@ class MainApp:
         # Close the signup window and show the login window
         self.signUpWindow.close()
         self.logInWindow.show()
-
-    def openLogInPageFromHomepage(self):
-        # Close the homepage window and show the login window
-        self.homePageWindow.close()
-        self.logInWindow.show()
-
+    
     def openInterestPage(self):
         # Close the login window and show the interest page window
         self.logInWindow.close()

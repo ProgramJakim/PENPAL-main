@@ -82,7 +82,7 @@ class Ui_WelcomePage(object):
         self.homepage_window = QDialog()
         self.ui = Ui_Homepage()
         self.ui.setupUi(self.homepage_window)
-        self.homepage_window.show()
+        self.homepage_window.hide()
 
 class SplashScreen(QDialog):
     def __init__(self):
