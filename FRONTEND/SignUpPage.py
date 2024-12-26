@@ -352,7 +352,6 @@ class Ui_SignUp(object):
 
         # Connect the SignUp button to the method to send data
         self.SU_SignUpPB.clicked.connect(self.handle_signup)
-
         self.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
 
      
@@ -363,9 +362,10 @@ class Ui_SignUp(object):
         gender = self.SU_GenderCB.currentText()
         location = self.SU_LocationLE.text()
         social_media_link = self.SU_SocialLinkLE.text()
+        gmail = self.SU_EmailLE.text()  # New field for Gmail account
 
         # Check if all fields are filled
-        if not username or not password or not age or not location or not gender:
+        if not username or not password or not age or not location or not gender or not gmail:
                 self.show_error_message("Please fill in all the required fields.")
                 return False  # Indicate that the sign-up process should not continue
 
@@ -401,8 +401,9 @@ class Ui_SignUp(object):
                         'age': int(age),
                         'gender': gender,
                         'location': location,
-                        'social_media_link': social_media_link
-                        }
+                        'social_media_link': social_media_link,
+                        'gmail': gmail  # Include the Gmail field in the sign-up data
+                }
 
                 # Send the data to the backend to create the account
                 response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
@@ -417,14 +418,15 @@ class Ui_SignUp(object):
                         self.SU_GenderCB.setCurrentIndex(0)  # Reset to first item (if applicable)
                         self.SU_LocationLE.clear()
                         self.SU_SocialLinkLE.clear()
+                        self.SU_EmailLE.clear()  # Clear the Gmail field
 
                         self.show_success_message("You can continue creating another account or stay here.")
 
                         return True  # Indicate that the sign-up process succeeded
                 else:
-                                error_message = response.json().get('error', 'Unknown error occurred')
-                                self.show_error_message(f"Error: {error_message}")
-                                return False  # Indicate failure
+                        error_message = response.json().get('error', 'Unknown error occurred')
+                        self.show_error_message(f"Error: {error_message}")
+                        return False  # Indicate failure
 
         except requests.exceptions.RequestException as e:
                 self.show_error_message(f"Request failed: {str(e)}")

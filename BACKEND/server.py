@@ -14,7 +14,7 @@ db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="interests"
+    database="penpaldb"
 )
 
 db_cursor = db_connection.cursor()
@@ -35,8 +35,9 @@ def signup():
     location = data.get('location')
     gender = data.get('gender')
     social_media_link = data.get('social_media_link', None)
+    gmail = data.get('gmail', None)  # New field for Gmail account
 
-    if not username or not password or not age or not location or not gender:
+    if not username or not password or not age or not location or not gender or not gmail:
         logging.error("Error: Missing required fields.")
         return jsonify({"error": "Missing required fields"}), 400
 
@@ -60,8 +61,8 @@ def signup():
 
     try:
         db_cursor.execute(
-            "INSERT INTO users (username, age, location, gender, password, social_media_link) VALUES (%s, %s, %s, %s, %s, %s)",
-            (username, age, location, gender, hashed_password, social_media_link)
+            "INSERT INTO users (username, age, location, gender, password, social_media_link, gmail) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            (username, age, location, gender, hashed_password, social_media_link, gmail)
         )
         db_connection.commit()
         logging.info("User account created successfully!")
@@ -70,7 +71,6 @@ def signup():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-
 
 
 def validate_password(password):
