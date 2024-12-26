@@ -3,6 +3,7 @@ from PyQt5.QtGui import QPixmap, QFont, QCursor
 from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
 import os
 import math
+import sys
 
 class Ui_Homepage(object):
     def setupUi(self, Homepage):
