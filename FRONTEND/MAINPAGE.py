@@ -418,6 +418,13 @@ class Ui_Main_Page(object):
         self.MP_Preference5.setText(_translate("Main_Page", "Pref.5"))
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
 
+       
+#CLICKABLE PROFILE BUTTON
+        self.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
+
+    def on_profile_button_click(self):
+        print("Profile button clicked")
+
 
 if __name__ == "__main__":
     import sys
