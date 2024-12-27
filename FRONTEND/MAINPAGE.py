@@ -12,6 +12,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import os
 import sys
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
+from HomePage import Ui_Homepage
+from AccountSettings import Ui_AccountSettings
+
 # Get the absolute path of the current directory (LogInPage.py)
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -423,7 +427,11 @@ class Ui_Main_Page(object):
         self.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
 
     def on_profile_button_click(self):
-        print("Profile button clicked")
+        self.account_settings_window = QtWidgets.QDialog()
+        self.ui = Ui_AccountSettings()
+        self.ui.setupUi(self.account_settings_window)
+        self.account_settings_window.show()
+        Main_Page.hide()  # hide the mainpage
 
 
 if __name__ == "__main__":
