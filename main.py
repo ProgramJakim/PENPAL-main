@@ -12,13 +12,13 @@ from LogInPage import Ui_LogIn
 from ForgotPass import Ui_ForgotPassword_Fullpage
 from HomePage import Ui_Homepage
 from WelcomePage import Ui_WelcomePage
-from InterestPage import Ui_Dialog as Ui_InterestPage
+from InterestPage import Ui_Interest
 from MAINPAGE import Ui_Main_Page
 from AccountSettings import Ui_AccountSettings
 from AboutUsPage import Ui_AboutUs
-from ContactUsPage import Ui_Dialog as Ui_ContactUsPage
+from ContactUsPage import Ui_ContactUs
 from PrivacyPolicy import Ui_PrivacyPolicy
-from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
+from TermsAndCondition import Ui_TermsAndCondition
 from FriendMenu import Ui_FriendMenu
 from ChangeProfile import Ui_ChangeProfile 
 
@@ -26,7 +26,7 @@ from ChangeProfile import Ui_ChangeProfile
 class SplashScreen(QDialog):
     def __init__(self):
         super().__init__()
-        self.setFixedSize(1000, 600)
+        self.setFixedSize(1000, 850)
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
@@ -136,7 +136,7 @@ class MainApp:
 
 
         # Setup UI for the interest page window
-        self.interestPageUI = Ui_InterestPage()
+        self.interestPageUI = Ui_Interest()
         self.interestPageUI.setupUi(self.interestPageWindow)
 
 
@@ -161,7 +161,7 @@ class MainApp:
         self.aboutUsUI.setupUi(self.aboutUsWindow)
 
         # Setup UI for the Contact U Window
-        self.contactUsUi =  Ui_ContactUsPage()
+        self.contactUsUi =  Ui_ContactUs()
         self.contactUsUi.setupUi( self.contactUsWindow)
 
         # Setup Ui for the privacyPolicy
@@ -184,7 +184,7 @@ class MainApp:
 
         # LogInPage buttons
         self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
-        self.logInUI.LI_LogInPB.clicked.connect(self.openInterestPage)
+        self.logInUI.LI_LogInPB.clicked.connect(self.openMAINPage)
         self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
         self.logInUI.LI_ForgotPasswordLBL.mousePressEvent = self.handleForgotPasswordClick
         
@@ -193,6 +193,7 @@ class MainApp:
        
         # SignUpPage buttons
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
+        self.signUpUI.SU_InterestPB.clicked.connect(self.openInterestPage)
         
 
         # HomePage buttons
@@ -209,8 +210,7 @@ class MainApp:
         self.aboutUsUI.AUbackButton.clicked.connect(self.openHomePageFromAboutUs)
 
         # InterestPage buttons
-        self.interestPageUI.INTpushButton.clicked.connect(self.openMainPage)
-        self.interestPageUI.INTpushButton.clicked.connect(self.on_continue_clicked)
+        self.interestPageUI.INTpushButton.clicked.connect(self.on_done_clicked)
 
         # MainPage buttons
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
@@ -265,6 +265,9 @@ class MainApp:
 
 
     # LogInPage methods
+    def openMAINPage(self):
+        self.logInWindow.close()
+        self.mainPageWindow.show()
     def openHomePageFromLogin(self):
         self.logInWindow.close()
         self.homePageWindow.show()
@@ -289,15 +292,15 @@ class MainApp:
     def open_terms_conditions_page(self):
         self.signUpWindow.close()
         self.termsConditionsWindow.show()
-       
-
-    # InterestPage methods
     def openInterestPage(self):
         self.logInWindow.close()
         self.interestPageWindow.show()
-    def on_continue_clicked(self):
+       
+
+    # InterestPage methods
+    def on_done_clicked(self):
         self.interestPageWindow.close()
-        self.mainPageWindow.show()
+        self.signUpWindow.show()
     def openMainPage(self):
         self.interestPageWindow.close()
         self.mainPageWindow.show()

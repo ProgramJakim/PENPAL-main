@@ -5,17 +5,14 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QPixmap, QFont, QCursor
+from PyQt5.QtGui import QFont, QCursor
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QLineEdit, QCheckBox, QPushButton
 from PyQt5.QtCore import QRect, Qt
-from SignUpPage import Ui_SignUp
-from HomePage import Ui_Homepage
-from InterestPage import Ui_Dialog
+from InterestPage import Ui_Interest
 import requests
 import shelve
 from mysql.connector import errorcode
 from argon2 import PasswordHasher
-import logging
 ph = PasswordHasher()  # Initialize Argon2 Password Hasher
 
 # Get the absolute path of the current directory (LogInPage.py)
@@ -59,13 +56,13 @@ class Ui_LogIn(object):
         self.LI_HeaderIcon.setScaledContents(True)
         self.LI_HeaderIcon.setObjectName("LI_HeaderIcon")
         self.LI_MainPanel = QtWidgets.QFrame(LogIn)
-        self.LI_MainPanel.setGeometry(QtCore.QRect(182, 136, 1082, 602))
+        self.LI_MainPanel.setGeometry(QtCore.QRect(182, 120, 1080, 700))
         self.LI_MainPanel.setStyleSheet("background-color: rgb(255, 240, 216);")
         self.LI_MainPanel.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.LI_MainPanel.setFrameShadow(QtWidgets.QFrame.Raised)
         self.LI_MainPanel.setObjectName("LI_MainPanel")
         self.LI_SidePanel = QtWidgets.QFrame(self.LI_MainPanel)
-        self.LI_SidePanel.setGeometry(QtCore.QRect(660, 0, 421, 602))
+        self.LI_SidePanel.setGeometry(QtCore.QRect(660, 0, 421, 700))
         self.LI_SidePanel.setStyleSheet("background-color: rgb(255, 214, 182);")
         self.LI_SidePanel.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.LI_SidePanel.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -210,7 +207,7 @@ class Ui_LogIn(object):
 "")
         self.LI_ForgotPasswordLBL.setObjectName("LI_ForgotPasswordLBL")
         self.label = QtWidgets.QLabel(self.LI_MainPanel)
-        self.label.setGeometry(QtCore.QRect(190, 0, 941, 671))
+        self.label.setGeometry(QtCore.QRect(190, 0, 941, 700))
         self.label.setStyleSheet("background: transparent;\n"
 "")
         self.label.setText("")
@@ -268,7 +265,6 @@ class Ui_LogIn(object):
         """)
 
         # Connect buttons
-        self.LI_SignUpPB.clicked.connect(self.openSignUpPage)
         self.LI_LogInPB.clicked.connect(self.handle_login)
        
         
@@ -339,14 +335,6 @@ class Ui_LogIn(object):
         msg_box.setIcon(QMessageBox.Information)
         msg_box.exec_()
    
-    def openSignUpPage(self):
-        from SignUpPage import Ui_SignUp  # Import inside the method to avoid circular imports
-        self.signUpWindow = QMainWindow()
-        self.signUpUI = Ui_SignUp()
-        self.signUpUI.setupUi(self.signUpWindow)
-
-        # Hide the login window and show the signup window
-        self.logInWindow.hide()
 
     def openMainAppWindow(self):
         # Create a QWidget for the Homepage
