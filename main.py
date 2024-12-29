@@ -156,11 +156,15 @@ class MainApp:
         # Connect the "CONTINUE" button in the interest page to open the main page
         self.interestPageUI.INTpushButton.clicked.connect(self.openMainPage)
 
+
         # Connect the "Home" button in Account Settings to go back to the Home Page
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openHomePageFromAccountSettings)
 
+
         # Connect the "PROFILE" button in the main page to open the account settings page
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
+
+
         
         #CLICKABLE BUTTON FOR CONTINUE
         self.interestPageUI.INTpushButton.clicked.connect(self.on_continue_clicked)
@@ -171,6 +175,8 @@ class MainApp:
         # Connect the "Menu" button in the main page to open the friend menu window
         self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
 
+        # Connect the "Home" button in the FriendMenu window to go back to the MainPage
+        self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
 
     def on_profile_button_click(self):
         self.mainPageWindow.close()
@@ -233,6 +239,11 @@ class MainApp:
     # Close the main page window and show the friend menu window
         self.mainPageWindow.close()
         self.friendMenuWindow.show()
+
+    def openMainPageFromFriendMenu(self):
+        # Close the Friend Menu window and show the Main Page window
+        self.friendMenuWindow.close()
+        self.mainPageWindow.show()
 
     
     def run(self):
