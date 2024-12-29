@@ -13,9 +13,17 @@ from WelcomePage import Ui_WelcomePage
 from InterestPage import Ui_Dialog as Ui_InterestPage
 from MAINPAGE import Ui_Main_Page
 from AccountSettings import Ui_AccountSettings
+<<<<<<< HEAD
 from ContactUsPage import Ui_Dialog as Ui_ContactUsPage
 from PrivacyPolicy import Ui_PrivacyPolicy
 from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
+=======
+from AboutUsPage import Ui_AboutUs
+from ContactUpage import Ui_Dialog as Ui_ContactUsPage
+from PrivacyPolicy import Ui_PrivacyPolicy
+from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
+
+>>>>>>> origin/annie
 
 class SplashScreen(QDialog):
     def __init__(self):
@@ -79,13 +87,30 @@ class MainApp:
         self.mainPageWindow = QDialog()
         self.accountSettingsWindow = QDialog()
         self.welcomePageWindow = QWidget()
+        self.aboutUsWindow = QWidget()
+        self.contactUsWindow = QDialog()
+        self.privacyPolicyWindow = QDialog()
+        self.termsConditionsWindow = QDialog()
 
         # Setup UI for all windows
         self.setup_ui()
 
+<<<<<<< HEAD
         # Connect buttons to their respective methods
         self.connect_buttons()
 
+=======
+
+
+        # Setup UI for all windows
+        self.setup_ui()
+
+
+        # Connect buttons to their respective methods
+        self.connect_buttons()
+
+
+>>>>>>> origin/annie
     def setup_ui(self):
         # Setup UI for the WelcomePage window
         self.welcomePageUI = Ui_WelcomePage()
@@ -117,6 +142,28 @@ class MainApp:
 
       
 
+<<<<<<< HEAD
+=======
+        # Setup UI for the AboutUS window
+        self.aboutUsUI = Ui_AboutUs()
+        self.aboutUsUI.setupUi(self.aboutUsWindow)
+
+        # Setup UI for the Contact U Window
+        self.contactUsUi =  Ui_ContactUsPage()
+        self.contactUsUi.setupUi( self.contactUsWindow)
+
+        # Setup Ui for the privacyPolicy
+        self.privacyPolicyUI = Ui_PrivacyPolicy()
+        self.privacyPolicyUI.setupUi(self.privacyPolicyWindow)
+
+        # Setup Ui for termsConditionsWindow 
+        self.termsConditionsUI = Ui_TermsAndCondition()
+        self.termsConditionsUI.setupUi(self.termsConditionsWindow)
+
+
+
+
+>>>>>>> origin/annie
     def connect_buttons(self):
         # WelcomePage buttons
         self.welcomePageUI.press_to_continue.clicked.connect(self.open_homepagefromwelcome)
@@ -124,6 +171,10 @@ class MainApp:
         # LogInPage buttons
         self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
         self.logInUI.LI_LogInPB.clicked.connect(self.openInterestPage)
+<<<<<<< HEAD
+=======
+        self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
+>>>>>>> origin/annie
 
         # SignUpPage buttons
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
@@ -131,13 +182,23 @@ class MainApp:
         # HomePage buttons
         self.homePageUI.LogIn_2.clicked.connect(self.openLogInPageFromHomepage)
         self.homePageUI.SignUp.clicked.connect(self.openSignupFromHomepage)
+<<<<<<< HEAD
 
+=======
+        self.homePageUI.AboutUs.clicked.connect(self.openAboutUsPage)
+>>>>>>> origin/annie
         # Connect the footer buttons to their respective pages
         self.homePageUI.about_us_button.clicked.connect(self.open_about_us_page)
         self.homePageUI.contact_us_button.clicked.connect(self.open_contact_us_page)
         self.homePageUI.privacy_policy_button.clicked.connect(self.open_privacy_policy_page)
         self.homePageUI.terms_conditions_button.clicked.connect(self.open_terms_conditions_page)
 
+<<<<<<< HEAD
+=======
+        # About Us Buttons
+        self.aboutUsUI.AUbackButton.clicked.connect(self.openHomePageFromAboutUs)
+
+>>>>>>> origin/annie
         # InterestPage buttons
         self.interestPageUI.INTpushButton.clicked.connect(self.openMainPage)
         self.interestPageUI.INTpushButton.clicked.connect(self.on_continue_clicked)
@@ -146,6 +207,7 @@ class MainApp:
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
 
+<<<<<<< HEAD
     def open_about_us_page(self):
         from AboutUsPage import Ui_Homepage as Ui_AboutUsPage
         self.aboutUsWindow = QDialog()
@@ -182,10 +244,33 @@ class MainApp:
         self.interestPageWindow.close()
         self.mainPageWindow.show()
 
+=======
+    # WelcomePage methods
+>>>>>>> origin/annie
     def open_homepagefromwelcome(self):
         self.welcomePageWindow.close()
         self.homePageWindow.show()
 
+<<<<<<< HEAD
+=======
+    # HomePage methods
+    def open_about_us_page(self):
+        self.homePageWindow.close()
+        self.aboutUsWindow.show()
+
+    def open_contact_us_page(self):
+        self.homePageWindow.close()
+        self.contactUsWindow.show()
+
+    def open_privacy_policy_page(self):
+        self.homePageWindow.close()
+        self.privacyPolicyWindow.show()
+
+    def open_terms_conditions_page(self):
+        self.homePageWindow.close()
+        self.termsConditionsWindow.show()
+
+>>>>>>> origin/annie
     def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
@@ -194,22 +279,65 @@ class MainApp:
         self.homePageWindow.close()
         self.logInWindow.show()
 
+<<<<<<< HEAD
+=======
+    # AboutUsPage methods
+    def openAboutUsPage(self):
+        self.homePageWindow.close()
+        self.aboutUsWindow.show()
+
+    def openHomePageFromAboutUs(self):
+        self.aboutUsWindow.close()
+        self.homePageWindow.show()
+
+
+    # LogInPage methods
+    def openHomePageFromLogin(self):
+        self.logInWindow.close()
+        self.homePageWindow.show()
+
+>>>>>>> origin/annie
     def openSignUpPage(self):
         self.logInWindow.close()
         self.signUpWindow.show()
 
+<<<<<<< HEAD
+=======
+    # SignUpPage methods
+>>>>>>> origin/annie
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
 
+<<<<<<< HEAD
+=======
+    # InterestPage methods
+>>>>>>> origin/annie
     def openInterestPage(self):
         self.logInWindow.close()
         self.interestPageWindow.show()
 
+<<<<<<< HEAD
     def openMainPage(self):
         self.interestPageWindow.close()
         self.mainPageWindow.show()
 
+=======
+    def on_continue_clicked(self):
+        self.interestPageWindow.close()
+        self.mainPageWindow.show()
+
+    # MainPage methods
+    def openMainPage(self):
+        self.interestPageWindow.close()
+        self.mainPageWindow.show()
+
+    def on_profile_button_click(self):
+        self.mainPageWindow.close()
+        self.accountSettingsWindow.show()
+
+    # AccountSettings methods
+>>>>>>> origin/annie
     def openAccountSettings(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
@@ -225,4 +353,11 @@ class MainApp:
 # Run the application
 if __name__ == "__main__":
     mainApp = MainApp()
+<<<<<<< HEAD
     mainApp.run()
+=======
+    mainApp.run()
+
+
+
+>>>>>>> origin/annie

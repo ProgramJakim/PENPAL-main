@@ -5,10 +5,11 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMessageBox, QMainWindow, QLineEdit, QCheckBox
+from PyQt5.QtGui import QPixmap, QFont, QCursor
+from PyQt5.QtWidgets import QMessageBox, QMainWindow, QLineEdit, QCheckBox, QPushButton
+from PyQt5.QtCore import QRect, Qt
 from SignUpPage import Ui_SignUp
-from FRONTEND.HomePage import Ui_Homepage
+from HomePage import Ui_Homepage
 from InterestPage import Ui_Dialog
 import requests
 import shelve
@@ -230,7 +231,42 @@ class Ui_LogIn(object):
 
         self.retranslateUi(LogIn)
         QtCore.QMetaObject.connectSlotsByName(LogIn)
+
+        # Create the BACK button
+        self.LIbackButton = QPushButton("BACK", LogIn)
+        self.LIbackButton.setGeometry(QRect(1250, 50, 150, 45))
+        font = QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(14)  # Set a valid point size
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.LIbackButton.setFont(font)
+        self.LIbackButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.LIbackButton.setStyleSheet("""
+            font:30px;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            background: transparent;
+            border-radius: 5px;
+        """)
+        self.LIbackButton.setObjectName("Back")
         
+        # Add hover effect to change background color
+        self.LIbackButton.setStyleSheet("""
+            QPushButton {
+                font:30px;
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+                background: transparent;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+        """)
+
         # Connect buttons
         self.LI_SignUpPB.clicked.connect(self.openSignUpPage)
         self.LI_LogInPB.clicked.connect(self.handle_login)
