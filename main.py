@@ -8,6 +8,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
 from LogInPage import Ui_LogIn
+from ForgotPass import Ui_ForgotPassword_Fullpage
 from HomePage import Ui_Homepage
 from WelcomePage import Ui_WelcomePage
 from InterestPage import Ui_Dialog as Ui_InterestPage
@@ -24,6 +25,7 @@ from PrivacyPolicy import Ui_PrivacyPolicy
 from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
 
 >>>>>>> origin/annie
+
 
 class SplashScreen(QDialog):
     def __init__(self):
@@ -91,6 +93,7 @@ class MainApp:
         self.contactUsWindow = QDialog()
         self.privacyPolicyWindow = QDialog()
         self.termsConditionsWindow = QDialog()
+<<<<<<< HEAD
 
         # Setup UI for all windows
         self.setup_ui()
@@ -101,10 +104,12 @@ class MainApp:
 
 =======
 
+=======
+        self.forgotPasswordWindow = QWidget()
+>>>>>>> origin/annie
 
         # Setup UI for all windows
         self.setup_ui()
-
 
         # Connect buttons to their respective methods
         self.connect_buttons()
@@ -120,6 +125,14 @@ class MainApp:
         self.logInUI = Ui_LogIn()
         self.logInUI.setupUi(self.logInWindow)
 
+<<<<<<< HEAD
+=======
+        # Setup UI for the WelcomePage window
+        self.forgotPassUi = Ui_ForgotPassword_Fullpage()
+        self.forgotPassUi.setupUi(self.forgotPasswordWindow)
+
+
+>>>>>>> origin/annie
         # Setup UI for the signup window
         self.signUpUI = Ui_SignUp()
         self.signUpUI.setupUi(self.signUpWindow)
@@ -160,9 +173,12 @@ class MainApp:
         self.termsConditionsUI = Ui_TermsAndCondition()
         self.termsConditionsUI.setupUi(self.termsConditionsWindow)
 
+<<<<<<< HEAD
 
 
 
+>>>>>>> origin/annie
+=======
 >>>>>>> origin/annie
     def connect_buttons(self):
         # WelcomePage buttons
@@ -174,6 +190,11 @@ class MainApp:
 <<<<<<< HEAD
 =======
         self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
+<<<<<<< HEAD
+>>>>>>> origin/annie
+=======
+        self.logInUI.LI_ForgotPasswordLBL.mousePressEvent = self.handleForgotPasswordClick
+        
 >>>>>>> origin/annie
 
         # SignUpPage buttons
@@ -207,6 +228,7 @@ class MainApp:
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     def open_about_us_page(self):
         from AboutUsPage import Ui_Homepage as Ui_AboutUsPage
@@ -245,6 +267,11 @@ class MainApp:
         self.mainPageWindow.show()
 
 =======
+=======
+        # AccountSettingsButtons
+        self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
+
+>>>>>>> origin/annie
     # WelcomePage methods
 >>>>>>> origin/annie
     def open_homepagefromwelcome(self):
@@ -302,7 +329,17 @@ class MainApp:
         self.signUpWindow.show()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+    def handleForgotPasswordClick(self, event):
+        self.openForgotPassPageFromLogin()
+
+    def openForgotPassPageFromLogin(self):
+        self.logInWindow.close()
+        self.forgotPasswordWindow.show()
+
+>>>>>>> origin/annie
     # SignUpPage methods
 >>>>>>> origin/annie
     def backtoLogInPage(self):
@@ -336,12 +373,24 @@ class MainApp:
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
 
+<<<<<<< HEAD
     # AccountSettings methods
+>>>>>>> origin/annie
+=======
 >>>>>>> origin/annie
     def openAccountSettings(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
 
+<<<<<<< HEAD
+=======
+    # AccountSettings methods
+    def openMAINPAGEfromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.mainPageWindow.show()
+
+
+>>>>>>> origin/annie
     def run(self):
         # Show the splash screen
         splash = SplashScreen()
