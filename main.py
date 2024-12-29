@@ -165,6 +165,10 @@ class MainApp:
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
 
 
+        # Connect the "Profile" button in the FriendMenu window to go to the AccountSettings window
+        self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFriendMenu)
+
+
         
         #CLICKABLE BUTTON FOR CONTINUE
         self.interestPageUI.INTpushButton.clicked.connect(self.on_continue_clicked)
@@ -244,6 +248,11 @@ class MainApp:
         # Close the Friend Menu window and show the Main Page window
         self.friendMenuWindow.close()
         self.mainPageWindow.show()
+
+    def openAccountSettingsFromFriendMenu(self):
+        # Close friend menu window and show the Account Settings window
+        self.friendMenuWindow.close()
+        self.accountSettingsWindow.open()
 
     
     def run(self):
