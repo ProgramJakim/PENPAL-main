@@ -16,9 +16,9 @@ from InterestPage import Ui_Interest
 from MAINPAGE import Ui_Main_Page
 from AccountSettings import Ui_AccountSettings
 from AboutUsPage import Ui_AboutUs
-from ContactUsPage import Ui_Dialog as Ui_ContactUsPage
+from ContactUsPage import Ui_ContactUs
 from PrivacyPolicy import Ui_PrivacyPolicy
-from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
+from TermsAndCondition import Ui_TermsAndCondition
 from FriendMenu import Ui_FriendMenu
 from ChangeProfile import Ui_ChangeProfile 
 
@@ -161,7 +161,7 @@ class MainApp:
         self.aboutUsUI.setupUi(self.aboutUsWindow)
 
         # Setup UI for the Contact U Window
-        self.contactUsUi =  Ui_ContactUsPage()
+        self.contactUsUi =  Ui_ContactUs()
         self.contactUsUi.setupUi( self.contactUsWindow)
 
         # Setup Ui for the privacyPolicy
