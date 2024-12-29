@@ -375,23 +375,12 @@ class Ui_SignUp(object):
         self.retranslateUi(SignUp)
         QtCore.QMetaObject.connectSlotsByName(SignUp)
 
-        # Connect buttons
-        self.SU_LogInPB.clicked.connect(lambda: self.backtoLogInPage(SignUp))
 
         # Connect the SignUp button to the method to send data
         self.SU_SignUpPB.clicked.connect(self.handle_signup)
         self.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
 
 
-# Add this method in Ui_SignUp class
-    def openInterestPage(self, current_dialog):
-        self.interestWindow = QtWidgets.QDialog()
-        self.ui = Ui_InterestPage()
-        self.ui.setupUi(self.interestWindow)
-        self.interestWindow.show()
-        current_dialog.hide()
-
-     
     def handle_signup(self):
         username = self.SU_UsernameLE.text()
         password = self.SU_PasswordLE.text()
@@ -506,13 +495,7 @@ class Ui_SignUp(object):
             # If there's an issue (password, social link, etc.), the user will have to fix it
             pass
 
-    def backtoLogInPage(self, current_dialog):
-        from LogInPage import Ui_LogIn
-        self.logInWindow = QtWidgets.QDialog()
-        self.ui = Ui_LogIn()
-        self.ui.setupUi(self.logInWindow)
-        self.logInWindow.show()
-        current_dialog.close()
+    
 
     def open_terms_and_conditions(self, current_dialog):
         from TermsAndCondition import Ui_Dialog

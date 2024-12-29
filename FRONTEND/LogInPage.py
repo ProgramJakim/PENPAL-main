@@ -265,7 +265,6 @@ class Ui_LogIn(object):
         """)
 
         # Connect buttons
-        self.LI_SignUpPB.clicked.connect(self.openSignUpPage)
         self.LI_LogInPB.clicked.connect(self.handle_login)
        
         
@@ -336,14 +335,6 @@ class Ui_LogIn(object):
         msg_box.setIcon(QMessageBox.Information)
         msg_box.exec_()
    
-    def openSignUpPage(self):
-        from SignUpPage import Ui_SignUp  # Import inside the method to avoid circular imports
-        self.signUpWindow = QMainWindow()
-        self.signUpUI = Ui_SignUp()
-        self.signUpUI.setupUi(self.signUpWindow)
-
-        # Hide the login window and show the signup window
-        self.logInWindow.hide()
 
     def openMainAppWindow(self):
         # Create a QWidget for the Homepage
