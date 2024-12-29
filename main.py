@@ -13,6 +13,9 @@ from WelcomePage import Ui_WelcomePage
 from InterestPage import Ui_Dialog as Ui_InterestPage
 from MAINPAGE import Ui_Main_Page
 from AccountSettings import Ui_AccountSettings
+from ContactUpage import Ui_Dialog as Ui_ContactUsPage
+from PrivacyPolicy import Ui_PrivacyPolicy
+from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
 
 class SplashScreen(QDialog):
     def __init__(self):
@@ -112,6 +115,8 @@ class MainApp:
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
 
+      
+
     def connect_buttons(self):
         # WelcomePage buttons
         self.welcomePageUI.press_to_continue.clicked.connect(self.open_homepagefromwelcome)
@@ -127,6 +132,12 @@ class MainApp:
         self.homePageUI.LogIn_2.clicked.connect(self.openLogInPageFromHomepage)
         self.homePageUI.SignUp.clicked.connect(self.openSignupFromHomepage)
 
+        # Connect the footer buttons to their respective pages
+        self.homePageUI.about_us_button.clicked.connect(self.open_about_us_page)
+        self.homePageUI.contact_us_button.clicked.connect(self.open_contact_us_page)
+        self.homePageUI.privacy_policy_button.clicked.connect(self.open_privacy_policy_page)
+        self.homePageUI.terms_conditions_button.clicked.connect(self.open_terms_conditions_page)
+
         # InterestPage buttons
         self.interestPageUI.INTpushButton.clicked.connect(self.openMainPage)
         self.interestPageUI.INTpushButton.clicked.connect(self.on_continue_clicked)
@@ -134,6 +145,34 @@ class MainApp:
         # MainPage buttons
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
+
+    def open_about_us_page(self):
+        from AboutUsPage import Ui_Homepage as Ui_AboutUsPage
+        self.aboutUsWindow = QDialog()
+        self.ui = Ui_AboutUsPage()
+        self.ui.setupUi(self.aboutUsWindow)
+        self.aboutUsWindow.exec_()
+
+    def open_contact_us_page(self):
+        from ContactUpage import Ui_Dialog as Ui_ContactUsPage
+        self.contactUsWindow = QDialog()
+        self.ui = Ui_ContactUsPage()
+        self.ui.setupUi(self.contactUsWindow)
+        self.contactUsWindow.exec_()
+
+    def open_privacy_policy_page(self):
+        from PrivacyPolicy import Ui_PrivacyPolicy
+        self.privacyPolicyWindow = QDialog()
+        self.ui = Ui_PrivacyPolicy()
+        self.ui.setupUi(self.privacyPolicyWindow)
+        self.privacyPolicyWindow.exec_()
+
+    def open_terms_conditions_page(self):
+        from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
+        self.termsConditionsWindow = QDialog()
+        self.ui = Ui_TermsAndCondition()
+        self.ui.setupUi(self.termsConditionsWindow)
+        self.termsConditionsWindow.exec_()
 
     def on_profile_button_click(self):
         self.mainPageWindow.close()
