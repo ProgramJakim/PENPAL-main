@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
+import sys
 
 # Get the absolute path of the current directory (LogInPage.py)
 current_directory = os.path.dirname(os.path.abspath(__file__))
