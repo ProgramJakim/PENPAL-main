@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QPushButton, QDialog
 from PyQt5.QtGui import QPixmap, QFont, QCursor
-from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
+from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect, QEasingCurve
 import os
 import math
 import sys
@@ -116,6 +116,9 @@ class Ui_Homepage(object):
             border-radius: 5px;
         """)
         self.AboutUs.setObjectName("AboutUs")
+        
+        
+            
 
         # Create the Terms and Conditions button in footer
         self.terms_conditions_button = QPushButton("Terms and Conditions", content_widget)
@@ -268,3 +271,5 @@ class Ui_Homepage(object):
         layout = QVBoxLayout(new_window)
         layout.addWidget(label)
         new_window.exec_()
+
+       
