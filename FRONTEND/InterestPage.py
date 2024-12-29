@@ -797,26 +797,7 @@ class Ui_Dialog(object):
         self.pushButton_15.setText(_translate("Dialog", "BUSINES"))
         self.BACKpushButton.setText(_translate("Dialog", "BACK"))
 
-#CLICKABLE BUTTON FOR CONTINUE
-        self.INTpushButton.clicked.connect(self.on_continue_clicked)
 
-#CLICKABLE BUTTON FOR BACK
-        self.BACKpushButton.clicked.connect(self.on_back_clicked)
-
-    def on_continue_clicked(self):
-        self.main_page = QtWidgets.QDialog()
-        self.ui = Ui_Main_Page()
-        self.ui.setupUi(self.main_page)
-        self.main_page.show()
-        Dialog.hide()  # hide the interest window
-
-    def on_back_clicked(self):
-        print("Back button clicked")
-        self.home_page = QtWidgets.QDialog()
-        self.ui = Ui_Homepage()
-        self.ui.setupUi(self.home_page)
-        self.home_page.show()
-        Dialog.hide()  # hide the interest window
 
 if __name__ == "__main__":
     import sys

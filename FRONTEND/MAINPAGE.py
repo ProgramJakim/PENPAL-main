@@ -423,15 +423,7 @@ class Ui_Main_Page(object):
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
 
        
-#CLICKABLE PROFILE BUTTON
-        self.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
 
-    def on_profile_button_click(self):
-        self.account_settings_window = QtWidgets.QDialog()
-        self.ui = Ui_AccountSettings()
-        self.ui.setupUi(self.account_settings_window)
-        self.account_settings_window.show()
-        Main_Page.hide()  # hide the mainpage
 
 
 if __name__ == "__main__":
