@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 import os
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 # Get the absolute path of the current directory (LogInPage.py)
