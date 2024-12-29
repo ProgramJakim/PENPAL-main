@@ -14,7 +14,7 @@ import os, requests
 import re
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
-from InterestPage import Ui_Dialog as Ui_InterestPage
+from InterestPage import Ui_Interest
 # Get the absolute path of the current directory
 current_directory = os.path.dirname(os.path.abspath(__file__))
 

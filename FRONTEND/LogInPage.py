@@ -5,17 +5,14 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QPixmap, QFont, QCursor
+from PyQt5.QtGui import QFont, QCursor
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QLineEdit, QCheckBox, QPushButton
 from PyQt5.QtCore import QRect, Qt
-from SignUpPage import Ui_SignUp
-from HomePage import Ui_Homepage
-from InterestPage import Ui_Dialog
+from InterestPage import Ui_Interest
 import requests
 import shelve
 from mysql.connector import errorcode
 from argon2 import PasswordHasher
-import logging
 ph = PasswordHasher()  # Initialize Argon2 Password Hasher
 
 # Get the absolute path of the current directory (LogInPage.py)

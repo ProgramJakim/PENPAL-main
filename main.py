@@ -12,7 +12,7 @@ from LogInPage import Ui_LogIn
 from ForgotPass import Ui_ForgotPassword_Fullpage
 from HomePage import Ui_Homepage
 from WelcomePage import Ui_WelcomePage
-from InterestPage import Ui_Dialog as Ui_InterestPage
+from InterestPage import Ui_Interest
 from MAINPAGE import Ui_Main_Page
 from AccountSettings import Ui_AccountSettings
 from AboutUsPage import Ui_AboutUs
@@ -136,7 +136,7 @@ class MainApp:
 
 
         # Setup UI for the interest page window
-        self.interestPageUI = Ui_InterestPage()
+        self.interestPageUI = Ui_Interest()
         self.interestPageUI.setupUi(self.interestPageWindow)
 
 
