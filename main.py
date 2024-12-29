@@ -153,6 +153,8 @@ class MainApp:
         # Connect the "CONTINUE" button in the interest page to open the main page
         self.interestPageUI.INTpushButton.clicked.connect(self.openMainPage)
 
+        # Connect the "Home" button in Account Settings to go back to the Home Page
+        self.accountSettingsUI.AS_HomePB.clicked.connect(self.openHomePageFromAccountSettings)
 
         # Connect the "PROFILE" button in the main page to open the account settings page
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
@@ -215,8 +217,14 @@ class MainApp:
         # Close the main page window and show the account settings window
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
+    
+    def openHomePageFromAccountSettings(self):
+        # Close the Account Settings window and open the Home Page
+        self.accountSettingsWindow.close()
+        self.mainPageWindow.show()
 
 
+    
     def run(self):
         # Show the splash screen
         splash = SplashScreen()
