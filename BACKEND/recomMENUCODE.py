@@ -5,7 +5,7 @@ import sys
 import msvcrt 
 import random 
 
-# no more errors
+# no more errorss
 # but if you notice something, please don't hesitate to chat it out - jakim
 
 db_connection = mysql.connector.connect(
