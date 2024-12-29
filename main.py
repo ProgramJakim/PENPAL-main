@@ -9,6 +9,7 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
 from LogInPage import Ui_LogIn
+from ForgotPass import Ui_ForgotPassword_Fullpage
 from HomePage import Ui_Homepage
 from WelcomePage import Ui_WelcomePage
 from InterestPage import Ui_Dialog as Ui_InterestPage
@@ -18,6 +19,7 @@ from AboutUsPage import Ui_AboutUs
 from ContactUpage import Ui_Dialog as Ui_ContactUsPage
 from PrivacyPolicy import Ui_PrivacyPolicy
 from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
+
 
 
 class SplashScreen(QDialog):
@@ -97,13 +99,10 @@ class MainApp:
         self.contactUsWindow = QDialog()
         self.privacyPolicyWindow = QDialog()
         self.termsConditionsWindow = QDialog()
-
-
-
+        self.forgotPasswordWindow = QWidget()
 
         # Setup UI for all windows
         self.setup_ui()
-
 
         # Connect buttons to their respective methods
         self.connect_buttons()
@@ -118,6 +117,10 @@ class MainApp:
         # Setup UI for the login window
         self.logInUI = Ui_LogIn()
         self.logInUI.setupUi(self.logInWindow)
+
+        # Setup UI for the WelcomePage window
+        self.forgotPassUi = Ui_ForgotPassword_Fullpage()
+        self.forgotPassUi.setupUi(self.forgotPasswordWindow)
 
 
         # Setup UI for the signup window
@@ -161,9 +164,6 @@ class MainApp:
         self.termsConditionsUI = Ui_TermsAndCondition()
         self.termsConditionsUI.setupUi(self.termsConditionsWindow)
 
-
-
-
     def connect_buttons(self):
         # WelcomePage buttons
         self.welcomePageUI.press_to_continue.clicked.connect(self.open_homepagefromwelcome)
@@ -172,6 +172,8 @@ class MainApp:
         self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
         self.logInUI.LI_LogInPB.clicked.connect(self.openInterestPage)
         self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
+        self.forgotPassUi.LI_ForgotPasswordLBL.mousePressEvent = lambda _: self.openForgotPassPageFromLogin(self.logInWindow)
+        
 
         # SignUpPage buttons
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
@@ -245,6 +247,10 @@ class MainApp:
     def openSignUpPage(self):
         self.logInWindow.close()
         self.signUpWindow.show()
+
+    def openForgotPassPageFromLogin(self):
+        self.logInWindow.close()
+        self.forgotPasswordWindow.show()
 
     # SignUpPage methods
     def backtoLogInPage(self):
