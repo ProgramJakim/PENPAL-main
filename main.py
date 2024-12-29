@@ -190,6 +190,9 @@ class MainApp:
         # account settings log out
         self.accountSettingsUI.AS_LogOutPB.clicked.connect(self.openHomepageFromAccountSettings)
 
+        # friend menu log out 
+        self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
+
     def on_profile_button_click(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
@@ -274,6 +277,10 @@ class MainApp:
 
     def openHomepageFromAccountSettings(self):
         self.accountSettingsWindow.close()
+        self.homePageWindow.show()
+
+    def openHomePageFromFriendMenu(self):
+        self.friendMenuWindow.close()
         self.homePageWindow.show()
     
     def run(self):
