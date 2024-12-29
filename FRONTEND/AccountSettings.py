@@ -23,7 +23,7 @@ Account_Settings_assets_folder = os.path.join(current_directory, '..', 'resource
 class Ui_AccountSettings(object):
     def setupUi(self, AccountSettings):
         AccountSettings.setObjectName("AccountSettings")
-        AccountSettings.resize(1440, 780)
+        AccountSettings.setFixedSize(1440, 750)
         
 #Header
         self.AS_Header = QtWidgets.QFrame(AccountSettings)

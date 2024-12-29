@@ -21,10 +21,18 @@ images_folder = os.path.join(current_directory, '..', 'resources' , 'images')
 
 
 class Ui_Dialog(object):
-    def setupUi(self, Dialog):
+    def setupUi(self, Dialog, username="", password="", age="", gender="", location="", social_media_link="", gmail=""):
         Dialog.setObjectName("Dialog")
         Dialog.resize(1440, 780)
         Dialog.setStyleSheet("background-color: rgb(255, 249, 240);")
+        
+        self.username = username
+        self.password = password
+        self.age = age
+        self.gender = gender
+        self.location = location
+        self.social_media_link = social_media_link
+        self.gmail = gmail
         
 #Header
         self.TAC_Header = QtWidgets.QFrame(Dialog)
@@ -113,6 +121,7 @@ class Ui_Dialog(object):
 "background: transparent;\n"
 "")
         self.TAC_ContinuePB.setObjectName("TAC_ContinuePB")
+        self.TAC_ContinuePB.clicked.connect(lambda: self.back_to_signup(Dialog))
         self.TAC_TermsHeader.raise_()
         self.TAC_Header.raise_()
         self.TAC_SideImage.raise_()
@@ -122,6 +131,16 @@ class Ui_Dialog(object):
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def back_to_signup(self, current_dialog):
+        from SignUpPage import Ui_SignUp
+        self.signUpWindow = QtWidgets.QDialog()
+        self.ui = Ui_SignUp()
+        self.ui.setupUi(self.signUpWindow, self.username, self.password, self.age, self.gender, self.location, self.social_media_link, self.gmail)
+        self.ui.SU_TermsandPrivacyChB.setChecked(True)  # Preserve checkbox state
+
+        self.signUpWindow.show()
+        current_dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -178,7 +197,7 @@ class Ui_Dialog(object):
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#000000;\">    For questions or concerns about these Terms of Service, contact us at support@penpal.com.</span></p>\n"
 "<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#000000;\"><br /></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#000000;\">By creating an account or using Penpal, you acknowledge that you have read, understood, and agree to these Terms of Service. Thank you for being a part of our community!</span></p></body></html>"))
-        self.TAC_ContinuePB.setText(_translate("Dialog", "Continue"))
+        self.TAC_ContinuePB.setText(_translate("Dialog", "Back"))
 
 
 if __name__ == "__main__":
