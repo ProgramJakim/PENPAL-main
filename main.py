@@ -162,17 +162,19 @@ class MainApp:
 
 
         # Connect the "PROFILE" button in the main page to open the account settings page
-        self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
+        self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettingsFromFriendMenu)
 
+
+        # Connect the "Menu" button in the Account Settings window to go to the friend menu
+        self.accountSettingsUI.AS_HomePB.clicked.connect(self.openAccountSettingsFromFriendMenu)
 
         # Connect the "Profile" button in the FriendMenu window to go to the AccountSettings window
         self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFriendMenu)
 
 
-        
         #CLICKABLE BUTTON FOR CONTINUE
         self.interestPageUI.INTpushButton.clicked.connect(self.on_continue_clicked)
-        
+
         #CLICKABLE PROFILE BUTTON
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
 
@@ -181,6 +183,9 @@ class MainApp:
 
         # Connect the "Home" button in the FriendMenu window to go back to the MainPage
         self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
+
+        #connect the "MENU" button on the account settings window to go back to the friend menu window
+        self.accountSettingsUI.AS_MenuPB.clicked.connect(self.openFriendMenuFromAccountSettings)
 
     def on_profile_button_click(self):
         self.mainPageWindow.close()
@@ -250,10 +255,14 @@ class MainApp:
         self.mainPageWindow.show()
 
     def openAccountSettingsFromFriendMenu(self):
-        # Close friend menu window and show the Account Settings window
+        # Close the Friend Menu window and show the Account Settings windoww
         self.friendMenuWindow.close()
-        self.accountSettingsWindow.open()
+        self.accountSettingsWindow.show()
 
+    def openFriendMenuFromAccountSettings(self):
+        # Close the Account Settings window and show the Friend Menu window
+        self.accountSettingsWindow.close()
+        self.friendMenuWindow.show()
     
     def run(self):
         # Show the splash screen
