@@ -14,7 +14,7 @@ from WelcomePage import Ui_WelcomePage
 from InterestPage import Ui_Dialog as Ui_InterestPage
 from MAINPAGE import Ui_Main_Page
 from AccountSettings import Ui_AccountSettings
-
+from FriendMenu import Ui_FriendMenu
 
 class SplashScreen(QDialog):
     def __init__(self):
@@ -89,7 +89,7 @@ class MainApp:
         self.mainPageWindow = QDialog()
         self.accountSettingsWindow = QDialog()
         self.welcomePageWindow = QWidget()
-
+        self.friendMenuWindow = QDialog()
 
         # Setup UI for the WelcomePage window
         self.welcomePageUI = Ui_WelcomePage()
@@ -125,6 +125,9 @@ class MainApp:
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
 
+        # Setup UI for the friend menu window 
+        self.friendMenuUI = Ui_FriendMenu()
+        self.friendMenuUI.setupUi(self.friendMenuWindow)
 
         # Connect the "Sign Up" button to open the signup window
         self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
@@ -165,6 +168,10 @@ class MainApp:
         #CLICKABLE PROFILE BUTTON
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
 
+        # Connect the "Menu" button in the main page to open the friend menu window
+        self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
+
+
     def on_profile_button_click(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
@@ -195,7 +202,6 @@ class MainApp:
         self.logInWindow.close()
         self.signUpWindow.show()
 
-
     def backtoLogInPage(self):
         # Close the signup window and show the login window
         self.signUpWindow.close()
@@ -223,6 +229,10 @@ class MainApp:
         self.accountSettingsWindow.close()
         self.mainPageWindow.show()
 
+    def openFriendMenu(self):
+    # Close the main page window and show the friend menu window
+        self.mainPageWindow.close()
+        self.friendMenuWindow.show()
 
     
     def run(self):
