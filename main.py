@@ -184,6 +184,9 @@ class MainApp:
         #connect the "MENU" button on the account settings window to go back to the friend menu window
         self.accountSettingsUI.AS_MenuPB.clicked.connect(self.openFriendMenuFromAccountSettings)
 
+        # Connect the "Log Out" button in the main page to go back to the home page
+        self.mainPageUI.MP_LogoutPB.clicked.connect(self.openHomePageFromMainPage)
+
     def on_profile_button_click(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
@@ -260,6 +263,11 @@ class MainApp:
         # Close the Account Settings window and show the Friend Menu window
         self.accountSettingsWindow.close()
         self.friendMenuWindow.show()
+
+    def openHomePageFromMainPage(self):
+        # Close the Main Page window and show the Home Page window
+        self.mainPageWindow.close()
+        self.homePageWindow.show()
     
     def run(self):
         # Show the splash screen
