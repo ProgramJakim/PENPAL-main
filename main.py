@@ -13,7 +13,7 @@ from WelcomePage import Ui_WelcomePage
 from InterestPage import Ui_Dialog as Ui_InterestPage
 from MAINPAGE import Ui_Main_Page
 from AccountSettings import Ui_AccountSettings
-from ContactUpage import Ui_Dialog as Ui_ContactUsPage
+from ContactUsPage import Ui_Dialog as Ui_ContactUsPage
 from PrivacyPolicy import Ui_PrivacyPolicy
 from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
 
