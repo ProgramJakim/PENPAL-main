@@ -2,12 +2,12 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QApplicat
 from PyQt5.QtGui import QPixmap, QFont, QCursor
 from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
 import os
-import math
+
 
 class Ui_AboutUs(object):
     def setupUi(self, AboutUs):
         # Set the fixed size of the main window
-        AboutUs.setFixedSize(1440, 780)
+        AboutUs.setFixedSize(1440, 850)
 
         # Create a scroll area
         scroll_area = QScrollArea(AboutUs)
@@ -56,27 +56,42 @@ class Ui_AboutUs(object):
         content_layout.addWidget(self.background_label)
 
 
-        # Create the BACK button
-        self.SignUp = QPushButton("BACK", content_widget)
-        self.SignUp.setGeometry(QRect(1252, 75, 150, 45))
+       # Create the BACK button
+        self.AUbackButton = QPushButton("BACK", content_widget)
+        self.AUbackButton.setGeometry(QRect(1252, 75, 150, 45))
         font = QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
-        self.SignUp.setFont(font)
-        self.SignUp.setCursor(QCursor(Qt.PointingHandCursor))
-        self.SignUp.setStyleSheet("""
+        self.AUbackButton.setFont(font)
+        self.AUbackButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AUbackButton.setStyleSheet("""
             font:30px;
             color: #FFFFFF;
             border: 2px solid #FFFFFF;
             background: transparent;
             border-radius: 5px;
         """)
-        self.SignUp.setObjectName("Back")
+        self.AUbackButton.setObjectName("Back")
 
+         # Add hover effect to change background color
+        self.AUbackButton.setStyleSheet("""
+            QPushButton {
+                font:30px;
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+                background: transparent;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+        """)
 
+         
         # Set the content widget as the scroll area's widget
         scroll_area.setWidget(content_widget)
 

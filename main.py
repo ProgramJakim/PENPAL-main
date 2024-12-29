@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLa
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
 import os
-import sys
+import sys  
 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
@@ -14,6 +14,8 @@ from WelcomePage import Ui_WelcomePage
 from InterestPage import Ui_Dialog as Ui_InterestPage
 from MAINPAGE import Ui_Main_Page
 from AccountSettings import Ui_AccountSettings
+from AboutUsPage import Ui_AboutUs
+
 
 
 class SplashScreen(QDialog):
@@ -89,6 +91,8 @@ class MainApp:
         self.mainPageWindow = QDialog()
         self.accountSettingsWindow = QDialog()
         self.welcomePageWindow = QWidget()
+        self.aboutUsWindow = QWidget()
+
 
 
         # Setup UI for the WelcomePage window
@@ -125,6 +129,12 @@ class MainApp:
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
 
+        # Setup UI for the AboutUS window
+        self.aboutUsUI = Ui_AboutUs()
+        self.aboutUsUI.setupUi(self.aboutUsWindow)
+
+        # Connect the "AboutUs" button from the HomePage to AboutUsPage
+        self.homePageUI.AboutUs.clicked.connect(self.openAboutUsPage)
 
         # Connect the "Sign Up" button to open the signup window
         self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
@@ -157,19 +167,34 @@ class MainApp:
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openHomePageFromAccountSettings)
 
         # Connect the "PROFILE" button in the main page to open the account settings page
-        self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
+        self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettingsfromMainPage)
         
-        #CLICKABLE BUTTON FOR CONTINUE
-        self.interestPageUI.INTpushButton.clicked.connect(self.on_continue_clicked)
-        
-        #CLICKABLE PROFILE BUTTON
-        self.mainPageUI.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
+        # Connect the "CONTINUE" button from the Interest page to Open Main Page
+        self.interestPageUI.INTpushButton.clicked.connect(self.openMAINPAGEfromINTEREST)
 
-    def on_profile_button_click(self):
+        # Connect the "BACK" button from the AboutUsPage to Open HomePage
+        self.aboutUsUI.AUbackButton.clicked.connect(self.openHomePageFromAboutUs)
+
+        # Connect the "BACK" button from the LogIn to Open HomePage
+        self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
+    
+    def openHomePageFromLogin(self):
+        self.logInWindow.close()
+        self.homePageWindow.show()
+    
+    def openHomePageFromAboutUs(self):
+        self.aboutUsWindow.close()
+        self.homePageWindow.show()
+    
+    def openAboutUsPage(self):
+        self.homePageWindow.close()
+        self.aboutUsWindow.show()
+
+    def openAccountSettingsfromMainPage(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
 
-    def on_continue_clicked(self):
+    def openMAINPAGEfromINTEREST(self):
         self.interestPageWindow.close()
         self.mainPageWindow.show()
 
@@ -178,23 +203,19 @@ class MainApp:
         self.welcomePageWindow.close()
         self.homePageWindow.show()
 
-
     def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
-
 
     def openLogInPageFromHomepage(self):
         # Close the homepage window and show the login window
         self.homePageWindow.close()
         self.logInWindow.show()
 
-
     def openSignUpPage(self):
         # Hide the login window and show the signup window
         self.logInWindow.close()
         self.signUpWindow.show()
-
 
     def backtoLogInPage(self):
         # Close the signup window and show the login window
@@ -205,7 +226,6 @@ class MainApp:
         # Close the login window and show the interest page window
         self.logInWindow.close()
         self.interestPageWindow.show()
-
 
     def openMainPage(self):
         # Close the interest page window and show the main page window
@@ -222,6 +242,7 @@ class MainApp:
         # Close the Account Settings window and open the Home Page
         self.accountSettingsWindow.close()
         self.mainPageWindow.show()
+
 
 
     
