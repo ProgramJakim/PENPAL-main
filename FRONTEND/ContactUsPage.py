@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\chris\OneDrive\Desktop\For Python Code\penpal\ContactUpage.ui'
+# Form implementation generated from reading ui file 'C:\Users\chris\OneDrive\Desktop\For Python Code\penpal\ContactUsPage.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -126,9 +126,9 @@ class Ui_Dialog(object):
 "Color: #7A0C0C;")
         self.CUtext5.setObjectName("CUtext5")
         self.commandLinkButton = QtWidgets.QCommandLinkButton(Dialog)
-        self.commandLinkButton.setGeometry(QtCore.QRect(560, 820, 151, 48))
+        self.commandLinkButton.setGeometry(QtCore.QRect(560, 820, 181, 48))
         font = QtGui.QFont()
-        font.setFamily("Rockwell Condensed")
+        font.setFamily("Segoe UI")
         font.setPointSize(-1)
         self.commandLinkButton.setFont(font)
         self.commandLinkButton.setStyleSheet("background: transparent;\n"
@@ -140,7 +140,7 @@ class Ui_Dialog(object):
         self.commandLinkButton_2 = QtWidgets.QCommandLinkButton(Dialog)
         self.commandLinkButton_2.setGeometry(QtCore.QRect(860, 810, 222, 48))
         font = QtGui.QFont()
-        font.setFamily("Rockwell Condensed")
+        font.setFamily("Segoe UI")
         font.setPointSize(-1)
         self.commandLinkButton_2.setFont(font)
         self.commandLinkButton_2.setStyleSheet("background: transparent;\n"
@@ -152,7 +152,7 @@ class Ui_Dialog(object):
         self.commandLinkButton_3 = QtWidgets.QCommandLinkButton(Dialog)
         self.commandLinkButton_3.setGeometry(QtCore.QRect(1210, 810, 111, 48))
         font = QtGui.QFont()
-        font.setFamily("Rockwell Condensed")
+        font.setFamily("Segoe UI")
         font.setPointSize(-1)
         self.commandLinkButton_3.setFont(font)
         self.commandLinkButton_3.setStyleSheet("background: transparent;\n"
@@ -164,7 +164,7 @@ class Ui_Dialog(object):
         self.commandLinkButton_4 = QtWidgets.QCommandLinkButton(Dialog)
         self.commandLinkButton_4.setGeometry(QtCore.QRect(700, 980, 222, 48))
         font = QtGui.QFont()
-        font.setFamily("Rockwell Condensed")
+        font.setFamily("Segoe UI")
         font.setPointSize(-1)
         self.commandLinkButton_4.setFont(font)
         self.commandLinkButton_4.setStyleSheet("background: transparent;\n"
