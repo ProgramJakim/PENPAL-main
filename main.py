@@ -224,6 +224,8 @@ class MainApp:
         self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
         self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFrienMenu)
 
+        # ChangeProfile BUttons
+        self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
 
     # WelcomePage methods
     def open_homepagefromwelcome(self):
@@ -332,6 +334,11 @@ class MainApp:
     def openHomePageFromFriendMenu(self):
         self.friendMenuWindow.close()
         self.homePageWindow.show()
+
+    # ChangeProifle methods
+    def openAccountSettingsFromChangeProfile(self):
+        self.changeProfileWindow.close()
+        self.accountSettingsWindow.show()
 
 
     def run(self):
