@@ -22,7 +22,7 @@ images_folder = os.path.join(current_directory, '..', 'resources', 'images')
 Sign_Up_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Sign_Up_assets')
 
 class Ui_SignUp(object):
-    def setupUi(self, SignUp):
+    def setupUi(self, SignUp, username="", password="", age="", gender="", location="", social_media_link="", gmail=""):
         SignUp.setObjectName("SignUp")
         SignUp.resize(1440, 780)
         SignUp.setStyleSheet("background-color: rgb(255, 249, 240);")
@@ -345,6 +345,15 @@ class Ui_SignUp(object):
         self.SU_EmailLBL.raise_()
         self.SU_EmailLE.raise_()
 
+        # Pre-fill the form fields
+        self.SU_UsernameLE.setText(username)
+        self.SU_PasswordLE.setText(password)
+        self.SU_AgeLE.setText(age)
+        self.SU_GenderCB.setCurrentText(gender)
+        self.SU_LocationLE.setText(location)
+        self.SU_SocialLinkLE.setText(social_media_link)
+        self.SU_EmailLE.setText(gmail)
+
         self.retranslateUi(SignUp)
         QtCore.QMetaObject.connectSlotsByName(SignUp)
 
@@ -482,7 +491,7 @@ class Ui_SignUp(object):
         from TermsAndCondition import Ui_Dialog
         self.termsWindow = QtWidgets.QDialog()
         self.ui = Ui_Dialog()
-        self.ui.setupUi(self.termsWindow)
+        self.ui.setupUi(self.termsWindow, self.SU_UsernameLE.text(), self.SU_PasswordLE.text(), self.SU_AgeLE.text(), self.SU_GenderCB.currentText(), self.SU_LocationLE.text(), self.SU_SocialLinkLE.text(), self.SU_EmailLE.text())
         self.termsWindow.show()
         current_dialog.close()
 
