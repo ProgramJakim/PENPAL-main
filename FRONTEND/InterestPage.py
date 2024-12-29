@@ -755,6 +755,8 @@ class Ui_Dialog(object):
         self.INTpushButton.setObjectName("INTpushButton")
 
 
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
     
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -777,8 +779,7 @@ class Ui_Dialog(object):
         self.pushButton_14.setText(_translate("Dialog", "SCIENCE"))
         self.pushButton_15.setText(_translate("Dialog", "BUSINES"))
         self.pushButton_15.setText(_translate("Dialog", "BUSINES"))
-        self.BACKpushButton.setText(_translate("Dialog", "BACK"))
-
+       
 
 
 if __name__ == "__main__":
