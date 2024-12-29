@@ -27,7 +27,7 @@ Forget_Pass_assets_folder = os.path.join(current_directory, '..', 'resources', '
 class Ui_Main_Page(object):
     def setupUi(self, Main_Page):
         Main_Page.setObjectName("Main_Page")
-        Main_Page.resize(1440, 1307)
+        Main_Page.setFixedSize(1440, 850)
         Main_Page.setMinimumSize(QtCore.QSize(0, 20))
         Main_Page.setMaximumSize(QtCore.QSize(16777193, 16777215))
         Main_Page.setSizeIncrement(QtCore.QSize(0, 24))

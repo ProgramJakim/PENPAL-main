@@ -172,7 +172,7 @@ class MainApp:
         self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
         self.logInUI.LI_LogInPB.clicked.connect(self.openInterestPage)
         self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
-        self.forgotPassUi.LI_ForgotPasswordLBL.mousePressEvent = lambda _: self.openForgotPassPageFromLogin(self.logInWindow)
+        self.logInUI.LI_ForgotPasswordLBL.mousePressEvent = self.handleForgotPasswordClick
         
 
         # SignUpPage buttons
@@ -198,6 +198,9 @@ class MainApp:
         # MainPage buttons
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
+
+        # AccountSettingsButtons
+        self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
 
     # WelcomePage methods
     def open_homepagefromwelcome(self):
@@ -248,6 +251,9 @@ class MainApp:
         self.logInWindow.close()
         self.signUpWindow.show()
 
+    def handleForgotPasswordClick(self, event):
+        self.openForgotPassPageFromLogin()
+
     def openForgotPassPageFromLogin(self):
         self.logInWindow.close()
         self.forgotPasswordWindow.show()
@@ -275,10 +281,14 @@ class MainApp:
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
 
-    # AccountSettings methods
     def openAccountSettings(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
+
+    # AccountSettings methods
+    def openMAINPAGEfromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.mainPageWindow.show()
 
 
     def run(self):
