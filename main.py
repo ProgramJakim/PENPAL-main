@@ -165,9 +165,6 @@ class MainApp:
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettingsFromFriendMenu)
 
 
-        # Connect the "Menu" button in the Account Settings window to go to the friend menu
-        self.accountSettingsUI.AS_HomePB.clicked.connect(self.openAccountSettingsFromFriendMenu)
-
         # Connect the "Profile" button in the FriendMenu window to go to the AccountSettings window
         self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFriendMenu)
 
