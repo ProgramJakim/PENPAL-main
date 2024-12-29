@@ -188,6 +188,9 @@ class MainApp:
         self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
         self.logInUI.LI_ForgotPasswordLBL.mousePressEvent = self.handleForgotPasswordClick
         
+        # ForgotPass buttons
+        self.forgotPassUi.FPbackButton.clicked.connect(self.openLogInFromForgotPass)
+       
         # SignUpPage buttons
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
         
@@ -265,17 +268,19 @@ class MainApp:
     def openHomePageFromLogin(self):
         self.logInWindow.close()
         self.homePageWindow.show()
-
     def openSignUpPage(self):
         self.logInWindow.close()
         self.signUpWindow.show()
-
     def handleForgotPasswordClick(self, event):
         self.openForgotPassPageFromLogin()
-
     def openForgotPassPageFromLogin(self):
         self.logInWindow.close()
         self.forgotPasswordWindow.show()
+
+     # ForgotPass methods
+    def openLogInFromForgotPass(self):
+        self.forgotPasswordWindow.close()
+        self.logInWindow.show()
 
     # SignUpPage methods
     def backtoLogInPage(self):

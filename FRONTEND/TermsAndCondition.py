@@ -21,10 +21,18 @@ images_folder = os.path.join(current_directory, '..', 'resources' , 'images')
 
 
 class Ui_Dialog(object):
-    def setupUi(self, Dialog):
+    def setupUi(self, Dialog, username="", password="", age="", gender="", location="", social_media_link="", gmail=""):
         Dialog.setObjectName("Dialog")
         Dialog.resize(1440, 780)
         Dialog.setStyleSheet("background-color: rgb(255, 249, 240);")
+        
+        self.username = username
+        self.password = password
+        self.age = age
+        self.gender = gender
+        self.location = location
+        self.social_media_link = social_media_link
+        self.gmail = gmail
         
 #Header
         self.TAC_Header = QtWidgets.QFrame(Dialog)
@@ -128,7 +136,9 @@ class Ui_Dialog(object):
         from SignUpPage import Ui_SignUp
         self.signUpWindow = QtWidgets.QDialog()
         self.ui = Ui_SignUp()
-        self.ui.setupUi(self.signUpWindow)
+        self.ui.setupUi(self.signUpWindow, self.username, self.password, self.age, self.gender, self.location, self.social_media_link, self.gmail)
+        self.ui.SU_TermsandPrivacyChB.setChecked(True)  # Preserve checkbox state
+
         self.signUpWindow.show()
         current_dialog.close()
 
