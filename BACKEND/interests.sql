@@ -1,9 +1,9 @@
--- phpMyAdmin SQL Dump
+  -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2024 at 03:49 PM
+-- Generation Time: Nov 26, 2024 at 04:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `friendships` (
-  `id` int(11) NOT NULL,
+  `id` int(100) NOT NULL,
   `user1` varchar(50) NOT NULL,
   `user2` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -40,7 +40,7 @@ CREATE TABLE `friendships` (
 --
 
 CREATE TABLE `friend_requests` (
-  `id` int(11) NOT NULL,
+  `id` int(100) NOT NULL,
   `from_user` varchar(50) NOT NULL,
   `to_user` varchar(50) NOT NULL,
   `status` enum('pending','accepted','rejected') DEFAULT 'pending'
@@ -53,7 +53,7 @@ CREATE TABLE `friend_requests` (
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int(100) NOT NULL,
   `username` varchar(50) NOT NULL,
   `age` int(11) NOT NULL,
   `location` varchar(100) DEFAULT NULL,
@@ -61,20 +61,6 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `social_media_link` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `age`, `location`, `gender`, `password`, `social_media_link`) VALUES
-(1, 'lloyd', 20, 'taguig', '', 'lloyd', 'https/missyou'),
-(2, 'kal', 19, 'taguig', '', 'kal', 'https//kar'),
-(3, 'mallows', 2, 'cat land', '', 'mallows', 'https//mallows.com'),
-(4, 'anya', 2, 'taguig', '', 'anya', 'https//wagniyoakopababainsabubong'),
-(5, 'moonie', 3, 'cat land', '', 'moonie', 'https//swswswswsw.com'),
-(6, 'oreo', 2, 'taguig', '', 'oreo', 'https//bangs.com'),
-(7, 'pol', 18, 'zamboanga', '', 'pol', 'https//AAAAAHHHHH.com'),
-(8, 'pablo', 2, 'sa bahay ng kapitbahay', '', 'pablo', 'https//IhateBellyrubs.com');
 
 -- --------------------------------------------------------
 
@@ -87,17 +73,6 @@ CREATE TABLE `user_interests` (
   `username` varchar(255) NOT NULL,
   `interest` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user_interests`
---
-
-INSERT INTO `user_interests` (`id`, `username`, `interest`) VALUES
-(2, 'pablo', 'Music'),
-(3, 'pablo', 'Movies'),
-(4, 'pablo', 'Gaming'),
-(5, 'pablo', 'Art'),
-(6, 'pablo', 'Science');
 
 --
 -- Indexes for dumped tables
@@ -141,25 +116,25 @@ ALTER TABLE `user_interests`
 -- AUTO_INCREMENT for table `friendships`
 --
 ALTER TABLE `friendships`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_interests`
 --
 ALTER TABLE `user_interests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
