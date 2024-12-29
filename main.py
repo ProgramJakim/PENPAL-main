@@ -20,6 +20,7 @@ from ContactUsPage import Ui_Dialog as Ui_ContactUsPage
 from PrivacyPolicy import Ui_PrivacyPolicy
 from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
 from FriendMenu import Ui_FriendMenu
+from ChangeProfile import Ui_ChangeProfile 
 
 
 class SplashScreen(QDialog):
@@ -101,7 +102,7 @@ class MainApp:
         self.termsConditionsWindow = QDialog()
         self.forgotPasswordWindow = QWidget()
         self.friendMenuWindow = QDialog()
-
+        self.changeProfileWindow = QDialog()
         # Setup UI for all windows
         self.setup_ui()
 
@@ -149,6 +150,10 @@ class MainApp:
         # Setup UI for the account settings window
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
+        
+        # Setup UI for the Change Profile window
+        self.changeProfileUI = Ui_ChangeProfile()
+        self.changeProfileUI.setupUi(self.changeProfileWindow)
 
 
         # Setup UI for the AboutUS window
@@ -170,6 +175,7 @@ class MainApp:
          # Setup UI for the friend menu window 
         self.friendMenuUI = Ui_FriendMenu()
         self.friendMenuUI.setupUi(self.friendMenuWindow)
+
 
 
     def connect_buttons(self):
@@ -211,6 +217,7 @@ class MainApp:
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
         self.accountSettingsUI.AS_MenuPB.clicked.connect(self.openFriendMenuFromAccountSettings)
         self.accountSettingsUI.AS_LogOutPB.clicked.connect(self.openHomepageFromAccountSettings)
+        self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
 
         # FriendMenu Buttons
         self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
@@ -311,6 +318,9 @@ class MainApp:
     def openHomepageFromAccountSettings(self):
         self.accountSettingsWindow.close()
         self.homePageWindow.show()
+    def openChangeProfileFromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.changeProfileWindow.show()
 
     # FriendMenu methods
     def openMainPageFromFriendMenu(self):
