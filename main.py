@@ -20,6 +20,7 @@ from ContactUsPage import Ui_Dialog as Ui_ContactUsPage
 from PrivacyPolicy import Ui_PrivacyPolicy
 from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
 from FriendMenu import Ui_FriendMenu
+from ChangeProfile import Ui_ChangeProfile 
 
 
 class SplashScreen(QDialog):
@@ -101,7 +102,7 @@ class MainApp:
         self.termsConditionsWindow = QDialog()
         self.forgotPasswordWindow = QWidget()
         self.friendMenuWindow = QDialog()
-
+        self.changeProfileWindow = QDialog()
         # Setup UI for all windows
         self.setup_ui()
 
@@ -149,6 +150,10 @@ class MainApp:
         # Setup UI for the account settings window
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
+        
+        # Setup UI for the Change Profile window
+        self.changeProfileUI = Ui_ChangeProfile()
+        self.changeProfileUI.setupUi(self.changeProfileWindow)
 
 
         # Setup UI for the AboutUS window
@@ -172,6 +177,7 @@ class MainApp:
         self.friendMenuUI.setupUi(self.friendMenuWindow)
 
 
+
     def connect_buttons(self):
         # WelcomePage buttons
         self.welcomePageUI.press_to_continue.clicked.connect(self.open_homepagefromwelcome)
@@ -182,6 +188,9 @@ class MainApp:
         self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
         self.logInUI.LI_ForgotPasswordLBL.mousePressEvent = self.handleForgotPasswordClick
         
+        # ForgotPass buttons
+        self.forgotPassUi.FPbackButton.clicked.connect(self.openLogInFromForgotPass)
+       
         # SignUpPage buttons
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
         
@@ -211,12 +220,15 @@ class MainApp:
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
         self.accountSettingsUI.AS_MenuPB.clicked.connect(self.openFriendMenuFromAccountSettings)
         self.accountSettingsUI.AS_LogOutPB.clicked.connect(self.openHomepageFromAccountSettings)
+        self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
 
         # FriendMenu Buttons
         self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
         self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
         self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFrienMenu)
 
+        # ChangeProfile BUttons
+        self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
 
     # WelcomePage methods
     def open_homepagefromwelcome(self):
@@ -256,17 +268,19 @@ class MainApp:
     def openHomePageFromLogin(self):
         self.logInWindow.close()
         self.homePageWindow.show()
-
     def openSignUpPage(self):
         self.logInWindow.close()
         self.signUpWindow.show()
-
     def handleForgotPasswordClick(self, event):
         self.openForgotPassPageFromLogin()
-
     def openForgotPassPageFromLogin(self):
         self.logInWindow.close()
         self.forgotPasswordWindow.show()
+
+     # ForgotPass methods
+    def openLogInFromForgotPass(self):
+        self.forgotPasswordWindow.close()
+        self.logInWindow.show()
 
     # SignUpPage methods
     def backtoLogInPage(self):
@@ -311,6 +325,9 @@ class MainApp:
     def openHomepageFromAccountSettings(self):
         self.accountSettingsWindow.close()
         self.homePageWindow.show()
+    def openChangeProfileFromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.changeProfileWindow.show()
 
     # FriendMenu methods
     def openMainPageFromFriendMenu(self):
@@ -322,6 +339,11 @@ class MainApp:
     def openHomePageFromFriendMenu(self):
         self.friendMenuWindow.close()
         self.homePageWindow.show()
+
+    # ChangeProifle methods
+    def openAccountSettingsFromChangeProfile(self):
+        self.changeProfileWindow.close()
+        self.accountSettingsWindow.show()
 
 
     def run(self):
