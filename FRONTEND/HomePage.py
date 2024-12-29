@@ -173,6 +173,12 @@ class Ui_Homepage(object):
             font-weight: 500;
         """)
 
+        # Connect the footer buttons to their respective pages
+        self.about_us_button.clicked.connect(self.open_about_us_page)
+        self.contact_us_button.clicked.connect(self.open_contact_us_page)
+        self.privacy_policy_button.clicked.connect(self.open_privacy_policy_page)
+        self.terms_conditions_button.clicked.connect(self.open_terms_conditions_page)
+
         # Set the content widget as the scroll area's widget
         scroll_area.setWidget(content_widget)
 
@@ -268,3 +274,31 @@ class Ui_Homepage(object):
         layout = QVBoxLayout(new_window)
         layout.addWidget(label)
         new_window.exec_()
+
+    def open_about_us_page(self):
+        from AboutUsPage import Ui_Homepage as Ui_AboutUsPage
+        self.aboutUsWindow = QDialog()
+        self.ui = Ui_AboutUsPage()
+        self.ui.setupUi(self.aboutUsWindow)
+        self.aboutUsWindow.exec_()
+
+    def open_contact_us_page(self):
+        from ContactUpage import Ui_Dialog as Ui_ContactUsPage
+        self.contactUsWindow = QDialog()
+        self.ui = Ui_ContactUsPage()
+        self.ui.setupUi(self.contactUsWindow)
+        self.contactUsWindow.exec_()
+
+    def open_privacy_policy_page(self):
+        from PrivacyPolicy import Ui_PrivacyPolicy
+        self.privacyPolicyWindow = QDialog()
+        self.ui = Ui_PrivacyPolicy()
+        self.ui.setupUi(self.privacyPolicyWindow)
+        self.privacyPolicyWindow.exec_()
+
+    def open_terms_conditions_page(self):
+        from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
+        self.termsConditionsWindow = QDialog()
+        self.ui = Ui_TermsAndCondition()
+        self.ui.setupUi(self.termsConditionsWindow)
+        self.termsConditionsWindow.exec_()

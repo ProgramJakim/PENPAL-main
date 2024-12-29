@@ -234,6 +234,7 @@ class Ui_LogIn(object):
         # Connect buttons
         self.LI_SignUpPB.clicked.connect(self.openSignUpPage)
         self.LI_LogInPB.clicked.connect(self.handle_login)
+        self.LI_ForgotPasswordLBL.mousePressEvent = lambda event: self.openForgotPasswordPage(LogIn)
         
         # Persistent windows
         self.logInWindow = LogIn
@@ -316,7 +317,14 @@ class Ui_LogIn(object):
         self.mainAppWindow = QtWidgets.QWidget()   # Create a QWidget (not just the UI layout)
         self.ui = Ui_Dialog()  # Create the Ui_Homepage object
         self.ui.setupUi(self.mainAppWindow)  # Set up the UI layout for the QWidget
-        
+
+    def openForgotPasswordPage(self, current_dialog):
+        from ForgotPass import Ui_ForgotPassword_Fullpage
+        self.forgotPasswordWindow = QtWidgets.QDialog()
+        self.ui = Ui_ForgotPassword_Fullpage()
+        self.ui.setupUi(self.forgotPasswordWindow)
+        self.forgotPasswordWindow.show()
+        current_dialog.close()
 
     def retranslateUi(self, LogIn):
         _translate = QtCore.QCoreApplication.translate

@@ -266,7 +266,8 @@ class Ui_SignUp(object):
         self.SU_TermsandPrivacyChB.setStyleSheet("background: transparent;    \n"
 "")
         self.SU_TermsandPrivacyChB.setObjectName("SU_TermsandPrivacyChB")
-        
+        self.SU_TermsandPrivacyChB.clicked.connect(lambda: self.open_terms_and_conditions(SignUp))  # Connect checkbox to method
+
 #Age Line Edit (Text Box)
         self.SU_AgeLE = QtWidgets.QLineEdit(self.SU_MainPanel)
         self.SU_AgeLE.setGeometry(QtCore.QRect(550, 240, 121, 31))
@@ -348,7 +349,7 @@ class Ui_SignUp(object):
         QtCore.QMetaObject.connectSlotsByName(SignUp)
 
         # Connect buttons
-        self.SU_LogInPB.clicked.connect(self.backtoLogInPage)
+        self.SU_LogInPB.clicked.connect(lambda: self.backtoLogInPage(SignUp))
 
         # Connect the SignUp button to the method to send data
         self.SU_SignUpPB.clicked.connect(self.handle_signup)
@@ -469,17 +470,21 @@ class Ui_SignUp(object):
             # If there's an issue (password, social link, etc.), the user will have to fix it
             pass
 
-    def backtoLogInPage(self):
+    def backtoLogInPage(self, current_dialog):
         from LogInPage import Ui_LogIn
         self.logInWindow = QtWidgets.QDialog()
-        self.signUpWindow = QMainWindow()
         self.ui = Ui_LogIn()
         self.ui.setupUi(self.logInWindow)
-        self.signUpUI = Ui_SignUp()
-        self.signUpUI.setupUi(self.signUpWindow)
-        self.signUpWindow.close()
-        self.logInWindow.hide()
+        self.logInWindow.show()
+        current_dialog.close()
 
+    def open_terms_and_conditions(self, current_dialog):
+        from TermsAndCondition import Ui_Dialog
+        self.termsWindow = QtWidgets.QDialog()
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self.termsWindow)
+        self.termsWindow.show()
+        current_dialog.close()
 
     def retranslateUi(self, SignUp):
         _translate = QtCore.QCoreApplication.translate
