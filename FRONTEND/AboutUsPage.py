@@ -4,13 +4,13 @@ from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
 import os
 import math
 
-class Ui_Homepage(object):
-    def setupUi(self, Homepage):
+class Ui_AboutUs(object):
+    def setupUi(self, AboutUs):
         # Set the fixed size of the main window
-        Homepage.setFixedSize(1440, 780)
+        AboutUs.setFixedSize(1440, 780)
 
         # Create a scroll area
-        scroll_area = QScrollArea(Homepage)
+        scroll_area = QScrollArea(AboutUs)
         scroll_area.setWidgetResizable(True)
         scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)  # Disable horizontal scrolling
 
@@ -100,13 +100,13 @@ class Ui_Homepage(object):
         scroll_area.setWidget(content_widget)
 
         # Set the layout of the main window
-        main_layout = QVBoxLayout(Homepage)
+        main_layout = QVBoxLayout(AboutUs)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.addWidget(scroll_area)
-        Homepage.setLayout(main_layout)
+        AboutUs.setLayout(main_layout)
 
         # Create a floating circle button
-        self.circle_button = QPushButton(Homepage)
+        self.circle_button = QPushButton(AboutUs)
         self.circle_button.setGeometry(1300, 750, 50, 50)
         self.circle_button.setStyleSheet("""
             border-radius: 25px;
@@ -121,7 +121,7 @@ class Ui_Homepage(object):
         button_labels = ["Page 1", "Page 2", "Page 3", "Page 4", "Page 5"]
         button_colors = ["#4CAF50", "#008CBA", "#f44336", "#FFC107", "#9C27B0"]
         for i, label in enumerate(button_labels):
-            button = QPushButton(label, Homepage)
+            button = QPushButton(label, AboutUs)
             button.setGeometry(1300, 750, 50, 50)  # Initially place buttons at the circle position
             button.setStyleSheet(f"""
                 background-color: {button_colors[i]};
@@ -196,8 +196,8 @@ if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)
-    Homepage = QWidget()
-    ui = Ui_Homepage()
-    ui.setupUi(Homepage)
-    Homepage.show()
+    AboutUs = QWidget()
+    ui = Ui_AboutUs()
+    ui.setupUi(AboutUs)
+    AboutUs.show()
     sys.exit(app.exec_())
