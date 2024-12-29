@@ -197,7 +197,12 @@ class MainApp:
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
 
+    # WelcomePage methods
+    def open_homepagefromwelcome(self):
+        self.welcomePageWindow.close()
+        self.homePageWindow.show()
 
+    # HomePage methods
     def open_about_us_page(self):
         self.homePageWindow.close()
         self.aboutUsWindow.show()
@@ -210,69 +215,61 @@ class MainApp:
         self.homePageWindow.close()
         self.privacyPolicyWindow.show()
 
-
     def open_terms_conditions_page(self):
-       self.homePageWindow.close()
-       self.termsConditionsWindow.show()
-
-
-    def openHomePageFromLogin(self):
-        self.logInWindow.close()
-        self.homePageWindow.show()
-   
-    def openAboutUsPage(self):
-            self.homePageWindow.close()
-            self.aboutUsWindow.show()
-
-    def openHomePageFromAboutUs(self):
-            self.aboutUsWindow.close()
-            self.homePageWindow.show()
-
-    def on_profile_button_click(self):
-        self.mainPageWindow.close()
-        self.accountSettingsWindow.show()
-
-
-    def on_continue_clicked(self):
-        self.interestPageWindow.close()
-        self.mainPageWindow.show()
-
-
-    def open_homepagefromwelcome(self):
-        self.welcomePageWindow.close()
-        self.homePageWindow.show()
-
+        self.homePageWindow.close()
+        self.termsConditionsWindow.show()
 
     def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
 
-
     def openLogInPageFromHomepage(self):
         self.homePageWindow.close()
         self.logInWindow.show()
 
+    # AboutUsPage methods
+    def openAboutUsPage(self):
+        self.homePageWindow.close()
+        self.aboutUsWindow.show()
+
+    def openHomePageFromAboutUs(self):
+        self.aboutUsWindow.close()
+        self.homePageWindow.show()
+
+
+    # LogInPage methods
+    def openHomePageFromLogin(self):
+        self.logInWindow.close()
+        self.homePageWindow.show()
 
     def openSignUpPage(self):
         self.logInWindow.close()
         self.signUpWindow.show()
 
-
+    # SignUpPage methods
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
 
-
+    # InterestPage methods
     def openInterestPage(self):
         self.logInWindow.close()
         self.interestPageWindow.show()
 
+    def on_continue_clicked(self):
+        self.interestPageWindow.close()
+        self.mainPageWindow.show()
 
+    # MainPage methods
     def openMainPage(self):
         self.interestPageWindow.close()
         self.mainPageWindow.show()
 
+    def on_profile_button_click(self):
+        self.mainPageWindow.close()
+        self.accountSettingsWindow.show()
 
+    # AccountSettings methods
     def openAccountSettings(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
