@@ -25,7 +25,7 @@ Interest_assets_folder = os.path.join(current_directory, '..', 'resources', 'ima
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1440, 780)
+        Dialog.resize(1440, 850)
         Dialog.setStyleSheet("background-color:#FFF9F0;")
         self.CUHeader = QtWidgets.QFrame(Dialog)
         self.CUHeader.setGeometry(QtCore.QRect(0, 0, 1440, 105))
@@ -42,7 +42,7 @@ class Ui_Dialog(object):
         self.CUHeader.setFrameShadow(QtWidgets.QFrame.Raised)
         self.CUHeader.setObjectName("CUHeader")
         self.HeaderIcon = QtWidgets.QLabel(self.CUHeader)
-        self.HeaderIcon.setGeometry(QtCore.QRect(-70, -20, 274, 146))
+        self.HeaderIcon.setGeometry(QtCore.QRect(-60, -20, 274, 146))
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
@@ -736,7 +736,7 @@ class Ui_Dialog(object):
         self.pushButton_15.raise_()
         self.Placeholder1.raise_()
 
-#CONTINUE BUTTON
+#DONE BUTTON
         self.INTpushButton = QtWidgets.QPushButton(Dialog)
         self.INTpushButton.setGeometry(QtCore.QRect(1154, 730, 150, 35))
         font = QtGui.QFont()
@@ -757,11 +757,13 @@ class Ui_Dialog(object):
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+        
     
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.INTpushButton.setText(_translate("Dialog", "CONTINUE"))
+        self.INTpushButton.setText(_translate("Dialog", "DONE"))
         self.AUtext1.setText(_translate("Dialog", "FIND FRIENDS WHO SHARE YOUR PASSIONS, FROM SPORTS TO ARTS AND BEYOND. START YOUR JOURNEY WITH LIKE-MINDED INDIVIDUALS ON PENPAL!"))
         self.pushButton_1.setText(_translate("Dialog", "SPORTS"))
         self.pushButton_2.setText(_translate("Dialog", "TECHNOLOGY"))
@@ -777,8 +779,8 @@ class Ui_Dialog(object):
         self.pushButton_12.setText(_translate("Dialog", "BOOKS"))
         self.pushButton_13.setText(_translate("Dialog", "LIFESTYLE"))
         self.pushButton_14.setText(_translate("Dialog", "SCIENCE"))
-        self.pushButton_15.setText(_translate("Dialog", "BUSINES"))
-        self.pushButton_15.setText(_translate("Dialog", "BUSINES"))
+        self.pushButton_15.setText(_translate("Dialog", "BUSINESS"))
+       
        
 
 
