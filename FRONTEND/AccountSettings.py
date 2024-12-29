@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
+import sys
+import requests
 
 # Get the absolute path of the current directory
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -601,6 +603,26 @@ class Ui_AccountSettings(object):
         self.AS_DeleteAccPB.setText(_translate("AccountSettings", "Delete Account"))
         self.AS_EditAvatarPB.setText(_translate("AccountSettings", "Edit Avatar"))
 
+#USERNAME DISPLAY
+        self.display_username()
+
+    def display_username(self):
+        # Assuming you have a function to get the username from the database
+        username = self.get_username_from_db()
+        self.AS_Username.setText(username)
+        self.AS_Username2.setText(username)
+
+    
+    def get_username_from_db(self):
+                try:
+                        response = requests.get("http://localhost:5000/get_username", params={"username": "User123"})
+                        if response.status_code == 200:
+                                return response.json().get("username", "Unknown User")
+                        else:
+                                return "Unknown User"
+                except requests.RequestException as e:
+                        print(f"Error fetching username: {e}")
+                        return "Unknown User"
 
 if __name__ == "__main__":
     import sys
