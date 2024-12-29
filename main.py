@@ -187,6 +187,9 @@ class MainApp:
         # Connect the "Log Out" button in the main page to go back to the home page
         self.mainPageUI.MP_LogoutPB.clicked.connect(self.openHomePageFromMainPage)
 
+        # account settings log out
+        self.accountSettingsUI.AS_LogOutPB.clicked.connect(self.openHomepageFromAccountSettings)
+
     def on_profile_button_click(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
@@ -267,6 +270,10 @@ class MainApp:
     def openHomePageFromMainPage(self):
         # Close the Main Page window and show the Home Page window
         self.mainPageWindow.close()
+        self.homePageWindow.show()
+
+    def openHomepageFromAccountSettings(self):
+        self.accountSettingsWindow.close()
         self.homePageWindow.show()
     
     def run(self):
