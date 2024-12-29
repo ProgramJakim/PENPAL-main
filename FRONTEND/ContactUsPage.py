@@ -25,7 +25,7 @@ CU_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1440, 1080)
+        Dialog.setFixedSize(1440, 850)
         Dialog.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.CUHeader = QtWidgets.QFrame(Dialog)
         self.CUHeader.setGeometry(QtCore.QRect(0, 0, 1440, 105))

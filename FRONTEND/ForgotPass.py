@@ -151,6 +151,42 @@ class Ui_ForgotPassword_Fullpage(object):
 
         self.retranslateUi(ForgotPassword_Fullpage)
         QtCore.QMetaObject.connectSlotsByName(ForgotPassword_Fullpage)
+ 
+    # Create the BACK button
+        self.FPbackButton = QtWidgets.QPushButton("BACK", ForgotPassword_Fullpage)
+        self.FPbackButton.setGeometry(QtCore.QRect(1250, 50, 150, 45))
+        font = QtGui.QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(14)  # Set a valid point size
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.FPbackButton.setFont(font)
+        self.FPbackButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.FPbackButton.setStyleSheet("""
+            font:30px;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            background: transparent;
+            border-radius: 5px;
+        """)
+        self.FPbackButton.setObjectName("Back")
+
+         # Add hover effect to change background color
+        self.FPbackButton.setStyleSheet("""
+            QPushButton {
+                font:30px;
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+                background: transparent;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+        """)
+
 
     def retranslateUi(self, ForgotPassword_Fullpage):
         _translate = QtCore.QCoreApplication.translate

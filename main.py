@@ -19,7 +19,7 @@ from AboutUsPage import Ui_AboutUs
 from ContactUsPage import Ui_Dialog as Ui_ContactUsPage
 from PrivacyPolicy import Ui_PrivacyPolicy
 from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
-
+from FriendMenu import Ui_FriendMenu
 
 
 class SplashScreen(QDialog):
@@ -100,6 +100,7 @@ class MainApp:
         self.privacyPolicyWindow = QDialog()
         self.termsConditionsWindow = QDialog()
         self.forgotPasswordWindow = QWidget()
+        self.friendMenuWindow = QDialog()
 
         # Setup UI for all windows
         self.setup_ui()
@@ -141,6 +142,8 @@ class MainApp:
         # Setup UI for the main page window
         self.mainPageUI = Ui_Main_Page()
         self.mainPageUI.setupUi(self.mainPageWindow)
+        self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
+
 
 
         # Setup UI for the account settings window
@@ -164,6 +167,11 @@ class MainApp:
         self.termsConditionsUI = Ui_TermsAndCondition()
         self.termsConditionsUI.setupUi(self.termsConditionsWindow)
 
+         # Setup UI for the friend menu window 
+        self.friendMenuUI = Ui_FriendMenu()
+        self.friendMenuUI.setupUi(self.friendMenuWindow)
+
+
     def connect_buttons(self):
         # WelcomePage buttons
         self.welcomePageUI.press_to_continue.clicked.connect(self.open_homepagefromwelcome)
@@ -174,7 +182,9 @@ class MainApp:
         self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
         self.logInUI.LI_ForgotPasswordLBL.mousePressEvent = self.handleForgotPasswordClick
         
-
+        # ForgotPass buttons
+        self.forgotPassUi.FPbackButton.clicked.connect(self.openLogInFromForgotPass)
+       
         # SignUpPage buttons
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
         
@@ -198,10 +208,18 @@ class MainApp:
 
         # MainPage buttons
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
-        self.mainPageUI.MP_ProfilePB.clicked.connect(self.on_profile_button_click)
+        self.mainPageUI.MP_LogoutPB.clicked.connect(self.openHomePageFromMainPage)
 
-        # AccountSettingsButtons
+        # AccountSettings Buttons
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
+        self.accountSettingsUI.AS_MenuPB.clicked.connect(self.openFriendMenuFromAccountSettings)
+        self.accountSettingsUI.AS_LogOutPB.clicked.connect(self.openHomepageFromAccountSettings)
+
+        # FriendMenu Buttons
+        self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
+        self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
+        self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFrienMenu)
+
 
     # WelcomePage methods
     def open_homepagefromwelcome(self):
@@ -212,23 +230,18 @@ class MainApp:
     def open_about_us_page(self):
         self.homePageWindow.close()
         self.aboutUsWindow.show()
-
     def open_contact_us_page(self):
         self.homePageWindow.close()
         self.contactUsWindow.show()
-
     def open_privacy_policy_page(self):
         self.homePageWindow.close()
         self.privacyPolicyWindow.show()
-
     def open_terms_conditions_page(self):
         self.homePageWindow.close()
         self.termsConditionsWindow.show()
-
     def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
-
     def openLogInPageFromHomepage(self):
         self.homePageWindow.close()
         self.logInWindow.show()
@@ -237,7 +250,6 @@ class MainApp:
     def openAboutUsPage(self):
         self.homePageWindow.close()
         self.aboutUsWindow.show()
-
     def openHomePageFromAboutUs(self):
         self.aboutUsWindow.close()
         self.homePageWindow.show()
@@ -247,24 +259,24 @@ class MainApp:
     def openHomePageFromLogin(self):
         self.logInWindow.close()
         self.homePageWindow.show()
-
     def openSignUpPage(self):
         self.logInWindow.close()
         self.signUpWindow.show()
-
     def handleForgotPasswordClick(self, event):
         self.openForgotPassPageFromLogin()
-
     def openForgotPassPageFromLogin(self):
         self.logInWindow.close()
         self.forgotPasswordWindow.show()
+
+     # ForgotPass methods
+    def openLogInFromForgotPass(self):
+        self.forgotPasswordWindow.close()
+        self.logInWindow.show()
 
     # SignUpPage methods
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
-    
-
     def open_terms_conditions_page(self):
         self.signUpWindow.close()
         self.termsConditionsWindow.show()
@@ -274,28 +286,47 @@ class MainApp:
     def openInterestPage(self):
         self.logInWindow.close()
         self.interestPageWindow.show()
-
     def on_continue_clicked(self):
         self.interestPageWindow.close()
         self.mainPageWindow.show()
-
-    # MainPage methods
     def openMainPage(self):
         self.interestPageWindow.close()
         self.mainPageWindow.show()
 
-    def on_profile_button_click(self):
-        self.mainPageWindow.close()
-        self.accountSettingsWindow.show()
-
+    # MainPage methods
     def openAccountSettings(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
+    def openFriendMenu(self):
+        self.mainPageWindow.close()
+        self.friendMenuWindow.show()
+    def openHomePageFromMainPage(self):
+        # Close the Main Page window and show the Home Page window
+        self.mainPageWindow.close()
+        self.homePageWindow.show()
+
 
     # AccountSettings methods
     def openMAINPAGEfromAccountSettings(self):
         self.accountSettingsWindow.close()
         self.mainPageWindow.show()
+    def openFriendMenuFromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.friendMenuWindow.show()
+    def openHomepageFromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.homePageWindow.show()
+
+    # FriendMenu methods
+    def openMainPageFromFriendMenu(self):
+        self.friendMenuWindow.close()
+        self.mainPageWindow.show()
+    def openAccountSettingsFromFrienMenu(self):
+        self.friendMenuWindow.close()
+        self.accountSettingsWindow.show()
+    def openHomePageFromFriendMenu(self):
+        self.friendMenuWindow.close()
+        self.homePageWindow.show()
 
 
     def run(self):

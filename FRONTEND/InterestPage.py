@@ -754,25 +754,7 @@ class Ui_Dialog(object):
         "")
         self.INTpushButton.setObjectName("INTpushButton")
 
-#BACK BUTTON
-        self.BACKpushButton = QtWidgets.QPushButton(Dialog)
-        self.BACKpushButton.setGeometry(QtCore.QRect(50, 730, 150, 35))
-        font = QtGui.QFont()
-        font.setFamily("Rockwell Condensed")
-        font.setPointSize(20)  # Set the point size to 20
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.BACKpushButton.setFont(font)
-        self.BACKpushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BACKpushButton.setStyleSheet("background:rgb(255, 187, 173);\n"
-        "font:20px;\n"
-        "color: #FFFFFF;\n"
-        "")
-        self.BACKpushButton.setObjectName("BACKpushButton")
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
     
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
