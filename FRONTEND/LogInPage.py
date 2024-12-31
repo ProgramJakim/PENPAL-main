@@ -9,6 +9,7 @@ from PyQt5.QtGui import QFont, QCursor
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QLineEdit, QCheckBox, QPushButton
 from PyQt5.QtCore import QRect, Qt
 from InterestPage import Ui_Interest
+from MAINPAGE import Ui_Main_Page  # Import Ui_Dialog from the appropriate module
 import requests
 import shelve
 from mysql.connector import errorcode
@@ -339,7 +340,7 @@ class Ui_LogIn(object):
     def openMainAppWindow(self):
         # Create a QWidget for the Homepage
         self.mainAppWindow = QtWidgets.QWidget()   # Create a QWidget (not just the UI layout)
-        self.ui = Ui_Dialog()  # Create the Ui_Homepage object
+        self.ui = Ui_Main_Page()  # Create the Ui_Homepage object
         self.ui.setupUi(self.mainAppWindow)  # Set up the UI layout for the QWidget
 
    
