@@ -6,11 +6,14 @@ import logging
 from mysql.connector import errorcode
 from argon2 import PasswordHasher
 
-
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
+# Session configuration
 app.config['SECRET_KEY'] = 'PenpalApp'
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_PERMANENT'] = False  # Ensure sessions are not permanent
+Session(app)
 
 # MySQL database connection setup
 db_connection = mysql.connector.connect(
@@ -22,11 +25,11 @@ db_connection = mysql.connector.connect(
 
 db_cursor = db_connection.cursor()
 
+ph = PasswordHasher()  # Initialize Argon2 Password Hasher
+
 @app.route("/sample", methods=['GET'])
 def sample():
-    return jsonify({"message":"I AM A SAMPLE GET ENDPOINT"}), 200
-
-ph = PasswordHasher()  # Initialize Argon2 Password Hasher
+    return jsonify({"message": "I AM A SAMPLE GET ENDPOINT"}), 200
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -87,85 +90,71 @@ def validate_password(password):
         return "Password must include at least one special character."
     return None
 
-ph = PasswordHasher()  # Initialize Argon2 Password Hasher
-
-
 @app.route('/login', methods=['POST'])
 def login():
     # Get JSON data from frontend
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-    session['username'] = data.get('username')
-    username = session.get('username')
-    logging.debug(f"Session username: {session.get('username')}")
 
     logging.debug(f"Login attempt for username: {username}")
 
     # Fetch the hashed password for the provided username
-    db_cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
+    db_cursor.execute("SELECT id, password FROM users WHERE username = %s", (username,))
     result = db_cursor.fetchone()
 
     if result:
-        stored_hashed_password = result[0]
+        user_id, stored_hashed_password = result
         logging.debug(f"Stored hash for user {username}: {stored_hashed_password}")
 
         try:
             # Verify password using Argon2
             ph.verify(stored_hashed_password, password)
-            return jsonify({"message": f"Welcome back, {username}!", "username": username, "accessToken": "sample"}), 200
+            # Store user ID and username in session
+            session['user_id'] = user_id
+            session['username'] = username
+            session.modified = True  # Ensure the session is saved
+            logging.debug(f"Session data after login: {dict(session)}")
+            return jsonify({"message": f"Welcome back, {username}!", "user_id": user_id, "username": username}), 200
         except Exception as e:
             logging.error(f"Password verification failed: {e}")
             return jsonify({"message": "Invalid password."}), 400
     else:
         logging.error("Username not found")
         return jsonify({"message": "Invalid username."}), 400
-    
-#FOR ACCOUNT DETAILS
 
 #USERNAME DISPLAY
 
 @app.route('/get_username', methods=['GET'])
 def get_username():
-    
+    logging.debug("Retrieving username from session")
+    logging.debug(f"Session contents: {dict(session)}")
     username = session.get('username')
-    logging.debug(f"Session username: {username}")
+    
+    if not username:
+        app.logger.error("Username not found in session")
+        return jsonify({"error": "Username not found in session"}), 401
+
+    app.logger.debug(f"Username retrieved from session: {username}")
+    return jsonify({"username": username}), 200
+
+#AGE DISPLAY
+
+@app.route('/get_user_age', methods=['GET'])
+def get_user_age():
+    username = request.args.get('username')
     
     if not username:
         return jsonify({"error": "Username is required"}), 400
 
-    db_cursor.execute("SELECT username FROM users WHERE username = %s", (username,))
+    db_cursor.execute("SELECT age FROM users WHERE username = %s", (username,))
     result = db_cursor.fetchone()
 
     if result:
-        return jsonify({"username": result[0]}), 200
+        age = result[0]
+        return jsonify({"age": age}), 200
     else:
         return jsonify({"error": "User not found"}), 404
 
-#AGE DISPLAY
-
-@app.route('/get_all_users', methods=['GET'])
-def get_all_users():
-    try:
-        db_cursor.execute("SELECT username, age, location, gender, social_media_link, gmail FROM users")
-        users = db_cursor.fetchall()
-        user_list = []
-        for user in users:
-            user_details = {
-                "username": user[0],
-                "age": user[1],
-                "location": user[2],
-                "gender": user[3],
-                "social_media_link": user[4],
-                "gmail": user[5]
-            }
-            user_list.append(user_details)
-        return jsonify(user_list), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Error: {err}")
-        return jsonify({"error": "Failed to retrieve users"}), 500
-
-
 if __name__ == '__main__':
     app.run(debug=True)
-
