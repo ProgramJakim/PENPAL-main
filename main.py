@@ -110,6 +110,8 @@ class MainApp:
         self.connect_buttons()
 
 
+
+
     def setup_ui(self):
         # Setup UI for the WelcomePage window
         self.welcomePageUI = Ui_WelcomePage()
@@ -120,7 +122,7 @@ class MainApp:
         self.logInUI = Ui_LogIn()
         self.logInUI.setupUi(self.logInWindow)
 
-        # Setup UI for the WelcomePage window
+        # Setup UI for the forgot password window
         self.forgotPassUi = Ui_ForgotPassword_Fullpage()
         self.forgotPassUi.setupUi(self.forgotPasswordWindow)
 
@@ -160,15 +162,15 @@ class MainApp:
         self.aboutUsUI = Ui_AboutUs()
         self.aboutUsUI.setupUi(self.aboutUsWindow)
 
-        # Setup UI for the Contact U Window
-        self.contactUsUi =  Ui_ContactUs()
-        self.contactUsUi.setupUi( self.contactUsWindow)
+        # Setup UI for the Contact Us Window
+        self.contactUsUi = Ui_ContactUs()
+        self.contactUsUi.setupUi(self.contactUsWindow)
 
-        # Setup Ui for the privacyPolicy
+        # Setup UI for the privacyPolicy
         self.privacyPolicyUI = Ui_PrivacyPolicy()
         self.privacyPolicyUI.setupUi(self.privacyPolicyWindow)
 
-        # Setup Ui for termsConditionsWindow 
+        # Setup UI for termsConditionsWindow 
         self.termsConditionsUI = Ui_TermsAndCondition()
         self.termsConditionsUI.setupUi(self.termsConditionsWindow)
 
@@ -227,7 +229,7 @@ class MainApp:
         self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
         self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFrienMenu)
 
-        # ChangeProfile BUttons
+        # ChangeProfile Buttons
         self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
 
     # WelcomePage methods
@@ -309,6 +311,8 @@ class MainApp:
     def openAccountSettings(self):
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
+        # Pass user_id and username to AccountSettings UI
+        self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
     def openFriendMenu(self):
         self.mainPageWindow.close()
         self.friendMenuWindow.show()
@@ -343,7 +347,7 @@ class MainApp:
         self.friendMenuWindow.close()
         self.homePageWindow.show()
 
-    # ChangeProifle methods
+    # ChangeProfile methods
     def openAccountSettingsFromChangeProfile(self):
         self.changeProfileWindow.close()
         self.accountSettingsWindow.show()
@@ -362,6 +366,3 @@ class MainApp:
 if __name__ == "__main__":
     mainApp = MainApp()
     mainApp.run()
-
-
-

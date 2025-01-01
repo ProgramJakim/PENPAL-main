@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
+from flask_session import Session
 import mysql.connector
 from passlib.hash import argon2
 import logging
@@ -8,6 +9,8 @@ from argon2 import PasswordHasher
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
+
+app.config['SECRET_KEY'] = 'PenpalApp'
 
 # MySQL database connection setup
 db_connection = mysql.connector.connect(
@@ -93,6 +96,9 @@ def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
+    session['username'] = data.get('username')
+    username = session.get('username')
+    logging.debug(f"Session username: {session.get('username')}")
 
     logging.debug(f"Login attempt for username: {username}")
 
@@ -121,7 +127,9 @@ def login():
 
 @app.route('/get_username', methods=['GET'])
 def get_username():
-    username = request.args.get('username')
+    
+    username = session.get('username')
+    logging.debug(f"Session username: {username}")
     
     if not username:
         return jsonify({"error": "Username is required"}), 400
@@ -136,22 +144,27 @@ def get_username():
 
 #AGE DISPLAY
 
-@app.route('/get_user_age', methods=['GET'])
-def get_user_age():
-    username = request.args.get('username')
-    
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
+@app.route('/get_all_users', methods=['GET'])
+def get_all_users():
+    try:
+        db_cursor.execute("SELECT username, age, location, gender, social_media_link, gmail FROM users")
+        users = db_cursor.fetchall()
+        user_list = []
+        for user in users:
+            user_details = {
+                "username": user[0],
+                "age": user[1],
+                "location": user[2],
+                "gender": user[3],
+                "social_media_link": user[4],
+                "gmail": user[5]
+            }
+            user_list.append(user_details)
+        return jsonify(user_list), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Error: {err}")
+        return jsonify({"error": "Failed to retrieve users"}), 500
 
-    db_cursor.execute("SELECT age FROM users WHERE username = %s", (username,))
-    result = db_cursor.fetchone()
-
-    if result:
-        age = result[0]
-        return jsonify({"age": age}), 200
-    else:
-        return jsonify({"error": "User not found"}), 404
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
