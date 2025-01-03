@@ -92,14 +92,12 @@ def validate_password(password):
 
 @app.route('/login', methods=['POST'])
 def login():
-    # Get JSON data from frontend
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
 
     logging.debug(f"Login attempt for username: {username}")
 
-    # Fetch the hashed password for the provided username
     db_cursor.execute("SELECT id, password FROM users WHERE username = %s", (username,))
     result = db_cursor.fetchone()
 
@@ -108,12 +106,10 @@ def login():
         logging.debug(f"Stored hash for user {username}: {stored_hashed_password}")
 
         try:
-            # Verify password using Argon2
             ph.verify(stored_hashed_password, password)
-            # Store user ID and username in session
             session['user_id'] = user_id
             session['username'] = username
-            session.modified = True  # Ensure the session is saved
+            session.modified = True
             logging.debug(f"Session data after login: {dict(session)}")
             return jsonify({"message": f"Welcome back, {username}!", "user_id": user_id, "username": username}), 200
         except Exception as e:

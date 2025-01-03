@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
 import sys
+import requests
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from HomePage import Ui_Homepage
@@ -421,9 +422,32 @@ class Ui_Main_Page(object):
         self.MP_Preference4.setText(_translate("Main_Page", "Pref.4"))
         self.MP_Preference5.setText(_translate("Main_Page", "Pref.5"))
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
+      
 
-       
+#USERNAME DISPLAY
+        self.username = "Default Username"  # Set a default username
+        self.display_username()
 
+    def set_user_info(self, user_id, username):
+        self.user_id = user_id
+        self.username = username
+        self.display_username()
+    
+    def display_username(self):
+        username = self.get_username_from_server()
+        self.MP_UPusername.setText(username)
+        self.MP_Username.setText(username)
+
+    def get_username_from_server(self):
+        try:
+            response = requests.get("http://localhost:5000/get_username", params={"username": self.username})
+            if response.status_code == 200:
+                return self.username
+            else:
+                return self.username
+        except requests.RequestException as e:
+            print(f"Error fetching username: {e}")
+            return "Unknown User"
 
 
 if __name__ == "__main__":
