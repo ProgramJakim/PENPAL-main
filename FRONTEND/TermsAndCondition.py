@@ -121,7 +121,6 @@ class Ui_TermsAndCondition(object):
 "background: transparent;\n"
 "")
         self.TAC_ContinuePB.setObjectName("TAC_ContinuePB")
-        self.TAC_ContinuePB.clicked.connect(lambda: self.back_to_signup(TermsAndCondition))
         self.TAC_TermsHeader.raise_()
         self.TAC_Header.raise_()
         self.TAC_SideImage.raise_()
@@ -132,15 +131,7 @@ class Ui_TermsAndCondition(object):
         self.retranslateUi(TermsAndCondition)
         QtCore.QMetaObject.connectSlotsByName(TermsAndCondition)
 
-    def back_to_signup(self, current_TermsAndCondition):
-        from SignUpPage import Ui_SignUp
-        self.signUpWindow = QtWidgets.QTermsAndCondition()
-        self.ui = Ui_SignUp()
-        self.ui.setupUi(self.signUpWindow, self.username, self.password, self.age, self.gender, self.location, self.social_media_link, self.gmail)
-        self.ui.SU_TermsandPrivacyChB.setChecked(True)  # Preserve checkbox state
-
-        self.signUpWindow.show()
-        current_TermsAndCondition.close()
+    
 
     def retranslateUi(self, TermsAndCondition):
         _translate = QtCore.QCoreApplication.translate

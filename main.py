@@ -99,7 +99,7 @@ class MainApp:
         self.aboutUsWindow = QWidget()
         self.contactUsWindow = QDialog()
         self.privacyPolicyWindow = QDialog()
-        self.termsConditionsWindow = QDialog()
+        self.termsWindow = QDialog()
         self.forgotPasswordWindow = QWidget()
         self.friendMenuWindow = QDialog()
         self.changeProfileWindow = QDialog()
@@ -170,7 +170,7 @@ class MainApp:
 
         # Setup Ui for termsConditionsWindow 
         self.termsConditionsUI = Ui_TermsAndCondition()
-        self.termsConditionsUI.setupUi(self.termsConditionsWindow)
+        self.termsConditionsUI.setupUi(self.termsWindow)
 
          # Setup UI for the friend menu window 
         self.friendMenuUI = Ui_FriendMenu()
@@ -194,7 +194,11 @@ class MainApp:
         # SignUpPage buttons
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
         self.signUpUI.SU_InterestPB.clicked.connect(self.openInterestPage)
+        self.signUpUI.SU_TermsandPrivacyChB.clicked.connect(self.open_terms_conditions_page_from_signup)
         
+        # Terms&Conditions Buttons
+        self.termsConditionsUI.TAC_ContinuePB.clicked.connect(self.backtoSignUpFromTermsCondition)
+    
 
         # HomePage buttons
         self.homePageUI.LogIn_2.clicked.connect(self.openLogInPageFromHomepage)
@@ -245,9 +249,9 @@ class MainApp:
     def open_privacy_policy_page(self):
         self.homePageWindow.close()
         self.privacyPolicyWindow.show()
-    def open_terms_conditions_page(self):
-        self.homePageWindow.close()
-        self.termsConditionsWindow.show()
+    def open_terms_conditions_page_from_signup(self):
+        self.signUpWindow.close()
+        self.termsWindow.show()
     def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
@@ -299,10 +303,15 @@ class MainApp:
         self.logInWindow.show()
     def open_terms_conditions_page(self):
         self.signUpWindow.close()
-        self.termsConditionsWindow.show()
+        self.termsWindow.show()
     def openInterestPage(self):
-        self.logInWindow.close()
+        self.signUpWindow.close()
         self.interestPageWindow.show()
+
+    # Terms&Conditions methods
+    def backtoSignUpFromTermsCondition(self):
+        self.termsWindow.close()
+        self.signUpWindow.show()
        
 
     # InterestPage methods
