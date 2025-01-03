@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox, QMainWindow
+from PyQt5.QtWidgets import QMessageBox, QMainWindow, QLabel
 import os, requests
 import re
 import sys
@@ -372,6 +372,7 @@ class Ui_SignUp(object):
         self.SU_LocationLE.setText(location)
         self.SU_SocialLinkLE.setText(social_media_link)
         self.SU_EmailLE.setText(gmail)
+        self.error_message_label = QLabel() 
 
         self.retranslateUi(SignUp)
         QtCore.QMetaObject.connectSlotsByName(SignUp)
@@ -447,6 +448,8 @@ class Ui_SignUp(object):
                         self.SU_SocialLinkLE.clear()
                         self.SU_EmailLE.clear()  # Clear the Gmail field
 
+                        self.clear_error_message()  # Clear any existing error messages
+
                         self.show_success_message("You can continue creating another account or stay here.")
 
                         return True  # Indicate that the sign-up process succeeded
@@ -456,8 +459,12 @@ class Ui_SignUp(object):
                         return False  # Indicate failure
 
         except requests.exceptions.RequestException as e:
-                self.show_error_message(f"Request failed: {str(e)}")
-                return False  # Indicate failure
+             self.show_error_message(f"Request failed: {str(e)}")
+        return False  # Indicate failure
+
+    def clear_error_message(self):
+        # Assuming you have a QLabel named error_message_label for displaying error messages
+        self.error_message_label.setText("")
 
     def show_success_message(self, message):
         msg = QMessageBox()

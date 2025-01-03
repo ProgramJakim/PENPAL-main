@@ -151,6 +151,62 @@ def get_user_age():
         return jsonify({"age": age}), 200
     else:
         return jsonify({"error": "User not found"}), 404
+    
+#GENDER DISPLAY
+
+@app.route('/get_user_gender', methods=['GET'])
+def get_user_gender():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    db_cursor.execute("SELECT gender FROM users WHERE username = %s", (username,))
+    result = db_cursor.fetchone()
+
+    if result:
+        gender = result[0]
+        return jsonify({"gender": gender}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
+#LOCATION DISPLAY
+
+@app.route('/get_user_location', methods=['GET'])
+def get_user_location():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    db_cursor.execute("SELECT location FROM users WHERE username = %s", (username,))
+    result = db_cursor.fetchone()
+
+    if result:
+        location = result[0]
+        return jsonify({"location": location}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
+# SOCIAL LINK DISPLAY
+
+@app.route('/get_user_social_link', methods=['GET'])
+def get_user_social_link():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    db_cursor.execute("SELECT social_media_link FROM users WHERE username = %s", (username,))
+    result = db_cursor.fetchone()
+
+    if result:
+        social_link = result[0]
+        return jsonify({"social_link": social_link}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
+#SOCIAL LINK DISPLAY
 
 if __name__ == '__main__':
     app.run(debug=True)
