@@ -266,6 +266,14 @@ class MainApp:
 
     # LogInPage methods
     def openMAINPage(self):
+        # Assuming user_id and username are obtained after successful login
+        user_id = self.logInUI.user_id  # Replace with actual user_id
+        username = self.logInUI.username  # Replace with actual username
+
+        # Set user info in the main page UI
+        self.mainPageUI.set_user_info(user_id, username)
+
+        # Show the main page window
         self.logInWindow.close()
         self.mainPageWindow.show()
     def openHomePageFromLogin(self):
@@ -307,6 +315,7 @@ class MainApp:
 
     # MainPage methods
     def openAccountSettings(self):
+        self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
     def openFriendMenu(self):

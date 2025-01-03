@@ -283,43 +283,33 @@ class Ui_LogIn(object):
             self.LI_PasswordLE.setEchoMode(QLineEdit.Normal)
         else:
             self.LI_PasswordLE.setEchoMode(QLineEdit.Password)
-
+            
     def handle_login(self):
-        """Handle the login process by interacting with the Flask API."""
         username = self.LI_UsernameLE.text()
         password = self.LI_PasswordLE.text()
 
-        # Prepare data to send to the backend
         data = {'username': username, 'password': password}
 
         try:
-            # Send login request to the Flask API
             response = requests.post('http://127.0.0.1:5000/login', json=data)
             
-            # Check the response from the backend
             if response.status_code == 200:
-                # If login is successful, proceed to the main app or dashboard
                 response_data = response.json()
                 if "Welcome back" in response_data.get("message", ""):
                     self.show_popup_message("Login Success", "Welcome back", username)
                     
-                    # Save credentials
-                    with shelve.open('credentials') as db:
-                        db['username'] = username
-                        db['password'] = password
+                    # Store user ID and username
+                    self.user_id = response_data.get("user_id")
+                    self.username = response_data.get("username")
                     
                     self.openMainAppWindow()
-                    self.logInWindow.close()  # Close the login window
                 else:
-                    # Show error message for invalid login credentials
                     self.show_error_message("Login failed", response_data.get("message", "Unknown error."))
             else:
-                # Handle failed request, e.g., server issues
                 self.show_error_message("Login failed", "Invalid username or password.")
         
         except requests.exceptions.RequestException as e:
-            # Handle any request errors (network issues, etc.)
-            self.show_error_message("Connection Error", "Could not connect to the server.")
+            self.show_error_message("Login failed", f"An error occurred: {e}")
 
     def show_error_message(self, title, message):
         """Helper method to show error messages in a message box."""

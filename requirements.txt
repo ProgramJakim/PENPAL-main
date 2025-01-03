@@ -6,3 +6,4 @@ argon2-cffi
 PyQt5
 requests
 networkx
+flask_session
