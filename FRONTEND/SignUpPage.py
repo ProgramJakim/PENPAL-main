@@ -15,6 +15,7 @@ import re
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from InterestPage import Ui_Interest
+from TermsAndCondition import Ui_TermsAndCondition
 # Get the absolute path of the current directory
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -283,7 +284,7 @@ class Ui_SignUp(object):
         self.SU_TermsandPrivacyChB.setStyleSheet("background: transparent;    \n"
 "")
         self.SU_TermsandPrivacyChB.setObjectName("SU_TermsandPrivacyChB")
-        self.SU_TermsandPrivacyChB.clicked.connect(lambda: self.open_terms_and_conditions(SignUp))  # Connect checkbox to method
+        
 
 #Age Line Edit (Text Box)
         self.SU_AgeLE = QtWidgets.QLineEdit(self.SU_MainPanel)
@@ -490,20 +491,14 @@ class Ui_SignUp(object):
         return bool(re.match(pattern, social_link))
     def on_sign_up_button_click(self):
         if self.handle_signup():  # If sign-up is successful, proceed
-            self.backtoLogInPage()
+           self.backtoLogInPage()
         else:
             # If there's an issue (password, social link, etc.), the user will have to fix it
             pass
-
+    
     
 
-    def open_terms_and_conditions(self, current_dialog):
-        from TermsAndCondition import Ui_Dialog
-        self.termsWindow = QtWidgets.QDialog()
-        self.ui = Ui_Dialog()
-        self.ui.setupUi(self.termsWindow, self.SU_UsernameLE.text(), self.SU_PasswordLE.text(), self.SU_AgeLE.text(), self.SU_GenderCB.currentText(), self.SU_LocationLE.text(), self.SU_SocialLinkLE.text(), self.SU_EmailLE.text())
-        self.termsWindow.show()
-        current_dialog.close()
+       
 
     def retranslateUi(self, SignUp):
         _translate = QtCore.QCoreApplication.translate
