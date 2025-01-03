@@ -24,6 +24,8 @@ class Ui_AccountSettings(object):
     def setupUi(self, AccountSettings):
         AccountSettings.setObjectName("AccountSettings")
         AccountSettings.setFixedSize(1440, 750)
+        self.user_id = None
+        self.username = None
         
 #Header
         self.AS_Header = QtWidgets.QFrame(AccountSettings)
@@ -606,23 +608,27 @@ class Ui_AccountSettings(object):
 #USERNAME DISPLAY
         self.display_username()
 
+    def set_user_info(self, user_id, username):
+        self.user_id = user_id
+        self.username = username
+        self.display_username()
+        
     def display_username(self):
-        # Assuming you have a function to get the username from the database
-        username = self.get_username_from_db()
+        username = self.get_username_from_server()
         self.AS_Username.setText(username)
         self.AS_Username2.setText(username)
 
     
-    def get_username_from_db(self):
-                try:
-                        response = requests.get("http://localhost:5000/get_username", params={"username": "User123"})
-                        if response.status_code == 200:
-                                return response.json().get("username", "Unknown User")
-                        else:
-                                return "Unknown User"
-                except requests.RequestException as e:
-                        print(f"Error fetching username: {e}")
-                        return "Unknown User"
+    def get_username_from_server(self):
+        try:
+            response = requests.get("http://localhost:5000/get_username", params={"username": self.username})
+            if response.status_code == 200:
+                return self.username
+            else:
+                return self.username
+        except requests.RequestException as e:
+            print(f"Error fetching username: {e}")
+            return "Unknown User"
 
 if __name__ == "__main__":
     import sys
