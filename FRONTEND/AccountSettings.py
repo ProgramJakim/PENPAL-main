@@ -218,7 +218,7 @@ class Ui_AccountSettings(object):
         
 #Gender Display
         self.AS_GenderDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_GenderDisplay.setGeometry(QtCore.QRect(270, 340, 111, 41))
+        self.AS_GenderDisplay.setGeometry(QtCore.QRect(270, 340, 200, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -248,7 +248,7 @@ class Ui_AccountSettings(object):
         
 #Location Display
         self.AS_LocationDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 400, 131, 41))
+        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 400, 200, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -278,7 +278,7 @@ class Ui_AccountSettings(object):
 
 #Social Link Display
         self.AS_SocialLinkDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_SocialLinkDisplay.setGeometry(QtCore.QRect(130, 510, 500, 41))
+        self.AS_SocialLinkDisplay.setGeometry(QtCore.QRect(140, 510, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(10)
