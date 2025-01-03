@@ -436,7 +436,7 @@ class Ui_Main_Page(object):
     def display_username(self):
         username = self.get_username_from_server()
         self.MP_UPusername.setText(username)
-        self.MP_Username.setText(username)
+       
 
     def get_username_from_server(self):
         try:
