@@ -635,6 +635,15 @@ class MainApp:
         self.mainPageWindow.close()
         self.friendMenuWindow.show()
     def openHomePageFromMainPage(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+
         # Close the Main Page window and show the Home Page window
         self.mainPageWindow.close()
         self.homePageWindow.show()
