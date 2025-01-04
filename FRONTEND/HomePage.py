@@ -229,6 +229,15 @@ class Ui_Homepage(object):
         self.buttons[3].clicked.connect(lambda: self.open_page("Page 4"))
         self.buttons[4].clicked.connect(lambda: self.open_page("Page 5"))
 
+        # Connect the buttons to their respective methods for redirection
+        self.LogIn_2.clicked.connect(self.openLogInPage)
+        self.SignUp.clicked.connect(self.openSignUpPage)
+        self.AboutUs.clicked.connect(self.openAboutUsPage)
+        self.terms_conditions_button.clicked.connect(self.openTermsAndConditionsPage)
+        self.privacy_policy_button.clicked.connect(self.openPrivacyPolicyPage)
+        self.about_us_button.clicked.connect(self.openAboutUsPage)
+        self.contact_us_button.clicked.connect(self.openContactUsPage)
+
     def toggle_buttons(self):
         # Clear previous animations to prevent memory leaks
         self.animations.clear()
@@ -274,7 +283,47 @@ class Ui_Homepage(object):
         layout.addWidget(label)
         new_window.exec_()
 
-    
+    def openLogInPage(self):
+        from LogInPage import Ui_LogIn
+        self.logInPage = QtWidgets.QDialog()
+        self.ui = Ui_LogIn()
+        self.ui.setupUi(self.logInPage)
+        self.logInPage.show()
+
+    def openSignUpPage(self):
+        from SignUpPage import Ui_SignUp
+        self.signUpPage = QtWidgets.QDialog()
+        self.ui = Ui_SignUp()
+        self.ui.setupUi(self.signUpPage)
+        self.signUpPage.show()
+
+    def openAboutUsPage(self):
+        from AboutUsPage import Ui_AboutUs
+        self.aboutUsPage = QtWidgets.QDialog()
+        self.ui = Ui_AboutUs()
+        self.ui.setupUi(self.aboutUsPage)
+        self.aboutUsPage.show()
+
+    def openTermsAndConditionsPage(self):
+        from TermsAndCondition import Ui_TermsAndCondition
+        self.termsAndConditionsPage = QtWidgets.QDialog()
+        self.ui = Ui_TermsAndCondition()
+        self.ui.setupUi(self.termsAndConditionsPage)
+        self.termsAndConditionsPage.show()
+
+    def openPrivacyPolicyPage(self):
+        from PrivacyPolicy import Ui_PrivacyPolicy
+        self.privacyPolicyPage = QtWidgets.QDialog()
+        self.ui = Ui_PrivacyPolicy()
+        self.ui.setupUi(self.privacyPolicyPage)
+        self.privacyPolicyPage.show()
+
+    def openContactUsPage(self):
+        from ContactUsPage import Ui_ContactUs
+        self.contactUsPage = QtWidgets.QDialog()
+        self.ui = Ui_ContactUs()
+        self.ui.setupUi(self.contactUsPage)
+        self.contactUsPage.show()
 
     def open_terms_conditions_page(self):
         from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition

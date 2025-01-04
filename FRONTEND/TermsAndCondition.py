@@ -122,6 +122,7 @@ class Ui_TermsAndCondition(object):
 "background: transparent;\n"
 "")
         self.TAC_ContinuePB.setObjectName("TAC_ContinuePB")
+        self.TAC_ContinuePB.clicked.connect(lambda: self.go_back(TermsAndCondition))
         self.TAC_TermsHeader.raise_()
         self.TAC_Header.raise_()
         self.TAC_SideImage.raise_()
@@ -132,7 +133,8 @@ class Ui_TermsAndCondition(object):
         self.retranslateUi(TermsAndCondition)
         QtCore.QMetaObject.connectSlotsByName(TermsAndCondition)
 
-    
+    def go_back(self, TermsAndCondition):
+        TermsAndCondition.close()
 
     def retranslateUi(self, TermsAndCondition):
         _translate = QtCore.QCoreApplication.translate

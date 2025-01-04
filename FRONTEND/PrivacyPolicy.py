@@ -82,6 +82,7 @@ class Ui_PrivacyPolicy(object):
 "border-radius: 5px;\n"
 "background-color: #FFBCAD;")
         self.PP_PrivacyStatementTE.setObjectName("PP_PrivacyStatementTE")
+        self.PP_PrivacyStatementTE.setReadOnly(True)  # Make the text non-editable
         
 #Header 2
         self.PP_Header_2 = QtWidgets.QFrame(PrivacyPolicy)
@@ -113,6 +114,7 @@ class Ui_PrivacyPolicy(object):
 "background: transparent;\n"
 "")
         self.PP_ContinuePB.setObjectName("PP_ContinuePB")
+        self.PP_ContinuePB.clicked.connect(self.openHomePage)
         self.PP_Header_2.raise_()
         self.PP_Header.raise_()
         self.PP_SideImage.raise_()
@@ -122,6 +124,14 @@ class Ui_PrivacyPolicy(object):
 
         self.retranslateUi(PrivacyPolicy)
         QtCore.QMetaObject.connectSlotsByName(PrivacyPolicy)
+
+    def openHomePage(self):
+        from HomePage import Ui_Homepage
+        self.homePage = QtWidgets.QDialog()
+        self.ui = Ui_Homepage()
+        self.ui.setupUi(self.homePage)
+        self.homePage.show()
+        QtWidgets.QDialog().close()
 
     def retranslateUi(self, PrivacyPolicy):
         _translate = QtCore.QCoreApplication.translate

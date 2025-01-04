@@ -91,6 +91,7 @@ class Ui_AboutUs(object):
             }
         """)
 
+        self.AUbackButton.clicked.connect(lambda: self.go_back(AboutUs))
          
         # Set the content widget as the scroll area's widget
         scroll_area.setWidget(content_widget)
@@ -101,6 +102,8 @@ class Ui_AboutUs(object):
         main_layout.addWidget(scroll_area)
         AboutUs.setLayout(main_layout)
 
+    def go_back(self, AboutUs):
+        AboutUs.close()
 
     def open_page(self, page_name):
         new_window = QDialog()
