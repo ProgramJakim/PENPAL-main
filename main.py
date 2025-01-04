@@ -155,6 +155,7 @@ class MainApp:
         self.mainPageUI = Ui_Main_Page()
         self.mainPageUI.setupUi(self.mainPageWindow)
         self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
+        self.displayed_users = set()  # Keep track of displayed users
 
 
 
@@ -275,11 +276,13 @@ class MainApp:
         self.interestPageUI.pushButton_15.clicked.connect(lambda: self.handle_button_click_number("pushButton_15"))
 
 
-
-
         # MainPage buttons
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
         self.mainPageUI.MP_LogoutPB.clicked.connect(self.openHomePageFromMainPage)
+        self.mainPageUI.MP_LeftArrow.clicked.connect(self.load_next_user)
+
+        # Initialize the list of displayed users
+        self.displayed_users = set()
 
         # AccountSettings Buttons
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
@@ -294,7 +297,7 @@ class MainApp:
 
         # ChangeProfile BUttons
         self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
-
+        
     # WelcomePage methods
     def open_homepagefromwelcome(self):
         self.welcomePageWindow.close()
@@ -336,17 +339,6 @@ class MainApp:
 
 
     # LogInPage methods
-    def openMAINPage(self):
-        # Assuming user_id and username are obtained after successful login
-        user_id = self.logInUI.user_id  # Replace with actual user_id
-        username = self.logInUI.username  # Replace with actual username
-
-        # Set user info in the main page UI
-        self.mainPageUI.set_user_info(user_id, username)
-
-        # Show the main page window
-        self.logInWindow.close()
-        self.mainPageWindow.show()
     def openHomePageFromLogin(self):
         self.logInWindow.close()
         self.homePageWindow.show()
@@ -562,12 +554,78 @@ class MainApp:
         self.signUpWindow.show()
 
     
-    def openMainPage(self):
-        self.interestPageWindow.close()
+    def openMAINPage(self):
+        # Assuming user_id and username are obtained after successful login
+        user_id = self.logInUI.user_id  # Replace with actual user_id
+        username = self.logInUI.username  # Replace with actual username
+
+        # Set user info in the main page UI
+        self.mainPageUI.set_user_info(user_id, username)
+
+        # Show the main page window
+        self.logInWindow.close()
         self.mainPageWindow.show()
 
-    #MAINPAGE methods
+        # Load the first user immediately
+        self.load_next_user()
 
+    #MAINPAGE methods
+    def fetch_and_display_user(self, current_username):
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_one_user', params={
+                'current_username': current_username,
+                'logged_in_username': self.logInUI.username  # Pass the logged-in username
+            })
+            if response.status_code == 200:
+                user = response.json().get('user', {})
+                self.display_user(user)
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch user.")
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+    def display_user(self, user):
+        if user:
+            self.mainPageUI.MP_Username.setText(user['username'])
+            self.mainPageUI.MP_Age.setText(f"Age: {user['age']}")
+            self.mainPageUI.MP_Gender.setText(f"Gender: {user['gender']}")
+            self.mainPageUI.MP_Location.setText(f"Location: {user['location']}")
+            preferences = user.get('preferences', [])
+            self.mainPageUI.MP_Preference1.setText(preferences[0] if len(preferences) > 0 else "Pref.1")
+            self.mainPageUI.MP_Preference2.setText(preferences[1] if len(preferences) > 1 else "Pref.2")
+            self.mainPageUI.MP_Preference3.setText(preferences[2] if len(preferences) > 2 else "Pref.3")
+            self.mainPageUI.MP_Preference4.setText(preferences[3] if len(preferences) > 3 else "Pref.4")
+            self.mainPageUI.MP_Preference5.setText(preferences[4] if len(preferences) > 4 else "Pref.5")
+        else:
+            self.show_error_message("No user data available.")
+
+    def load_next_user(self):
+        try:
+            current_username = self.mainPageUI.MP_Username.text()
+            self.displayed_users.add(current_username)  # Add current user to displayed users
+
+            response = requests.get('http://127.0.0.1:5000/get_one_user', params={
+                'current_username': current_username,
+                'logged_in_username': self.logInUI.username,  # Pass the logged-in username
+                'displayed_users': list(self.displayed_users)  # Pass the list of displayed users
+            })
+            if response.status_code == 200:
+                user = response.json().get('user', {})
+                self.display_user(user)
+            elif response.status_code == 404:
+                self.show_error_message("No more users available.")
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch user.")
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
+   
     def openAccountSettings(self):
         self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.mainPageWindow.close()
@@ -576,6 +634,17 @@ class MainApp:
         self.mainPageWindow.close()
         self.friendMenuWindow.show()
     def openHomePageFromMainPage(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+
         # Close the Main Page window and show the Home Page window
         self.mainPageWindow.close()
         self.homePageWindow.show()
@@ -589,6 +658,17 @@ class MainApp:
         self.accountSettingsWindow.close()
         self.friendMenuWindow.show()
     def openHomepageFromAccountSettings(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+            
         self.accountSettingsWindow.close()
         self.homePageWindow.show()
     def openChangeProfileFromAccountSettings(self):
