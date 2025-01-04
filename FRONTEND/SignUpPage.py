@@ -378,17 +378,6 @@ class Ui_SignUp(object):
         QtCore.QMetaObject.connectSlotsByName(SignUp)
 
 
-        # Connect the SignUp button to the method to send data
-        self.SU_SignUpPB.clicked.connect(self.handle_signup)
-        self.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
-
-
-   
-    
-    
-
-       
-
     def retranslateUi(self, SignUp):
         _translate = QtCore.QCoreApplication.translate
         SignUp.setWindowTitle(_translate("SignUp", "Dialog"))
