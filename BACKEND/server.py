@@ -42,6 +42,7 @@ def signup():
     gender = data.get('gender')
     social_media_link = data.get('social_media_link', None)
     gmail = data.get('gmail', None)  # New field for Gmail account
+    interests = data.get('interests', [])  # Get the interests from the request
 
     if not username or not password or not age or not location or not gender or not gmail:
         logging.error("Error: Missing required fields.")
@@ -71,6 +72,15 @@ def signup():
             (username, age, location, gender, hashed_password, social_media_link, gmail)
         )
         db_connection.commit()
+
+         # Save interests in the user_interests table
+        for interest in interests:
+            db_cursor.execute(
+                "INSERT INTO user_interests (username, interest) VALUES (%s, %s)",
+                (username, interest)
+            )
+        db_connection.commit()
+        
         logging.info("User account created successfully!")
         print(f"Hashed password for {username}: {hashed_password}")
         return jsonify({"message": "Account created successfully!"}), 201

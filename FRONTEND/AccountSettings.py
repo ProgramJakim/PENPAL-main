@@ -23,7 +23,7 @@ Account_Settings_assets_folder = os.path.join(current_directory, '..', 'resource
 class Ui_AccountSettings(object):
     def setupUi(self, AccountSettings):
         AccountSettings.setObjectName("AccountSettings")
-        AccountSettings.setFixedSize(1440, 750)
+        AccountSettings.setFixedSize(1440, 850)
         self.user_id = None
         self.username = None
         
@@ -108,7 +108,7 @@ class Ui_AccountSettings(object):
         
 #Background Image
         self.AS_BackgroundImage = QtWidgets.QLabel(AccountSettings)
-        self.AS_BackgroundImage.setGeometry(QtCore.QRect(0, 0, 1440, 780))
+        self.AS_BackgroundImage.setGeometry(QtCore.QRect(0, 0, 1440, 850))
         self.AS_BackgroundImage.setText("")
         self.AS_BackgroundImage.setPixmap(QtGui.QPixmap(os.path.join(Account_Settings_assets_folder ,'AS_BackgroundIm.png')))
         self.AS_BackgroundImage.setScaledContents(True)
@@ -218,7 +218,7 @@ class Ui_AccountSettings(object):
         
 #Gender Display
         self.AS_GenderDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_GenderDisplay.setGeometry(QtCore.QRect(270, 340, 111, 41))
+        self.AS_GenderDisplay.setGeometry(QtCore.QRect(270, 340, 200, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -248,7 +248,7 @@ class Ui_AccountSettings(object):
         
 #Location Display
         self.AS_LocationDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 400, 131, 41))
+        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 400, 200, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -278,7 +278,7 @@ class Ui_AccountSettings(object):
 
 #Social Link Display
         self.AS_SocialLinkDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_SocialLinkDisplay.setGeometry(QtCore.QRect(130, 510, 500, 41))
+        self.AS_SocialLinkDisplay.setGeometry(QtCore.QRect(140, 510, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(10)

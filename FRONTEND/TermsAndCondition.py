@@ -91,6 +91,7 @@ class Ui_TermsAndCondition(object):
 "border-radius: 5px;\n"
 "background-color: #FFBCAD;")
         self.TAC_TermsSatmentTE.setObjectName("TAC_TermsSatmentTE")
+        self.TAC_TermsSatmentTE.setReadOnly(True)  # Make the text non-editable
         
 #Terms And Condition Header
         self.TAC_TermsHeader = QtWidgets.QFrame(TermsAndCondition)

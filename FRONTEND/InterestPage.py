@@ -10,6 +10,7 @@
 import os
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from HomePage import Ui_Homepage
@@ -698,6 +699,13 @@ class Ui_Interest(object):
         self.Placeholder1.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Placeholder1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Placeholder1.setObjectName("Placeholder1")
+
+        self.placeholderText = QtWidgets.QLabel(self.Placeholder1)
+        self.placeholderText.setGeometry(QtCore.QRect(0, 0, 120, 30))
+        self.placeholderText.setStyleSheet("background: transparent;")
+        self.placeholderText.setAlignment(QtCore.Qt.AlignCenter)
+        self.placeholderText.setObjectName("placeholderText")
+      
         self.INtext_3.raise_()
         self.INTEREST.raise_()
         self.INtext_2.raise_()
@@ -758,6 +766,8 @@ class Ui_Interest(object):
         self.retranslateUi(Interest)
         QtCore.QMetaObject.connectSlotsByName(Interest)
 
+
+       
         
     
     def retranslateUi(self, Interest):
@@ -780,6 +790,7 @@ class Ui_Interest(object):
         self.pushButton_13.setText(_translate("Interest", "LIFESTYLE"))
         self.pushButton_14.setText(_translate("Interest", "SCIENCE"))
         self.pushButton_15.setText(_translate("Interest", "BUSINESS"))
+        self.placeholderText.setText(_translate("Interest", "NUMBER"))
        
        
 
