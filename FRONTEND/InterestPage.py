@@ -10,6 +10,7 @@
 import os
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from HomePage import Ui_Homepage
@@ -22,12 +23,12 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 images_folder = os.path.join(current_directory, '..', 'resources', 'images')
 Interest_assets_folder = os.path.join(current_directory, '..', 'resources', 'images', 'Interest_assets')
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(1440, 780)
-        Dialog.setStyleSheet("background-color:#FFF9F0;")
-        self.CUHeader = QtWidgets.QFrame(Dialog)
+class Ui_Interest(object):
+    def setupUi(self, Interest):
+        Interest.setObjectName("Interest")
+        Interest.resize(1440, 850)
+        Interest.setStyleSheet("background-color:#FFF9F0;")
+        self.CUHeader = QtWidgets.QFrame(Interest)
         self.CUHeader.setGeometry(QtCore.QRect(0, 0, 1440, 105))
         self.CUHeader.setStyleSheet("background: qlineargradient(\n"
 "    spread:pad, \n"
@@ -42,7 +43,7 @@ class Ui_Dialog(object):
         self.CUHeader.setFrameShadow(QtWidgets.QFrame.Raised)
         self.CUHeader.setObjectName("CUHeader")
         self.HeaderIcon = QtWidgets.QLabel(self.CUHeader)
-        self.HeaderIcon.setGeometry(QtCore.QRect(-70, -20, 274, 146))
+        self.HeaderIcon.setGeometry(QtCore.QRect(-60, -20, 274, 146))
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
@@ -53,7 +54,7 @@ class Ui_Dialog(object):
         self.HeaderIcon.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'HeaderIcon.png')))
         self.HeaderIcon.setScaledContents(True)
         self.HeaderIcon.setObjectName("HeaderIcon")
-        self.INshape1 = QtWidgets.QFrame(Dialog)
+        self.INshape1 = QtWidgets.QFrame(Interest)
         self.INshape1.setGeometry(QtCore.QRect(109, 302, 286, 80))
         self.INshape1.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -71,7 +72,7 @@ class Ui_Dialog(object):
         self.INicon1.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon1.png')))
         self.INicon1.setScaledContents(True)
         self.INicon1.setObjectName("INicon1")
-        self.INTpushButton = QtWidgets.QPushButton(Dialog)
+        self.INTpushButton = QtWidgets.QPushButton(Interest)
         self.INTpushButton.setGeometry(QtCore.QRect(1154, 730, 150, 35))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -87,28 +88,28 @@ class Ui_Dialog(object):
 "\n"
 "")
         self.INTpushButton.setObjectName("INTpushButton")
-        self.INTEREST = QtWidgets.QLabel(Dialog)
+        self.INTEREST = QtWidgets.QLabel(Interest)
         self.INTEREST.setGeometry(QtCore.QRect(610, 90, 231, 131))
         self.INTEREST.setStyleSheet("background: transparent;")
         self.INTEREST.setText("")
         self.INTEREST.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INTEREST.png')))
         self.INTEREST.setScaledContents(True)
         self.INTEREST.setObjectName("INTEREST")
-        self.INtext_2 = QtWidgets.QLabel(Dialog)
+        self.INtext_2 = QtWidgets.QLabel(Interest)
         self.INtext_2.setGeometry(QtCore.QRect(1230, 30, 231, 251))
         self.INtext_2.setStyleSheet("background: transparent;")
         self.INtext_2.setText("")
         self.INtext_2.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INimage1.png')))
         self.INtext_2.setScaledContents(True)
         self.INtext_2.setObjectName("INtext_2")
-        self.INtext_3 = QtWidgets.QLabel(Dialog)
+        self.INtext_3 = QtWidgets.QLabel(Interest)
         self.INtext_3.setGeometry(QtCore.QRect(-170, 480, 391, 341))
         self.INtext_3.setStyleSheet("background: transparent;")
         self.INtext_3.setText("")
         self.INtext_3.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INimage.png')))
         self.INtext_3.setScaledContents(True)
         self.INtext_3.setObjectName("INtext_3")
-        self.AUtext1 = QtWidgets.QLabel(Dialog)
+        self.AUtext1 = QtWidgets.QLabel(Interest)
         self.AUtext1.setGeometry(QtCore.QRect(200, 170, 1061, 111))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -124,7 +125,7 @@ class Ui_Dialog(object):
         self.AUtext1.setAlignment(QtCore.Qt.AlignCenter)
         self.AUtext1.setWordWrap(True)
         self.AUtext1.setObjectName("AUtext1")
-        self.INshape2 = QtWidgets.QFrame(Dialog)
+        self.INshape2 = QtWidgets.QFrame(Interest)
         self.INshape2.setGeometry(QtCore.QRect(109, 408, 286, 80))
         self.INshape2.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -142,7 +143,7 @@ class Ui_Dialog(object):
         self.INicon2.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon2.png')))
         self.INicon2.setScaledContents(True)
         self.INicon2.setObjectName("INicon2")
-        self.INshape3 = QtWidgets.QFrame(Dialog)
+        self.INshape3 = QtWidgets.QFrame(Interest)
         self.INshape3.setGeometry(QtCore.QRect(109, 516, 286, 80))
         self.INshape3.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -160,7 +161,7 @@ class Ui_Dialog(object):
         self.INicon3.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon3.png')))
         self.INicon3.setScaledContents(True)
         self.INicon3.setObjectName("INicon3")
-        self.INshape4 = QtWidgets.QFrame(Dialog)
+        self.INshape4 = QtWidgets.QFrame(Interest)
         self.INshape4.setGeometry(QtCore.QRect(259, 627, 286, 80))
         self.INshape4.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -228,7 +229,7 @@ class Ui_Dialog(object):
         self.INicon4.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon4.png')))
         self.INicon4.setScaledContents(True)
         self.INicon4.setObjectName("INicon4")
-        self.INshape5 = QtWidgets.QFrame(Dialog)
+        self.INshape5 = QtWidgets.QFrame(Interest)
         self.INshape5.setGeometry(QtCore.QRect(1089, 300, 286, 80))
         self.INshape5.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -246,7 +247,7 @@ class Ui_Dialog(object):
         self.INicon5.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon5.png')))
         self.INicon5.setScaledContents(True)
         self.INicon5.setObjectName("INicon5")
-        self.INshape6 = QtWidgets.QFrame(Dialog)
+        self.INshape6 = QtWidgets.QFrame(Interest)
         self.INshape6.setGeometry(QtCore.QRect(440, 302, 286, 80))
         self.INshape6.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -264,7 +265,7 @@ class Ui_Dialog(object):
         self.INicon6.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon6.png')))
         self.INicon6.setScaledContents(True)
         self.INicon6.setObjectName("INicon6")
-        self.INshape7 = QtWidgets.QFrame(Dialog)
+        self.INshape7 = QtWidgets.QFrame(Interest)
         self.INshape7.setGeometry(QtCore.QRect(440, 408, 286, 80))
         self.INshape7.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -282,7 +283,7 @@ class Ui_Dialog(object):
         self.INicon7.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon7.png')))
         self.INicon7.setScaledContents(True)
         self.INicon7.setObjectName("INicon7")
-        self.INshape8 = QtWidgets.QFrame(Dialog)
+        self.INshape8 = QtWidgets.QFrame(Interest)
         self.INshape8.setGeometry(QtCore.QRect(440, 516, 286, 80))
         self.INshape8.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -300,7 +301,7 @@ class Ui_Dialog(object):
         self.INicon8.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon8.png')))
         self.INicon8.setScaledContents(True)
         self.INicon8.setObjectName("INicon8")
-        self.INshape9 = QtWidgets.QFrame(Dialog)
+        self.INshape9 = QtWidgets.QFrame(Interest)
         self.INshape9.setGeometry(QtCore.QRect(610, 627, 286, 80))
         self.INshape9.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -318,7 +319,7 @@ class Ui_Dialog(object):
         self.INicon9.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon9.png')))
         self.INicon9.setScaledContents(True)
         self.INicon9.setObjectName("INicon9")
-        self.INshape10 = QtWidgets.QFrame(Dialog)
+        self.INshape10 = QtWidgets.QFrame(Interest)
         self.INshape10.setGeometry(QtCore.QRect(1090, 407, 286, 80))
         self.INshape10.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -336,7 +337,7 @@ class Ui_Dialog(object):
         self.INicon10.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon10.png')))
         self.INicon10.setScaledContents(True)
         self.INicon10.setObjectName("INicon10")
-        self.INshape11 = QtWidgets.QFrame(Dialog)
+        self.INshape11 = QtWidgets.QFrame(Interest)
         self.INshape11.setGeometry(QtCore.QRect(770, 302, 286, 80))
         self.INshape11.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -354,7 +355,7 @@ class Ui_Dialog(object):
         self.INicon11.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon11.png')))
         self.INicon11.setScaledContents(True)
         self.INicon11.setObjectName("INicon11")
-        self.INshape12 = QtWidgets.QFrame(Dialog)
+        self.INshape12 = QtWidgets.QFrame(Interest)
         self.INshape12.setGeometry(QtCore.QRect(770, 408, 286, 80))
         self.INshape12.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -372,7 +373,7 @@ class Ui_Dialog(object):
         self.INicon12.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon12.png')))
         self.INicon12.setScaledContents(True)
         self.INicon12.setObjectName("INicon12")
-        self.INshape13 = QtWidgets.QFrame(Dialog)
+        self.INshape13 = QtWidgets.QFrame(Interest)
         self.INshape13.setGeometry(QtCore.QRect(770, 516, 286, 80))
         self.INshape13.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -390,7 +391,7 @@ class Ui_Dialog(object):
         self.INicon13.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon13.png')))
         self.INicon13.setScaledContents(True)
         self.INicon13.setObjectName("INicon13")
-        self.INshape14 = QtWidgets.QFrame(Dialog)
+        self.INshape14 = QtWidgets.QFrame(Interest)
         self.INshape14.setGeometry(QtCore.QRect(940, 627, 286, 80))
         self.INshape14.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -408,7 +409,7 @@ class Ui_Dialog(object):
         self.INicon14.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon14.png')))
         self.INicon14.setScaledContents(True)
         self.INicon14.setObjectName("INicon14")
-        self.INshape15 = QtWidgets.QFrame(Dialog)
+        self.INshape15 = QtWidgets.QFrame(Interest)
         self.INshape15.setGeometry(QtCore.QRect(1090, 515, 286, 80))
         self.INshape15.setStyleSheet("background: transparent;\n"
 "border-radius: 3px solid;\n"
@@ -426,7 +427,7 @@ class Ui_Dialog(object):
         self.INicon15.setPixmap(QtGui.QPixmap(os.path.join(Interest_assets_folder, 'INicon15.png')))
         self.INicon15.setScaledContents(True)
         self.INicon15.setObjectName("INicon15")
-        self.pushButton_1 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_1 = QtWidgets.QPushButton(Interest)
         self.pushButton_1.setGeometry(QtCore.QRect(210, 330, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -444,7 +445,7 @@ class Ui_Dialog(object):
         self.pushButton_1.setCheckable(True)
         self.pushButton_1.setChecked(False)
         self.pushButton_1.setObjectName("pushButton_1")
-        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_2 = QtWidgets.QPushButton(Interest)
         self.pushButton_2.setGeometry(QtCore.QRect(220, 440, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -461,7 +462,7 @@ class Ui_Dialog(object):
         self.pushButton_2.setCheckable(True)
         self.pushButton_2.setChecked(False)
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_3 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_3 = QtWidgets.QPushButton(Interest)
         self.pushButton_3.setGeometry(QtCore.QRect(210, 545, 138, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -479,7 +480,7 @@ class Ui_Dialog(object):
         self.pushButton_3.setCheckable(True)
         self.pushButton_3.setChecked(False)
         self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_4 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_4 = QtWidgets.QPushButton(Interest)
         self.pushButton_4.setGeometry(QtCore.QRect(360, 655, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -497,7 +498,7 @@ class Ui_Dialog(object):
         self.pushButton_4.setCheckable(True)
         self.pushButton_4.setChecked(False)
         self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_5 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_5 = QtWidgets.QPushButton(Interest)
         self.pushButton_5.setGeometry(QtCore.QRect(1200, 330, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -515,7 +516,7 @@ class Ui_Dialog(object):
         self.pushButton_5.setCheckable(True)
         self.pushButton_5.setChecked(False)
         self.pushButton_5.setObjectName("pushButton_5")
-        self.pushButton_6 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_6 = QtWidgets.QPushButton(Interest)
         self.pushButton_6.setGeometry(QtCore.QRect(550, 330, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -533,7 +534,7 @@ class Ui_Dialog(object):
         self.pushButton_6.setCheckable(True)
         self.pushButton_6.setChecked(False)
         self.pushButton_6.setObjectName("pushButton_6")
-        self.pushButton_7 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_7 = QtWidgets.QPushButton(Interest)
         self.pushButton_7.setGeometry(QtCore.QRect(550, 440, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -551,7 +552,7 @@ class Ui_Dialog(object):
         self.pushButton_7.setCheckable(True)
         self.pushButton_7.setChecked(False)
         self.pushButton_7.setObjectName("pushButton_7")
-        self.pushButton_8 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_8 = QtWidgets.QPushButton(Interest)
         self.pushButton_8.setGeometry(QtCore.QRect(550, 545, 140, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -568,7 +569,7 @@ class Ui_Dialog(object):
         self.pushButton_8.setCheckable(True)
         self.pushButton_8.setChecked(False)
         self.pushButton_8.setObjectName("pushButton_8")
-        self.pushButton_9 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_9 = QtWidgets.QPushButton(Interest)
         self.pushButton_9.setGeometry(QtCore.QRect(710, 655, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -586,7 +587,7 @@ class Ui_Dialog(object):
         self.pushButton_9.setCheckable(True)
         self.pushButton_9.setChecked(False)
         self.pushButton_9.setObjectName("pushButton_9")
-        self.pushButton_10 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_10 = QtWidgets.QPushButton(Interest)
         self.pushButton_10.setGeometry(QtCore.QRect(1190, 440, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -603,7 +604,7 @@ class Ui_Dialog(object):
         self.pushButton_10.setCheckable(True)
         self.pushButton_10.setChecked(False)
         self.pushButton_10.setObjectName("pushButton_10")
-        self.pushButton_11 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_11 = QtWidgets.QPushButton(Interest)
         self.pushButton_11.setGeometry(QtCore.QRect(880, 330, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -621,7 +622,7 @@ class Ui_Dialog(object):
         self.pushButton_11.setCheckable(True)
         self.pushButton_11.setChecked(False)
         self.pushButton_11.setObjectName("pushButton_11")
-        self.pushButton_12 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_12 = QtWidgets.QPushButton(Interest)
         self.pushButton_12.setGeometry(QtCore.QRect(880, 440, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -638,7 +639,7 @@ class Ui_Dialog(object):
         self.pushButton_12.setCheckable(True)
         self.pushButton_12.setChecked(False)
         self.pushButton_12.setObjectName("pushButton_12")
-        self.pushButton_13 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_13 = QtWidgets.QPushButton(Interest)
         self.pushButton_13.setGeometry(QtCore.QRect(890, 545, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -656,7 +657,7 @@ class Ui_Dialog(object):
         self.pushButton_13.setCheckable(True)
         self.pushButton_13.setChecked(False)
         self.pushButton_13.setObjectName("pushButton_13")
-        self.pushButton_14 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_14 = QtWidgets.QPushButton(Interest)
         self.pushButton_14.setGeometry(QtCore.QRect(1050, 655, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -674,7 +675,7 @@ class Ui_Dialog(object):
         self.pushButton_14.setCheckable(True)
         self.pushButton_14.setChecked(False)
         self.pushButton_14.setObjectName("pushButton_14")
-        self.pushButton_15 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_15 = QtWidgets.QPushButton(Interest)
         self.pushButton_15.setGeometry(QtCore.QRect(1190, 545, 141, 28))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -691,13 +692,20 @@ class Ui_Dialog(object):
         self.pushButton_15.setCheckable(True)
         self.pushButton_15.setChecked(False)
         self.pushButton_15.setObjectName("pushButton_15")
-        self.Placeholder1 = QtWidgets.QFrame(Dialog)
+        self.Placeholder1 = QtWidgets.QFrame(Interest)
         self.Placeholder1.setGeometry(QtCore.QRect(1020, 730, 120, 30))
         self.Placeholder1.setStyleSheet("border-radius: 3px solid;\n"
 "Border: 2px solid #E58D76;")
         self.Placeholder1.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Placeholder1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Placeholder1.setObjectName("Placeholder1")
+
+        self.placeholderText = QtWidgets.QLabel(self.Placeholder1)
+        self.placeholderText.setGeometry(QtCore.QRect(0, 0, 120, 30))
+        self.placeholderText.setStyleSheet("background: transparent;")
+        self.placeholderText.setAlignment(QtCore.Qt.AlignCenter)
+        self.placeholderText.setObjectName("placeholderText")
+      
         self.INtext_3.raise_()
         self.INTEREST.raise_()
         self.INtext_2.raise_()
@@ -736,8 +744,8 @@ class Ui_Dialog(object):
         self.pushButton_15.raise_()
         self.Placeholder1.raise_()
 
-#CONTINUE BUTTON
-        self.INTpushButton = QtWidgets.QPushButton(Dialog)
+#DONE BUTTON
+        self.INTpushButton = QtWidgets.QPushButton(Interest)
         self.INTpushButton.setGeometry(QtCore.QRect(1154, 730, 150, 35))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -754,56 +762,44 @@ class Ui_Dialog(object):
         "")
         self.INTpushButton.setObjectName("INTpushButton")
 
-#BACK BUTTON
-        self.BACKpushButton = QtWidgets.QPushButton(Dialog)
-        self.BACKpushButton.setGeometry(QtCore.QRect(50, 730, 150, 35))
-        font = QtGui.QFont()
-        font.setFamily("Rockwell Condensed")
-        font.setPointSize(20)  # Set the point size to 20
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.BACKpushButton.setFont(font)
-        self.BACKpushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.BACKpushButton.setStyleSheet("background:rgb(255, 187, 173);\n"
-        "font:20px;\n"
-        "color: #FFFFFF;\n"
-        "")
-        self.BACKpushButton.setObjectName("BACKpushButton")
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(Interest)
+        QtCore.QMetaObject.connectSlotsByName(Interest)
+
+
+       
+        
     
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, Interest):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.INTpushButton.setText(_translate("Dialog", "CONTINUE"))
-        self.AUtext1.setText(_translate("Dialog", "FIND FRIENDS WHO SHARE YOUR PASSIONS, FROM SPORTS TO ARTS AND BEYOND. START YOUR JOURNEY WITH LIKE-MINDED INDIVIDUALS ON PENPAL!"))
-        self.pushButton_1.setText(_translate("Dialog", "SPORTS"))
-        self.pushButton_2.setText(_translate("Dialog", "TECHNOLOGY"))
-        self.pushButton_3.setText(_translate("Dialog", "GAMING"))
-        self.pushButton_4.setText(_translate("Dialog", "ARTS"))
-        self.pushButton_5.setText(_translate("Dialog", "PHOTOGRAPHY"))
-        self.pushButton_6.setText(_translate("Dialog", "MUSIC"))
-        self.pushButton_7.setText(_translate("Dialog", "TRAVEL"))
-        self.pushButton_8.setText(_translate("Dialog", "COOKING"))
-        self.pushButton_9.setText(_translate("Dialog", "FASHION"))
-        self.pushButton_10.setText(_translate("Dialog", "EDUCATION"))
-        self.pushButton_11.setText(_translate("Dialog", "MOVIES"))
-        self.pushButton_12.setText(_translate("Dialog", "BOOKS"))
-        self.pushButton_13.setText(_translate("Dialog", "LIFESTYLE"))
-        self.pushButton_14.setText(_translate("Dialog", "SCIENCE"))
-        self.pushButton_15.setText(_translate("Dialog", "BUSINES"))
-        self.pushButton_15.setText(_translate("Dialog", "BUSINES"))
-        self.BACKpushButton.setText(_translate("Dialog", "BACK"))
-
+        Interest.setWindowTitle(_translate("Interest", "Interest"))
+        self.INTpushButton.setText(_translate("Interest", "DONE"))
+        self.AUtext1.setText(_translate("Interest", "FIND FRIENDS WHO SHARE YOUR PASSIONS, FROM SPORTS TO ARTS AND BEYOND. START YOUR JOURNEY WITH LIKE-MINDED INDIVIDUALS ON PENPAL!"))
+        self.pushButton_1.setText(_translate("Interest", "SPORTS"))
+        self.pushButton_2.setText(_translate("Interest", "TECHNOLOGY"))
+        self.pushButton_3.setText(_translate("Interest", "GAMING"))
+        self.pushButton_4.setText(_translate("Interest", "ARTS"))
+        self.pushButton_5.setText(_translate("Interest", "PHOTOGRAPHY"))
+        self.pushButton_6.setText(_translate("Interest", "MUSIC"))
+        self.pushButton_7.setText(_translate("Interest", "TRAVEL"))
+        self.pushButton_8.setText(_translate("Interest", "COOKING"))
+        self.pushButton_9.setText(_translate("Interest", "FASHION"))
+        self.pushButton_10.setText(_translate("Interest", "EDUCATION"))
+        self.pushButton_11.setText(_translate("Interest", "MOVIES"))
+        self.pushButton_12.setText(_translate("Interest", "BOOKS"))
+        self.pushButton_13.setText(_translate("Interest", "LIFESTYLE"))
+        self.pushButton_14.setText(_translate("Interest", "SCIENCE"))
+        self.pushButton_15.setText(_translate("Interest", "BUSINESS"))
+        self.placeholderText.setText(_translate("Interest", "NUMBER"))
+       
+       
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
+    Interest = QtWidgets.QDialog()
+    ui = Ui_Interest()
+    ui.setupUi(Interest)
+    Interest.show()
     sys.exit(app.exec_())

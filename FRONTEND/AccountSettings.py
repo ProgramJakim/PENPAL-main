@@ -23,7 +23,9 @@ Account_Settings_assets_folder = os.path.join(current_directory, '..', 'resource
 class Ui_AccountSettings(object):
     def setupUi(self, AccountSettings):
         AccountSettings.setObjectName("AccountSettings")
-        AccountSettings.resize(1440, 780)
+        AccountSettings.setFixedSize(1440, 850)
+        self.user_id = None
+        self.username = None
         
 #Header
         self.AS_Header = QtWidgets.QFrame(AccountSettings)
@@ -106,7 +108,7 @@ class Ui_AccountSettings(object):
         
 #Background Image
         self.AS_BackgroundImage = QtWidgets.QLabel(AccountSettings)
-        self.AS_BackgroundImage.setGeometry(QtCore.QRect(0, 0, 1440, 780))
+        self.AS_BackgroundImage.setGeometry(QtCore.QRect(0, 0, 1440, 850))
         self.AS_BackgroundImage.setText("")
         self.AS_BackgroundImage.setPixmap(QtGui.QPixmap(os.path.join(Account_Settings_assets_folder ,'AS_BackgroundIm.png')))
         self.AS_BackgroundImage.setScaledContents(True)
@@ -216,7 +218,7 @@ class Ui_AccountSettings(object):
         
 #Gender Display
         self.AS_GenderDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_GenderDisplay.setGeometry(QtCore.QRect(270, 340, 111, 41))
+        self.AS_GenderDisplay.setGeometry(QtCore.QRect(270, 340, 200, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -246,7 +248,7 @@ class Ui_AccountSettings(object):
         
 #Location Display
         self.AS_LocationDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 400, 131, 41))
+        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 400, 200, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -276,10 +278,10 @@ class Ui_AccountSettings(object):
 
 #Social Link Display
         self.AS_SocialLinkDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_SocialLinkDisplay.setGeometry(QtCore.QRect(250, 510, 191, 41))
+        self.AS_SocialLinkDisplay.setGeometry(QtCore.QRect(140, 510, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
         self.AS_SocialLinkDisplay.setFont(font)
@@ -606,24 +608,92 @@ class Ui_AccountSettings(object):
 #USERNAME DISPLAY
         self.display_username()
 
+    def set_user_info(self, user_id, username):
+        self.user_id = user_id
+        self.username = username
+        self.display_username()
+        self.display_age()
+        self.display_gender()
+        self.display_location() 
+        self.display_social_link()
+        
     def display_username(self):
-        # Assuming you have a function to get the username from the database
-        username = self.get_username_from_db()
+        username = self.get_username_from_server()
         self.AS_Username.setText(username)
         self.AS_Username2.setText(username)
 
-    
-    def get_username_from_db(self):
-                try:
-                        response = requests.get("http://localhost:5000/get_username", params={"username": "User123"})
-                        if response.status_code == 200:
-                                return response.json().get("username", "Unknown User")
-                        else:
-                                return "Unknown User"
-                except requests.RequestException as e:
-                        print(f"Error fetching username: {e}")
-                        return "Unknown User"
+    def display_age(self):
+        age = self.get_age_from_server()
+        self.AS_AgeDisplay.setText(str(age))
 
+    def display_gender(self):
+        gender = self.get_gender_from_server()
+        self.AS_GenderDisplay.setText(gender)
+       
+    def display_location(self):
+        location = self.get_location_from_server()
+        self.AS_LocationDisplay.setText(location)
+
+    def display_social_link(self):
+        social_link = self.get_social_link_from_server()
+        self.AS_SocialLinkDisplay.setText(social_link)
+
+    
+    def get_username_from_server(self):
+        try:
+            response = requests.get("http://localhost:5000/get_username", params={"username": self.username})
+            if response.status_code == 200:
+                return self.username
+            else:
+                return self.username
+        except requests.RequestException as e:
+            print(f"Error fetching username: {e}")
+            return "Unknown User"
+        
+    def get_age_from_server(self):
+        try:
+            response = requests.get("http://localhost:5000/get_user_age", params={"username": self.username})
+            if response.status_code == 200:
+                return response.json().get("age", "Unknown Age")
+            else:
+                return "Unknown Age"
+        except requests.RequestException as e:
+            print(f"Error fetching age: {e}")
+            return "Unknown Age"
+    
+    def get_gender_from_server(self):
+        try:
+            response = requests.get("http://localhost:5000/get_user_gender", params={"username": self.username})
+            if response.status_code == 200:
+                return response.json().get("gender", "Unknown Gender")
+            else:
+                return "Unknown Gender"
+        except requests.RequestException as e:
+            print(f"Error fetching gender: {e}")
+            return "Unknown Gender"
+        
+    def get_location_from_server(self):
+        try:
+            response = requests.get("http://localhost:5000/get_user_location", params={"username": self.username})
+            if response.status_code == 200:
+                return response.json().get("location", "Unknown Location")
+            else:
+                return "Unknown Location"
+        except requests.RequestException as e:
+            print(f"Error fetching location: {e}")
+            return "Unknown Location"
+        
+    def get_social_link_from_server(self):
+        try:
+            response = requests.get("http://localhost:5000/get_user_social_link", params={"username": self.username})
+            if response.status_code == 200:
+                return response.json().get("social_link", "Unknown Social Link")
+            else:
+                return "Unknown Social Link"
+        except requests.RequestException as e:
+            print(f"Error fetching social link: {e}")
+            return "Unknown Social Link"
+        
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

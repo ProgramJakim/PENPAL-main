@@ -5,16 +5,15 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMessageBox, QMainWindow, QLineEdit, QCheckBox
-from SignUpPage import Ui_SignUp
-from FRONTEND.HomePage import Ui_Homepage
-from InterestPage import Ui_Dialog
+from PyQt5.QtGui import QFont, QCursor
+from PyQt5.QtWidgets import QMessageBox, QMainWindow, QLineEdit, QCheckBox, QPushButton
+from PyQt5.QtCore import QRect, Qt
+from InterestPage import Ui_Interest
+from MAINPAGE import Ui_Main_Page  # Import Ui_Dialog from the appropriate module
 import requests
 import shelve
 from mysql.connector import errorcode
 from argon2 import PasswordHasher
-import logging
 ph = PasswordHasher()  # Initialize Argon2 Password Hasher
 
 # Get the absolute path of the current directory (LogInPage.py)
@@ -58,13 +57,13 @@ class Ui_LogIn(object):
         self.LI_HeaderIcon.setScaledContents(True)
         self.LI_HeaderIcon.setObjectName("LI_HeaderIcon")
         self.LI_MainPanel = QtWidgets.QFrame(LogIn)
-        self.LI_MainPanel.setGeometry(QtCore.QRect(182, 136, 1082, 602))
+        self.LI_MainPanel.setGeometry(QtCore.QRect(182, 120, 1080, 700))
         self.LI_MainPanel.setStyleSheet("background-color: rgb(255, 240, 216);")
         self.LI_MainPanel.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.LI_MainPanel.setFrameShadow(QtWidgets.QFrame.Raised)
         self.LI_MainPanel.setObjectName("LI_MainPanel")
         self.LI_SidePanel = QtWidgets.QFrame(self.LI_MainPanel)
-        self.LI_SidePanel.setGeometry(QtCore.QRect(660, 0, 421, 602))
+        self.LI_SidePanel.setGeometry(QtCore.QRect(660, 0, 421, 700))
         self.LI_SidePanel.setStyleSheet("background-color: rgb(255, 214, 182);")
         self.LI_SidePanel.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.LI_SidePanel.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -209,7 +208,7 @@ class Ui_LogIn(object):
 "")
         self.LI_ForgotPasswordLBL.setObjectName("LI_ForgotPasswordLBL")
         self.label = QtWidgets.QLabel(self.LI_MainPanel)
-        self.label.setGeometry(QtCore.QRect(190, 0, 941, 671))
+        self.label.setGeometry(QtCore.QRect(190, 0, 941, 700))
         self.label.setStyleSheet("background: transparent;\n"
 "")
         self.label.setText("")
@@ -230,10 +229,45 @@ class Ui_LogIn(object):
 
         self.retranslateUi(LogIn)
         QtCore.QMetaObject.connectSlotsByName(LogIn)
+
+        # Create the BACK button
+        self.LIbackButton = QPushButton("BACK", LogIn)
+        self.LIbackButton.setGeometry(QRect(1250, 50, 150, 45))
+        font = QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(14)  # Set a valid point size
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.LIbackButton.setFont(font)
+        self.LIbackButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.LIbackButton.setStyleSheet("""
+            font:30px;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            background: transparent;
+            border-radius: 5px;
+        """)
+        self.LIbackButton.setObjectName("Back")
         
+        # Add hover effect to change background color
+        self.LIbackButton.setStyleSheet("""
+            QPushButton {
+                font:30px;
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+                background: transparent;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+        """)
+
         # Connect buttons
-        self.LI_SignUpPB.clicked.connect(self.openSignUpPage)
         self.LI_LogInPB.clicked.connect(self.handle_login)
+       
         
         # Persistent windows
         self.logInWindow = LogIn
@@ -249,43 +283,33 @@ class Ui_LogIn(object):
             self.LI_PasswordLE.setEchoMode(QLineEdit.Normal)
         else:
             self.LI_PasswordLE.setEchoMode(QLineEdit.Password)
-
+            
     def handle_login(self):
-        """Handle the login process by interacting with the Flask API."""
         username = self.LI_UsernameLE.text()
         password = self.LI_PasswordLE.text()
 
-        # Prepare data to send to the backend
         data = {'username': username, 'password': password}
 
         try:
-            # Send login request to the Flask API
             response = requests.post('http://127.0.0.1:5000/login', json=data)
             
-            # Check the response from the backend
             if response.status_code == 200:
-                # If login is successful, proceed to the main app or dashboard
                 response_data = response.json()
                 if "Welcome back" in response_data.get("message", ""):
                     self.show_popup_message("Login Success", "Welcome back", username)
                     
-                    # Save credentials
-                    with shelve.open('credentials') as db:
-                        db['username'] = username
-                        db['password'] = password
+                    # Store user ID and username
+                    self.user_id = response_data.get("user_id")
+                    self.username = response_data.get("username")
                     
                     self.openMainAppWindow()
-                    self.logInWindow.close()  # Close the login window
                 else:
-                    # Show error message for invalid login credentials
                     self.show_error_message("Login failed", response_data.get("message", "Unknown error."))
             else:
-                # Handle failed request, e.g., server issues
                 self.show_error_message("Login failed", "Invalid username or password.")
         
         except requests.exceptions.RequestException as e:
-            # Handle any request errors (network issues, etc.)
-            self.show_error_message("Connection Error", "Could not connect to the server.")
+            self.show_error_message("Login failed", f"An error occurred: {e}")
 
     def show_error_message(self, title, message):
         """Helper method to show error messages in a message box."""
@@ -302,21 +326,14 @@ class Ui_LogIn(object):
         msg_box.setIcon(QMessageBox.Information)
         msg_box.exec_()
    
-    def openSignUpPage(self):
-        from SignUpPage import Ui_SignUp  # Import inside the method to avoid circular imports
-        self.signUpWindow = QMainWindow()
-        self.signUpUI = Ui_SignUp()
-        self.signUpUI.setupUi(self.signUpWindow)
-
-        # Hide the login window and show the signup window
-        self.logInWindow.hide()
 
     def openMainAppWindow(self):
         # Create a QWidget for the Homepage
         self.mainAppWindow = QtWidgets.QWidget()   # Create a QWidget (not just the UI layout)
-        self.ui = Ui_Dialog()  # Create the Ui_Homepage object
+        self.ui = Ui_Main_Page()  # Create the Ui_Homepage object
         self.ui.setupUi(self.mainAppWindow)  # Set up the UI layout for the QWidget
-        
+
+   
 
     def retranslateUi(self, LogIn):
         _translate = QtCore.QCoreApplication.translate
