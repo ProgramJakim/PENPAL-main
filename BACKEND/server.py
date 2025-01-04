@@ -128,6 +128,11 @@ def login():
     else:
         logging.error("Username not found")
         return jsonify({"message": "Invalid username."}), 400
+    
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    return jsonify({"message": "Logged out successfully"}), 200
 
 #USERNAME DISPLAY
 

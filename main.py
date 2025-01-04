@@ -276,14 +276,13 @@ class MainApp:
         self.interestPageUI.pushButton_15.clicked.connect(lambda: self.handle_button_click_number("pushButton_15"))
 
 
-
-
         # MainPage buttons
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
         self.mainPageUI.MP_LogoutPB.clicked.connect(self.openHomePageFromMainPage)
         self.mainPageUI.MP_LeftArrow.clicked.connect(self.load_next_user)
 
-
+        # Initialize the list of displayed users
+        self.displayed_users = set()
 
         # AccountSettings Buttons
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
@@ -635,6 +634,17 @@ class MainApp:
         self.mainPageWindow.close()
         self.friendMenuWindow.show()
     def openHomePageFromMainPage(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+
         # Close the Main Page window and show the Home Page window
         self.mainPageWindow.close()
         self.homePageWindow.show()
@@ -648,6 +658,17 @@ class MainApp:
         self.accountSettingsWindow.close()
         self.friendMenuWindow.show()
     def openHomepageFromAccountSettings(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+            
         self.accountSettingsWindow.close()
         self.homePageWindow.show()
     def openChangeProfileFromAccountSettings(self):
