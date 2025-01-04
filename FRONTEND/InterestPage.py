@@ -10,6 +10,7 @@
 import os
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from HomePage import Ui_Homepage
@@ -765,105 +766,8 @@ class Ui_Interest(object):
         self.retranslateUi(Interest)
         QtCore.QMetaObject.connectSlotsByName(Interest)
 
-        # Dictionary to keep track of click counts
-        self.click_counts = {
-                "pushButton_1": 0,
-                "pushButton_2": 0,
-                "pushButton_3": 0,
-                "pushButton_4": 0,
-                "pushButton_5": 0,
-                "pushButton_6": 0,
-                "pushButton_7": 0,
-                "pushButton_8": 0,
-                "pushButton_9": 0,
-                "pushButton_10": 0,
-                "pushButton_11": 0,
-                "pushButton_12": 0,
-                "pushButton_13": 0,
-                "pushButton_14": 0,
-                "pushButton_15": 0,
-        }
-
-        # Variable to keep track of total clicks
-        self.total_clicks = 0
-
-        # Connect buttons to the click handler
-        self.pushButton_1.clicked.connect(lambda: self.handle_button_click_number("pushButton_1"))
-        self.pushButton_2.clicked.connect(lambda: self.handle_button_click_number("pushButton_2"))
-        self.pushButton_3.clicked.connect(lambda: self.handle_button_click_number("pushButton_3"))
-        self.pushButton_4.clicked.connect(lambda: self.handle_button_click_number("pushButton_4"))
-        self.pushButton_5.clicked.connect(lambda: self.handle_button_click_number("pushButton_5"))
-        self.pushButton_6.clicked.connect(lambda: self.handle_button_click_number("pushButton_6"))
-        self.pushButton_7.clicked.connect(lambda: self.handle_button_click_number("pushButton_7"))
-        self.pushButton_8.clicked.connect(lambda: self.handle_button_click_number("pushButton_8"))
-        self.pushButton_9.clicked.connect(lambda: self.handle_button_click_number("pushButton_9"))
-        self.pushButton_10.clicked.connect(lambda: self.handle_button_click_number("pushButton_10"))
-        self.pushButton_11.clicked.connect(lambda: self.handle_button_click_number("pushButton_11"))
-        self.pushButton_12.clicked.connect(lambda: self.handle_button_click_number("pushButton_12"))
-        self.pushButton_13.clicked.connect(lambda: self.handle_button_click_number("pushButton_13"))
-        self.pushButton_14.clicked.connect(lambda: self.handle_button_click_number("pushButton_14"))
-        self.pushButton_15.clicked.connect(lambda: self.handle_button_click_number("pushButton_15"))
-
-
-        self.pushButton_1.clicked.connect(self.sportsButton)
-        self.pushButton_2.clicked.connect(self.technologyButton)
-        self.pushButton_3.clicked.connect(self.gamingButton)
-        self.pushButton_4.clicked.connect(self.artsButton)
-        self.pushButton_5.clicked.connect(self.photographyButton)
-        self.pushButton_6.clicked.connect(self.musicButton)
-        self.pushButton_7.clicked.connect(self.travelButton)
-        self.pushButton_8.clicked.connect(self.cookingButton)
-        self.pushButton_9.clicked.connect(self.fashionButton)
-        self.pushButton_10.clicked.connect(self.educationButton)
-        self.pushButton_11.clicked.connect(self.moviesButton)
-        self.pushButton_12.clicked.connect(self.booksButton)
-        self.pushButton_13.clicked.connect(self.lifestyleButton)
-        self.pushButton_14.clicked.connect(self.scienceButton)
-        self.pushButton_15.clicked.connect(self.businessButton)
 
        
-    def handle_button_click_number(self, button_name):
-        # Check if the button has already been clicked
-        if self.click_counts[button_name] == 0:
-                # Increment the total click count only if the button is clicked for the first time
-                self.total_clicks += 1
-
-        # Increment the click count for the button
-        self.click_counts[button_name] += 1
-
-        # Update the placeholder text with the new total count
-        self.placeholderText.setText(f"{self.total_clicks} selected")
-
-    def sportsButton (self):
-        print('SPORTS')
-    def technologyButton (self):
-        print('TECHNOLOGY')
-    def gamingButton(self):
-        print('GAMING')
-    def artsButton(self):
-        print('ARTS')
-    def photographyButton(self):
-        print('PHOTOGRAPHY')
-    def musicButton(self):
-        print('MUSIC')
-    def travelButton(self):
-        print('TRAVEL')
-    def cookingButton(self):
-        print('COOKING')
-    def fashionButton(self):
-        print('FASHION')
-    def educationButton(self):
-        print('EDUCATION')
-    def moviesButton(self):
-        print('MOVIES')
-    def booksButton(self):
-        print('BOOKS')
-    def lifestyleButton(self):
-        print('LIFESTYLE')
-    def scienceButton(self):
-        print('SCIENCE')
-    def businessButton(self):
-        print('BUSINESS')
         
     
     def retranslateUi(self, Interest):

@@ -1,5 +1,5 @@
 #annie
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
 import os
@@ -103,6 +103,8 @@ class MainApp:
         self.forgotPasswordWindow = QWidget()
         self.friendMenuWindow = QDialog()
         self.changeProfileWindow = QDialog()
+       
+
         # Setup UI for all windows
         self.setup_ui()
 
@@ -135,7 +137,7 @@ class MainApp:
         self.homePageUI.setupUi(self.homePageWindow)
 
 
-        # Setup UI for the interest page window
+       # Setup UI for the interest page window
         self.interestPageUI = Ui_Interest()
         self.interestPageUI.setupUi(self.interestPageWindow)
 
@@ -215,6 +217,47 @@ class MainApp:
 
         # InterestPage buttons
         self.interestPageUI.INTpushButton.clicked.connect(self.on_done_clicked)
+         # Dictionary to keep track of click counts
+        self.click_counts = {
+                "pushButton_1": 0,
+                "pushButton_2": 0,
+                "pushButton_3": 0,
+                "pushButton_4": 0,
+                "pushButton_5": 0,
+                "pushButton_6": 0,
+                "pushButton_7": 0,
+                "pushButton_8": 0,
+                "pushButton_9": 0,
+                "pushButton_10": 0,
+                "pushButton_11": 0,
+                "pushButton_12": 0,
+                "pushButton_13": 0,
+                "pushButton_14": 0,
+                "pushButton_15": 0,
+        }
+
+        # Variable to keep track of total clicks
+        self.total_clicks = 0
+
+        # Connect buttons to the click handler
+        self.interestPageUI.pushButton_1.clicked.connect(lambda: self.handle_button_click_number("pushButton_1"))
+        self.interestPageUI.pushButton_2.clicked.connect(lambda: self.handle_button_click_number("pushButton_2"))
+        self.interestPageUI.pushButton_3.clicked.connect(lambda: self.handle_button_click_number("pushButton_3"))
+        self.interestPageUI.pushButton_4.clicked.connect(lambda: self.handle_button_click_number("pushButton_4"))
+        self.interestPageUI.pushButton_5.clicked.connect(lambda: self.handle_button_click_number("pushButton_5"))
+        self.interestPageUI.pushButton_6.clicked.connect(lambda: self.handle_button_click_number("pushButton_6"))
+        self.interestPageUI.pushButton_7.clicked.connect(lambda: self.handle_button_click_number("pushButton_7"))
+        self.interestPageUI.pushButton_8.clicked.connect(lambda: self.handle_button_click_number("pushButton_8"))
+        self.interestPageUI.pushButton_9.clicked.connect(lambda: self.handle_button_click_number("pushButton_9"))
+        self.interestPageUI.pushButton_10.clicked.connect(lambda: self.handle_button_click_number("pushButton_10"))
+        self.interestPageUI.pushButton_11.clicked.connect(lambda: self.handle_button_click_number("pushButton_11"))
+        self.interestPageUI.pushButton_12.clicked.connect(lambda: self.handle_button_click_number("pushButton_12"))
+        self.interestPageUI.pushButton_13.clicked.connect(lambda: self.handle_button_click_number("pushButton_13"))
+        self.interestPageUI.pushButton_14.clicked.connect(lambda: self.handle_button_click_number("pushButton_14"))
+        self.interestPageUI.pushButton_15.clicked.connect(lambda: self.handle_button_click_number("pushButton_15"))
+
+
+
 
         # MainPage buttons
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
@@ -314,10 +357,51 @@ class MainApp:
         self.signUpWindow.show()
        
 
-    # InterestPage methods
+    def handle_button_click_number(self, button_name):
+        # Check if the button has already been clicked
+        if self.click_counts[button_name] == 0:
+            # Increment the total click count only if the button is clicked for the first time
+            self.total_clicks += 1
+
+        # Increment the click count for the button
+        self.click_counts[button_name] += 1
+
+        # Update the placeholder text with the new total count
+        self.interestPageUI.placeholderText.setText(f"{self.total_clicks} selected")
+
+
+    def get_selected_interests(self):
+        interests = {
+            "pushButton_1": "SPORTS",
+            "pushButton_2": "TECHNOLOGY",
+            "pushButton_3": "GAMING",
+            "pushButton_4": "ARTS",
+            "pushButton_5": "PHOTOGRAPHY",
+            "pushButton_6": "MUSIC",
+            "pushButton_7": "TRAVEL",
+            "pushButton_8": "COOKING",
+            "pushButton_9": "FASHION",
+            "pushButton_10": "EDUCATION",
+            "pushButton_11": "MOVIES",
+            "pushButton_12": "BOOKS",
+            "pushButton_13": "LIFESTYLE",
+            "pushButton_14": "SCIENCE",
+            "pushButton_15": "BUSINESS",
+        }
+        selected_interests = [interest for button, interest in interests.items() if self.click_counts[button] > 0]
+        return selected_interests
+
+    def show_selected_interests(self, selected_interests):
+        interests_str = "\n".join(selected_interests)
+        QMessageBox.information(self.interestPageWindow, "Selected Interests", f"Your selected interests are:\n{interests_str}")
+
     def on_done_clicked(self):
+        selected_interests = self.get_selected_interests()
+        self.show_selected_interests(selected_interests)
         self.interestPageWindow.close()
         self.signUpWindow.show()
+
+    
     def openMainPage(self):
         self.interestPageWindow.close()
         self.mainPageWindow.show()
