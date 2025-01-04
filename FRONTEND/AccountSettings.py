@@ -308,10 +308,10 @@ class Ui_AccountSettings(object):
         
 #Preference 1 Display
         self.AS_Preference1Display = QtWidgets.QLabel(AccountSettings)
-        self.AS_Preference1Display.setGeometry(QtCore.QRect(340, 570, 191, 41))
+        self.AS_Preference1Display.setGeometry(QtCore.QRect(340, 570, 200, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(15)
         font.setBold(True)
         font.setWeight(75)
         self.AS_Preference1Display.setFont(font)
@@ -326,7 +326,7 @@ class Ui_AccountSettings(object):
         self.AS_Preference2Display.setGeometry(QtCore.QRect(150, 620, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(15)
         font.setBold(True)
         font.setWeight(75)
         self.AS_Preference2Display.setFont(font)
@@ -341,7 +341,7 @@ class Ui_AccountSettings(object):
         self.AS_Preference3Display.setGeometry(QtCore.QRect(350, 620, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(15)
         font.setBold(True)
         font.setWeight(75)
         self.AS_Preference3Display.setFont(font)
@@ -356,7 +356,7 @@ class Ui_AccountSettings(object):
         self.AS_Preference4Display.setGeometry(QtCore.QRect(150, 670, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(15)
         font.setBold(True)
         font.setWeight(75)
         self.AS_Preference4Display.setFont(font)
@@ -371,7 +371,7 @@ class Ui_AccountSettings(object):
         self.AS_Preference5Display.setGeometry(QtCore.QRect(350, 670, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(15)
         font.setBold(True)
         font.setWeight(75)
         self.AS_Preference5Display.setFont(font)
@@ -605,17 +605,23 @@ class Ui_AccountSettings(object):
         self.AS_DeleteAccPB.setText(_translate("AccountSettings", "Delete Account"))
         self.AS_EditAvatarPB.setText(_translate("AccountSettings", "Edit Avatar"))
 
-#USERNAME DISPLAY
+#INFORMATION DISPLAY
         self.display_username()
 
-    def set_user_info(self, user_id, username):
+    def set_user_info(self, user_id, username, selected_interests=None):
         self.user_id = user_id
         self.username = username
+        if selected_interests is None:
+                self.selected_interests = self.get_preferences_from_server()
+        else:
+                self.selected_interests = selected_interests
         self.display_username()
         self.display_age()
         self.display_gender()
-        self.display_location() 
+        self.display_location()
         self.display_social_link()
+        self.display_preferences()
+        
         
     def display_username(self):
         username = self.get_username_from_server()
@@ -637,6 +643,17 @@ class Ui_AccountSettings(object):
     def display_social_link(self):
         social_link = self.get_social_link_from_server()
         self.AS_SocialLinkDisplay.setText(social_link)
+
+    def display_preferences(self):
+        preferences = self.selected_interests
+        preferences_count = len(preferences)
+        
+        self.AS_Preference1Display.setText(preferences[0] if preferences_count > 0 else "Preference1")
+        self.AS_Preference2Display.setText(preferences[1] if preferences_count > 1 else "Preference2")
+        self.AS_Preference3Display.setText(preferences[2] if preferences_count > 2 else "Preference3")
+        self.AS_Preference4Display.setText(preferences[3] if preferences_count > 3 else "Preference4")
+        self.AS_Preference5Display.setText(preferences[4] if preferences_count > 4 else "Preference5")
+                
 
     
     def get_username_from_server(self):
@@ -693,6 +710,17 @@ class Ui_AccountSettings(object):
         except requests.RequestException as e:
             print(f"Error fetching social link: {e}")
             return "Unknown Social Link"
+        
+    def get_preferences_from_server(self):
+        try:
+                response = requests.get("http://localhost:5000/get_user_interests", params={"username": self.username})
+                if response.status_code == 200:
+                        return response.json().get("interests", [])
+                else:
+                        return []
+        except requests.RequestException as e:
+                print(f"Error fetching preferences: {e}")
+                return []
         
 if __name__ == "__main__":
     import sys

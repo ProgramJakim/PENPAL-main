@@ -1,7 +1,8 @@
 #annie
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox
 from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer, QDate
+from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
+from PyQt5 import QtCore 
 import os
 import sys
 import requests
@@ -503,7 +504,7 @@ class MainApp:
         self.termsWindow.close()
         self.signUpWindow.show()
        
-
+     # Interests methods
     def handle_button_click_number(self, button_name):
         # Check if the button has already been clicked
         if self.click_counts[button_name] == 0:
@@ -553,7 +554,8 @@ class MainApp:
         self.interestPageWindow.close()
         self.mainPageWindow.show()
 
-    # MainPage methods
+    #MAINPAGE methods
+
     def openAccountSettings(self):
         self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.mainPageWindow.close()
