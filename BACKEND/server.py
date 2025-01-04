@@ -266,8 +266,9 @@ def get_all_users():
 @app.route('/get_one_user', methods=['GET'])
 def get_one_user():
     current_username = request.args.get('current_username')
+    logged_in_username = request.args.get('logged_in_username')
     try:
-        db_cursor.execute("SELECT username, age, gender, location FROM users WHERE username != %s LIMIT 1", (current_username,))
+        db_cursor.execute("SELECT username, age, gender, location FROM users WHERE username != %s AND username != %s LIMIT 1", (current_username, logged_in_username))
         user = db_cursor.fetchone()
         if user:
             user_data = {"username": user[0], "age": user[1], "gender": user[2], "location": user[3]}
