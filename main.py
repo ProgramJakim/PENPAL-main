@@ -592,6 +592,7 @@ class MainApp:
         self.accountSettingsWindow.close()
         self.homePageWindow.show()
     def openChangeProfileFromAccountSettings(self):
+        self.changeProfileUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.accountSettingsWindow.close()
         self.changeProfileWindow.show()
 
