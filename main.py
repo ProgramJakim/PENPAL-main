@@ -6,6 +6,7 @@ import os
 import sys
 import requests
 import re
+from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
@@ -391,7 +392,10 @@ class MainApp:
         if not terms_accepted:
                 self.show_error_message("You must accept the Terms and Conditions to create an account.")
                 return False  # Indicate that the sign-up process should not continue
-       
+        dob = self.signUpUI.SU_DOB.date().toPyDate()  # Assuming you have a QDateEdit for date of birth
+        today = datetime.today()
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
 
         # Check if username already exists
         data = {'username': username}

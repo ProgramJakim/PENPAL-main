@@ -165,7 +165,7 @@ class Ui_SignUp(object):
 
 #Sign Up Push Button
         self.SU_SignUpPB= QtWidgets.QPushButton(self.SU_MainPanel)
-        self.SU_SignUpPB.setGeometry(QtCore.QRect(700, 570, 119, 36))
+        self.SU_SignUpPB.setGeometry(QtCore.QRect(700, 595, 119, 36))
         self.SU_SignUpPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SU_SignUpPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
@@ -181,7 +181,7 @@ class Ui_SignUp(object):
 
 #Interest Button
         self.SU_InterestPB = QtWidgets.QPushButton(self.SU_MainPanel)
-        self.SU_InterestPB.setGeometry(QtCore.QRect(550, 510, 119, 36))
+        self.SU_InterestPB.setGeometry(QtCore.QRect(550, 550, 119, 36))
         self.SU_InterestPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SU_InterestPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
@@ -194,21 +194,29 @@ class Ui_SignUp(object):
         self.SU_InterestPB.setObjectName("SU_InterestPB")
 
 #Age Label
-        self.SU_AgeLBL = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_AgeLBL.setGeometry(QtCore.QRect(490, 240, 61, 31))
+# Date of Birth Label
+        self.SU_DOBLBL = QtWidgets.QLabel(self.SU_MainPanel)
+        self.SU_DOBLBL.setGeometry(QtCore.QRect(490, 240, 500, 31))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
-        self.SU_AgeLBL.setFont(font)
-        self.SU_AgeLBL.setStyleSheet("color: rgb(98, 65, 66);\n"
-"background: transparent;")
-        self.SU_AgeLBL.setObjectName("SU_AgeLBL")
+        self.SU_DOBLBL.setFont(font)
+        self.SU_DOBLBL.setStyleSheet("color: rgb(98, 65, 66);\nbackground: transparent;")
+        self.SU_DOBLBL.setObjectName("SU_DOBLBL")
+        self.SU_DOBLBL.setText("Date of Birth:")
+
+# Date of Birth Input
+        self.SU_DOB = QtWidgets.QDateEdit(self.SU_MainPanel)
+        self.SU_DOB.setGeometry(QtCore.QRect(550, 280, 141, 31))
+        self.SU_DOB.setCalendarPopup(True)
+        self.SU_DOB.setStyleSheet("border-color: rgb(229, 141, 118);\nborder: 3px solid #E58D76;\nborder-radius: 5px;\nbackground: transparent;")
+        self.SU_DOB.setObjectName("SU_DOB")
         
 #Gender Check Box
         self.SU_GenderCB = QtWidgets.QComboBox(self.SU_MainPanel)
-        self.SU_GenderCB.setGeometry(QtCore.QRect(830, 240, 141, 31))
+        self.SU_GenderCB.setGeometry(QtCore.QRect(830, 280, 141, 31))
         self.SU_GenderCB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SU_GenderCB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "background-color: rgba(229, 141, 118, 0.5);\n"
@@ -235,7 +243,7 @@ class Ui_SignUp(object):
         
 #Location Label
         self.SU_LocationLBL_ = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_LocationLBL_.setGeometry(QtCore.QRect(490, 290, 171, 21))
+        self.SU_LocationLBL_.setGeometry(QtCore.QRect(490, 325, 171, 21))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
@@ -248,7 +256,7 @@ class Ui_SignUp(object):
         
 #Location Line Edit (Text Box)
         self.SU_LocationLE = QtWidgets.QLineEdit(self.SU_MainPanel)
-        self.SU_LocationLE.setGeometry(QtCore.QRect(550, 320, 421, 31))
+        self.SU_LocationLE.setGeometry(QtCore.QRect(550, 355, 421, 31))
         self.SU_LocationLE.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 5px;\n"
@@ -257,7 +265,7 @@ class Ui_SignUp(object):
         
 #Social Link Label
         self.SU_SocialLinkLBL = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_SocialLinkLBL.setGeometry(QtCore.QRect(490, 430, 151, 21))
+        self.SU_SocialLinkLBL.setGeometry(QtCore.QRect(490, 465, 151, 21))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
@@ -270,7 +278,7 @@ class Ui_SignUp(object):
         
 #Social Link Line Edit (Text Box)
         self.SU_SocialLinkLE = QtWidgets.QLineEdit(self.SU_MainPanel)
-        self.SU_SocialLinkLE.setGeometry(QtCore.QRect(550, 460, 421, 31))
+        self.SU_SocialLinkLE.setGeometry(QtCore.QRect(550, 495, 421, 31))
         self.SU_SocialLinkLE.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 5px;\n"
@@ -279,21 +287,11 @@ class Ui_SignUp(object):
         
 #Terms and Privacy Check Box
         self.SU_TermsandPrivacyChB = QtWidgets.QCheckBox(self.SU_MainPanel)
-        self.SU_TermsandPrivacyChB.setGeometry(QtCore.QRect(680, 520, 291, 20))
+        self.SU_TermsandPrivacyChB.setGeometry(QtCore.QRect(680, 555, 291, 20))
         self.SU_TermsandPrivacyChB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SU_TermsandPrivacyChB.setStyleSheet("background: transparent;    \n"
 "")
         self.SU_TermsandPrivacyChB.setObjectName("SU_TermsandPrivacyChB")
-        
-
-#Age Line Edit (Text Box)
-        self.SU_AgeLE = QtWidgets.QLineEdit(self.SU_MainPanel)
-        self.SU_AgeLE.setGeometry(QtCore.QRect(550, 240, 121, 31))
-        self.SU_AgeLE.setStyleSheet("border-color: rgb(229, 141, 118);\n"
-"border: 3px solid #E58D76;\n"
-"border-radius: 5px;\n"
-"background: transparent;")
-        self.SU_AgeLE.setObjectName("SU_AgeLE")
         
 #Shadow Image
         self.SU_Shadow = QtWidgets.QLabel(self.SU_MainPanel)
@@ -322,7 +320,7 @@ class Ui_SignUp(object):
         
 #Email Label
         self.SU_EmailLBL = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_EmailLBL.setGeometry(QtCore.QRect(490, 360, 81, 21))
+        self.SU_EmailLBL.setGeometry(QtCore.QRect(490, 395, 81, 21))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
@@ -335,7 +333,7 @@ class Ui_SignUp(object):
         
 #Email Line Edit (Text Edit )
         self.SU_EmailLE = QtWidgets.QLineEdit(self.SU_MainPanel)
-        self.SU_EmailLE.setGeometry(QtCore.QRect(550, 390, 421, 31))
+        self.SU_EmailLE.setGeometry(QtCore.QRect(550, 425, 421, 31))
         self.SU_EmailLE.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 5px;\n"
@@ -351,7 +349,8 @@ class Ui_SignUp(object):
         self.SU_PasswordLE.raise_()
         self.SU_SignUpPB.raise_()
         self.SU_InterestPB.raise_()
-        self.SU_AgeLBL.raise_()
+        self.SU_DOBLBL.raise_()
+        self.SU_DOB.raise_()
         self.SU_GenderCB.raise_()
         self.SU_GenderLBL.raise_()
         self.SU_LocationLBL_.raise_()
@@ -359,7 +358,6 @@ class Ui_SignUp(object):
         self.SU_SocialLinkLBL.raise_()
         self.SU_SocialLinkLE.raise_()
         self.SU_TermsandPrivacyChB.raise_()
-        self.SU_AgeLE.raise_()
         self.SU_CreateanAccount.raise_()
         self.SU_EmailLBL.raise_()
         self.SU_EmailLE.raise_()
@@ -367,7 +365,6 @@ class Ui_SignUp(object):
         # Pre-fill the form fields
         self.SU_UsernameLE.setText(username)
         self.SU_PasswordLE.setText(password)
-        self.SU_AgeLE.setText(age)
         self.SU_GenderCB.setCurrentText(gender)
         self.SU_LocationLE.setText(location)
         self.SU_SocialLinkLE.setText(social_media_link)
@@ -386,7 +383,6 @@ class Ui_SignUp(object):
         self.SU_PasswordLBL.setText(_translate("SignUp", "Password:"))
         self.SU_InterestPB.setText(_translate("SignUp", "Select Interests"))
         self.SU_SignUpPB.setText(_translate("SignUp", "Sign Up"))
-        self.SU_AgeLBL.setText(_translate("SignUp", "Age: "))
         self.SU_GenderCB.setItemText(0, _translate("SignUp", "Male"))
         self.SU_GenderCB.setItemText(1, _translate("SignUp", "Female"))
         self.SU_GenderCB.setItemText(2, _translate("SignUp", "Neutral"))
