@@ -10,6 +10,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
+import sys
 
 # Get the absolute path of the current directory (LogInPage.py)
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -81,6 +82,7 @@ class Ui_PrivacyPolicy(object):
 "border-radius: 5px;\n"
 "background-color: #FFBCAD;")
         self.PP_PrivacyStatementTE.setObjectName("PP_PrivacyStatementTE")
+        self.PP_PrivacyStatementTE.setReadOnly(True)  # Make the text non-editable
         
 #Header 2
         self.PP_Header_2 = QtWidgets.QFrame(PrivacyPolicy)
@@ -93,17 +95,17 @@ class Ui_PrivacyPolicy(object):
         self.PP_Header_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.PP_Header_2.setObjectName("PP_Header_2")
         
-#Continue Push Button
-        self.PP_ContinuePB = QtWidgets.QPushButton(PrivacyPolicy)
-        self.PP_ContinuePB.setGeometry(QtCore.QRect(790, 720, 161, 41))
+#Back Push Button
+        self.PP_BackPB = QtWidgets.QPushButton(PrivacyPolicy)
+        self.PP_BackPB.setGeometry(QtCore.QRect(790, 720, 161, 41))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setBold(True)
         font.setUnderline(True)
         font.setWeight(75)
-        self.PP_ContinuePB.setFont(font)
-        self.PP_ContinuePB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.PP_ContinuePB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
+        self.PP_BackPB.setFont(font)
+        self.PP_BackPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.PP_BackPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 10px;\n"
 "text-decoration: underline;\n"
@@ -111,16 +113,18 @@ class Ui_PrivacyPolicy(object):
 "box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);\n"
 "background: transparent;\n"
 "")
-        self.PP_ContinuePB.setObjectName("PP_ContinuePB")
+        self.PP_BackPB.setObjectName("PP_BackPB")
         self.PP_Header_2.raise_()
         self.PP_Header.raise_()
         self.PP_SideImage.raise_()
         self.PP_PrivacyPolicyLBL.raise_()
         self.PP_PrivacyStatementTE.raise_()
-        self.PP_ContinuePB.raise_()
+        self.PP_BackPB.raise_()
 
         self.retranslateUi(PrivacyPolicy)
         QtCore.QMetaObject.connectSlotsByName(PrivacyPolicy)
+
+    
 
     def retranslateUi(self, PrivacyPolicy):
         _translate = QtCore.QCoreApplication.translate
@@ -145,7 +149,7 @@ class Ui_PrivacyPolicy(object):
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br />        <span style=\" font-weight:600;\">6.3. </span>Provide personalized recommendations and advertisements.</p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br />        <span style=\" font-weight:600;\">6.4. </span>You can manage your cookie preferences through your browser settings.<br /><br /><span style=\" font-weight:600;\">7. Children’s Privacy</span><br />    Penpal is not intended for users under 13 years of age. If we become aware that we have collected data from a child under 13, we will delete it immediately.<br /><br /><span style=\" font-weight:600;\">8. International Users</span><br />    By using Penpal, you consent to the transfer and processing of your information in the country where Penpal operates, which may have different data protection laws than your country of residence.<br /><br /><span style=\" font-weight:600;\">9. Changes to Privacy Policy</span><br />    We may update this Privacy Policy from time to time. Significant changes will be communicated through the platform. Continued use of Penpal after updates constitutes your agreement to the revised policy.<br /><br /><span style=\" font-weight:600;\">10. Contact Us</span><br />    If you have questions or concerns about this Privacy Policy, please contact us at privacy@penpal.com.</p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br />By using Penpal, you acknowledge that you have read, understood, and agree to this Privacy Policy. Thank you for trusting us with your information!</p></body></html>"))
-        self.PP_ContinuePB.setText(_translate("PrivacyPolicy", "Continue"))
+        self.PP_BackPB.setText(_translate("PrivacyPolicy", "Back"))
 
 
 if __name__ == "__main__":

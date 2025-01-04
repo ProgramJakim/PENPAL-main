@@ -1,13 +1,19 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
+from flask_session import Session
 import mysql.connector
 from passlib.hash import argon2
 import logging
 from mysql.connector import errorcode
 from argon2 import PasswordHasher
 
-
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
+
+# Session configuration
+app.config['SECRET_KEY'] = 'PenpalApp'
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_PERMANENT'] = False  # Ensure sessions are not permanent
+Session(app)
 
 # MySQL database connection setup
 db_connection = mysql.connector.connect(
@@ -19,11 +25,11 @@ db_connection = mysql.connector.connect(
 
 db_cursor = db_connection.cursor()
 
+ph = PasswordHasher()  # Initialize Argon2 Password Hasher
+
 @app.route("/sample", methods=['GET'])
 def sample():
-    return jsonify({"message":"I AM A SAMPLE GET ENDPOINT"}), 200
-
-ph = PasswordHasher()  # Initialize Argon2 Password Hasher
+    return jsonify({"message": "I AM A SAMPLE GET ENDPOINT"}), 200
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -36,6 +42,7 @@ def signup():
     gender = data.get('gender')
     social_media_link = data.get('social_media_link', None)
     gmail = data.get('gmail', None)  # New field for Gmail account
+    interests = data.get('interests', [])  # Get the interests from the request
 
     if not username or not password or not age or not location or not gender or not gmail:
         logging.error("Error: Missing required fields.")
@@ -65,6 +72,15 @@ def signup():
             (username, age, location, gender, hashed_password, social_media_link, gmail)
         )
         db_connection.commit()
+
+         # Save interests in the user_interests table
+        for interest in interests:
+            db_cursor.execute(
+                "INSERT INTO user_interests (username, interest) VALUES (%s, %s)",
+                (username, interest)
+            )
+        db_connection.commit()
+        
         logging.info("User account created successfully!")
         print(f"Hashed password for {username}: {hashed_password}")
         return jsonify({"message": "Account created successfully!"}), 201
@@ -84,55 +100,49 @@ def validate_password(password):
         return "Password must include at least one special character."
     return None
 
-ph = PasswordHasher()  # Initialize Argon2 Password Hasher
-
-
 @app.route('/login', methods=['POST'])
 def login():
-    # Get JSON data from frontend
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
 
     logging.debug(f"Login attempt for username: {username}")
 
-    # Fetch the hashed password for the provided username
-    db_cursor.execute("SELECT password FROM users WHERE username = %s", (username,))
+    db_cursor.execute("SELECT id, password FROM users WHERE username = %s", (username,))
     result = db_cursor.fetchone()
 
     if result:
-        stored_hashed_password = result[0]
+        user_id, stored_hashed_password = result
         logging.debug(f"Stored hash for user {username}: {stored_hashed_password}")
 
         try:
-            # Verify password using Argon2
             ph.verify(stored_hashed_password, password)
-            return jsonify({"message": f"Welcome back, {username}!", "username": username, "accessToken": "sample"}), 200
+            session['user_id'] = user_id
+            session['username'] = username
+            session.modified = True
+            logging.debug(f"Session data after login: {dict(session)}")
+            return jsonify({"message": f"Welcome back, {username}!", "user_id": user_id, "username": username}), 200
         except Exception as e:
             logging.error(f"Password verification failed: {e}")
             return jsonify({"message": "Invalid password."}), 400
     else:
         logging.error("Username not found")
         return jsonify({"message": "Invalid username."}), 400
-    
-#FOR ACCOUNT DETAILS
 
 #USERNAME DISPLAY
 
 @app.route('/get_username', methods=['GET'])
 def get_username():
-    username = request.args.get('username')
+    logging.debug("Retrieving username from session")
+    logging.debug(f"Session contents: {dict(session)}")
+    username = session.get('username')
     
     if not username:
-        return jsonify({"error": "Username is required"}), 400
+        app.logger.error("Username not found in session")
+        return jsonify({"error": "Username not found in session"}), 401
 
-    db_cursor.execute("SELECT username FROM users WHERE username = %s", (username,))
-    result = db_cursor.fetchone()
-
-    if result:
-        return jsonify({"username": result[0]}), 200
-    else:
-        return jsonify({"error": "User not found"}), 404
+    app.logger.debug(f"Username retrieved from session: {username}")
+    return jsonify({"username": username}), 200
 
 #AGE DISPLAY
 
@@ -152,7 +162,94 @@ def get_user_age():
     else:
         return jsonify({"error": "User not found"}), 404
     
+#GENDER DISPLAY
+
+@app.route('/get_user_gender', methods=['GET'])
+def get_user_gender():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    db_cursor.execute("SELECT gender FROM users WHERE username = %s", (username,))
+    result = db_cursor.fetchone()
+
+    if result:
+        gender = result[0]
+        return jsonify({"gender": gender}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
+#LOCATION DISPLAY
+
+@app.route('/get_user_location', methods=['GET'])
+def get_user_location():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    db_cursor.execute("SELECT location FROM users WHERE username = %s", (username,))
+    result = db_cursor.fetchone()
+
+    if result:
+        location = result[0]
+        return jsonify({"location": location}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
+    
+# SOCIAL LINK DISPLAY
+
+@app.route('/get_user_social_link', methods=['GET'])
+def get_user_social_link():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    db_cursor.execute("SELECT social_media_link FROM users WHERE username = %s", (username,))
+    result = db_cursor.fetchone()
+
+    if result:
+        social_link = result[0]
+        return jsonify({"social_link": social_link}), 200
+    else:
+        return jsonify({"error": "User not found"}), 404
+
+#PREFERENCES DISPLAY
+
+@app.route('/get_user_interests', methods=['GET'])
+def get_user_interests():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
+        interests = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"interests": interests}), 200
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return jsonify({"error": "Database error"}), 500
+    
+#EMAIL DISPLAY
+
+@app.route('/get_user_email', methods=['GET'])
+def get_user_email():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT gmail FROM users WHERE username = %s", (username,))
+        result = db_cursor.fetchone()
+        if result:
+            return jsonify({"email": result[0]}), 200
+        else:
+            return jsonify({"error": "User not found"}), 404
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return jsonify({"error": "Database error"}), 
 
 if __name__ == '__main__':
     app.run(debug=True)
-

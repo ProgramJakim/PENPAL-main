@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QPushButton, QDialog
 from PyQt5.QtGui import QPixmap, QFont, QCursor
-from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
+from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect, QEasingCurve
 import os
 import math
 import sys
@@ -116,24 +116,12 @@ class Ui_Homepage(object):
             border-radius: 5px;
         """)
         self.AboutUs.setObjectName("AboutUs")
-
-        # Create the Terms and Conditions button in footer
-        self.terms_conditions_button = QPushButton("Terms and Conditions", content_widget)
-        self.terms_conditions_button.setGeometry(QRect(900, 3805, 370, 40))
-        self.terms_conditions_button.setCursor(QCursor(Qt.PointingHandCursor))
-        self.terms_conditions_button.setStyleSheet("""
-            border:none;
-            background: transparent;
-            margin-left: -60px;
-            color: #821B1A;
-            font-family: 'Staatliches';
-            font-size: 30px;
-            font-weight: 500;
-        """)
+        
+        
 
         # Create the Privacy Policy button in footer
         self.privacy_policy_button = QPushButton("Privacy Policy", content_widget)
-        self.privacy_policy_button.setGeometry(QRect(900, 3853, 357, 40))
+        self.privacy_policy_button.setGeometry(QRect(850, 3800, 357, 40))
         self.privacy_policy_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.privacy_policy_button.setStyleSheet("""
             border:none;
@@ -172,6 +160,8 @@ class Ui_Homepage(object):
             font-size: 30px;
             font-weight: 500;
         """)
+
+      
 
         # Set the content widget as the scroll area's widget
         scroll_area.setWidget(content_widget)
@@ -268,3 +258,12 @@ class Ui_Homepage(object):
         layout = QVBoxLayout(new_window)
         layout.addWidget(label)
         new_window.exec_()
+
+    
+
+    def open_terms_conditions_page(self):
+        from TermsAndCondition import Ui_Dialog as Ui_TermsAndCondition
+        self.termsConditionsWindow = QDialog()
+        self.ui = Ui_TermsAndCondition()
+        self.ui.setupUi(self.termsConditionsWindow)
+        self.termsConditionsWindow.exec_()

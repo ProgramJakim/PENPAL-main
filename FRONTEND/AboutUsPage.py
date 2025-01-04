@@ -2,15 +2,15 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QApplicat
 from PyQt5.QtGui import QPixmap, QFont, QCursor
 from PyQt5.QtCore import Qt, QPropertyAnimation, QPoint, QRect
 import os
-import math
 
-class Ui_Homepage(object):
-    def setupUi(self, Homepage):
+
+class Ui_AboutUs(object):
+    def setupUi(self, AboutUs):
         # Set the fixed size of the main window
-        Homepage.setFixedSize(1440, 780)
+        AboutUs.setFixedSize(1440, 850)
 
         # Create a scroll area
-        scroll_area = QScrollArea(Homepage)
+        scroll_area = QScrollArea(AboutUs)
         scroll_area.setWidgetResizable(True)
         scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)  # Disable horizontal scrolling
 
@@ -55,132 +55,109 @@ class Ui_Homepage(object):
         # Add the background label to the content layout
         content_layout.addWidget(self.background_label)
 
-         # Create the LogIn button
-        self.LogIn_2 = QPushButton("Log In", content_widget)
-        self.LogIn_2.setGeometry(QRect(1091, 75, 150, 45))
+
+       # Create the BACK button
+        self.AUbackButton = QPushButton("BACK", content_widget)
+        self.AUbackButton.setGeometry(QRect(1252, 75, 150, 45))
         font = QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
-        self.LogIn_2.setFont(font)
-        self.LogIn_2.setCursor(QCursor(Qt.PointingHandCursor))
-        self.LogIn_2.setStyleSheet("""
+        self.AUbackButton.setFont(font)
+        self.AUbackButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AUbackButton.setStyleSheet("""
             font:30px;
             color: #FFFFFF;
             border: 2px solid #FFFFFF;
             background: transparent;
             border-radius: 5px;
         """)
-        self.LogIn_2.setObjectName("LogIn_2")
+        self.AUbackButton.setObjectName("Back")
 
-        # Create the SignUp button
-        self.SignUp = QPushButton("Sign Up", content_widget)
-        self.SignUp.setGeometry(QRect(1252, 75, 150, 45))
-        font = QFont()
-        font.setFamily("Rockwell Condensed")
-        font.setPointSize(-1)
-        font.setBold(False)
-        font.setItalic(False)
-        font.setWeight(50)
-        self.SignUp.setFont(font)
-        self.SignUp.setCursor(QCursor(Qt.PointingHandCursor))
-        self.SignUp.setStyleSheet("""
+         # Add hover effect to change background color
+        self.AUbackButton.setStyleSheet("""
+            QPushButton {
+                font:30px;
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+                background: transparent;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+        """)
+
+        # Create the About Us button
+        self.AboutUs = QPushButton("About Us", content_widget)
+        self.AboutUs.setGeometry(QRect(858, 2131, 150, 45))
+        self.AboutUs.setFont(font)
+        self.AboutUs.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AboutUs.setStyleSheet("""
             font:30px;
-            color: #FFFFFF;
-            border: 2px solid #FFFFFF;
-            background: transparent;
+            color: #BE7928;
+            border: 2px solid #BE7928;
+            background: #FFF4CF;
             border-radius: 5px;
         """)
-        self.SignUp.setObjectName("SignUp")
+        self.AboutUs.setObjectName("AboutUs")
+        
+        
 
+        # Create the Privacy Policy button in footer
+        self.AUprivacy_policy_button = QPushButton("Privacy Policy", content_widget)
+        self.AUprivacy_policy_button.setGeometry(QRect(850, 3800, 357, 40))
+        self.AUprivacy_policy_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AUprivacy_policy_button.setStyleSheet("""
+            border:none;
+            background: transparent;
+            margin-left: -60px;
+            color: #821B1A;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: 500;
+        """)
+
+        # Create the About Us button in footer
+        self.AUabout_us_button = QPushButton("About Us", content_widget)
+        self.AUabout_us_button.setGeometry(QRect(580, 3805, 220, 30))
+        self.AUabout_us_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AUabout_us_button.setStyleSheet("""
+            border:none;
+            background: transparent;
+            margin-left: -80px;
+            color: #821B1A;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: 500;
+        """)
+
+        # Create the Contact Us button in footer
+        self.AUcontact_us_button = QPushButton("Contact Us", content_widget)
+        self.AUcontact_us_button.setGeometry(QRect(580, 3853, 220, 30))
+        self.AUcontact_us_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AUcontact_us_button.setStyleSheet("""
+            border:none;
+            background: transparent;
+            margin-left: -60px;
+            color: #821B1A;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: 500;
+        """)
 
         # Set the content widget as the scroll area's widget
         scroll_area.setWidget(content_widget)
 
         # Set the layout of the main window
-        main_layout = QVBoxLayout(Homepage)
+        main_layout = QVBoxLayout(AboutUs)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.addWidget(scroll_area)
-        Homepage.setLayout(main_layout)
+        AboutUs.setLayout(main_layout)
 
-        # Create a floating circle button
-        self.circle_button = QPushButton(Homepage)
-        self.circle_button.setGeometry(1300, 750, 50, 50)
-        self.circle_button.setStyleSheet("""
-            border-radius: 25px;
-            background-color: #FF9F89;
-            font-size: 20px;
-            color: white;
-        """)
-        self.circle_button.setText("+")
-
-        # Create the buttons that will appear with animations
-        self.buttons = []
-        button_labels = ["Page 1", "Page 2", "Page 3", "Page 4", "Page 5"]
-        button_colors = ["#4CAF50", "#008CBA", "#f44336", "#FFC107", "#9C27B0"]
-        for i, label in enumerate(button_labels):
-            button = QPushButton(label, Homepage)
-            button.setGeometry(1300, 750, 50, 50)  # Initially place buttons at the circle position
-            button.setStyleSheet(f"""
-                background-color: {button_colors[i]};
-                border: none;
-                color: white;
-                text-align: center;
-                font-size: 15px;
-                border-radius: 25px;
-            """)
-            button.hide()
-            self.buttons.append(button)
-
-        # Add an attribute to store animations
-        self.animations = []
-
-        # Connect the circle button to the method to show/hide buttons with animations
-        self.circle_button.clicked.connect(self.toggle_buttons)
-
-        # Connect the buttons to their respective methods for redirection
-        self.buttons[0].clicked.connect(lambda: self.open_page("Page 1"))
-        self.buttons[1].clicked.connect(lambda: self.open_page("Page 2"))
-        self.buttons[2].clicked.connect(lambda: self.open_page("Page 3"))
-        self.buttons[3].clicked.connect(lambda: self.open_page("Page 4"))
-        self.buttons[4].clicked.connect(lambda: self.open_page("Page 5"))
-
-    def toggle_buttons(self):
-        # Clear previous animations to prevent memory leaks
-        self.animations.clear()
-
-        if self.buttons[0].isVisible():
-            # Animate buttons back to the circle button position and hide them
-            for button in self.buttons:
-                self.animate_button(button, 1300, 750, hide=True)
-            self.circle_button.setText("+")
-        else:
-            # Arrange buttons in a closer circular pattern around the circle button
-            radius = 60  # Reduced radius for closer arrangement
-            angle_step = 360 / len(self.buttons)  # Divide full circle by the number of buttons
-            for i, button in enumerate(self.buttons):
-                angle = angle_step * i
-                x = 1300 + int(radius * math.cos(math.radians(angle)))
-                y = 750 + int(radius * math.sin(math.radians(angle)))
-                self.animate_button(button, x, y, hide=False)
-            self.circle_button.setText("-")
-
-    def animate_button(self, button, x, y, hide):
-        button.show()
-        animation = QPropertyAnimation(button, b"pos")
-        animation.setDuration(250)
-        animation.setStartValue(button.pos())
-        animation.setEndValue(QPoint(x, y))
-        animation.start()
-
-        # Hide the button after animation if required
-        if hide:
-            animation.finished.connect(button.hide)
-
-        # Store the animation to prevent it from being garbage-collected
-        self.animations.append(animation)
 
     def open_page(self, page_name):
         new_window = QDialog()
@@ -196,8 +173,8 @@ if __name__ == "__main__":
     import sys
 
     app = QApplication(sys.argv)
-    Homepage = QWidget()
-    ui = Ui_Homepage()
-    ui.setupUi(Homepage)
-    Homepage.show()
+    AboutUs = QWidget()
+    ui = Ui_AboutUs()
+    ui.setupUi(AboutUs)
+    AboutUs.show()
     sys.exit(app.exec_())

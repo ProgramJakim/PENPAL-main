@@ -1,17 +1,21 @@
 #annie
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
+from PyQt5 import QtCore 
 import os
 import sys
-
+import requests
+import re
+from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
 from LogInPage import Ui_LogIn
+from ForgotPass import Ui_ForgotPassword_Fullpage
 from HomePage import Ui_Homepage
 from WelcomePage import Ui_WelcomePage
-from InterestPage import Ui_Dialog as Ui_InterestPage
+from InterestPage import Ui_Interest
 from MAINPAGE import Ui_Main_Page
 from AccountSettings import Ui_AccountSettings
 from FriendMenu import Ui_FriendMenu
@@ -19,7 +23,7 @@ from FriendMenu import Ui_FriendMenu
 class SplashScreen(QDialog):
     def __init__(self):
         super().__init__()
-        self.setFixedSize(1000, 600)
+        self.setFixedSize(1000, 850)
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
@@ -91,6 +95,7 @@ class MainApp:
         self.welcomePageWindow = QWidget()
         self.friendMenuWindow = QDialog()
 
+    def setup_ui(self):
         # Setup UI for the WelcomePage window
         self.welcomePageUI = Ui_WelcomePage()
         self.welcomePageUI.setupUi(self.welcomePageWindow)
@@ -100,10 +105,20 @@ class MainApp:
         self.logInUI = Ui_LogIn()
         self.logInUI.setupUi(self.logInWindow)
 
+        # Setup UI for the WelcomePage window
+        self.forgotPassUi = Ui_ForgotPassword_Fullpage()
+        self.forgotPassUi.setupUi(self.forgotPasswordWindow)
+
 
         # Setup UI for the signup window
         self.signUpUI = Ui_SignUp()
         self.signUpUI.setupUi(self.signUpWindow)
+
+         # Define error_message_label for displaying error messages
+        self.error_message_label = QLabel(self.signUpWindow)
+        self.error_message_label.setStyleSheet("color: red;")
+        self.error_message_label.setAlignment(Qt.AlignCenter)
+        self.signUpWindow.layout().addWidget(self.error_message_label)
 
 
         # Setup UI for the homepage window
@@ -111,50 +126,75 @@ class MainApp:
         self.homePageUI.setupUi(self.homePageWindow)
 
 
-        # Setup UI for the interest page window
-        self.interestPageUI = Ui_InterestPage()
+       # Setup UI for the interest page window
+        self.interestPageUI = Ui_Interest()
         self.interestPageUI.setupUi(self.interestPageWindow)
 
 
         # Setup UI for the main page window
         self.mainPageUI = Ui_Main_Page()
         self.mainPageUI.setupUi(self.mainPageWindow)
+        self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
+
 
 
         # Setup UI for the account settings window
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
+        
+        # Setup UI for the Change Profile window
+        self.changeProfileUI = Ui_ChangeProfile()
+        self.changeProfileUI.setupUi(self.changeProfileWindow)
 
         # Setup UI for the friend menu window 
         self.friendMenuUI = Ui_FriendMenu()
         self.friendMenuUI.setupUi(self.friendMenuWindow)
 
-        # Connect the "Sign Up" button to open the signup window
-        self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
+        # Setup UI for the AboutUS window
+        self.aboutUsUI = Ui_AboutUs()
+        self.aboutUsUI.setupUi(self.aboutUsWindow)
+
+        # Setup UI for the Contact U Window
+        self.contactUsUi =  Ui_ContactUs()
+        self.contactUsUi.setupUi( self.contactUsWindow)
+
+        # Setup Ui for the privacyPolicy
+        self.privacyPolicyUI = Ui_PrivacyPolicy()
+        self.privacyPolicyUI.setupUi(self.privacyPolicyWindow)
+
+        # Setup Ui for termsConditionsWindow 
+        self.termsConditionsUI = Ui_TermsAndCondition()
+        self.termsConditionsUI.setupUi(self.termsWindow)
+
+         # Setup UI for the friend menu window 
+        self.friendMenuUI = Ui_FriendMenu()
+        self.friendMenuUI.setupUi(self.friendMenuWindow)
 
 
-        # Connect the "Back to Login" button to go back to the login window
-        self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
 
-
-        # Connect the "Log In" button on the homepage to open the login window
-        self.homePageUI.LogIn_2.clicked.connect(self.openLogInPageFromHomepage)
-
-
-        # Connect the "Log In" button on the login page to open the interest page
-        self.logInUI.LI_LogInPB.clicked.connect(self.openInterestPage)
-
-
-        # Connect the "Sign Up" button on the homepage to open the signup window
-        self.homePageUI.SignUp.clicked.connect(self.openSignupFromHomepage)
-
-
-        # Connect the button to the method to open the homepage
+    def connect_buttons(self):
+        # WelcomePage buttons
         self.welcomePageUI.press_to_continue.clicked.connect(self.open_homepagefromwelcome)
 
+        # LogInPage buttons
+        self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
+        self.logInUI.LI_LogInPB.clicked.connect(self.openMAINPage)
+        self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
+        self.logInUI.LI_ForgotPasswordLBL.mousePressEvent = self.handleForgotPasswordClick
+        
+        # ForgotPass buttons
+        self.forgotPassUi.FPbackButton.clicked.connect(self.openLogInFromForgotPass)
+       
+        # SignUpPage buttons
+        self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
+        self.signUpUI.SU_InterestPB.clicked.connect(self.openInterestPage)
+        self.signUpUI.SU_TermsandPrivacyChB.clicked.connect(self.open_terms_conditions_page_from_signup)
+        self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup)
+        self.signUpUI.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
 
-        # Connect the "CONTINUE" button in the interest page to open the main page
-        self.interestPageUI.INTpushButton.clicked.connect(self.openMainPage)
+        
+        # Terms&Conditions Buttons
+        self.termsConditionsUI.TAC_BackPB.clicked.connect(self.backtoSignUpFromTermsCondition)
 
 
         # Connect the "Home" button in Account Settings to go back to the Home Page
@@ -197,58 +237,187 @@ class MainApp:
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
 
-    def on_continue_clicked(self):
-        self.interestPageWindow.close()
-        self.mainPageWindow.show()
+        # FriendMenu Buttons
+        self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
+        self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
+        self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFrienMenu)
 
+        # ChangeProfile BUttons
+        self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
 
+    # WelcomePage methods
     def open_homepagefromwelcome(self):
         self.welcomePageWindow.close()
         self.homePageWindow.show()
 
-
+    # HomePage methods
+    def open_about_us_page(self):
+        self.homePageWindow.close()
+        self.aboutUsWindow.show()
+    def open_contact_us_page(self):
+        self.homePageWindow.close()
+        self.contactUsWindow.show()
+    def open_privacy_policy_page(self):
+        self.homePageWindow.close()
+        self.privacyPolicyWindow.show()
+    
+   
     def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
-
-
     def openLogInPageFromHomepage(self):
-        # Close the homepage window and show the login window
         self.homePageWindow.close()
         self.logInWindow.show()
 
+    
+    
+    # PrivacyPolicy methods  
+    def backtoHomePagefromPRIVACYPOLICY(self):
+        self.privacyPolicyWindow.close()
+        self.homePageWindow.show()
 
+    # AboutUsPage methods
+    def openAboutUsPage(self):
+        self.homePageWindow.close()
+        self.aboutUsWindow.show()
+    def openHomePageFromAboutUs(self):
+        self.aboutUsWindow.close()
+        self.homePageWindow.show()
+
+
+    # LogInPage methods
+    def openMAINPage(self):
+        # Assuming user_id and username are obtained after successful login
+        user_id = self.logInUI.user_id  # Replace with actual user_id
+        username = self.logInUI.username  # Replace with actual username
+
+        # Set user info in the main page UI
+        self.mainPageUI.set_user_info(user_id, username)
+
+        # Show the main page window
+        self.logInWindow.close()
+        self.mainPageWindow.show()
+    def openHomePageFromLogin(self):
+        self.logInWindow.close()
+        self.homePageWindow.show()
     def openSignUpPage(self):
-        # Hide the login window and show the signup window
         self.logInWindow.close()
         self.signUpWindow.show()
+    def handleForgotPasswordClick(self, event):
+        self.openForgotPassPageFromLogin()
+    def openForgotPassPageFromLogin(self):
+        self.logInWindow.close()
+        self.forgotPasswordWindow.show()
 
     def backtoLogInPage(self):
-        # Close the signup window and show the login window
         self.signUpWindow.close()
         self.logInWindow.show()
-   
+    def open_terms_conditions_page_from_signup(self):
+        self.signUpWindow.close()
+        self.termsWindow.show()
     def openInterestPage(self):
-        # Close the login window and show the interest page window
-        self.logInWindow.close()
+        self.signUpWindow.close()
         self.interestPageWindow.show()
 
+    # Terms&Conditions methods
+    def backtoSignUpFromTermsCondition(self):
+        self.termsWindow.close()
+        self.signUpWindow.show()
+       
+     # Interests methods
+    def handle_button_click_number(self, button_name):
+        # Check if the button has already been clicked
+        if self.click_counts[button_name] == 0:
+            # Increment the total click count only if the button is clicked for the first time
+            self.total_clicks += 1
 
+        # Increment the click count for the button
+        self.click_counts[button_name] += 1
+
+        # Update the placeholder text with the new total count
+        self.interestPageUI.placeholderText.setText(f"{self.total_clicks} selected")
+
+
+    def get_selected_interests(self):
+        interests = {
+            "pushButton_1": "SPORTS",
+            "pushButton_2": "TECHNOLOGY",
+            "pushButton_3": "GAMING",
+            "pushButton_4": "ARTS",
+            "pushButton_5": "PHOTOGRAPHY",
+            "pushButton_6": "MUSIC",
+            "pushButton_7": "TRAVEL",
+            "pushButton_8": "COOKING",
+            "pushButton_9": "FASHION",
+            "pushButton_10": "EDUCATION",
+            "pushButton_11": "MOVIES",
+            "pushButton_12": "BOOKS",
+            "pushButton_13": "LIFESTYLE",
+            "pushButton_14": "SCIENCE",
+            "pushButton_15": "BUSINESS",
+        }
+        selected_interests = [interest for button, interest in interests.items() if self.click_counts[button] > 0]
+        return selected_interests
+
+    def show_selected_interests(self, selected_interests):
+        interests_str = "\n".join(selected_interests)
+        QMessageBox.information(self.interestPageWindow, "Selected Interests", f"Your selected interests are:\n{interests_str}")
+
+    def on_done_clicked(self):
+        selected_interests = self.get_selected_interests()
+        self.show_selected_interests(selected_interests)
+        self.interestPageWindow.close()
+        self.signUpWindow.show()
+
+    
     def openMainPage(self):
-        # Close the interest page window and show the main page window
         self.interestPageWindow.close()
         self.mainPageWindow.show()
 
+    #MAINPAGE methods
 
     def openAccountSettings(self):
-        # Close the main page window and show the account settings window
+        self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.mainPageWindow.close()
         self.accountSettingsWindow.show()
-    
-    def openHomePageFromAccountSettings(self):
-        # Close the Account Settings window and open the Home Page
+    def openFriendMenu(self):
+        self.mainPageWindow.close()
+        self.friendMenuWindow.show()
+    def openHomePageFromMainPage(self):
+        # Close the Main Page window and show the Home Page window
+        self.mainPageWindow.close()
+        self.homePageWindow.show()
+
+
+    # AccountSettings methods
+    def openMAINPAGEfromAccountSettings(self):
         self.accountSettingsWindow.close()
         self.mainPageWindow.show()
+    def openFriendMenuFromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.friendMenuWindow.show()
+    def openHomepageFromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.homePageWindow.show()
+    def openChangeProfileFromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.changeProfileWindow.show()
+
+    # FriendMenu methods
+    def openMainPageFromFriendMenu(self):
+        self.friendMenuWindow.close()
+        self.mainPageWindow.show()
+    def openAccountSettingsFromFrienMenu(self):
+        self.friendMenuWindow.close()
+        self.accountSettingsWindow.show()
+    def openHomePageFromFriendMenu(self):
+        self.friendMenuWindow.close()
+        self.homePageWindow.show()
+
+    # ChangeProifle methods
+    def openAccountSettingsFromChangeProfile(self):
+        self.changeProfileWindow.close()
+        self.accountSettingsWindow.show()
 
     def openFriendMenu(self):
     # Close the main page window and show the friend menu window
@@ -296,4 +465,6 @@ class MainApp:
 if __name__ == "__main__":
     mainApp = MainApp()
     mainApp.run()
+
+
 

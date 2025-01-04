@@ -20,14 +20,22 @@ images_folder = os.path.join(current_directory, '..', 'resources' , 'images')
 
 
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(1440, 780)
-        Dialog.setStyleSheet("background-color: rgb(255, 249, 240);")
+class Ui_TermsAndCondition(object):
+    def setupUi(self, TermsAndCondition, username="", password="", age="", gender="", location="", social_media_link="", gmail=""):
+        TermsAndCondition.setObjectName("TermsAndCondition")
+        TermsAndCondition.resize(1440, 780)
+        TermsAndCondition.setStyleSheet("background-color: rgb(255, 249, 240);")
+        
+        self.username = username
+        self.password = password
+        self.age = age
+        self.gender = gender
+        self.location = location
+        self.social_media_link = social_media_link
+        self.gmail = gmail
         
 #Header
-        self.TAC_Header = QtWidgets.QFrame(Dialog)
+        self.TAC_Header = QtWidgets.QFrame(TermsAndCondition)
         self.TAC_Header.setGeometry(QtCore.QRect(0, 0, 1440, 103))
         self.TAC_Header.setStyleSheet("background: qlineargradient(\n"
 "    spread:pad, \n"
@@ -52,7 +60,7 @@ class Ui_Dialog(object):
         self.TAC_HeaderIcon.setObjectName("TAC_HeaderIcon")
         
 #Side Image
-        self.TAC_SideImage = QtWidgets.QLabel(Dialog)
+        self.TAC_SideImage = QtWidgets.QLabel(TermsAndCondition)
         self.TAC_SideImage.setGeometry(QtCore.QRect(960, 330, 481, 371))
         self.TAC_SideImage.setStyleSheet("background: transparent;")
         self.TAC_SideImage.setText("")
@@ -61,7 +69,7 @@ class Ui_Dialog(object):
         self.TAC_SideImage.setObjectName("TAC_SideImage")
         
 #Terms And Condition Label
-        self.TAC_TermandConditionLBL = QtWidgets.QLabel(Dialog)
+        self.TAC_TermandConditionLBL = QtWidgets.QLabel(TermsAndCondition)
         self.TAC_TermandConditionLBL.setGeometry(QtCore.QRect(430, 170, 281, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
@@ -74,7 +82,7 @@ class Ui_Dialog(object):
         self.TAC_TermandConditionLBL.setObjectName("TAC_TermandConditionLBL")
         
 #Terms And Condition Statement Text Edit
-        self.TAC_TermsSatmentTE = QtWidgets.QTextEdit(Dialog)
+        self.TAC_TermsSatmentTE = QtWidgets.QTextEdit(TermsAndCondition)
         self.TAC_TermsSatmentTE.setGeometry(QtCore.QRect(190, 210, 761, 498))
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -83,9 +91,10 @@ class Ui_Dialog(object):
 "border-radius: 5px;\n"
 "background-color: #FFBCAD;")
         self.TAC_TermsSatmentTE.setObjectName("TAC_TermsSatmentTE")
+        self.TAC_TermsSatmentTE.setReadOnly(True)  # Make the text non-editable
         
 #Terms And Condition Header
-        self.TAC_TermsHeader = QtWidgets.QFrame(Dialog)
+        self.TAC_TermsHeader = QtWidgets.QFrame(TermsAndCondition)
         self.TAC_TermsHeader.setGeometry(QtCore.QRect(190, 160, 761, 51))
         self.TAC_TermsHeader.setStyleSheet("border: 3px solid #DD5B6E;\n"
 "border-radius: 5px;\n"
@@ -95,39 +104,42 @@ class Ui_Dialog(object):
         self.TAC_TermsHeader.setFrameShadow(QtWidgets.QFrame.Raised)
         self.TAC_TermsHeader.setObjectName("TAC_TermsHeader")
         
-#Continue Push Button
-        self.TAC_ContinuePB = QtWidgets.QPushButton(Dialog)
-        self.TAC_ContinuePB.setGeometry(QtCore.QRect(790, 720, 161, 41))
+#Back Push Button
+        self.TAC_BackPB = QtWidgets.QPushButton(TermsAndCondition)
+        self.TAC_BackPB.setGeometry(QtCore.QRect(790, 720, 161, 41))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setBold(True)
         font.setUnderline(True)
         font.setWeight(75)
-        self.TAC_ContinuePB.setFont(font)
-        self.TAC_ContinuePB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.TAC_ContinuePB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
+        self.TAC_BackPB.setFont(font)
+        self.TAC_BackPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.TAC_BackPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 10px;\n"
 "text-decoration: underline;\n"
 "color: #E58D76;\n"
 "background: transparent;\n"
 "")
-        self.TAC_ContinuePB.setObjectName("TAC_ContinuePB")
+        self.TAC_BackPB.setObjectName("TAC_BackPB")
         self.TAC_TermsHeader.raise_()
         self.TAC_Header.raise_()
         self.TAC_SideImage.raise_()
         self.TAC_TermandConditionLBL.raise_()
         self.TAC_TermsSatmentTE.raise_()
-        self.TAC_ContinuePB.raise_()
+        self.TAC_BackPB.raise_()
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(TermsAndCondition)
+        QtCore.QMetaObject.connectSlotsByName(TermsAndCondition)
 
-    def retranslateUi(self, Dialog):
+    def go_back(self, TermsAndCondition):
+        TermsAndCondition.close()
+
+    def retranslateUi(self, TermsAndCondition):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.TAC_TermandConditionLBL.setText(_translate("Dialog", "Terms and Conditions"))
-        self.TAC_TermsSatmentTE.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        TermsAndCondition.setWindowTitle(_translate("TermsAndCondition", "TermsAndCondition"))
+        self.TAC_TermandConditionLBL.setText(_translate("TermsAndCondition", "Terms and Conditions"))
+        self.TAC_TermsSatmentTE.setHtml(_translate("TermsAndCondition", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
@@ -178,14 +190,14 @@ class Ui_Dialog(object):
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#000000;\">    For questions or concerns about these Terms of Service, contact us at support@penpal.com.</span></p>\n"
 "<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#000000;\"><br /></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#000000;\">By creating an account or using Penpal, you acknowledge that you have read, understood, and agree to these Terms of Service. Thank you for being a part of our community!</span></p></body></html>"))
-        self.TAC_ContinuePB.setText(_translate("Dialog", "Continue"))
+        self.TAC_BackPB.setText(_translate("TermsAndCondition", "Back"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
+    TermsAndCondition = QtWidgets.QDialog()
+    ui = Ui_TermsAndCondition()
+    ui.setupUi(TermsAndCondition)
+    TermsAndCondition.show()
     sys.exit(app.exec_())
