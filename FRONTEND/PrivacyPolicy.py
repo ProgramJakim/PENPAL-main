@@ -113,12 +113,7 @@ class Ui_PrivacyPolicy(object):
 "box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);\n"
 "background: transparent;\n"
 "")
-<<<<<<< HEAD
-        self.PP_ContinuePB.setObjectName("PP_ContinuePB")
-        self.PP_ContinuePB.clicked.connect(self.openHomePage)
-=======
         self.PP_BackPB.setObjectName("PP_BackPB")
->>>>>>> annie
         self.PP_Header_2.raise_()
         self.PP_Header.raise_()
         self.PP_SideImage.raise_()
@@ -129,17 +124,7 @@ class Ui_PrivacyPolicy(object):
         self.retranslateUi(PrivacyPolicy)
         QtCore.QMetaObject.connectSlotsByName(PrivacyPolicy)
 
-<<<<<<< HEAD
-    def openHomePage(self):
-        from HomePage import Ui_Homepage
-        self.homePage = QtWidgets.QDialog()
-        self.ui = Ui_Homepage()
-        self.ui.setupUi(self.homePage)
-        self.homePage.show()
-        QtWidgets.QDialog().close()
-=======
     
->>>>>>> annie
 
     def retranslateUi(self, PrivacyPolicy):
         _translate = QtCore.QCoreApplication.translate

@@ -121,12 +121,7 @@ class Ui_TermsAndCondition(object):
 "color: #E58D76;\n"
 "background: transparent;\n"
 "")
-<<<<<<< HEAD
-        self.TAC_ContinuePB.setObjectName("TAC_ContinuePB")
-        self.TAC_ContinuePB.clicked.connect(lambda: self.go_back(TermsAndCondition))
-=======
         self.TAC_BackPB.setObjectName("TAC_BackPB")
->>>>>>> annie
         self.TAC_TermsHeader.raise_()
         self.TAC_Header.raise_()
         self.TAC_SideImage.raise_()
