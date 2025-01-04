@@ -42,6 +42,7 @@ def signup():
     gender = data.get('gender')
     social_media_link = data.get('social_media_link', None)
     gmail = data.get('gmail', None)  # New field for Gmail account
+    interests = data.get('interests', [])  # Get the interests from the request
 
     if not username or not password or not age or not location or not gender or not gmail:
         logging.error("Error: Missing required fields.")
@@ -71,6 +72,15 @@ def signup():
             (username, age, location, gender, hashed_password, social_media_link, gmail)
         )
         db_connection.commit()
+
+         # Save interests in the user_interests table
+        for interest in interests:
+            db_cursor.execute(
+                "INSERT INTO user_interests (username, interest) VALUES (%s, %s)",
+                (username, interest)
+            )
+        db_connection.commit()
+        
         logging.info("User account created successfully!")
         print(f"Hashed password for {username}: {hashed_password}")
         return jsonify({"message": "Account created successfully!"}), 201
@@ -205,8 +215,41 @@ def get_user_social_link():
         return jsonify({"social_link": social_link}), 200
     else:
         return jsonify({"error": "User not found"}), 404
+
+#PREFERENCES DISPLAY
+
+@app.route('/get_user_interests', methods=['GET'])
+def get_user_interests():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
+        interests = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"interests": interests}), 200
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return jsonify({"error": "Database error"}), 500
     
-#SOCIAL LINK DISPLAY
+#EMAIL DISPLAY
+
+@app.route('/get_user_email', methods=['GET'])
+def get_user_email():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT gmail FROM users WHERE username = %s", (username,))
+        result = db_cursor.fetchone()
+        if result:
+            return jsonify({"email": result[0]}), 200
+        else:
+            return jsonify({"error": "User not found"}), 404
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return jsonify({"error": "Database error"}), 
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -175,31 +175,64 @@ class Ui_ContactUs(object):
         self.commandLinkButton_4.setObjectName("commandLinkButton_4")
 
         # Create the BACK button
+<<<<<<< HEAD
         self.AUbackButton = QtWidgets.QPushButton("BACK", ContactUs)
         self.AUbackButton.setGeometry(QtCore.QRect(1252, 35, 150, 45))
+=======
+        self.CUbackButton = QtWidgets.QPushButton("BACK", ContactUs)
+        self.CUbackButton.setGeometry(QtCore.QRect(1252, 35, 150, 45))
+>>>>>>> annie
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
+<<<<<<< HEAD
         self.AUbackButton.setFont(font)
         self.AUbackButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.AUbackButton.setStyleSheet("""
+=======
+        self.CUbackButton.setFont(font)
+        self.CUbackButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.CUbackButton.setStyleSheet("""
+>>>>>>> annie
             font:30px;
             color: #FFFFFF;
             border: 2px solid #FFFFFF;
             background: transparent;
             border-radius: 5px;
         """)
+<<<<<<< HEAD
         self.AUbackButton.setObjectName("Back")
         self.AUbackButton.clicked.connect(lambda: self.go_back(ContactUs))
+=======
+        self.CUbackButton.setObjectName("Back")
+        # Add hover effect to change background color
+        self.CUbackButton.setStyleSheet("""
+            QPushButton {
+                font:30px;
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+                background: transparent;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+        """)
+        
+>>>>>>> annie
 
         self.retranslateUi(ContactUs)
         QtCore.QMetaObject.connectSlotsByName(ContactUs)
 
+<<<<<<< HEAD
     def go_back(self, ContactUs):
         ContactUs.close()
+=======
+>>>>>>> annie
 
     def retranslateUi(self, ContactUs):
         _translate = QtCore.QCoreApplication.translate

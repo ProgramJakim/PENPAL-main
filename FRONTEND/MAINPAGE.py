@@ -394,6 +394,7 @@ class Ui_Main_Page(object):
         self.MP_GroupImage.setObjectName("MP_GroupImage")
         self.MP_GroupImage.raise_()
         self.MP_LeftArrow = QtWidgets.QLabel(Main_Page)
+<<<<<<< HEAD
         self.MP_LeftArrow.setGeometry(QtCore.QRect(-100, 580, 411, 391))
         self.MP_LeftArrow.setText("")
         self.MP_LeftArrow.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/MP_ArrowLeft.png"))
@@ -403,6 +404,17 @@ class Ui_Main_Page(object):
         self.MP_RightArrow.setGeometry(QtCore.QRect(1140, 570, 411, 391))
         self.MP_RightArrow.setText("")
         self.MP_RightArrow.setPixmap(QtGui.QPixmap("C:\\Users\\chris\\OneDrive\\Desktop\\For Python Code\\penpal\\../../PenpalFE/MP_ArrowRight.png"))
+=======
+        self.MP_LeftArrow.setGeometry(QtCore.QRect(-100, 400, 400, 200))
+        self.MP_LeftArrow.setText("")
+        self.MP_LeftArrow.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowLeft.png')))
+        self.MP_LeftArrow.setScaledContents(True)
+        self.MP_LeftArrow.setObjectName("MP_LeftArrow")
+        self.MP_RightArrow = QtWidgets.QLabel(Main_Page)
+        self.MP_RightArrow.setGeometry(QtCore.QRect(1140, 400, 400, 200))
+        self.MP_RightArrow.setText("")
+        self.MP_RightArrow.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowRight.png')))
+>>>>>>> annie
         self.MP_RightArrow.setScaledContents(True)
         self.MP_RightArrow.setObjectName("MP_RightArrow")
         self.LI_Header.raise_()

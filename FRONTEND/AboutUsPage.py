@@ -91,8 +91,69 @@ class Ui_AboutUs(object):
             }
         """)
 
+<<<<<<< HEAD
         self.AUbackButton.clicked.connect(lambda: self.go_back(AboutUs))
          
+=======
+        # Create the About Us button
+        self.AboutUs = QPushButton("About Us", content_widget)
+        self.AboutUs.setGeometry(QRect(858, 2131, 150, 45))
+        self.AboutUs.setFont(font)
+        self.AboutUs.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AboutUs.setStyleSheet("""
+            font:30px;
+            color: #BE7928;
+            border: 2px solid #BE7928;
+            background: #FFF4CF;
+            border-radius: 5px;
+        """)
+        self.AboutUs.setObjectName("AboutUs")
+        
+        
+
+        # Create the Privacy Policy button in footer
+        self.AUprivacy_policy_button = QPushButton("Privacy Policy", content_widget)
+        self.AUprivacy_policy_button.setGeometry(QRect(850, 3800, 357, 40))
+        self.AUprivacy_policy_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AUprivacy_policy_button.setStyleSheet("""
+            border:none;
+            background: transparent;
+            margin-left: -60px;
+            color: #821B1A;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: 500;
+        """)
+
+        # Create the About Us button in footer
+        self.AUabout_us_button = QPushButton("About Us", content_widget)
+        self.AUabout_us_button.setGeometry(QRect(580, 3805, 220, 30))
+        self.AUabout_us_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AUabout_us_button.setStyleSheet("""
+            border:none;
+            background: transparent;
+            margin-left: -80px;
+            color: #821B1A;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: 500;
+        """)
+
+        # Create the Contact Us button in footer
+        self.AUcontact_us_button = QPushButton("Contact Us", content_widget)
+        self.AUcontact_us_button.setGeometry(QRect(580, 3853, 220, 30))
+        self.AUcontact_us_button.setCursor(QCursor(Qt.PointingHandCursor))
+        self.AUcontact_us_button.setStyleSheet("""
+            border:none;
+            background: transparent;
+            margin-left: -60px;
+            color: #821B1A;
+            font-family: 'Staatliches';
+            font-size: 30px;
+            font-weight: 500;
+        """)
+
+>>>>>>> annie
         # Set the content widget as the scroll area's widget
         scroll_area.setWidget(content_widget)
 

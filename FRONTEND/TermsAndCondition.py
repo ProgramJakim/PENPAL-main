@@ -104,31 +104,35 @@ class Ui_TermsAndCondition(object):
         self.TAC_TermsHeader.setFrameShadow(QtWidgets.QFrame.Raised)
         self.TAC_TermsHeader.setObjectName("TAC_TermsHeader")
         
-#Continue Push Button
-        self.TAC_ContinuePB = QtWidgets.QPushButton(TermsAndCondition)
-        self.TAC_ContinuePB.setGeometry(QtCore.QRect(790, 720, 161, 41))
+#Back Push Button
+        self.TAC_BackPB = QtWidgets.QPushButton(TermsAndCondition)
+        self.TAC_BackPB.setGeometry(QtCore.QRect(790, 720, 161, 41))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setBold(True)
         font.setUnderline(True)
         font.setWeight(75)
-        self.TAC_ContinuePB.setFont(font)
-        self.TAC_ContinuePB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.TAC_ContinuePB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
+        self.TAC_BackPB.setFont(font)
+        self.TAC_BackPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.TAC_BackPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 10px;\n"
 "text-decoration: underline;\n"
 "color: #E58D76;\n"
 "background: transparent;\n"
 "")
+<<<<<<< HEAD
         self.TAC_ContinuePB.setObjectName("TAC_ContinuePB")
         self.TAC_ContinuePB.clicked.connect(lambda: self.go_back(TermsAndCondition))
+=======
+        self.TAC_BackPB.setObjectName("TAC_BackPB")
+>>>>>>> annie
         self.TAC_TermsHeader.raise_()
         self.TAC_Header.raise_()
         self.TAC_SideImage.raise_()
         self.TAC_TermandConditionLBL.raise_()
         self.TAC_TermsSatmentTE.raise_()
-        self.TAC_ContinuePB.raise_()
+        self.TAC_BackPB.raise_()
 
         self.retranslateUi(TermsAndCondition)
         QtCore.QMetaObject.connectSlotsByName(TermsAndCondition)
@@ -191,7 +195,7 @@ class Ui_TermsAndCondition(object):
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#000000;\">    For questions or concerns about these Terms of Service, contact us at support@penpal.com.</span></p>\n"
 "<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#000000;\"><br /></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#000000;\">By creating an account or using Penpal, you acknowledge that you have read, understood, and agree to these Terms of Service. Thank you for being a part of our community!</span></p></body></html>"))
-        self.TAC_ContinuePB.setText(_translate("TermsAndCondition", "Back"))
+        self.TAC_BackPB.setText(_translate("TermsAndCondition", "Back"))
 
 
 if __name__ == "__main__":

@@ -165,7 +165,7 @@ class Ui_SignUp(object):
 
 #Sign Up Push Button
         self.SU_SignUpPB= QtWidgets.QPushButton(self.SU_MainPanel)
-        self.SU_SignUpPB.setGeometry(QtCore.QRect(700, 570, 119, 36))
+        self.SU_SignUpPB.setGeometry(QtCore.QRect(700, 595, 119, 36))
         self.SU_SignUpPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SU_SignUpPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
@@ -181,7 +181,7 @@ class Ui_SignUp(object):
 
 #Interest Button
         self.SU_InterestPB = QtWidgets.QPushButton(self.SU_MainPanel)
-        self.SU_InterestPB.setGeometry(QtCore.QRect(550, 510, 119, 36))
+        self.SU_InterestPB.setGeometry(QtCore.QRect(550, 550, 119, 36))
         self.SU_InterestPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SU_InterestPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
@@ -193,22 +193,60 @@ class Ui_SignUp(object):
 "")
         self.SU_InterestPB.setObjectName("SU_InterestPB")
 
-#Age Label
-        self.SU_AgeLBL = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_AgeLBL.setGeometry(QtCore.QRect(490, 240, 61, 31))
+# Date of Birth Label
+        self.SU_DOBLBL = QtWidgets.QLabel(self.SU_MainPanel)
+        self.SU_DOBLBL.setGeometry(QtCore.QRect(490, 240, 500, 31))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
-        self.SU_AgeLBL.setFont(font)
-        self.SU_AgeLBL.setStyleSheet("color: rgb(98, 65, 66);\n"
-"background: transparent;")
-        self.SU_AgeLBL.setObjectName("SU_AgeLBL")
+        self.SU_DOBLBL.setFont(font)
+        self.SU_DOBLBL.setStyleSheet("color: rgb(98, 65, 66);\nbackground: transparent;")
+        self.SU_DOBLBL.setObjectName("SU_DOBLBL")
+        self.SU_DOBLBL.setText("Date of Birth:")
+
+# Date of Birth Input
+        self.SU_DOB = QtWidgets.QDateEdit(self.SU_MainPanel)
+        self.SU_DOB.setGeometry(QtCore.QRect(550, 280, 141, 31))
+        self.SU_DOB.setCalendarPopup(True)
+        self.SU_DOB.setStyleSheet("border-color: rgb(229, 141, 118);\nborder: 3px solid #E58D76;\nborder-radius: 5px;\nbackground: transparent;")
+        self.SU_DOB.setObjectName("SU_DOB")
+
+# Customize the calendar popup
+        calendar = self.SU_DOB.calendarWidget()
+        calendar.setStyleSheet("""
+        QWidget {
+                background-color: white;
+                color: black;
+        }
+        QAbstractItemView {
+                selection-background-color: rgb(229, 141, 118);
+                selection-color: white;
+        }
+        QToolButton {
+                background-color: rgb(229, 141, 118);
+                color: white;
+        }
+        QToolButton::hover {
+                background-color: rgb(255, 187, 173);
+        }
+        QToolButton::pressed {
+                background-color: rgb(255, 187, 173);
+        }
+        QMenu {
+                background-color: white;
+                color: black;
+        }
+        QMenu::item::selected {
+                background-color: rgb(229, 141, 118);
+                color: white;
+        }
+        """)
         
 #Gender Check Box
         self.SU_GenderCB = QtWidgets.QComboBox(self.SU_MainPanel)
-        self.SU_GenderCB.setGeometry(QtCore.QRect(830, 240, 141, 31))
+        self.SU_GenderCB.setGeometry(QtCore.QRect(830, 280, 141, 31))
         self.SU_GenderCB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SU_GenderCB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "background-color: rgba(229, 141, 118, 0.5);\n"
@@ -235,7 +273,7 @@ class Ui_SignUp(object):
         
 #Location Label
         self.SU_LocationLBL_ = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_LocationLBL_.setGeometry(QtCore.QRect(490, 290, 171, 21))
+        self.SU_LocationLBL_.setGeometry(QtCore.QRect(490, 325, 171, 21))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
@@ -248,7 +286,7 @@ class Ui_SignUp(object):
         
 #Location Line Edit (Text Box)
         self.SU_LocationLE = QtWidgets.QLineEdit(self.SU_MainPanel)
-        self.SU_LocationLE.setGeometry(QtCore.QRect(550, 320, 421, 31))
+        self.SU_LocationLE.setGeometry(QtCore.QRect(550, 355, 421, 31))
         self.SU_LocationLE.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 5px;\n"
@@ -257,7 +295,7 @@ class Ui_SignUp(object):
         
 #Social Link Label
         self.SU_SocialLinkLBL = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_SocialLinkLBL.setGeometry(QtCore.QRect(490, 430, 151, 21))
+        self.SU_SocialLinkLBL.setGeometry(QtCore.QRect(490, 465, 151, 21))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
@@ -270,7 +308,7 @@ class Ui_SignUp(object):
         
 #Social Link Line Edit (Text Box)
         self.SU_SocialLinkLE = QtWidgets.QLineEdit(self.SU_MainPanel)
-        self.SU_SocialLinkLE.setGeometry(QtCore.QRect(550, 460, 421, 31))
+        self.SU_SocialLinkLE.setGeometry(QtCore.QRect(550, 495, 421, 31))
         self.SU_SocialLinkLE.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 5px;\n"
@@ -279,21 +317,11 @@ class Ui_SignUp(object):
         
 #Terms and Privacy Check Box
         self.SU_TermsandPrivacyChB = QtWidgets.QCheckBox(self.SU_MainPanel)
-        self.SU_TermsandPrivacyChB.setGeometry(QtCore.QRect(680, 520, 291, 20))
+        self.SU_TermsandPrivacyChB.setGeometry(QtCore.QRect(680, 555, 291, 20))
         self.SU_TermsandPrivacyChB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SU_TermsandPrivacyChB.setStyleSheet("background: transparent;    \n"
 "")
         self.SU_TermsandPrivacyChB.setObjectName("SU_TermsandPrivacyChB")
-        
-
-#Age Line Edit (Text Box)
-        self.SU_AgeLE = QtWidgets.QLineEdit(self.SU_MainPanel)
-        self.SU_AgeLE.setGeometry(QtCore.QRect(550, 240, 121, 31))
-        self.SU_AgeLE.setStyleSheet("border-color: rgb(229, 141, 118);\n"
-"border: 3px solid #E58D76;\n"
-"border-radius: 5px;\n"
-"background: transparent;")
-        self.SU_AgeLE.setObjectName("SU_AgeLE")
         
 #Shadow Image
         self.SU_Shadow = QtWidgets.QLabel(self.SU_MainPanel)
@@ -322,7 +350,7 @@ class Ui_SignUp(object):
         
 #Email Label
         self.SU_EmailLBL = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_EmailLBL.setGeometry(QtCore.QRect(490, 360, 81, 21))
+        self.SU_EmailLBL.setGeometry(QtCore.QRect(490, 395, 81, 21))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
@@ -335,7 +363,7 @@ class Ui_SignUp(object):
         
 #Email Line Edit (Text Edit )
         self.SU_EmailLE = QtWidgets.QLineEdit(self.SU_MainPanel)
-        self.SU_EmailLE.setGeometry(QtCore.QRect(550, 390, 421, 31))
+        self.SU_EmailLE.setGeometry(QtCore.QRect(550, 425, 421, 31))
         self.SU_EmailLE.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "border: 3px solid #E58D76;\n"
 "border-radius: 5px;\n"
@@ -351,7 +379,8 @@ class Ui_SignUp(object):
         self.SU_PasswordLE.raise_()
         self.SU_SignUpPB.raise_()
         self.SU_InterestPB.raise_()
-        self.SU_AgeLBL.raise_()
+        self.SU_DOBLBL.raise_()
+        self.SU_DOB.raise_()
         self.SU_GenderCB.raise_()
         self.SU_GenderLBL.raise_()
         self.SU_LocationLBL_.raise_()
@@ -359,7 +388,6 @@ class Ui_SignUp(object):
         self.SU_SocialLinkLBL.raise_()
         self.SU_SocialLinkLE.raise_()
         self.SU_TermsandPrivacyChB.raise_()
-        self.SU_AgeLE.raise_()
         self.SU_CreateanAccount.raise_()
         self.SU_EmailLBL.raise_()
         self.SU_EmailLE.raise_()
@@ -367,7 +395,6 @@ class Ui_SignUp(object):
         # Pre-fill the form fields
         self.SU_UsernameLE.setText(username)
         self.SU_PasswordLE.setText(password)
-        self.SU_AgeLE.setText(age)
         self.SU_GenderCB.setCurrentText(gender)
         self.SU_LocationLE.setText(location)
         self.SU_SocialLinkLE.setText(social_media_link)
@@ -378,135 +405,6 @@ class Ui_SignUp(object):
         QtCore.QMetaObject.connectSlotsByName(SignUp)
 
 
-        # Connect the SignUp button to the method to send data
-        self.SU_SignUpPB.clicked.connect(self.handle_signup)
-        self.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
-
-
-    def handle_signup(self):
-        username = self.SU_UsernameLE.text()
-        password = self.SU_PasswordLE.text()
-        age = self.SU_AgeLE.text()
-        gender = self.SU_GenderCB.currentText()
-        location = self.SU_LocationLE.text()
-        social_media_link = self.SU_SocialLinkLE.text()
-        gmail = self.SU_EmailLE.text()  # New field for Gmail account
-
-        # Check if all fields are filled
-        if not username or not password or not age or not location or not gender or not gmail:
-                self.show_error_message("Please fill in all the required fields.")
-                return False  # Indicate that the sign-up process should not continue
-
-        # Validate password
-        password_issue = self.validate_password(password)
-        if password_issue:
-                self.show_error_message(f"Error: {password_issue}. Please re-enter your password.")
-                self.SU_PasswordLE.clear()  # Clear the password field to prompt re-entry
-                return False  # Indicate that the sign-up process should not continue
-
-        # Validate social media link
-        if not self.validate_social_link():
-                self.show_error_message("Invalid social media link. Please enter a valid link.")
-                self.SU_SocialLinkLE.clear()  # Clear the link field to prompt re-entry
-                return False  # Indicate that the sign-up process should not continue
-
-        # Check if username already exists
-        data = {'username': username}
-
-        try:
-                # First, check if the username exists
-                response = requests.post('http://127.0.0.1:5000/check_username', json=data)
-
-                if response.status_code == 400:  # Assuming the backend returns 400 if the username exists
-                        self.show_error_message("Username already exists. Please choose another username.")
-                        self.SU_UsernameLE.clear()  # Clear the username field to prompt re-entry
-                        return False  # Indicate that the sign-up process should not continue
-
-                # If the username is available, proceed with the sign-up process
-                sign_up_data = {
-                        'username': username,
-                        'password': password,
-                        'age': int(age),
-                        'gender': gender,
-                        'location': location,
-                        'social_media_link': social_media_link,
-                        'gmail': gmail  # Include the Gmail field in the sign-up data
-                }
-
-                # Send the data to the backend to create the account
-                response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
-
-                if response.status_code == 201:
-                        self.show_success_message("Account created successfully!")
-
-                        # Clear the input fields after sign-up
-                        self.SU_UsernameLE.clear()
-                        self.SU_PasswordLE.clear()
-                        self.SU_AgeLE.clear()
-                        self.SU_GenderCB.setCurrentIndex(0)  # Reset to first item (if applicable)
-                        self.SU_LocationLE.clear()
-                        self.SU_SocialLinkLE.clear()
-                        self.SU_EmailLE.clear()  # Clear the Gmail field
-
-                        self.clear_error_message()  # Clear any existing error messages
-
-                        self.show_success_message("You can continue creating another account or stay here.")
-
-                        return True  # Indicate that the sign-up process succeeded
-                else:
-                        error_message = response.json().get('error', 'Unknown error occurred')
-                        self.show_error_message(f"Error: {error_message}")
-                        return False  # Indicate failure
-
-        except requests.exceptions.RequestException as e:
-             self.show_error_message(f"Request failed: {str(e)}")
-        return False  # Indicate failure
-
-    def clear_error_message(self):
-        # Assuming you have a QLabel named error_message_label for displaying error messages
-        self.error_message_label.setText("")
-
-    def show_success_message(self, message):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information)
-        msg.setText(message)
-        msg.setWindowTitle("Success")
-        msg.exec_()
-
-    def show_error_message(self, message):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Critical)
-        msg.setText(message)
-        msg.setWindowTitle("Error")
-        msg.exec_()
-
-    def validate_password(self, password):
-        if len(password) < 8:
-            return "Password must be at least 8 characters long."
-        if not any(char.isdigit() for char in password):
-            return "Password must include at least one number."
-        if not any(char.isupper() for char in password):
-            return "Password must include at least one uppercase letter."
-        if not any(char in "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|" for char in password):
-            return "Password must include at least one special character."
-        return None
-
-    def validate_social_link(self):
-        social_link = self.SU_SocialLinkLE.text()
-        # Updated pattern to allow periods in the path
-        pattern = r"^(https?://)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}(/[\w\-\.]*)*$"
-        return bool(re.match(pattern, social_link))
-    def on_sign_up_button_click(self):
-        if self.handle_signup():  # If sign-up is successful, proceed
-           self.backtoLogInPage()
-        else:
-            # If there's an issue (password, social link, etc.), the user will have to fix it
-            pass
-    
-    
-
-       
-
     def retranslateUi(self, SignUp):
         _translate = QtCore.QCoreApplication.translate
         SignUp.setWindowTitle(_translate("SignUp", "Dialog"))
@@ -515,7 +413,6 @@ class Ui_SignUp(object):
         self.SU_PasswordLBL.setText(_translate("SignUp", "Password:"))
         self.SU_InterestPB.setText(_translate("SignUp", "Select Interests"))
         self.SU_SignUpPB.setText(_translate("SignUp", "Sign Up"))
-        self.SU_AgeLBL.setText(_translate("SignUp", "Age: "))
         self.SU_GenderCB.setItemText(0, _translate("SignUp", "Male"))
         self.SU_GenderCB.setItemText(1, _translate("SignUp", "Female"))
         self.SU_GenderCB.setItemText(2, _translate("SignUp", "Neutral"))
