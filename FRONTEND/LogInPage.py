@@ -301,6 +301,10 @@ class Ui_LogIn(object):
                     # Store user ID and username
                     self.user_id = response_data.get("user_id")
                     self.username = response_data.get("username")
+
+                     
+                    # Reset displayed_users list
+                    self.displayed_users = set()
                     
                     self.openMainAppWindow()
                 else:

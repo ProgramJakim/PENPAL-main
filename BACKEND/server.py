@@ -128,6 +128,11 @@ def login():
     else:
         logging.error("Username not found")
         return jsonify({"message": "Invalid username."}), 400
+    
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    return jsonify({"message": "Logged out successfully"}), 200
 
 #USERNAME DISPLAY
 
@@ -250,6 +255,46 @@ def get_user_email():
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         return jsonify({"error": "Database error"}), 
+
+# DISPLAY ALL USERS 
+@app.route('/get_all_users', methods=['GET'])
+def get_all_users():
+    try:
+        db_cursor.execute("SELECT username, age, gender, location FROM users")
+        users = db_cursor.fetchall()
+        user_list = [{"username": user[0], "age": user[1], "gender": user[2], "location": user[3]} for user in users]
+        return jsonify({"users": user_list}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/get_one_user', methods=['GET'])
+def get_one_user():
+    current_username = request.args.get('current_username')
+    logged_in_username = request.args.get('logged_in_username')
+    displayed_users = request.args.getlist('displayed_users')  # Get the list of displayed users
+
+    try:
+        # Exclude the current user, logged-in user, and already displayed users
+        placeholders = ', '.join(['%s'] * (len(displayed_users) + 2))
+        query = f"SELECT username, age, gender, location FROM users WHERE username NOT IN ({placeholders}) LIMIT 1"
+        params = [current_username, logged_in_username] + displayed_users
+        db_cursor.execute(query, params)
+        user = db_cursor.fetchone()
+        if user:
+            user_data = {"username": user[0], "age": user[1], "gender": user[2], "location": user[3]}
+            
+            # Fetch user preferences
+            db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (user[0],))
+            preferences = [row[0] for row in db_cursor.fetchall()]
+            user_data['preferences'] = preferences
+            
+            return jsonify({"user": user_data}), 200
+        else:
+            return jsonify({"error": "No user found"}), 404
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
