@@ -10,6 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
+import requests
+import re
 
 # Get the absolute path of the current directory 
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -20,6 +22,9 @@ Change_Profile_assets_folder = os.path.join(current_directory, '..', 'resources'
 
 
 class Ui_ChangeProfile(object):
+    def __init__(self):
+        self.username = ""  # Initialize the username attribute
+
     def setupUi(self, ChangeProfile):
         ChangeProfile.setObjectName("Change Profile Picture")
         ChangeProfile.resize(1440, 780)
@@ -294,6 +299,29 @@ class Ui_ChangeProfile(object):
         self.CP_CancelChangesPB.setText(_translate("ChangeProfile", "Cancel"))
         self.CP_SaveChangesPB.setText(_translate("ChangeProfile", "Save Changes"))
         self.CP_Username.setText(_translate("ChangeProfile", "Username"))
+
+#INFORMATION DISPLAY
+        self.display_username()
+
+    def set_user_info(self, user_id, username):
+        self.user_id = user_id
+        self.username = username
+        self.display_username()
+
+    def display_username(self):
+        username = self.get_username_from_server()
+        self.CP_Username.setText(username)
+
+    def get_username_from_server(self):
+        try:
+            response = requests.get("http://localhost:5000/get_username", params={"username": self.username})
+            if response.status_code == 200:
+                return self.username
+            else:
+                return self.username
+        except requests.RequestException as e:
+            print(f"Error fetching username: {e}")
+            return "Unknown User"
 
 
 if __name__ == "__main__":
