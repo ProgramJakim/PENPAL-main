@@ -658,6 +658,17 @@ class MainApp:
         self.accountSettingsWindow.close()
         self.friendMenuWindow.show()
     def openHomepageFromAccountSettings(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+            
         self.accountSettingsWindow.close()
         self.homePageWindow.show()
     def openChangeProfileFromAccountSettings(self):
