@@ -790,7 +790,7 @@ class Ui_Interest(object):
         self.pushButton_13.setText(_translate("Interest", "LIFESTYLE"))
         self.pushButton_14.setText(_translate("Interest", "SCIENCE"))
         self.pushButton_15.setText(_translate("Interest", "BUSINESS"))
-        self.placeholderText.setText(_translate("Interest", "NUMBER"))
+        self.placeholderText.setText(_translate("Interest", "0 Selected"))
        
        
 
