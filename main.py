@@ -211,21 +211,27 @@ class MainApp:
 
         
         # Terms&Conditions Buttons
-        self.termsConditionsUI.TAC_ContinuePB.clicked.connect(self.backtoSignUpFromTermsCondition)
-    
+        self.termsConditionsUI.TAC_BackPB.clicked.connect(self.backtoSignUpFromTermsCondition)
 
+    
         # HomePage buttons
         self.homePageUI.LogIn_2.clicked.connect(self.openLogInPageFromHomepage)
         self.homePageUI.SignUp.clicked.connect(self.openSignupFromHomepage)
         self.homePageUI.AboutUs.clicked.connect(self.openAboutUsPage)
+       
+
         # Connect the footer buttons to their respective pages
         self.homePageUI.about_us_button.clicked.connect(self.open_about_us_page)
         self.homePageUI.contact_us_button.clicked.connect(self.open_contact_us_page)
         self.homePageUI.privacy_policy_button.clicked.connect(self.open_privacy_policy_page)
-        self.homePageUI.terms_conditions_button.clicked.connect(self.open_terms_conditions_page)
+        
+       
 
         # About Us Buttons
         self.aboutUsUI.AUbackButton.clicked.connect(self.openHomePageFromAboutUs)
+
+        # Privacy BUttons
+        self.privacyPolicyUI.PP_BackPB.clicked.connect(self.backtoHomePagefromPRIVACYPOLICY)
 
         # InterestPage buttons
         self.interestPageUI.INTpushButton.clicked.connect(self.on_done_clicked)
@@ -304,15 +310,21 @@ class MainApp:
     def open_privacy_policy_page(self):
         self.homePageWindow.close()
         self.privacyPolicyWindow.show()
-    def open_terms_conditions_page_from_signup(self):
-        self.signUpWindow.close()
-        self.termsWindow.show()
+    
+   
     def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
     def openLogInPageFromHomepage(self):
         self.homePageWindow.close()
         self.logInWindow.show()
+
+    
+    
+    # PrivacyPolicy methods  
+    def backtoHomePagefromPRIVACYPOLICY(self):
+        self.privacyPolicyWindow.close()
+        self.homePageWindow.show()
 
     # AboutUsPage methods
     def openAboutUsPage(self):
@@ -492,7 +504,7 @@ class MainApp:
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
-    def open_terms_conditions_page(self):
+    def open_terms_conditions_page_from_signup(self):
         self.signUpWindow.close()
         self.termsWindow.show()
     def openInterestPage(self):
