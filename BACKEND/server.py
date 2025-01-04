@@ -284,6 +284,5 @@ def get_one_user():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-    
 if __name__ == '__main__':
     app.run(debug=True)

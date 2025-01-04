@@ -563,9 +563,6 @@ class MainApp:
         # Set user info in the main page UI
         self.mainPageUI.set_user_info(user_id, username)
 
-        # Fetch and display a user except the current one
-        self.fetch_and_display_user(username)
-
         # Show the main page window
         self.logInWindow.close()
         self.mainPageWindow.show()
