@@ -70,10 +70,11 @@ CREATE TABLE `users` (
 --
 
 CREATE TABLE `user_interests` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(100) NOT NULL, -- No AUTO_INCREMENT
   `username` varchar(255) NOT NULL,
   `interest` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  CONSTRAINT `user_interests_ibfk_2` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
