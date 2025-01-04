@@ -193,7 +193,6 @@ class Ui_SignUp(object):
 "")
         self.SU_InterestPB.setObjectName("SU_InterestPB")
 
-#Age Label
 # Date of Birth Label
         self.SU_DOBLBL = QtWidgets.QLabel(self.SU_MainPanel)
         self.SU_DOBLBL.setGeometry(QtCore.QRect(490, 240, 500, 31))
@@ -213,6 +212,37 @@ class Ui_SignUp(object):
         self.SU_DOB.setCalendarPopup(True)
         self.SU_DOB.setStyleSheet("border-color: rgb(229, 141, 118);\nborder: 3px solid #E58D76;\nborder-radius: 5px;\nbackground: transparent;")
         self.SU_DOB.setObjectName("SU_DOB")
+
+# Customize the calendar popup
+        calendar = self.SU_DOB.calendarWidget()
+        calendar.setStyleSheet("""
+        QWidget {
+                background-color: white;
+                color: black;
+        }
+        QAbstractItemView {
+                selection-background-color: rgb(229, 141, 118);
+                selection-color: white;
+        }
+        QToolButton {
+                background-color: rgb(229, 141, 118);
+                color: white;
+        }
+        QToolButton::hover {
+                background-color: rgb(255, 187, 173);
+        }
+        QToolButton::pressed {
+                background-color: rgb(255, 187, 173);
+        }
+        QMenu {
+                background-color: white;
+                color: black;
+        }
+        QMenu::item::selected {
+                background-color: rgb(229, 141, 118);
+                color: white;
+        }
+        """)
         
 #Gender Check Box
         self.SU_GenderCB = QtWidgets.QComboBox(self.SU_MainPanel)
