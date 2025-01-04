@@ -174,8 +174,44 @@ class Ui_ContactUs(object):
         self.commandLinkButton_4.setIcon(icon)
         self.commandLinkButton_4.setObjectName("commandLinkButton_4")
 
+        # Create the BACK button
+        self.CUbackButton = QtWidgets.QPushButton("BACK", ContactUs)
+        self.CUbackButton.setGeometry(QtCore.QRect(1252, 35, 150, 45))
+        font = QtGui.QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(-1)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.CUbackButton.setFont(font)
+        self.CUbackButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.CUbackButton.setStyleSheet("""
+            font:30px;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            background: transparent;
+            border-radius: 5px;
+        """)
+        self.CUbackButton.setObjectName("Back")
+        # Add hover effect to change background color
+        self.CUbackButton.setStyleSheet("""
+            QPushButton {
+                font:30px;
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+                background: transparent;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+        """)
+        
+
         self.retranslateUi(ContactUs)
         QtCore.QMetaObject.connectSlotsByName(ContactUs)
+
 
     def retranslateUi(self, ContactUs):
         _translate = QtCore.QCoreApplication.translate
