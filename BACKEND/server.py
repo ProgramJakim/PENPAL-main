@@ -266,8 +266,15 @@ def get_all_users():
 @app.route('/get_one_user', methods=['GET'])
 def get_one_user():
     current_username = request.args.get('current_username')
+    logged_in_username = request.args.get('logged_in_username')
+    displayed_users = request.args.getlist('displayed_users')  # Get the list of displayed users
+
     try:
-        db_cursor.execute("SELECT username, age, gender, location FROM users WHERE username != %s LIMIT 1", (current_username,))
+        # Exclude the current user, logged-in user, and already displayed users
+        placeholders = ', '.join(['%s'] * (len(displayed_users) + 2))
+        query = f"SELECT username, age, gender, location FROM users WHERE username NOT IN ({placeholders}) LIMIT 1"
+        params = [current_username, logged_in_username] + displayed_users
+        db_cursor.execute(query, params)
         user = db_cursor.fetchone()
         if user:
             user_data = {"username": user[0], "age": user[1], "gender": user[2], "location": user[3]}
@@ -283,6 +290,6 @@ def get_one_user():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-    
+
 if __name__ == '__main__':
     app.run(debug=True)

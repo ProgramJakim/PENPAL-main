@@ -155,6 +155,7 @@ class MainApp:
         self.mainPageUI = Ui_Main_Page()
         self.mainPageUI.setupUi(self.mainPageWindow)
         self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
+        self.displayed_users = set()  # Keep track of displayed users
 
 
 
@@ -280,6 +281,9 @@ class MainApp:
         # MainPage buttons
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
         self.mainPageUI.MP_LogoutPB.clicked.connect(self.openHomePageFromMainPage)
+        self.mainPageUI.MP_LeftArrow.clicked.connect(self.load_next_user)
+
+
 
         # AccountSettings Buttons
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
@@ -294,7 +298,7 @@ class MainApp:
 
         # ChangeProfile BUttons
         self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
-
+        
     # WelcomePage methods
     def open_homepagefromwelcome(self):
         self.welcomePageWindow.close()
@@ -336,17 +340,6 @@ class MainApp:
 
 
     # LogInPage methods
-    def openMAINPage(self):
-        # Assuming user_id and username are obtained after successful login
-        user_id = self.logInUI.user_id  # Replace with actual user_id
-        username = self.logInUI.username  # Replace with actual username
-
-        # Set user info in the main page UI
-        self.mainPageUI.set_user_info(user_id, username)
-
-        # Show the main page window
-        self.logInWindow.close()
-        self.mainPageWindow.show()
     def openHomePageFromLogin(self):
         self.logInWindow.close()
         self.homePageWindow.show()
@@ -570,41 +563,69 @@ class MainApp:
         # Set user info in the main page UI
         self.mainPageUI.set_user_info(user_id, username)
 
-        # Fetch and display a user except the current one
-        self.fetch_and_display_user(username)
-
         # Show the main page window
         self.logInWindow.close()
         self.mainPageWindow.show()
 
+        # Load the first user immediately
+        self.load_next_user()
+
     #MAINPAGE methods
     def fetch_and_display_user(self, current_username):
         try:
-            response = requests.get('http://127.0.0.1:5000/get_one_user', params={'current_username': current_username})
+            response = requests.get('http://127.0.0.1:5000/get_one_user', params={
+                'current_username': current_username,
+                'logged_in_username': self.logInUI.username  # Pass the logged-in username
+            })
             if response.status_code == 200:
                 user = response.json().get('user', {})
                 self.display_user(user)
             else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
                 self.show_error_message("Failed to fetch user.")
         except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
             self.show_error_message(f"Request failed: {str(e)}")
-
     def display_user(self, user):
         if user:
-             self.mainPageUI.MP_Username.setText(user['username'])
-             self.mainPageUI.MP_Age.setText(f"Age: {user['age']}")
-             self.mainPageUI.MP_Gender.setText(f"Gender: {user['gender']}")
-             self.mainPageUI.MP_Location.setText(f"Location: {user['location']}")
-
-             # Assuming user['preferences'] is a list of preferences
-             preferences = user.get('preferences', [])
-             self.mainPageUI.MP_Preference1.setText(preferences[0] if len(preferences) > 0 else "Pref.1")
-             self.mainPageUI.MP_Preference2.setText(preferences[1] if len(preferences) > 1 else "Pref.2")
-             self.mainPageUI.MP_Preference3.setText(preferences[2] if len(preferences) > 2 else "Pref.3")
-             self.mainPageUI.MP_Preference4.setText(preferences[3] if len(preferences) > 3 else "Pref.4")
-             self.mainPageUI.MP_Preference5.setText(preferences[4] if len(preferences) > 4 else "Pref.5")
+            self.mainPageUI.MP_Username.setText(user['username'])
+            self.mainPageUI.MP_Age.setText(f"Age: {user['age']}")
+            self.mainPageUI.MP_Gender.setText(f"Gender: {user['gender']}")
+            self.mainPageUI.MP_Location.setText(f"Location: {user['location']}")
+            preferences = user.get('preferences', [])
+            self.mainPageUI.MP_Preference1.setText(preferences[0] if len(preferences) > 0 else "Pref.1")
+            self.mainPageUI.MP_Preference2.setText(preferences[1] if len(preferences) > 1 else "Pref.2")
+            self.mainPageUI.MP_Preference3.setText(preferences[2] if len(preferences) > 2 else "Pref.3")
+            self.mainPageUI.MP_Preference4.setText(preferences[3] if len(preferences) > 3 else "Pref.4")
+            self.mainPageUI.MP_Preference5.setText(preferences[4] if len(preferences) > 4 else "Pref.5")
         else:
             self.show_error_message("No user data available.")
+
+    def load_next_user(self):
+        try:
+            current_username = self.mainPageUI.MP_Username.text()
+            self.displayed_users.add(current_username)  # Add current user to displayed users
+
+            response = requests.get('http://127.0.0.1:5000/get_one_user', params={
+                'current_username': current_username,
+                'logged_in_username': self.logInUI.username,  # Pass the logged-in username
+                'displayed_users': list(self.displayed_users)  # Pass the list of displayed users
+            })
+            if response.status_code == 200:
+                user = response.json().get('user', {})
+                self.display_user(user)
+            elif response.status_code == 404:
+                self.show_error_message("No more users available.")
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch user.")
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
    
     def openAccountSettings(self):
         self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
