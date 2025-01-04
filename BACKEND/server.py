@@ -251,5 +251,38 @@ def get_user_email():
         print(f"Error: {err}")
         return jsonify({"error": "Database error"}), 
 
+# DISPLAY ALL USERS 
+@app.route('/get_all_users', methods=['GET'])
+def get_all_users():
+    try:
+        db_cursor.execute("SELECT username, age, gender, location FROM users")
+        users = db_cursor.fetchall()
+        user_list = [{"username": user[0], "age": user[1], "gender": user[2], "location": user[3]} for user in users]
+        return jsonify({"users": user_list}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/get_one_user', methods=['GET'])
+def get_one_user():
+    current_username = request.args.get('current_username')
+    try:
+        db_cursor.execute("SELECT username, age, gender, location FROM users WHERE username != %s LIMIT 1", (current_username,))
+        user = db_cursor.fetchone()
+        if user:
+            user_data = {"username": user[0], "age": user[1], "gender": user[2], "location": user[3]}
+            
+            # Fetch user preferences
+            db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (user[0],))
+            preferences = [row[0] for row in db_cursor.fetchall()]
+            user_data['preferences'] = preferences
+            
+            return jsonify({"user": user_data}), 200
+        else:
+            return jsonify({"error": "No user found"}), 404
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
 if __name__ == '__main__':
     app.run(debug=True)

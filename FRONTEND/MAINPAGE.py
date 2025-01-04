@@ -253,7 +253,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_Preference.setObjectName("MP_Preference")
         self.MP_Preference1 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference1.setGeometry(QtCore.QRect(30, 350, 351, 71))
+        self.MP_Preference1.setGeometry(QtCore.QRect(20, 350, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -263,18 +263,18 @@ class Ui_Main_Page(object):
         self.MP_Preference1.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(14)
+        font.setPointSize(12)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference1.setFont(font)
         self.MP_Preference1.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 14pt \"Rockwell\";\n"
+"font: 700 12pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference1.setObjectName("MP_Preference1")
         self.MP_Preference2 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference2.setGeometry(QtCore.QRect(180,  350, 351, 71))
+        self.MP_Preference2.setGeometry(QtCore.QRect(195,  350, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -283,18 +283,18 @@ class Ui_Main_Page(object):
         self.MP_Preference2.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(14)
+        font.setPointSize(12)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference2.setFont(font)
         self.MP_Preference2.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 14pt \"Rockwell\";\n"
+"font: 700 12pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference2.setObjectName("MP_Preference2")
         self.MP_Preference3 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference3.setGeometry(QtCore.QRect(30, 380, 351, 71))
+        self.MP_Preference3.setGeometry(QtCore.QRect(20, 380, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -303,18 +303,18 @@ class Ui_Main_Page(object):
         self.MP_Preference3.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(14)
+        font.setPointSize(12)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference3.setFont(font)
         self.MP_Preference3.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 14pt \"Rockwell\";\n"
+"font: 700 12pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference3.setObjectName("MP_Preference3")
         self.MP_Preference4 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference4.setGeometry(QtCore.QRect(180, 380, 351, 71))
+        self.MP_Preference4.setGeometry(QtCore.QRect(195, 380, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -323,18 +323,18 @@ class Ui_Main_Page(object):
         self.MP_Preference4.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(14)
+        font.setPointSize(12)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference4.setFont(font)
         self.MP_Preference4.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 14pt \"Rockwell\";\n"
+"font: 700 12pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference4.setObjectName("MP_Preference4")
         self.MP_Preference5 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference5.setGeometry(QtCore.QRect(100, 410, 351, 71))
+        self.MP_Preference5.setGeometry(QtCore.QRect(120, 410, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -343,13 +343,13 @@ class Ui_Main_Page(object):
         self.MP_Preference5.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(14)
+        font.setPointSize(12)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference5.setFont(font)
         self.MP_Preference5.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 14pt \"Rockwell\";\n"
+"font: 700 12pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference5.setObjectName("MP_Preference5")
@@ -393,18 +393,23 @@ class Ui_Main_Page(object):
         self.MP_GroupImage.setScaledContents(True)
         self.MP_GroupImage.setObjectName("MP_GroupImage")
         self.MP_GroupImage.raise_()
+
+#ARROW LEFT (NEXT USER)
         self.MP_LeftArrow = QtWidgets.QLabel(Main_Page)
         self.MP_LeftArrow.setGeometry(QtCore.QRect(-100, 400, 400, 200))
         self.MP_LeftArrow.setText("")
         self.MP_LeftArrow.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowLeft.png')))
         self.MP_LeftArrow.setScaledContents(True)
         self.MP_LeftArrow.setObjectName("MP_LeftArrow")
+
+#ARROW RIGHT (ADD FRIEND THE USER)
         self.MP_RightArrow = QtWidgets.QLabel(Main_Page)
         self.MP_RightArrow.setGeometry(QtCore.QRect(1140, 400, 400, 200))
         self.MP_RightArrow.setText("")
         self.MP_RightArrow.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowRight.png')))
         self.MP_RightArrow.setScaledContents(True)
         self.MP_RightArrow.setObjectName("MP_RightArrow")
+        
         self.LI_Header.raise_()
         self.MP_Shape3.raise_()
         self.MP_Shape2.raise_()
@@ -460,6 +465,9 @@ class Ui_Main_Page(object):
         except requests.RequestException as e:
             print(f"Error fetching username: {e}")
             return "Unknown User"
+        
+ #RECOMMENDED USERS DISPLAY 
+  
 
 
 if __name__ == "__main__":
