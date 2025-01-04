@@ -605,13 +605,18 @@ class MainApp:
     def load_next_user(self):
         try:
             current_username = self.mainPageUI.MP_Username.text()
+            self.displayed_users.add(current_username)  # Add current user to displayed users
+
             response = requests.get('http://127.0.0.1:5000/get_one_user', params={
                 'current_username': current_username,
-                'logged_in_username': self.logInUI.username  # Pass the logged-in username
+                'logged_in_username': self.logInUI.username,  # Pass the logged-in username
+                'displayed_users': list(self.displayed_users)  # Pass the list of displayed users
             })
             if response.status_code == 200:
                 user = response.json().get('user', {})
                 self.display_user(user)
+            elif response.status_code == 404:
+                self.show_error_message("No more users available.")
             else:
                 print(f"Error: Received status code {response.status_code}")
                 print(f"Response content: {response.content}")
@@ -619,6 +624,7 @@ class MainApp:
         except requests.exceptions.RequestException as e:
             print(f"Request exception: {str(e)}")
             self.show_error_message(f"Request failed: {str(e)}")
+
 
    
     def openAccountSettings(self):
