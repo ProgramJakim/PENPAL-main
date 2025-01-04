@@ -23,7 +23,7 @@ Account_Settings_assets_folder = os.path.join(current_directory, '..', 'resource
 class Ui_AccountSettings(object):
     def setupUi(self, AccountSettings):
         AccountSettings.setObjectName("AccountSettings")
-        AccountSettings.setFixedSize(1440, 750)
+        AccountSettings.setFixedSize(1440, 850)
         self.user_id = None
         self.username = None
         
@@ -108,7 +108,7 @@ class Ui_AccountSettings(object):
         
 #Background Image
         self.AS_BackgroundImage = QtWidgets.QLabel(AccountSettings)
-        self.AS_BackgroundImage.setGeometry(QtCore.QRect(0, 0, 1440, 780))
+        self.AS_BackgroundImage.setGeometry(QtCore.QRect(0, 0, 1440, 850))
         self.AS_BackgroundImage.setText("")
         self.AS_BackgroundImage.setPixmap(QtGui.QPixmap(os.path.join(Account_Settings_assets_folder ,'AS_BackgroundIm.png')))
         self.AS_BackgroundImage.setScaledContents(True)
