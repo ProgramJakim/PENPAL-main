@@ -2,10 +2,12 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
+from PyQt5 import QtCore 
 import os
 import sys
 import requests
 import re
+from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
@@ -209,21 +211,27 @@ class MainApp:
 
         
         # Terms&Conditions Buttons
-        self.termsConditionsUI.TAC_ContinuePB.clicked.connect(self.backtoSignUpFromTermsCondition)
-    
+        self.termsConditionsUI.TAC_BackPB.clicked.connect(self.backtoSignUpFromTermsCondition)
 
+    
         # HomePage buttons
         self.homePageUI.LogIn_2.clicked.connect(self.openLogInPageFromHomepage)
         self.homePageUI.SignUp.clicked.connect(self.openSignupFromHomepage)
         self.homePageUI.AboutUs.clicked.connect(self.openAboutUsPage)
+       
+
         # Connect the footer buttons to their respective pages
         self.homePageUI.about_us_button.clicked.connect(self.open_about_us_page)
         self.homePageUI.contact_us_button.clicked.connect(self.open_contact_us_page)
         self.homePageUI.privacy_policy_button.clicked.connect(self.open_privacy_policy_page)
-        self.homePageUI.terms_conditions_button.clicked.connect(self.open_terms_conditions_page)
+        
+       
 
         # About Us Buttons
         self.aboutUsUI.AUbackButton.clicked.connect(self.openHomePageFromAboutUs)
+
+        # Privacy BUttons
+        self.privacyPolicyUI.PP_BackPB.clicked.connect(self.backtoHomePagefromPRIVACYPOLICY)
 
         # InterestPage buttons
         self.interestPageUI.INTpushButton.clicked.connect(self.on_done_clicked)
@@ -302,15 +310,21 @@ class MainApp:
     def open_privacy_policy_page(self):
         self.homePageWindow.close()
         self.privacyPolicyWindow.show()
-    def open_terms_conditions_page_from_signup(self):
-        self.signUpWindow.close()
-        self.termsWindow.show()
+    
+   
     def openSignupFromHomepage(self):
         self.homePageWindow.close()
         self.signUpWindow.show()
     def openLogInPageFromHomepage(self):
         self.homePageWindow.close()
         self.logInWindow.show()
+
+    
+    
+    # PrivacyPolicy methods  
+    def backtoHomePagefromPRIVACYPOLICY(self):
+        self.privacyPolicyWindow.close()
+        self.homePageWindow.show()
 
     # AboutUsPage methods
     def openAboutUsPage(self):
@@ -354,99 +368,99 @@ class MainApp:
     def handle_signup(self):
         username = self.signUpUI.SU_UsernameLE.text()
         password = self.signUpUI.SU_PasswordLE.text()
-        age = self.signUpUI.SU_AgeLE.text()
         gender = self.signUpUI.SU_GenderCB.currentText()
         location = self.signUpUI.SU_LocationLE.text()
         social_media_link = self.signUpUI.SU_SocialLinkLE.text()
         gmail = self.signUpUI.SU_EmailLE.text()  # New field for Gmail account
 
         # Check if all fields are filled
-        if not username or not password or not age or not location or not gender or not gmail:
-                self.show_error_message("Please fill in all the required fields.")
-                return False  # Indicate that the sign-up process should not continue
+        if not username or not password or not location or not gender or not gmail:
+            self.show_error_message("Please fill in all the required fields.")
+            return False  # Indicate that the sign-up process should not continue
 
         # Validate password
         password_issue = self.validate_password(password)
         if password_issue:
-                self.show_error_message(f"Error: {password_issue}. Please re-enter your password.")
-                self.signUpUI.SU_PasswordLE.clear()  # Clear the password field to prompt re-entry
-                return False  # Indicate that the sign-up process should not continue
+            self.show_error_message(f"Error: {password_issue}. Please re-enter your password.")
+            self.signUpUI.SU_PasswordLE.clear()  # Clear the password field to prompt re-entry
+            return False  # Indicate that the sign-up process should not continue
 
         # Validate social media link
         if not self.validate_social_link():
-                self.show_error_message("Invalid social media link. Please enter a valid link.")
-                self.signUpUI.SU_SocialLinkLE.clear()  # Clear the link field to prompt re-entry
-                return False  # Indicate that the sign-up process should not continue
+            self.show_error_message("Invalid social media link. Please enter a valid link.")
+            self.signUpUI.SU_SocialLinkLE.clear()  # Clear the link field to prompt re-entry
+            return False  # Indicate that the sign-up process should not continue
 
         # Get selected interests
         selected_interests = self.get_selected_interests()
 
         # Check if interests are selected
         if len(selected_interests) < 5:
-                self.show_error_message("Please select at least five interests.")
-                return False  # Indicate that the sign-up process should not continue
+            self.show_error_message("Please select at least five interests.")
+            return False  # Indicate that the sign-up process should not continue
 
         # Check if terms and conditions are accepted
         terms_accepted = self.signUpUI.SU_TermsandPrivacyChB.isChecked()
         if not terms_accepted:
-                self.show_error_message("You must accept the Terms and Conditions to create an account.")
-                return False  # Indicate that the sign-up process should not continue
-       
+            self.show_error_message("You must accept the Terms and Conditions to create an account.")
+            return False  # Indicate that the sign-up process should not continue
+
+        dob = self.signUpUI.SU_DOB.date().toPyDate()  # Assuming you have a QDateEdit for date of birth
+        today = datetime.today()
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
 
         # Check if username already exists
         data = {'username': username}
 
         try:
-                # First, check if the username exists
-                response = requests.post('http://127.0.0.1:5000/check_username', json=data)
+            # First, check if the username exists
+            response = requests.post('http://127.0.0.1:5000/check_username', json=data)
 
-                if response.status_code == 400:  # Assuming the backend returns 400 if the username exists
-                        self.show_error_message("Username already exists. Please choose another username.")
-                        self.signUpUI.SU_UsernameLE.clear()  # Clear the username field to prompt re-entry
-                        return False  # Indicate that the sign-up process should not continue
+            if response.status_code == 400:  # Assuming the backend returns 400 if the username exists
+                self.show_error_message("Username already exists. Please choose another username.")
+                self.signUpUI.SU_UsernameLE.clear()  # Clear the username field to prompt re-entry
+                return False  # Indicate that the sign-up process should not continue
 
-                # If the username is available, proceed with the sign-up process
-                
-                sign_up_data = {
-                        'username': username,
-                        'password': password,
-                        'age': int(age),
-                        'gender': gender,
-                        'location': location,
-                        'social_media_link': social_media_link,
-                        'gmail': gmail,  # Include the Gmail field in the sign-up data
-                        'interests': self.get_selected_interests()  # Include the selected interests
-                }
+            # If the username is available, proceed with the sign-up process
+            sign_up_data = {
+                'username': username,
+                'password': password,
+                'age': int(age),
+                'gender': gender,
+                'location': location,
+                'social_media_link': social_media_link,
+                'gmail': gmail,  # Include the Gmail field in the sign-up data
+                'interests': self.get_selected_interests()  # Include the selected interests
+            }
 
-                # Send the data to the backend to create the account
-                response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
+            # Send the data to the backend to create the account
+            response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
 
-                if response.status_code == 201:
-                        self.show_success_message("Account created successfully!")
+            if response.status_code == 201:
+                self.show_success_message("Account created successfully!")
 
-                        # Clear the input fields after sign-up
-                        self.signUpUI.SU_UsernameLE.clear()
-                        self.signUpUI.SU_PasswordLE.clear()
-                        self.signUpUI.SU_AgeLE.clear()
-                        self.signUpUI.SU_GenderCB.setCurrentIndex(0)  # Reset to first item (if applicable)
-                        self.signUpUI.SU_LocationLE.clear()
-                        self.signUpUI.SU_SocialLinkLE.clear()
-                        self.signUpUI.SU_EmailLE.clear()  # Clear the Gmail field
+                # Clear the input fields after sign-up
+                self.signUpUI.SU_UsernameLE.clear()
+                self.signUpUI.SU_PasswordLE.clear()
+                self.signUpUI.SU_DOB.setDate(QtCore.QDate.currentDate())  # Reset to current date
+                self.signUpUI.SU_GenderCB.setCurrentIndex(0)  # Reset to first item (if applicable)
+                self.signUpUI.SU_LocationLE.clear()
+                self.signUpUI.SU_SocialLinkLE.clear()
+                self.signUpUI.SU_EmailLE.clear()  # Clear the Gmail field
 
-                        self.clear_error_message()  # Clear any existing error messages
+                self.clear_error_message()  # Clear any existing error messages
 
-                        self.show_success_message("You can continue creating another account or stay here.")
+                self.show_success_message("You can continue creating another account or stay here.")
 
-                        return True  # Indicate that the sign-up process succeeded
-                else:
-                        error_message = response.json().get('error', 'Unknown error occurred')
-                        self.show_error_message(f"Error: {error_message}")
-                        return False  # Indicate failure
+                return True  # Indicate that the sign-up process succeeded
+            else:
+                error_message = response.json().get('error', 'Unknown error occurred')
+                self.show_error_message(f"Error: {error_message}")
+                return False  # Indicate failure
 
         except requests.exceptions.RequestException as e:
-             self.show_error_message(f"Request failed: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
         return False  # Indicate failure
-
     def clear_error_message(self):
         # Assuming you have a QLabel named error_message_label for displaying error messages
         self.error_message_label.setText("")
@@ -490,7 +504,7 @@ class MainApp:
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
-    def open_terms_conditions_page(self):
+    def open_terms_conditions_page_from_signup(self):
         self.signUpWindow.close()
         self.termsWindow.show()
     def openInterestPage(self):
@@ -502,7 +516,7 @@ class MainApp:
         self.termsWindow.close()
         self.signUpWindow.show()
        
-
+     # Interests methods
     def handle_button_click_number(self, button_name):
         # Check if the button has already been clicked
         if self.click_counts[button_name] == 0:
@@ -552,7 +566,8 @@ class MainApp:
         self.interestPageWindow.close()
         self.mainPageWindow.show()
 
-    # MainPage methods
+    #MAINPAGE methods
+
     def openAccountSettings(self):
         self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.mainPageWindow.close()

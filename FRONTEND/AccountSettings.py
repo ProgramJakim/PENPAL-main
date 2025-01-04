@@ -170,15 +170,15 @@ class Ui_AccountSettings(object):
 "color: rgb(122, 12, 12);")
         self.AS_Username.setScaledContents(True)
         self.AS_Username.setObjectName("AS_Username")
-        
+
 #Age Display
         self.AS_AgeDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_AgeDisplay.setGeometry(QtCore.QRect(220, 280, 71, 41))
+        self.AS_AgeDisplay.setGeometry(QtCore.QRect(220, 277, 71, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.AS_AgeDisplay.setFont(font)
         self.AS_AgeDisplay.setStyleSheet("Background: transparent;\n"
 "color: rgb(122, 12, 12);\n"
@@ -186,9 +186,9 @@ class Ui_AccountSettings(object):
         self.AS_AgeDisplay.setScaledContents(True)
         self.AS_AgeDisplay.setObjectName("AS_AgeDisplay")
         
-#Age
+#Age Label
         self.AS_Age = QtWidgets.QLabel(AccountSettings)
-        self.AS_Age.setGeometry(QtCore.QRect(140, 280, 71, 41))
+        self.AS_Age.setGeometry(QtCore.QRect(140, 277, 71, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -201,9 +201,9 @@ class Ui_AccountSettings(object):
         self.AS_Age.setScaledContents(True)
         self.AS_Age.setObjectName("AS_Age")
         
-#Gender
+#Gender Label
         self.AS_Gender = QtWidgets.QLabel(AccountSettings)
-        self.AS_Gender.setGeometry(QtCore.QRect(140, 340, 121, 41))
+        self.AS_Gender.setGeometry(QtCore.QRect(140, 330, 121, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -218,12 +218,12 @@ class Ui_AccountSettings(object):
         
 #Gender Display
         self.AS_GenderDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_GenderDisplay.setGeometry(QtCore.QRect(270, 340, 200, 41))
+        self.AS_GenderDisplay.setGeometry(QtCore.QRect(270, 330, 111, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.AS_GenderDisplay.setFont(font)
         self.AS_GenderDisplay.setStyleSheet("Background: transparent;\n"
 "color: rgb(122, 12, 12);\n"
@@ -231,9 +231,9 @@ class Ui_AccountSettings(object):
         self.AS_GenderDisplay.setScaledContents(True)
         self.AS_GenderDisplay.setObjectName("AS_GenderDisplay")
         
-#Location
+#Location Label
         self.AS_Location = QtWidgets.QLabel(AccountSettings)
-        self.AS_Location.setGeometry(QtCore.QRect(140, 400, 141, 41))
+        self.AS_Location.setGeometry(QtCore.QRect(140, 380, 141, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -248,12 +248,12 @@ class Ui_AccountSettings(object):
         
 #Location Display
         self.AS_LocationDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 400, 200, 41))
+        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 380, 131, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.AS_LocationDisplay.setFont(font)
         self.AS_LocationDisplay.setStyleSheet("Background: transparent;\n"
 "color: rgb(122, 12, 12);\n"
@@ -261,9 +261,9 @@ class Ui_AccountSettings(object):
         self.AS_LocationDisplay.setScaledContents(True)
         self.AS_LocationDisplay.setObjectName("AS_LocationDisplay")
         
-#Social Links
+#Social Links Label
         self.AS_SociaLinks = QtWidgets.QLabel(AccountSettings)
-        self.AS_SociaLinks.setGeometry(QtCore.QRect(140, 460, 191, 41))
+        self.AS_SociaLinks.setGeometry(QtCore.QRect(140, 430, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -278,12 +278,12 @@ class Ui_AccountSettings(object):
 
 #Social Link Display
         self.AS_SocialLinkDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_SocialLinkDisplay.setGeometry(QtCore.QRect(140, 510, 500, 41))
+        self.AS_SocialLinkDisplay.setGeometry(QtCore.QRect(140, 470, 800, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(11)
+        font.setBold(False)
+        font.setWeight(50)
         self.AS_SocialLinkDisplay.setFont(font)
         self.AS_SocialLinkDisplay.setStyleSheet("Background: transparent;\n"
 "color: rgb(122, 12, 12);\n"
@@ -291,7 +291,7 @@ class Ui_AccountSettings(object):
         self.AS_SocialLinkDisplay.setScaledContents(True)
         self.AS_SocialLinkDisplay.setObjectName("AS_SocialLinkDisplay")
         
-#Preferences
+#Preferences Label
         self.AS_Preferences = QtWidgets.QLabel(AccountSettings)
         self.AS_Preferences.setGeometry(QtCore.QRect(140, 570, 191, 41))
         font = QtGui.QFont()
@@ -308,12 +308,12 @@ class Ui_AccountSettings(object):
         
 #Preference 1 Display
         self.AS_Preference1Display = QtWidgets.QLabel(AccountSettings)
-        self.AS_Preference1Display.setGeometry(QtCore.QRect(340, 570, 191, 41))
+        self.AS_Preference1Display.setGeometry(QtCore.QRect(340, 570, 300, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(15)
+        font.setBold(False)
+        font.setWeight(50)
         self.AS_Preference1Display.setFont(font)
         self.AS_Preference1Display.setStyleSheet("Background: transparent;\n"
 "color: rgb(122, 12, 12);\n"
@@ -326,9 +326,9 @@ class Ui_AccountSettings(object):
         self.AS_Preference2Display.setGeometry(QtCore.QRect(150, 620, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(15)
+        font.setBold(False)
+        font.setWeight(50)
         self.AS_Preference2Display.setFont(font)
         self.AS_Preference2Display.setStyleSheet("Background: transparent;\n"
 "color: rgb(122, 12, 12);\n"
@@ -341,9 +341,9 @@ class Ui_AccountSettings(object):
         self.AS_Preference3Display.setGeometry(QtCore.QRect(350, 620, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(15)
+        font.setBold(False)
+        font.setWeight(50)
         self.AS_Preference3Display.setFont(font)
         self.AS_Preference3Display.setStyleSheet("Background: transparent;\n"
 "color: rgb(122, 12, 12);\n"
@@ -356,9 +356,9 @@ class Ui_AccountSettings(object):
         self.AS_Preference4Display.setGeometry(QtCore.QRect(150, 670, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(15)
+        font.setBold(False)
+        font.setWeight(50)
         self.AS_Preference4Display.setFont(font)
         self.AS_Preference4Display.setStyleSheet("Background: transparent;\n"
 "color: rgb(122, 12, 12);\n"
@@ -371,9 +371,9 @@ class Ui_AccountSettings(object):
         self.AS_Preference5Display.setGeometry(QtCore.QRect(350, 670, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setPointSize(15)
+        font.setBold(False)
+        font.setWeight(50)
         self.AS_Preference5Display.setFont(font)
         self.AS_Preference5Display.setStyleSheet("Background: transparent;\n"
 "color: rgb(122, 12, 12);\n"
@@ -381,17 +381,17 @@ class Ui_AccountSettings(object):
         self.AS_Preference5Display.setScaledContents(True)
         self.AS_Preference5Display.setObjectName("AS_Preference5Display")
         
-#Edit Avatar (Default Profile)
+#Edit Avatar (Default Profile Image)
         self.AS_EditAvatar = QtWidgets.QLabel(AccountSettings)
-        self.AS_EditAvatar.setGeometry(QtCore.QRect(610, 220, 80, 80))
+        self.AS_EditAvatar.setGeometry(QtCore.QRect(610, 200, 80, 80))
         self.AS_EditAvatar.setText("")
-        self.AS_EditAvatar.setPixmap(QtGui.QPixmap(os.path.join(images_folder , "DefaultProfile.png")))
+        self.AS_EditAvatar.setPixmap(QtGui.QPixmap(os.path.join( images_folder , "DefaultProfile.png")))
         self.AS_EditAvatar.setScaledContents(True)
         self.AS_EditAvatar.setObjectName("AS_EditAvatar")
         
-#Username Number 2  (inside the editing frame)
+#Username 2 (Inside the editing frame)
         self.AS_Username2 = QtWidgets.QLabel(AccountSettings)
-        self.AS_Username2.setGeometry(QtCore.QRect(700, 230, 301, 41))
+        self.AS_Username2.setGeometry(QtCore.QRect(700, 210, 301, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(14)
@@ -405,7 +405,7 @@ class Ui_AccountSettings(object):
         
 #Edit Password Label
         self.AS_EditPassword = QtWidgets.QLabel(AccountSettings)
-        self.AS_EditPassword.setGeometry(QtCore.QRect(620, 320, 301, 41))
+        self.AS_EditPassword.setGeometry(QtCore.QRect(620, 280, 301, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(14)
@@ -419,7 +419,7 @@ class Ui_AccountSettings(object):
         
 #Confirm Password Label
         self.AS_ConfirmPassword = QtWidgets.QLabel(AccountSettings)
-        self.AS_ConfirmPassword.setGeometry(QtCore.QRect(620, 410, 321, 41))
+        self.AS_ConfirmPassword.setGeometry(QtCore.QRect(620, 350, 321, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(14)
@@ -433,7 +433,7 @@ class Ui_AccountSettings(object):
         
 #Edit Social Link Label
         self.AS_EditSocialLink = QtWidgets.QLabel(AccountSettings)
-        self.AS_EditSocialLink.setGeometry(QtCore.QRect(620, 520, 311, 41))
+        self.AS_EditSocialLink.setGeometry(QtCore.QRect(620, 560, 311, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(14)
@@ -447,7 +447,7 @@ class Ui_AccountSettings(object):
         
 #Confirm Social Link Label
         self.AS_ConfirmSocialLink = QtWidgets.QLabel(AccountSettings)
-        self.AS_ConfirmSocialLink.setGeometry(QtCore.QRect(620, 600, 351, 41))
+        self.AS_ConfirmSocialLink.setGeometry(QtCore.QRect(620, 630, 351, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(14)
@@ -474,7 +474,7 @@ class Ui_AccountSettings(object):
         
 #Enter New Password Line Edit (Text Box)
         self.AS_EnterNewPassLE = QtWidgets.QLineEdit(AccountSettings)
-        self.AS_EnterNewPassLE.setGeometry(QtCore.QRect(750, 360, 431, 41))
+        self.AS_EnterNewPassLE.setGeometry(QtCore.QRect(750, 320, 431, 31))
         self.AS_EnterNewPassLE.setStyleSheet("border: 3px solid #7A0C0C;\n"
 "background-color: rgb(255, 240, 216);\n"
 "\n"
@@ -483,8 +483,8 @@ class Ui_AccountSettings(object):
         
 #Confirm New Password Line Edit (Text Box)
         self.AS_ConfirmNewPass = QtWidgets.QLineEdit(AccountSettings)
-        self.AS_ConfirmNewPass.setGeometry(QtCore.QRect(750, 450, 431, 41))
-        self.AS_ConfirmNewPass.setStyleSheet("border: 3px solid #7A0C0C;\n" 
+        self.AS_ConfirmNewPass.setGeometry(QtCore.QRect(750, 390, 431, 31))
+        self.AS_ConfirmNewPass.setStyleSheet("border: 3px solid #7A0C0C;\n"
 "background-color: rgb(255, 240, 216);\n"
 "\n"
 "")
@@ -492,7 +492,7 @@ class Ui_AccountSettings(object):
         
 #Enter New Social Link Line Edit (Text Box)
         self.AS_EnterNewSocialLinkLE = QtWidgets.QLineEdit(AccountSettings)
-        self.AS_EnterNewSocialLinkLE.setGeometry(QtCore.QRect(750, 560, 431, 41))
+        self.AS_EnterNewSocialLinkLE.setGeometry(QtCore.QRect(750, 600, 431, 31))
         self.AS_EnterNewSocialLinkLE.setStyleSheet("border: 3px solid #7A0C0C;\n"
 "background-color: rgb(255, 240, 216);\n"
 "\n"
@@ -501,7 +501,7 @@ class Ui_AccountSettings(object):
         
 #Confirm New Social Link Line Edit (Text Box)
         self.AS_ConfirmNewSocialLinkLE = QtWidgets.QLineEdit(AccountSettings)
-        self.AS_ConfirmNewSocialLinkLE.setGeometry(QtCore.QRect(750, 640, 431, 41))
+        self.AS_ConfirmNewSocialLinkLE.setGeometry(QtCore.QRect(750, 670, 431, 31))
         self.AS_ConfirmNewSocialLinkLE.setStyleSheet("border: 3px solid #7A0C0C;\n"
 "background-color: rgb(255, 240, 216);\n"
 "\n"
@@ -524,7 +524,7 @@ class Ui_AccountSettings(object):
         
 #Edit Avatar Push Button
         self.AS_EditAvatarPB = QtWidgets.QPushButton(AccountSettings)
-        self.AS_EditAvatarPB.setGeometry(QtCore.QRect(710, 270, 91, 21))
+        self.AS_EditAvatarPB.setGeometry(QtCore.QRect(710, 250, 91, 21))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setBold(True)
@@ -534,6 +534,80 @@ class Ui_AccountSettings(object):
         self.AS_EditAvatarPB.setStyleSheet("background-color: rgb(255, 187, 173);\n"
 "")
         self.AS_EditAvatarPB.setObjectName("AS_EditAvatarPB")
+
+#Enter New Email Label
+        self.AS_EnterNewEmailLBL = QtWidgets.QLabel(AccountSettings)
+        self.AS_EnterNewEmailLBL.setGeometry(QtCore.QRect(620, 420, 321, 41))
+        font = QtGui.QFont()
+        font.setFamily("Rockwell")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.AS_EnterNewEmailLBL.setFont(font)
+        self.AS_EnterNewEmailLBL.setStyleSheet("Background: transparent;\n"
+"color: rgb(122, 12, 12);")
+        self.AS_EnterNewEmailLBL.setScaledContents(True)
+        self.AS_EnterNewEmailLBL.setObjectName("AS_EnterNewEmailLBL")
+        
+#Enter New Email Line Edit (Text Box)
+        self.AS_EnterNewEmLE = QtWidgets.QLineEdit(AccountSettings)
+        self.AS_EnterNewEmLE.setGeometry(QtCore.QRect(750, 460, 431, 31))
+        self.AS_EnterNewEmLE.setStyleSheet("border: 3px solid #7A0C0C;\n"
+"background-color: rgb(255, 240, 216);\n"
+"\n"
+"")
+        self.AS_EnterNewEmLE.setObjectName("AS_EnterNewEmLE")
+        
+#Confirm New Email Label
+        self.AS_ConfirmNewEmailLBL = QtWidgets.QLabel(AccountSettings)
+        self.AS_ConfirmNewEmailLBL.setGeometry(QtCore.QRect(620, 490, 321, 41))
+        font = QtGui.QFont()
+        font.setFamily("Rockwell")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.AS_ConfirmNewEmailLBL.setFont(font)
+        self.AS_ConfirmNewEmailLBL.setStyleSheet("Background: transparent;\n"
+"color: rgb(122, 12, 12);")
+        self.AS_ConfirmNewEmailLBL.setScaledContents(True)
+        self.AS_ConfirmNewEmailLBL.setObjectName("AS_ConfirmNewEmailLBL")
+        
+#Confirm New Email Line Edit (Text Box)
+        self.AS_ConfirmNewEmLE_ = QtWidgets.QLineEdit(AccountSettings)
+        self.AS_ConfirmNewEmLE_.setGeometry(QtCore.QRect(750, 530, 431, 31))
+        self.AS_ConfirmNewEmLE_.setStyleSheet("border: 3px solid #7A0C0C;\n"
+"background-color: rgb(255, 240, 216);\n"
+"\n"
+"")
+        self.AS_ConfirmNewEmLE_.setObjectName("AS_ConfirmNewEmLE_")
+        
+#Email Label
+        self.AS_Email = QtWidgets.QLabel(AccountSettings)
+        self.AS_Email.setGeometry(QtCore.QRect(140, 515, 91, 41))
+        font = QtGui.QFont()
+        font.setFamily("Rockwell")
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+        self.AS_Email.setFont(font)
+        self.AS_Email.setStyleSheet("Background: transparent;\n"
+"color: rgb(122, 12, 12);\n"
+"")
+        self.AS_Email.setScaledContents(True)
+        self.AS_Email.setObjectName("AS_Email")
+        
+#Email Display
+        self.AS_EmailDisplay = QtWidgets.QLabel(AccountSettings)
+        self.AS_EmailDisplay.setGeometry(QtCore.QRect(240, 515, 500, 41))
+        font = QtGui.QFont()
+        font.setFamily("Rockwell")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
+        self.AS_EmailDisplay.setFont(font)
+        self.AS_EmailDisplay.setStyleSheet("Background: transparent;\n"
+"color: rgb(122, 12, 12);\n"
+"")
         
         
         self.AS_BackgroundImage.raise_()
@@ -570,6 +644,12 @@ class Ui_AccountSettings(object):
         self.AS_ConfirmNewSocialLinkLE.raise_()
         self.AS_DeleteAccPB.raise_()
         self.AS_EditAvatarPB.raise_()
+        self.AS_EnterNewEmailLBL.raise_()
+        self.AS_EnterNewEmLE.raise_()
+        self.AS_ConfirmNewEmailLBL.raise_()
+        self.AS_ConfirmNewEmLE_.raise_()
+        self.AS_Email.raise_()
+        self.AS_EmailDisplay.raise_()
 
         self.retranslateUi(AccountSettings)
         QtCore.QMetaObject.connectSlotsByName(AccountSettings)
@@ -604,18 +684,29 @@ class Ui_AccountSettings(object):
         self.AS_SaveChangesPB.setText(_translate("AccountSettings", "Save Changes"))
         self.AS_DeleteAccPB.setText(_translate("AccountSettings", "Delete Account"))
         self.AS_EditAvatarPB.setText(_translate("AccountSettings", "Edit Avatar"))
+        self.AS_EnterNewEmailLBL.setText(_translate("AccountSettings", "Enter New Email:"))
+        self.AS_ConfirmNewEmailLBL.setText(_translate("AccountSettings", "Confirm New Email:"))
+        self.AS_Email.setText(_translate("AccountSettings", "Email:"))
+        self.AS_EmailDisplay.setText(_translate("AccountSettings", "Email"))
 
-#USERNAME DISPLAY
+#INFORMATION DISPLAY
         self.display_username()
 
-    def set_user_info(self, user_id, username):
+    def set_user_info(self, user_id, username, selected_interests=None):
         self.user_id = user_id
         self.username = username
+        if selected_interests is None:
+                self.selected_interests = self.get_preferences_from_server()
+        else:
+                self.selected_interests = selected_interests
         self.display_username()
         self.display_age()
         self.display_gender()
-        self.display_location() 
+        self.display_location()
         self.display_social_link()
+        self.display_email()
+        self.display_preferences()
+        
         
     def display_username(self):
         username = self.get_username_from_server()
@@ -637,6 +728,21 @@ class Ui_AccountSettings(object):
     def display_social_link(self):
         social_link = self.get_social_link_from_server()
         self.AS_SocialLinkDisplay.setText(social_link)
+
+    def display_email(self):
+        email = self.get_email_from_server()
+        self.AS_EmailDisplay.setText(email)
+
+    def display_preferences(self):
+        preferences = self.selected_interests
+        preferences_count = len(preferences)
+        
+        self.AS_Preference1Display.setText(preferences[0] if preferences_count > 0 else "Preference1")
+        self.AS_Preference2Display.setText(preferences[1] if preferences_count > 1 else "Preference2")
+        self.AS_Preference3Display.setText(preferences[2] if preferences_count > 2 else "Preference3")
+        self.AS_Preference4Display.setText(preferences[3] if preferences_count > 3 else "Preference4")
+        self.AS_Preference5Display.setText(preferences[4] if preferences_count > 4 else "Preference5")
+                
 
     
     def get_username_from_server(self):
@@ -694,6 +800,27 @@ class Ui_AccountSettings(object):
             print(f"Error fetching social link: {e}")
             return "Unknown Social Link"
         
+    def get_preferences_from_server(self):
+        try:
+                response = requests.get("http://localhost:5000/get_user_interests", params={"username": self.username})
+                if response.status_code == 200:
+                        return response.json().get("interests", [])
+                else:
+                        return []
+        except requests.RequestException as e:
+                print(f"Error fetching preferences: {e}")
+                return []
+        
+    def get_email_from_server(self):
+        try:
+                response = requests.get("http://localhost:5000/get_user_email", params={"username": self.username})
+                if response.status_code == 200:
+                        return response.json().get("email", "Unknown Email")
+                else:
+                        return "Unknown Email"
+        except requests.RequestException as e:
+                print(f"Error fetching email: {e}")
+                return "Unknown Email"
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

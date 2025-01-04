@@ -215,8 +215,41 @@ def get_user_social_link():
         return jsonify({"social_link": social_link}), 200
     else:
         return jsonify({"error": "User not found"}), 404
+
+#PREFERENCES DISPLAY
+
+@app.route('/get_user_interests', methods=['GET'])
+def get_user_interests():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
+        interests = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"interests": interests}), 200
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return jsonify({"error": "Database error"}), 500
     
-#SOCIAL LINK DISPLAY
+#EMAIL DISPLAY
+
+@app.route('/get_user_email', methods=['GET'])
+def get_user_email():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT gmail FROM users WHERE username = %s", (username,))
+        result = db_cursor.fetchone()
+        if result:
+            return jsonify({"email": result[0]}), 200
+        else:
+            return jsonify({"error": "User not found"}), 404
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return jsonify({"error": "Database error"}), 
 
 if __name__ == '__main__':
     app.run(debug=True)
