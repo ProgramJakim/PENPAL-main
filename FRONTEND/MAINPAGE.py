@@ -124,7 +124,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_LogoutPB.setObjectName("MP_LogoutPB")
         self.MP_Shape3 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape3.setGeometry(QtCore.QRect(830, 630, 179, 436))
+        self.MP_Shape3.setGeometry(QtCore.QRect(830, 430, 350, 490))
         self.MP_Shape3.setStyleSheet("background-color: rgb(255, 240, 216);\n"
 "border-radius: 5px;\n"
 "border: 3px solid #BE7928;")
@@ -132,7 +132,7 @@ class Ui_Main_Page(object):
         self.MP_Shape3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.MP_Shape3.setObjectName("MP_Shape3")
         self.MP_Shape2 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape2.setGeometry(QtCore.QRect(720, 590, 254, 518))
+        self.MP_Shape2.setGeometry(QtCore.QRect(650, 390, 350, 490))
         self.MP_Shape2.setStyleSheet("background-color: rgb(255, 240, 216);\n"
 "border-radius: 5px;\n"
 "border: 3px solid #BE7928;")
@@ -140,7 +140,7 @@ class Ui_Main_Page(object):
         self.MP_Shape2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.MP_Shape2.setObjectName("MP_Shape2")
         self.MP_Shape1 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape1.setGeometry(QtCore.QRect(450, 510, 489, 699))
+        self.MP_Shape1.setGeometry(QtCore.QRect(450, 350, 350, 490))
         self.MP_Shape1.setStyleSheet("background-color: rgb(255, 240, 216);\n"
 "border-radius: 5px;\n"
 "border: 3px solid #BE7928;")
@@ -148,14 +148,14 @@ class Ui_Main_Page(object):
         self.MP_Shape1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.MP_Shape1.setObjectName("MP_Shape1")
         self.MP_Profile_Display = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Profile_Display.setGeometry(QtCore.QRect(160, 20, 171, 101))
+        self.MP_Profile_Display.setGeometry(QtCore.QRect(100, 20, 150, 101))
         self.MP_Profile_Display.setStyleSheet("border: none;")
         self.MP_Profile_Display.setText("")
         self.MP_Profile_Display.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'GPfp.png')))
         self.MP_Profile_Display.setScaledContents(True)
         self.MP_Profile_Display.setObjectName("MP_Profile_Display")
         self.MP_Username = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Username.setGeometry(QtCore.QRect(190, 110, 488, 41))
+        self.MP_Username.setGeometry(QtCore.QRect(130, 110, 488, 41))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(3)
@@ -167,7 +167,7 @@ class Ui_Main_Page(object):
         font.setPointSize(-1)
         font.setBold(False)
         self.MP_Username.setFont(font)
-        self.MP_Username.setStyleSheet("font-size: 36px;\n"
+        self.MP_Username.setStyleSheet("font-size: 30px;\n"
 "text-align: center;\n"
 "background: transparent;\n"
 "color: #BE7928;\n"
@@ -175,7 +175,7 @@ class Ui_Main_Page(object):
 "border: none;")
         self.MP_Username.setObjectName("MP_Username")
         self.MP_Age = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Age.setGeometry(QtCore.QRect(50, 180, 351, 71))
+        self.MP_Age.setGeometry(QtCore.QRect(30, 150, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -184,17 +184,17 @@ class Ui_Main_Page(object):
         self.MP_Age.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Age.setFont(font)
         self.MP_Age.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 16pt \"Rockwell\";\n"
+"font: 700 14pt \"Rockwell\";\n"
 "background: none;")
         self.MP_Age.setObjectName("MP_Age")
         self.MP_Gender = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Gender.setGeometry(QtCore.QRect(50, 240, 351, 71))
+        self.MP_Gender.setGeometry(QtCore.QRect(30, 200, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -203,18 +203,18 @@ class Ui_Main_Page(object):
         self.MP_Gender.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Gender.setFont(font)
         self.MP_Gender.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 16pt \"Rockwell\";\n"
+"font: 700 14pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Gender.setObjectName("MP_Gender")
         self.MP_Location = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Location.setGeometry(QtCore.QRect(50, 300, 351, 71))
+        self.MP_Location.setGeometry(QtCore.QRect(30, 250, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -223,17 +223,17 @@ class Ui_Main_Page(object):
         self.MP_Location.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Location.setFont(font)
         self.MP_Location.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 16pt \"Rockwell\";\n"
+"font: 700 14pt \"Rockwell\";\n"
 "background: none;")
         self.MP_Location.setObjectName("MP_Location")
         self.MP_Preference = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference.setGeometry(QtCore.QRect(50, 360, 351, 71))
+        self.MP_Preference.setGeometry(QtCore.QRect(30, 300, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -242,18 +242,18 @@ class Ui_Main_Page(object):
         self.MP_Preference.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference.setFont(font)
         self.MP_Preference.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 16pt \"Rockwell\";\n"
+"font: 700 14pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference.setObjectName("MP_Preference")
         self.MP_Preference1 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference1.setGeometry(QtCore.QRect(15, 430, 351, 71))
+        self.MP_Preference1.setGeometry(QtCore.QRect(30, 350, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -263,18 +263,18 @@ class Ui_Main_Page(object):
         self.MP_Preference1.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference1.setFont(font)
         self.MP_Preference1.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 16pt \"Rockwell\";\n"
+"font: 700 14pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference1.setObjectName("MP_Preference1")
         self.MP_Preference2 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference2.setGeometry(QtCore.QRect(180, 430, 351, 71))
+        self.MP_Preference2.setGeometry(QtCore.QRect(180,  350, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -283,18 +283,18 @@ class Ui_Main_Page(object):
         self.MP_Preference2.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference2.setFont(font)
         self.MP_Preference2.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 16pt \"Rockwell\";\n"
+"font: 700 14pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference2.setObjectName("MP_Preference2")
         self.MP_Preference3 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference3.setGeometry(QtCore.QRect(346, 430, 351, 71))
+        self.MP_Preference3.setGeometry(QtCore.QRect(30, 380, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -303,18 +303,18 @@ class Ui_Main_Page(object):
         self.MP_Preference3.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference3.setFont(font)
         self.MP_Preference3.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 16pt \"Rockwell\";\n"
+"font: 700 14pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference3.setObjectName("MP_Preference3")
         self.MP_Preference4 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference4.setGeometry(QtCore.QRect(110, 500, 351, 71))
+        self.MP_Preference4.setGeometry(QtCore.QRect(180, 380, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -323,18 +323,18 @@ class Ui_Main_Page(object):
         self.MP_Preference4.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference4.setFont(font)
         self.MP_Preference4.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 16pt \"Rockwell\";\n"
+"font: 700 14pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference4.setObjectName("MP_Preference4")
         self.MP_Preference5 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference5.setGeometry(QtCore.QRect(260, 500, 351, 71))
+        self.MP_Preference5.setGeometry(QtCore.QRect(100, 410, 351, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -343,43 +343,43 @@ class Ui_Main_Page(object):
         self.MP_Preference5.setMinimumSize(QtCore.QSize(351, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
         self.MP_Preference5.setFont(font)
         self.MP_Preference5.setStyleSheet("color: rgb(122, 12, 12);\n"
 "border: none;\n"
-"font: 700 16pt \"Rockwell\";\n"
+"font: 700 14pt \"Rockwell\";\n"
 "background: none;\n"
 "")
         self.MP_Preference5.setObjectName("MP_Preference5")
         self.MP_DescriptionText = QtWidgets.QLabel(Main_Page)
-        self.MP_DescriptionText.setGeometry(QtCore.QRect(190, 340, 1011, 91))
+        self.MP_DescriptionText.setGeometry(QtCore.QRect(190, 250, 1011, 91))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.MP_DescriptionText.sizePolicy().hasHeightForWidth())
         self.MP_DescriptionText.setSizePolicy(sizePolicy)
-        self.MP_DescriptionText.setMinimumSize(QtCore.QSize(351, 36))
+        self.MP_DescriptionText.setMinimumSize(QtCore.QSize(200, 20))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
         font.setBold(False)
         self.MP_DescriptionText.setFont(font)
-        self.MP_DescriptionText.setStyleSheet("color: rgb(190, 121, 40); font-size: 36px;\n"
+        self.MP_DescriptionText.setStyleSheet("color: rgb(190, 121, 40); font-size: 30px;\n"
 "background: transparent;\n"
 "\n"
 "")
         self.MP_DescriptionText.setObjectName("MP_DescriptionText")
         self.MP_Welcome = QtWidgets.QLabel(Main_Page)
-        self.MP_Welcome.setGeometry(QtCore.QRect(330, 170, 381, 211))
+        self.MP_Welcome.setGeometry(QtCore.QRect(330, 100, 350, 200))
         self.MP_Welcome.setStyleSheet("background: transparent;")
         self.MP_Welcome.setText("")
         self.MP_Welcome.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPWEL.png')))
         self.MP_Welcome.setScaledContents(True)
         self.MP_Welcome.setObjectName("MP_Welcome")
         self.MP_TO_PENPAL = QtWidgets.QLabel(Main_Page)
-        self.MP_TO_PENPAL.setGeometry(QtCore.QRect(630, 173, 381, 211))
+        self.MP_TO_PENPAL.setGeometry(QtCore.QRect(630, 100, 350, 200))
         self.MP_TO_PENPAL.setStyleSheet("background: transparent;")
         self.MP_TO_PENPAL.setText("")
         self.MP_TO_PENPAL.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPWEL (2).png')))
@@ -387,7 +387,7 @@ class Ui_Main_Page(object):
         self.MP_TO_PENPAL.setWordWrap(False)
         self.MP_TO_PENPAL.setObjectName("MP_TO_PENPAL")
         self.MP_GroupImage = QtWidgets.QLabel(Main_Page)
-        self.MP_GroupImage.setGeometry(QtCore.QRect(0, 420, 1545, 892))
+        self.MP_GroupImage.setGeometry(QtCore.QRect(0, 150, 1500, 850))
         self.MP_GroupImage.setText("")
         self.MP_GroupImage.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPgroup.png')))
         self.MP_GroupImage.setScaledContents(True)
