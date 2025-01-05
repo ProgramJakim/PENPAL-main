@@ -106,13 +106,20 @@ class MainApp:
         self.forgotPasswordWindow = QWidget()
         self.friendMenuWindow = QDialog()
         self.changeProfileWindow = QDialog()
-       
+        self.initUI()
 
         # Setup UI for all windows
         self.setup_ui()
 
         # Connect buttons to their respective methods
         self.connect_buttons()
+
+    def initUI(self):
+        # Initialize and set up the account settings window
+        self.accountSettings_ui = Ui_AccountSettings()
+        self.accountSettings_ui.setupUi(self.accountSettingsWindow)
+        self.accountSettings_ui.mainPageWindow = self.mainPageWindow  # Pass the main window reference
+        self.accountSettings_ui.username = "example_username"  # Set the username attribute
 
 
     def setup_ui(self):
@@ -236,6 +243,7 @@ class MainApp:
 
         # InterestPage buttons
         self.interestPageUI.INTpushButton.clicked.connect(self.on_done_clicked)
+  
          # Dictionary to keep track of click counts
         self.click_counts = {
                 "pushButton_1": 0,
@@ -676,6 +684,12 @@ class MainApp:
         self.accountSettingsWindow.close()
         self.changeProfileWindow.show()
 
+    def go_to_home_page(self):
+        if self.accountSettingsWindow:
+            self.accountSettingsWindow.close()
+        if self.homePageWindow:
+            self.homePageWindow.show()
+
     # FriendMenu methods
     def openMainPageFromFriendMenu(self):
         self.friendMenuWindow.close()
@@ -691,6 +705,8 @@ class MainApp:
     def openAccountSettingsFromChangeProfile(self):
         self.changeProfileWindow.close()
         self.accountSettingsWindow.show()
+
+    
 
 
     def run(self):

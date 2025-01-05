@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 import os
 import sys
 import requests
@@ -22,10 +23,12 @@ Account_Settings_assets_folder = os.path.join(current_directory, '..', 'resource
 
 class Ui_AccountSettings(object):
     def setupUi(self, AccountSettings):
+        self.AccountSettings = AccountSettings  # Store the AccountSettings object
         AccountSettings.setObjectName("AccountSettings")
         AccountSettings.setFixedSize(1440, 850)
         self.user_id = None
         self.username = None
+        self.AccountSettings = None 
         
 #Header
         self.AS_Header = QtWidgets.QFrame(AccountSettings)
@@ -521,6 +524,8 @@ class Ui_AccountSettings(object):
 "color: rgb(255, 255, 255);\n"
 "")
         self.AS_DeleteAccPB.setObjectName("AS_DeleteAccPB")
+         # Connect the button to delete_account method
+        self.AS_DeleteAccPB.clicked.connect(self.delete_account)
         
 #Edit Avatar Push Button
         self.AS_EditAvatarPB = QtWidgets.QPushButton(AccountSettings)
@@ -821,6 +826,28 @@ class Ui_AccountSettings(object):
         except requests.RequestException as e:
                 print(f"Error fetching email: {e}")
                 return "Unknown Email"
+        
+    def delete_account(self): #1
+        reply = QMessageBox.question(self.AccountSettings, 'Delete Account', 'Are you sure you want to delete your account?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            # Call the method to delete the account from the database
+            self.delete_account_from_database()
+
+            
+    def delete_account_from_database(self):
+        try:
+            response = requests.delete("http://localhost:5000/delete_account", json={"username": self.username})
+            if response.status_code == 200:
+                print("Account deleted successfully")
+                QtWidgets.QMessageBox.information(self.AccountSettings, "Account Deleted", "Your account has been deleted.")
+                self.go_to_home_page() 
+            else:
+                print("Failed to delete account")
+                QtWidgets.QMessageBox.warning(self.AccountSettings, "Error", "Failed to delete account.")
+        except Exception as e:
+            print(f"Error deleting account: {e}")
+            QtWidgets.QMessageBox.critical(self.AccountSettings, "Error", f"Error deleting account: {e}")
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

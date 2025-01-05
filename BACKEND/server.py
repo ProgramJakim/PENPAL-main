@@ -296,5 +296,25 @@ def get_one_user():
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
+@app.route('/delete_account', methods=['DELETE'])
+def delete_account():
+    try:
+        data = request.get_json()
+        username = data['username']
+
+        # Delete user interests
+        db_cursor.execute("DELETE FROM user_interests WHERE username = %s", (username,))
+        db_connection.commit()
+
+        # Delete user account
+        db_cursor.execute("DELETE FROM users WHERE username = %s", (username,))
+        db_connection.commit()
+
+        logging.info(f"User account {username} deleted successfully!")
+        return jsonify({"message": "Account deleted successfully!"}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
 if __name__ == '__main__':
     app.run(debug=True)
