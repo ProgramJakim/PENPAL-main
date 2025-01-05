@@ -302,7 +302,6 @@ class MainApp:
         self.friendMenuUI.FM_Accept8PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest8.text()))
         self.friendMenuUI.FM_Accept9PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest9.text()))
         self.friendMenuUI.FM_Accept10PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest10.text()))
-        
 
         
 
@@ -597,6 +596,7 @@ class MainApp:
         self.mainPageWindow.close()
         self.friendMenuWindow.show()
         self.fetch_pending_friend_requests()
+        self.fetch_accepted_friends()
 
     def openHomePageFromMainPage(self):
         try:
@@ -630,6 +630,7 @@ class MainApp:
         except requests.exceptions.RequestException as e:
             print(f"Request exception: {str(e)}")
             self.show_error_message(f"Request failed: {str(e)}")
+    
     def display_user(self, user):
         if user:
             self.mainPageUI.MP_Username.setText(user['username'])
@@ -727,7 +728,45 @@ class MainApp:
                 label.setText(accepted_friend)
                 break
     
-      
+    def fetch_accepted_friends(self):
+        username = self.logInUI.username  # Get the logged-in username
+
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_accepted_friends', params={'username': username})
+            if response.status_code == 200:
+                accepted_friends = response.json().get('accepted_friends', [])
+                self.display_accepted_friends(accepted_friends)
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch accepted friends.")
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def display_accepted_friends(self, accepted_friends):
+        accepted_friends_labels = [
+            self.friendMenuUI.FM_AcceptedFriend1,
+            self.friendMenuUI.FM_AcceptedFriend2,
+            self.friendMenuUI.FM_AcceptedFriend3,
+            self.friendMenuUI.FM_AcceptedFriend4,
+            self.friendMenuUI.FM_AcceptedFriend5,
+            self.friendMenuUI.FM_AcceptedFriend6,
+            self.friendMenuUI.FM_AcceptedFriend7,
+            self.friendMenuUI.FM_AcceptedFriend8,
+            self.friendMenuUI.FM_AcceptedFriend9,
+            self.friendMenuUI.FM_AcceptedFriend10,
+            self.friendMenuUI.FM_AcceptedFriend11,
+            self.friendMenuUI.FM_AcceptedFriend12
+        ]
+
+        for i, label in enumerate(accepted_friends_labels):
+            if i < len(accepted_friends):
+                label.setText(accepted_friends[i])
+            else:
+                label.setText("")
+
+
    
     
     #FRIEND MENU

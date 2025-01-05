@@ -350,6 +350,21 @@ def accept_friend_request():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
+@app.route('/get_accepted_friends', methods=['GET'])
+def get_accepted_friends():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT from_user FROM friend_requests WHERE to_user = %s AND status = 'accepted'", (username,))
+        accepted_friends = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"accepted_friends": accepted_friends}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
