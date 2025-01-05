@@ -350,20 +350,19 @@ class Ui_ChangeProfile(object):
 
     def save_changes(self):
         if self.selected_profile_picture:
-                print(f"Saving profile picture: {self.selected_profile_picture}")  # Debug statement
-                default_profile_path = os.path.join(Change_Profile_assets_folder, "default_profile.png")
-                selected_profile_path = os.path.join(Change_Profile_assets_folder, self.selected_profile_picture)
-                try:
-                    shutil.copyfile(selected_profile_path, default_profile_path)
-                    print(f"Copied {selected_profile_path} to {default_profile_path}")  # Debug statement
-                    QtWidgets.QMessageBox.information(self.ChangeProfile, "Profile Updated", "Your profile picture has been updated.")
-                    self.close_change_profile()  # Close the Change Profile window and show Profile Settings window
-                except Exception as e:
-                    print(f"Error copying file: {e}")  # Debug statement
-                    QtWidgets.QMessageBox.critical(self.ChangeProfile, "Error", f"Failed to update profile picture: {e}")
+            print(f"Saving profile picture: {self.selected_profile_picture}")  # Debug statement
+            default_profile_path = os.path.join(Change_Profile_assets_folder, "default_profile.png")
+            selected_profile_path = os.path.join(Change_Profile_assets_folder, self.selected_profile_picture)
+            try:
+                shutil.copyfile(selected_profile_path, default_profile_path)
+                print(f"Copied {selected_profile_path} to {default_profile_path}")  # Debug statement
+                QtWidgets.QMessageBox.information(self.ChangeProfile, "Profile Updated", "Your profile picture has been updated.")
+                # Removed self.close_change_profile() to keep the window open
+            except Exception as e:
+                print(f"Error copying file: {e}")  # Debug statement
+                QtWidgets.QMessageBox.critical(self.ChangeProfile, "Error", f"Failed to update profile picture: {e}")
         else:
-             QtWidgets.QMessageBox.warning(self.ChangeProfile, "No Selection", "Please select a profile picture.")
-
+            QtWidgets.QMessageBox.warning(self.ChangeProfile, "No Selection", "Please select a profile picture.")
 
     def close_change_profile(self):
         print("Closing ChangeProfile window and opening AccountSettings window")  # Debug statement
