@@ -296,5 +296,60 @@ def get_one_user():
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
+@app.route('/send_friend_request', methods=['POST'])
+def send_friend_request():
+    data = request.get_json()
+    from_user = data.get('from_user')
+    to_user = data.get('to_user')
+
+    if not from_user or not to_user:
+        return jsonify({"error": "Both from_user and to_user are required"}), 400
+
+    try:
+        db_cursor.execute(
+            "INSERT INTO friend_requests (from_user, to_user, status) VALUES (%s, %s, 'pending')",
+            (from_user, to_user)
+        )
+        db_connection.commit()
+        return jsonify({"message": "Friend request sent successfully"}), 201
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
+@app.route('/get_pending_friend_requests', methods=['GET'])
+def get_pending_friend_requests():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT from_user FROM friend_requests WHERE to_user = %s AND status = 'pending'", (username,))
+        pending_requests = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"pending_requests": pending_requests}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/accept_friend_request', methods=['POST'])
+def accept_friend_request():
+    data = request.get_json()
+    from_user = data.get('from_user')
+    to_user = data.get('to_user')
+
+    if not from_user or not to_user:
+        return jsonify({"error": "Both from_user and to_user are required"}), 400
+
+    try:
+        db_cursor.execute(
+            "UPDATE friend_requests SET status = 'accepted' WHERE from_user = %s AND to_user = %s",
+            (from_user, to_user)
+        )
+        db_connection.commit()
+        return jsonify({"message": "Friend request accepted successfully"}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
 if __name__ == '__main__':
     app.run(debug=True)

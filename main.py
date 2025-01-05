@@ -280,6 +280,12 @@ class MainApp:
         self.mainPageUI.MP_ProfilePB.clicked.connect(self.openAccountSettings)
         self.mainPageUI.MP_LogoutPB.clicked.connect(self.openHomePageFromMainPage)
         self.mainPageUI.MP_LeftArrow.clicked.connect(self.load_next_user)
+        self.mainPageUI.MP_RightArrow.clicked.connect(self.send_friend_request)
+
+         # FriendMenu Buttons
+        self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
+        self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
+        self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFrienMenu)
 
         # Initialize the list of displayed users
         self.displayed_users = set()
@@ -290,10 +296,6 @@ class MainApp:
         self.accountSettingsUI.AS_LogOutPB.clicked.connect(self.openHomepageFromAccountSettings)
         self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
 
-        # FriendMenu Buttons
-        self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
-        self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
-        self.friendMenuUI.FM_ProfilePB.clicked.connect(self.openAccountSettingsFromFrienMenu)
 
         # ChangeProfile BUttons
         self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
@@ -570,6 +572,32 @@ class MainApp:
         self.load_next_user()
 
     #MAINPAGE methods
+
+    def openAccountSettings(self):
+        self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
+        self.mainPageWindow.close()
+        self.accountSettingsWindow.show()
+    def openFriendMenu(self):
+        self.mainPageWindow.close()
+        self.friendMenuWindow.show()
+        self.fetch_pending_friend_requests()
+
+    def openHomePageFromMainPage(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+
+        # Close the Main Page window and show the Home Page window
+        self.mainPageWindow.close()
+        self.homePageWindow.show()
+
     def fetch_and_display_user(self, current_username):
         try:
             response = requests.get('http://127.0.0.1:5000/get_one_user', params={
@@ -624,30 +652,75 @@ class MainApp:
             print(f"Request exception: {str(e)}")
             self.show_error_message(f"Request failed: {str(e)}")
 
+    def send_friend_request(self):
+        current_username = self.mainPageUI.MP_Username.text()
+        logged_in_username = self.logInUI.username
 
-   
-    def openAccountSettings(self):
-        self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
-        self.mainPageWindow.close()
-        self.accountSettingsWindow.show()
-    def openFriendMenu(self):
-        self.mainPageWindow.close()
-        self.friendMenuWindow.show()
-    def openHomePageFromMainPage(self):
+        data = {
+            'from_user': logged_in_username,
+            'to_user': current_username
+        }
+
         try:
-            response = requests.post('http://127.0.0.1:5000/logout')
-            if response.status_code == 200:
-                self.show_success_message("Logged out successfully")
-                # Reset displayed_users list
-                self.displayed_users = set()
+            response = requests.post('http://127.0.0.1:5000/send_friend_request', json=data)
+            if response.status_code == 201:
+                self.show_success_message("Friend request sent successfully")
             else:
-                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+                error_message = response.json().get('error', 'Unknown error occurred')
+                self.show_error_message(f"Error: {error_message}")
         except requests.exceptions.RequestException as e:
-            self.show_error_message("Logout failed", f"An error occurred: {e}")
-
-        # Close the Main Page window and show the Home Page window
-        self.mainPageWindow.close()
+            self.show_error_message(f"Request failed: {str(e)}")
+   
+    
+    #FRIEND MENU
+    def openMainPageFromFriendMenu(self):
+        self.friendMenuWindow.close()
+        self.mainPageWindow.show()
+    def openAccountSettingsFromFrienMenu(self):
+        self.friendMenuWindow.close()
+        self.accountSettingsWindow.show()
+    def openHomePageFromFriendMenu(self):
+        self.friendMenuWindow.close()
         self.homePageWindow.show()
+
+
+    def fetch_pending_friend_requests(self):
+        username = self.logInUI.username  # Get the logged-in username
+
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests', params={'username': username})
+            if response.status_code == 200:
+                pending_requests = response.json().get('pending_requests', [])
+                self.display_pending_friend_requests(pending_requests)
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch pending friend requests.")
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def display_pending_friend_requests(self, pending_requests):
+        _translate = QtCore.QCoreApplication.translate
+        friend_request_labels = [
+            self.friendMenuUI.FM_FriendRequest1,
+            self.friendMenuUI.FM_FriendRequest2,
+            self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4,
+            self.friendMenuUI.FM_FriendRequest5,
+            self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7,
+            self.friendMenuUI.FM_FriendRequest8,
+            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest10
+        ]
+
+        for i, label in enumerate(friend_request_labels):
+            if i < len(pending_requests):
+                label.setText(_translate("FriendMenu", f"{pending_requests[i]}"))
+            else:
+                label.setText(_translate("FriendMenu", ""))
+    
 
 
     # AccountSettings methods
@@ -676,16 +749,6 @@ class MainApp:
         self.accountSettingsWindow.close()
         self.changeProfileWindow.show()
 
-    # FriendMenu methods
-    def openMainPageFromFriendMenu(self):
-        self.friendMenuWindow.close()
-        self.mainPageWindow.show()
-    def openAccountSettingsFromFrienMenu(self):
-        self.friendMenuWindow.close()
-        self.accountSettingsWindow.show()
-    def openHomePageFromFriendMenu(self):
-        self.friendMenuWindow.close()
-        self.homePageWindow.show()
 
     # ChangeProifle methods
     def openAccountSettingsFromChangeProfile(self):
