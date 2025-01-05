@@ -292,6 +292,7 @@ class MainApp:
         # Initialize the list of displayed users
         self.displayed_users = set()
 
+        # FriendMenu buttons
         self.friendMenuUI.FM_Accept1PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest1.text()))
         self.friendMenuUI.FM_Accept2PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest2.text()))
         self.friendMenuUI.FM_Accept3PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest3.text()))
@@ -302,8 +303,6 @@ class MainApp:
         self.friendMenuUI.FM_Accept8PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest8.text()))
         self.friendMenuUI.FM_Accept9PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest9.text()))
         self.friendMenuUI.FM_Accept10PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest10.text()))
-
-        
 
         # AccountSettings Buttons
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
@@ -814,7 +813,7 @@ class MainApp:
         for label in friend_request_labels:
             if label.text() == from_user:
                 label.setText("")
-            break
+                break
 
 
    
