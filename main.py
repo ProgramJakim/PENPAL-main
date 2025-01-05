@@ -700,11 +700,17 @@ class MainApp:
     def openHomePageFromFriendMenu(self):
         self.friendMenuWindow.close()
         self.homePageWindow.show()
+    def openFriendMenu(self):
+        self.friendMenuUI.load_friends(self.logInUI.username)
+        self.mainPageWindow.close()
+        self.friendMenuWindow.show()
 
     # ChangeProifle methods
     def openAccountSettingsFromChangeProfile(self):
         self.changeProfileWindow.close()
         self.accountSettingsWindow.show()
+
+    
 
     
 
