@@ -474,6 +474,7 @@ class Ui_AccountSettings(object):
         self.AS_SaveChangesPB.setStyleSheet("background-color: rgb(255, 187, 173);\n"
 "")
         self.AS_SaveChangesPB.setObjectName("AS_SaveChangesPB")
+        self.AS_SaveChangesPB.clicked.connect(self.save_changes)
         
 #Enter New Password Line Edit (Text Box)
         self.AS_EnterNewPassLE = QtWidgets.QLineEdit(AccountSettings)
@@ -818,7 +819,8 @@ class Ui_AccountSettings(object):
 
     def change_social_link(self, new_social_link, confirm_social_link):
         if new_social_link == confirm_social_link:
-                self.update_social_link_in_server(new_social_link)
+            self.update_social_link_in_server(new_social_link)
+            self.AS_SocialLinkDisplay.setText(new_social_link)
         else:
             print("Social links do not match. Please try again.")
 
@@ -865,6 +867,12 @@ class Ui_AccountSettings(object):
         except Exception as e:
             print(f"Error deleting account: {e}")
             QtWidgets.QMessageBox.critical(self.AccountSettings, "Error", f"Error deleting account: {e}")
+
+    def save_changes(self):
+        new_social_link = self.AS_EnterNewSocialLinkLE.text()
+        confirm_social_link = self.AS_ConfirmNewSocialLinkLE.text()
+        self.change_social_link(new_social_link, confirm_social_link)
+        self.display_social_link()
 
 if __name__ == "__main__":
     import sys
