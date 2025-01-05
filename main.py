@@ -1,5 +1,5 @@
 #annie
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
 from PyQt5 import QtCore 
@@ -84,6 +84,39 @@ class SplashScreen(QDialog):
     def close_splash(self):
         self.accept()
 
+class NotificationWindow(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Notifications")
+        self.setFixedSize(400, 300)
+        self.setStyleSheet("background-color: #FFF9F0;")
+
+        layout = QVBoxLayout(self)
+
+        # Divider for users added in the system
+        self.users_added_label = QLabel("Users Added in the System")
+        self.users_added_label.setStyleSheet("font: 16px 'Rockwell'; color: #7A0C0C;")
+        layout.addWidget(self.users_added_label)
+
+        self.users_added_list = QListWidget()
+        layout.addWidget(self.users_added_list)
+
+        # Divider for notifications of accepted friend requests
+        self.accepted_requests_label = QLabel("Accepted Friend Requests")
+        self.accepted_requests_label.setStyleSheet("font: 16px 'Rockwell'; color: #7A0C0C;")
+        layout.addWidget(self.accepted_requests_label)
+
+        self.accepted_requests_list = QListWidget()
+        layout.addWidget(self.accepted_requests_list)
+
+    def set_users_added(self, users):
+        self.users_added_list.clear()
+        self.users_added_list.addItems(users)
+
+    def set_accepted_requests(self, requests):
+        self.accepted_requests_list.clear()
+        self.accepted_requests_list.addItems(requests)
+
 
 class MainApp:
     def __init__(self):
@@ -156,8 +189,9 @@ class MainApp:
         self.mainPageUI.setupUi(self.mainPageWindow)
         self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
         self.displayed_users = set()  # Keep track of displayed users
-
-
+        
+        # Setup UI for NOtification
+        self.notificationWindow = NotificationWindow()
 
         # Setup UI for the account settings window
         self.accountSettingsUI = Ui_AccountSettings()
@@ -283,6 +317,9 @@ class MainApp:
         self.mainPageUI.MP_LogoutPB.clicked.connect(self.openHomePageFromMainPage)
         self.mainPageUI.MP_LeftArrow.clicked.connect(self.load_next_user)
         self.mainPageUI.MP_RightArrow.clicked.connect(self.send_friend_request)
+
+        # Connect the notification button to open the notification window
+        self.mainPageUI.MP_NotificationPB.clicked.connect(self.open_notification_window)
 
          # FriendMenu Buttons
         self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
@@ -768,7 +805,31 @@ class MainApp:
                 label.setText(accepted_friend)
                 break
 
-    
+    def open_notification_window(self):
+        # Fetch notifications data
+        users_added = self.fetch_users_added()
+        accepted_requests = self.fetch_accepted_friends()  # Call the method to get the list of accepted friends
+
+        # Set the data in the notification window
+        self.notificationWindow.set_users_added(users_added)
+        self.notificationWindow.set_accepted_requests(accepted_requests)
+
+        # Show the notification window
+        self.notificationWindow.exec_()
+
+    def fetch_users_added(self):
+        # Fetch the list of users added in the system
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_users_added')
+            if response.status_code == 200:
+                return response.json().get('users_added', [])
+            else:
+                self.show_error_message("Failed to fetch users added.")
+                return []
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+            return []
+        
     def fetch_accepted_friends(self):
         username = self.logInUI.username  # Get the logged-in username
 
@@ -777,13 +838,16 @@ class MainApp:
             if response.status_code == 200:
                 accepted_friends = response.json().get('accepted_friends', [])
                 self.display_accepted_friends(accepted_friends)  # Corrected method call
+                return accepted_friends  # Return the list of accepted friends
             else:
                 print(f"Error: Received status code {response.status_code}")
                 print(f"Response content: {response.content}")
                 self.show_error_message("Failed to fetch accepted friends.")
+                return []
         except requests.exceptions.RequestException as e:
             print(f"Request exception: {str(e)}")
             self.show_error_message(f"Request failed: {str(e)}")
+            return []
 
     def display_accepted_friends(self, accepted_friends):
         accepted_friends_labels = [

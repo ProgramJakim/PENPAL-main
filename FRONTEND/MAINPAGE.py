@@ -470,6 +470,32 @@ class Ui_Main_Page(object):
         # Set tooltip
         self.MP_RightArrow.setToolTip("ADD")
 
+ # Create the Notification button
+        self.MP_NotificationPB = QtWidgets.QPushButton(Main_Page)
+        self.MP_NotificationPB.setGeometry(QtCore.QRect(700, 30, 100, 50))
+        font = QtGui.QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.MP_NotificationPB.setFont(font)
+        self.MP_NotificationPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.MP_NotificationPB.setStyleSheet("""
+            QPushButton {
+                font:14px;
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+                background: #FF9F89;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #FFFFFF;
+                color: #FF9F89;
+            }
+        """)
+        self.MP_NotificationPB.setText("Notifications")
+        self.MP_NotificationPB.setObjectName("MP_NotificationPB")
+
         
         self.LI_Header.raise_()
         self.MP_Shape3.raise_()
@@ -480,6 +506,7 @@ class Ui_Main_Page(object):
         self.MP_TO_PENPAL.raise_()
         self.MP_LeftArrow.raise_()
         self.MP_RightArrow.raise_()
+        self.MP_NotificationPB.raise_()
 
         self.retranslateUi(Main_Page)
         QtCore.QMetaObject.connectSlotsByName(Main_Page)
