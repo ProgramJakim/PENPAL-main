@@ -645,6 +645,19 @@ class MainApp:
         else:
             self.show_error_message("No user data available.")
 
+    def handle_left_button_click(self):
+        # Increment the left button click counter
+        self.mainPageUI.left_button_click_counter += 1
+
+        # Check if the counter has reached 2
+        if self.mainPageUI.left_button_click_counter >= 2:
+            self.show_error_message("No more users available after multiple attempts.")
+            self.clear_user_display()
+            # Reset the counter
+            self.mainPageUI.left_button_click_counter = 0
+        else:
+            self.load_next_user()
+
     def load_next_user(self):
         max_retries = 10  # Set a limit for the number of retries
         retries = 0
@@ -678,7 +691,6 @@ class MainApp:
                 return
         
         
-        self.show_error_message("No more users available after multiple attempts.")
         self.clear_user_display()
 
     def clear_user_display(self):
