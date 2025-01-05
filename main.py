@@ -647,27 +647,52 @@ class MainApp:
             self.show_error_message("No user data available.")
 
     def load_next_user(self):
-        try:
-            current_username = self.mainPageUI.MP_Username.text()
-            self.displayed_users.add(current_username)  # Add current user to displayed users
+        max_retries = 10  # Set a limit for the number of retries
+        retries = 0
 
-            response = requests.get('http://127.0.0.1:5000/get_one_user', params={
-                'current_username': current_username,
-                'logged_in_username': self.logInUI.username,  # Pass the logged-in username
-                'displayed_users': list(self.displayed_users)  # Pass the list of displayed users
-            })
-            if response.status_code == 200:
-                user = response.json().get('user', {})
-                self.display_user(user)
-            elif response.status_code == 404:
-                self.show_error_message("No more users available.")
-            else:
-                print(f"Error: Received status code {response.status_code}")
-                print(f"Response content: {response.content}")
-                self.show_error_message("Failed to fetch user.")
-        except requests.exceptions.RequestException as e:
-            print(f"Request exception: {str(e)}")
-            self.show_error_message(f"Request failed: {str(e)}")
+        while retries < max_retries:
+            try:
+                current_username = self.mainPageUI.MP_Username.text()
+                self.displayed_users.add(current_username)  # Add current user to displayed users
+
+                response = requests.get('http://127.0.0.1:5000/get_one_user', params={
+                    'current_username': current_username,
+                    'logged_in_username': self.logInUI.username,  # Pass the logged-in username
+                    'displayed_users': list(self.displayed_users)  # Pass the list of displayed users
+                })
+                if response.status_code == 200:
+                    user = response.json().get('user', {})
+                    self.display_user(user)
+                    return  # Exit the loop if a user is found
+                elif response.status_code == 404:
+                    # No more users available, reset the displayed_users set and try again
+                    self.displayed_users.clear()
+                    retries += 1
+                else:
+                    print(f"Error: Received status code {response.status_code}")
+                    print(f"Response content: {response.content}")
+                    self.show_error_message("Failed to fetch user.")
+                    return
+            except requests.exceptions.RequestException as e:
+                print(f"Request exception: {str(e)}")
+                self.show_error_message(f"Request failed: {str(e)}")
+                return
+        
+        
+        self.show_error_message("No more users available after multiple attempts.")
+        self.clear_user_display()
+
+    def clear_user_display(self):
+        self.mainPageUI.MP_Username.setText("")
+        self.mainPageUI.MP_Age.setText("")
+        self.mainPageUI.MP_Gender.setText("")
+        self.mainPageUI.MP_Location.setText("")
+        self.mainPageUI.MP_Preference1.setText("")
+        self.mainPageUI.MP_Preference2.setText("")
+        self.mainPageUI.MP_Preference3.setText("")
+        self.mainPageUI.MP_Preference4.setText("")
+        self.mainPageUI.MP_Preference5.setText("")
+        self.mainPageUI.MP_Preference.setText("")
 
     def send_friend_request(self):
         current_username = self.mainPageUI.MP_Username.text()
@@ -681,12 +706,17 @@ class MainApp:
         try:
             response = requests.post('http://127.0.0.1:5000/send_friend_request', json=data)
             if response.status_code == 201:
-                self.show_success_message("Friend request sent successfully")
+                response_data = response.json()
+                added_user = response_data.get("added_user")
+                self.show_success_message(f"{added_user} added!")
+                self.displayed_users.add(added_user)  # Add the user to the displayed users set
+                self.load_next_user()  # Load the next user
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
                 self.show_error_message(f"Error: {error_message}")
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
+
 
     def accept_friend_request(self, from_user):
         to_user = self.logInUI.username
@@ -701,6 +731,7 @@ class MainApp:
             if response.status_code == 200:
                 self.show_success_message("Friend request accepted successfully")
                 self.update_accepted_friends(from_user)
+                self.remove_friend_request(from_user)
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
                 self.show_error_message(f"Error: {error_message}")
@@ -727,6 +758,7 @@ class MainApp:
             if label.text() == "":
                 label.setText(accepted_friend)
                 break
+
     
     def fetch_accepted_friends(self):
         username = self.logInUI.username  # Get the logged-in username
@@ -765,6 +797,24 @@ class MainApp:
                 label.setText(accepted_friends[i])
             else:
                 label.setText("")
+    
+    def remove_friend_request(self, from_user):
+        friend_request_labels = [
+            self.friendMenuUI.FM_FriendRequest1,
+            self.friendMenuUI.FM_FriendRequest2,
+            self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4,
+            self.friendMenuUI.FM_FriendRequest5,
+            self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7,
+            self.friendMenuUI.FM_FriendRequest8,
+            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest10
+        ]
+        for label in friend_request_labels:
+            if label.text() == from_user:
+                label.setText("")
+            break
 
 
    

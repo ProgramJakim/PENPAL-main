@@ -275,10 +275,20 @@ def get_one_user():
     displayed_users = request.args.getlist('displayed_users')  # Get the list of displayed users
 
     try:
-        # Exclude the current user, logged-in user, and already displayed users
+        # Exclude the current user, logged-in user, already displayed users, friends, and pending friend requests
         placeholders = ', '.join(['%s'] * (len(displayed_users) + 2))
-        query = f"SELECT username, age, gender, location FROM users WHERE username NOT IN ({placeholders}) LIMIT 1"
-        params = [current_username, logged_in_username] + displayed_users
+        query = f"""
+            SELECT username, age, gender, location 
+            FROM users 
+            WHERE username NOT IN ({placeholders})
+            AND username NOT IN (
+                SELECT to_user FROM friend_requests WHERE from_user = %s AND status IN ('pending', 'accepted')
+                UNION
+                SELECT from_user FROM friend_requests WHERE to_user = %s AND status IN ('pending', 'accepted')
+            )
+            LIMIT 1
+        """
+        params = [current_username, logged_in_username] + displayed_users + [logged_in_username, logged_in_username]
         db_cursor.execute(query, params)
         user = db_cursor.fetchone()
         if user:
@@ -311,7 +321,7 @@ def send_friend_request():
             (from_user, to_user)
         )
         db_connection.commit()
-        return jsonify({"message": "Friend request sent successfully"}), 201
+        return jsonify({"message": "Friend request sent successfully", "added_user": to_user}), 201
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
