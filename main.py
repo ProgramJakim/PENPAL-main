@@ -693,6 +693,7 @@ class MainApp:
         self.accountSettingsWindow.show()
 
 
+
     def run(self):
         # Show the splash screen
         splash = SplashScreen()
