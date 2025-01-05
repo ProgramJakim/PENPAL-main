@@ -430,6 +430,8 @@ class Ui_Main_Page(object):
                 color: #000000;
             }
         """)
+        # Set tooltip
+        self.MP_LeftArrow.setToolTip("NEXT")
 
 # Create the ADD button
         self.MP_RightArrow = QPushButton("  ", Main_Page)
@@ -465,7 +467,8 @@ class Ui_Main_Page(object):
                 color: #000000;
             }
         """)
-
+        # Set tooltip
+        self.MP_RightArrow.setToolTip("ADD")
 
         
         self.LI_Header.raise_()

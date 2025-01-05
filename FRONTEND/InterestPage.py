@@ -762,6 +762,19 @@ class Ui_Interest(object):
         "")
         self.INTpushButton.setObjectName("INTpushButton")
 
+ # Add the QLabel for the instruction text
+        self.instructionLabel = QtWidgets.QLabel(Interest)
+        self.instructionLabel.setGeometry(QtCore.QRect(513, 265, 421, 31))
+        font = QtGui.QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        self.instructionLabel.setFont(font)
+        self.instructionLabel.setStyleSheet("color: #7A0C0C;")
+        self.instructionLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.instructionLabel.setObjectName("instructionLabel")
 
         self.retranslateUi(Interest)
         QtCore.QMetaObject.connectSlotsByName(Interest)
@@ -791,7 +804,7 @@ class Ui_Interest(object):
         self.pushButton_14.setText(_translate("Interest", "SCIENCE"))
         self.pushButton_15.setText(_translate("Interest", "BUSINESS"))
         self.placeholderText.setText(_translate("Interest", "0 Selected"))
-       
+        self.instructionLabel.setText(_translate("Interest", "Select at least 5 interests"))
        
 
 
