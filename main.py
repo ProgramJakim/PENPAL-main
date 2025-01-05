@@ -647,19 +647,19 @@ class MainApp:
 
     def handle_left_button_click(self):
         # Increment the left button click counter
-        self.mainPageUI.left_button_click_counter += 1
+        self.mainPageUI.MP_LeftArrow += 1
 
         # Check if the counter has reached 2
-        if self.mainPageUI.left_button_click_counter >= 2:
+        if self.mainPageUI.MP_LeftArrow >= 2:
             self.show_error_message("No more users available after multiple attempts.")
             self.clear_user_display()
             # Reset the counter
-            self.mainPageUI.left_button_click_counter = 0
+            self.mainPageUI.MP_LeftArrow = 0
         else:
             self.load_next_user()
 
     def load_next_user(self):
-        max_retries = 10  # Set a limit for the number of retries
+        max_retries = 3  # Set a limit for the number of retries
         retries = 0
 
         while retries < max_retries:
@@ -690,8 +690,6 @@ class MainApp:
                 self.show_error_message(f"Request failed: {str(e)}")
                 return
         
-        
-        self.clear_user_display()
 
     def clear_user_display(self):
         self.mainPageUI.MP_Username.setText("")
@@ -837,7 +835,20 @@ class MainApp:
     def openAccountSettingsFromFrienMenu(self):
         self.friendMenuWindow.close()
         self.accountSettingsWindow.show()
+    
     def openHomePageFromFriendMenu(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+
+        # Close the Friend Menu window and show the Home Page window
         self.friendMenuWindow.close()
         self.homePageWindow.show()
 
@@ -888,6 +899,7 @@ class MainApp:
     def openFriendMenuFromAccountSettings(self):
         self.accountSettingsWindow.close()
         self.friendMenuWindow.show()
+    
     def openHomepageFromAccountSettings(self):
         try:
             response = requests.post('http://127.0.0.1:5000/logout')
