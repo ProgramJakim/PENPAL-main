@@ -1,34 +1,130 @@
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QListWidget
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QListWidget, QListWidgetItem, QApplication, QSpacerItem, QSizePolicy, QWidget
+from PyQt5.QtGui import QFont, QPixmap
+from PyQt5.QtCore import Qt
+import sys
+import os
+
+class ListItemWidget(QWidget):
+    def __init__(self, text, image_path, parent=None):
+        super().__init__(parent)
+        layout = QHBoxLayout(self)
+        
+        # Profile picture
+        self.image_label = QLabel(self)
+        pixmap = QPixmap(image_path)
+        self.image_label.setPixmap(pixmap.scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        layout.addWidget(self.image_label)
+        
+        # Username
+        self.text_label = QLabel(text, self)
+        font = QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.text_label.setFont(font)
+        layout.addWidget(self.text_label)
 
 class NotificationWindow(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Notifications")
-        self.setFixedSize(400, 300)
-        self.setStyleSheet("background-color: #FFF9F0;")
+        self.setFixedSize(900, 800)
 
-        layout = QVBoxLayout(self)
+        # Set background image
+        background_image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'Notification Page.png')
+        if os.path.exists(background_image_path):
+            self.background_label = QLabel(self)
+            self.background_label.setGeometry(0, 0, 900, 800)
+            pixmap = QPixmap(background_image_path)
+            self.background_label.setPixmap(pixmap)
+            self.background_label.setScaledContents(True)
+        else:
+            print(f"Background image not found at: {background_image_path}")
+
+          # Divider for notifications of accepted friend requests
+        self.accepted_requests_label = QLabel("Accepted Friend Requests", self)
+        self.accepted_requests_label.setGeometry(15, 105, 420, 30)  # Set geometry (x, y, width, height)
+        self.accepted_requests_label.setStyleSheet("font: 16px 'Rockwell'; color: #7A0C0C;")
+
+        self.accepted_requests_list = QListWidget(self)
+        self.accepted_requests_list.setGeometry(0, 160, 400, 570)  # Set geometry (x, y, width, height)
+        self.accepted_requests_list.setStyleSheet("background-color: #FCF2F3; border: none;")  # Set container background to white
+        self.accepted_requests_list.setStyleSheet("""
+            background-color: #FCF2F3; 
+            border: none;
+            QScrollBar:vertical {
+                background: #FFC0CB;
+                width: 16px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #FF69B4;
+                min-height: 20px;
+                border-radius: 8px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                background: none;
+                height: 0px;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: none;
+            }
+        """)  # Set container background to white and customize scrollbar
 
         # Divider for users added in the system
-        self.users_added_label = QLabel("Users Added in the System")
+        self.users_added_label = QLabel("Users Added in the System", self)
+        self.users_added_label.setGeometry(485, 105, 400, 30)  # Set geometry (x, y, width, height)
         self.users_added_label.setStyleSheet("font: 16px 'Rockwell'; color: #7A0C0C;")
-        layout.addWidget(self.users_added_label)
 
-        self.users_added_list = QListWidget()
-        layout.addWidget(self.users_added_list)
+        self.users_added_list = QListWidget(self)
+        self.users_added_list.setGeometry(480, 160, 425, 570)  # Set geometry (x, y, width, height)
+        self.users_added_list.setStyleSheet("""
+            background-color: #FCF2F3; 
+            border: none;
+            QScrollBar:vertical {
+                background: #FFC0CB;
+                width: 16px;
+                margin: 0px 0px 0px 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #FF69B4;
+                min-height: 20px;
+                border-radius: 8px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                background: none;
+                height: 0px;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+                background: none;
+            }
+        """)  # Set container background to white and customize scrollbar
 
-        # Divider for notifications of accepted friend requests
-        self.accepted_requests_label = QLabel("Accepted Friend Requests")
-        self.accepted_requests_label.setStyleSheet("font: 16px 'Rockwell'; color: #7A0C0C;")
-        layout.addWidget(self.accepted_requests_label)
-
-        self.accepted_requests_list = QListWidget()
-        layout.addWidget(self.accepted_requests_list)
 
     def set_users_added(self, users):
         self.users_added_list.clear()
-        self.users_added_list.addItems(users)
+        image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
+        for user in users:
+            item = QListWidgetItem(self.users_added_list)
+            widget = ListItemWidget(user, image_path)
+            item.setSizeHint(widget.sizeHint())
+            self.users_added_list.setItemWidget(item, widget)
 
     def set_accepted_requests(self, requests):
         self.accepted_requests_list.clear()
-        self.accepted_requests_list.addItems(requests)
+        image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
+        for username in requests:
+            item_text = f"{username} Accepted you! You're now friends"
+            item = QListWidgetItem(self.accepted_requests_list)
+            widget = ListItemWidget(item_text, image_path)
+            item.setSizeHint(widget.sizeHint())
+            self.accepted_requests_list.setItemWidget(item, widget)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = NotificationWindow()
+    window.set_users_added(["User1", "User2", "User3"])  # Example data
+    window.set_accepted_requests(["Friend1", "Friend2"])  # Example data
+    window.show()
+    sys.exit(app.exec_())

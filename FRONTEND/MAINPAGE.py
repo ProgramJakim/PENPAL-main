@@ -472,7 +472,7 @@ class Ui_Main_Page(object):
 
  # Create the Notification button
         self.MP_NotificationPB = QtWidgets.QPushButton(Main_Page)
-        self.MP_NotificationPB.setGeometry(QtCore.QRect(700, 30, 100, 50))
+        self.MP_NotificationPB.setGeometry(QtCore.QRect(1300, 50, 100, 50))
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(14)
