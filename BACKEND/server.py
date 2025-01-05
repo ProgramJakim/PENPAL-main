@@ -316,5 +316,43 @@ def delete_account():
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
     
+
+# Database connection
+def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="penpaldb"
+    )
+
+@app.route('/update_user_social_link', methods=['POST'])
+def update_user_social_link():
+    data = request.json
+    username = data.get('username')
+    new_social_link = data.get('social_link')
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE users SET social_media_link = %s WHERE username = %s", (new_social_link, username))
+        conn.commit()
+        
+        if cursor.rowcount > 0:
+            response = jsonify({"message": "Social link updated successfully"})
+            status_code = 200
+        else:
+            response = jsonify({"message": "User not found"})
+            status_code = 404
+        
+        cursor.close()
+        conn.close()
+        return response, status_code
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": f"Database error occurred: {err}"}), 500
+
+
+    
 if __name__ == '__main__':
     app.run(debug=True)

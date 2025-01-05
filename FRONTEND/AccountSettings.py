@@ -803,7 +803,25 @@ class Ui_AccountSettings(object):
                 return "Unknown Social Link"
         except requests.RequestException as e:
             print(f"Error fetching social link: {e}")
-            return "Unknown Social Link"
+            return "Unknown Social Link"  
+
+    def update_social_link_in_server(self, new_social_link):
+        try:
+            print(f"Updating social link for user: {self.username} to {new_social_link}")
+            response = requests.post("http://localhost:5000/update_user_social_link", json={"username": self.username, "social_link": new_social_link})
+            if response.status_code == 200:
+                print("Social link updated successfully.")
+            else:
+                print(f"Failed to update social link. Status code: {response.status_code}, Response: {response.text}")
+        except requests.RequestException as e:
+                print(f"Error updating social link: {e}")
+
+    def change_social_link(self, new_social_link, confirm_social_link):
+        if new_social_link == confirm_social_link:
+                self.update_social_link_in_server(new_social_link)
+        else:
+            print("Social links do not match. Please try again.")
+
         
     def get_preferences_from_server(self):
         try:
