@@ -187,6 +187,8 @@ class MainApp:
          # Setup UI for the friend menu window 
         self.friendMenuUI = Ui_FriendMenu()
         self.friendMenuUI.setupUi(self.friendMenuWindow)
+         # Connect buttons to their respective methods
+        
 
 
 
@@ -289,6 +291,20 @@ class MainApp:
 
         # Initialize the list of displayed users
         self.displayed_users = set()
+
+        self.friendMenuUI.FM_Accept1PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest1.text()))
+        self.friendMenuUI.FM_Accept2PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest2.text()))
+        self.friendMenuUI.FM_Accept3PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest3.text()))
+        self.friendMenuUI.FM_Accept4PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest4.text()))
+        self.friendMenuUI.FM_Accept5PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest5.text()))
+        self.friendMenuUI.FM_Accept6PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest6.text()))
+        self.friendMenuUI.FM_Accept7PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest7.text()))
+        self.friendMenuUI.FM_Accept8PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest8.text()))
+        self.friendMenuUI.FM_Accept9PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest9.text()))
+        self.friendMenuUI.FM_Accept10PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest10.text()))
+        
+
+        
 
         # AccountSettings Buttons
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
@@ -670,6 +686,48 @@ class MainApp:
                 self.show_error_message(f"Error: {error_message}")
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
+
+    def accept_friend_request(self, from_user):
+        to_user = self.logInUI.username
+
+        data = {
+            'from_user': from_user,
+            'to_user': to_user
+        }
+
+        try:
+            response = requests.post('http://127.0.0.1:5000/accept_friend_request', json=data)
+            if response.status_code == 200:
+                self.show_success_message("Friend request accepted successfully")
+                self.update_accepted_friends(from_user)
+            else:
+                error_message = response.json().get('error', 'Unknown error occurred')
+                self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def update_accepted_friends(self, accepted_friend):
+        accepted_friends_labels = [
+            self.friendMenuUI.FM_AcceptedFriend1,
+            self.friendMenuUI.FM_AcceptedFriend2,
+            self.friendMenuUI.FM_AcceptedFriend3,
+            self.friendMenuUI.FM_AcceptedFriend4,
+            self.friendMenuUI.FM_AcceptedFriend5,
+            self.friendMenuUI.FM_AcceptedFriend6,
+            self.friendMenuUI.FM_AcceptedFriend7,
+            self.friendMenuUI.FM_AcceptedFriend8,
+            self.friendMenuUI.FM_AcceptedFriend9,
+            self.friendMenuUI.FM_AcceptedFriend10,
+            self.friendMenuUI.FM_AcceptedFriend11,
+            self.friendMenuUI.FM_AcceptedFriend12
+        ]
+
+        for label in accepted_friends_labels:
+            if label.text() == "":
+                label.setText(accepted_friend)
+                break
+    
+      
    
     
     #FRIEND MENU
