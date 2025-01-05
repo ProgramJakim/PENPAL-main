@@ -351,12 +351,21 @@ def accept_friend_request():
         return jsonify({"error": "Both from_user and to_user are required"}), 400
 
     try:
+        # Update the status of the friend request to 'accepted'
         db_cursor.execute(
             "UPDATE friend_requests SET status = 'accepted' WHERE from_user = %s AND to_user = %s",
             (from_user, to_user)
         )
         db_connection.commit()
-        return jsonify({"message": "Friend request accepted successfully"}), 200
+
+        # Insert the friendship into the friendships table
+        db_cursor.execute(
+            "INSERT INTO friendships (user1, user2) VALUES (%s, %s)",
+            (to_user, from_user)
+        )
+        db_connection.commit()
+
+        return jsonify({"message": "Friend request accepted and friendship recorded successfully"}), 200
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
@@ -369,7 +378,11 @@ def get_accepted_friends():
         return jsonify({"error": "Username is required"}), 400
 
     try:
-        db_cursor.execute("SELECT from_user FROM friend_requests WHERE to_user = %s AND status = 'accepted'", (username,))
+        db_cursor.execute("""
+            SELECT user2 FROM friendships WHERE user1 = %s
+            UNION
+            SELECT user1 FROM friendships WHERE user2 = %s
+        """, (username, username))
         accepted_friends = [row[0] for row in db_cursor.fetchall()]
         return jsonify({"accepted_friends": accepted_friends}), 200
     except mysql.connector.Error as err:

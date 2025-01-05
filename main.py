@@ -766,7 +766,7 @@ class MainApp:
             response = requests.get('http://127.0.0.1:5000/get_accepted_friends', params={'username': username})
             if response.status_code == 200:
                 accepted_friends = response.json().get('accepted_friends', [])
-                self.display_accepted_friends(accepted_friends)
+                self.display_accepted_friends(accepted_friends)  # Corrected method call
             else:
                 print(f"Error: Received status code {response.status_code}")
                 print(f"Response content: {response.content}")
