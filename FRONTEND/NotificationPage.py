@@ -50,7 +50,7 @@ class NotificationWindow(QDialog):
          
 
         self.accepted_requests_list = QListWidget(self)
-        self.accepted_requests_list.setGeometry(0, 160, 430, 270)  # Set geometry (x, y, width, height)
+        self.accepted_requests_list.setGeometry(0, 140, 475, 290)  # Set geometry (x, y, width, height)
         self.accepted_requests_list.setStyleSheet("background-color: #FCF2F3; border: none;")  # Set container background to white
         self.accepted_requests_list.setStyleSheet("""
             background-color: #FCF2F3; 
@@ -76,7 +76,7 @@ class NotificationWindow(QDialog):
 
       
         self.pending_requests_list = QListWidget(self)
-        self.pending_requests_list.setGeometry(0, 430, 430, 300)  # Set geometry (x, y, width, height)
+        self.pending_requests_list.setGeometry(0, 430, 475, 300)  # Set geometry (x, y, width, height)
         self.pending_requests_list.setStyleSheet("background-color: #FCF2F3; border: none;")  # Set container background to white
         self.pending_requests_list.setStyleSheet("""
             background-color: #FCF2F3; 
@@ -103,7 +103,7 @@ class NotificationWindow(QDialog):
 
 
         self.users_added_list = QListWidget(self)
-        self.users_added_list.setGeometry(480, 160, 425, 570)  # Set geometry (x, y, width, height)
+        self.users_added_list.setGeometry(480, 140, 425, 590)  # Set geometry (x, y, width, height)
         self.users_added_list.setStyleSheet("""
             background-color: #FCF2F3; 
             border: none;
