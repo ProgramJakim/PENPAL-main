@@ -383,21 +383,21 @@ class Ui_Main_Page(object):
 
 # Create the REJECT button
         self.MP_LeftArrow = QPushButton("  ", Main_Page)
-        self.MP_LeftArrow.setGeometry(QRect(90, 520, 130, 70))
+        self.MP_LeftArrow.setGeometry(QRect(300, 520, 90, 90))
         font = QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
-        font.setBold(False)
+        font.setBold(True)
         font.setItalic(False)
         font.setWeight(50)
         self.MP_LeftArrow.setFont(font)
         self.MP_LeftArrow.setCursor(QCursor(Qt.PointingHandCursor))
         self.MP_LeftArrow.setStyleSheet("""
             font:30px;
-            color: #FFFFFF;
+            color: white;
             border: 2px solid #FFFFFF;
             background: black;
-            border-radius: 5px;
+            border-radius: 45px;
         """)
         self.MP_LeftArrow.setObjectName("  ")
 
@@ -405,10 +405,10 @@ class Ui_Main_Page(object):
         self.MP_LeftArrow.setStyleSheet("""
             QPushButton {
                 font:30px;
-                color: #FFFFFF;
-                border: 2px solid #FFFFFF;
-                background: black;
-                border-radius: 5px;
+                color: white;
+                border: 1px white;
+                background: orange;
+                border-radius: 45px;
             }
             QPushButton:hover {
                 background-color: #FF0000;
@@ -420,38 +420,29 @@ class Ui_Main_Page(object):
 
 # Create the ADD button
         self.MP_RightArrow = QPushButton("  ", Main_Page)
-        self.MP_RightArrow.setGeometry(QRect(1230, 520, 130, 70))
+        self.MP_RightArrow.setGeometry(QtCore.QRect(1000, 520, 90, 90))  # Make the button square
         font = QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
-        font.setBold(False)
+        font.setBold(True)
         font.setItalic(False)
         font.setWeight(50)
         self.MP_RightArrow.setFont(font)
         self.MP_RightArrow.setCursor(QCursor(Qt.PointingHandCursor))
         self.MP_RightArrow.setStyleSheet("""
-            font:30px;
-            color: #FFFFFF;
-            border: 2px solid green;
-            background: black;
-            border-radius: 5px;
-        """)
-        self.MP_RightArrow.setObjectName("  ")
-
-         # Add hover effect to change background color
-        self.MP_RightArrow.setStyleSheet("""
             QPushButton {
                 font:30px;
-                color: #FFFFFF;
-                border: 2px solid #FFFFFF;
-                background: black;
-                border-radius: 5px;
+                color: white;
+                border: 1px white;
+                background: orange;
+                border-radius: 45px;
             }
             QPushButton:hover {
                 background-color: #00FF00;
-                color: #000000;
+                color: white;
             }
         """)
+        self.MP_RightArrow.setObjectName("  ")
         # Set tooltip
         self.MP_RightArrow.setToolTip("ADD")
 
@@ -582,6 +573,9 @@ class Ui_Main_Page(object):
         self.MP_Preference5.setText(_translate("Main_Page", "Pref.5"))
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
         self.MP_NotificationPB.setText(_translate("Main_Page", "NOTIFICATION"))
+        self.MP_LeftArrow.setText(_translate("Main_Page", "<<<"))
+        self.MP_RightArrow.setText(_translate("Main_Page", ">>>"))
+        
 
     def toggle_button(self, button):
         if button.isChecked():
