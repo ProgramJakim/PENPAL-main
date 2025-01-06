@@ -341,7 +341,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_Preference5.setObjectName("MP_Preference5")
         self.MP_DescriptionText = QtWidgets.QLabel(Main_Page)
-        self.MP_DescriptionText.setGeometry(QtCore.QRect(190, 250, 1011, 91))
+        self.MP_DescriptionText.setGeometry(QtCore.QRect(190, 190, 980, 91))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -359,14 +359,14 @@ class Ui_Main_Page(object):
 "")
         self.MP_DescriptionText.setObjectName("MP_DescriptionText")
         self.MP_Welcome = QtWidgets.QLabel(Main_Page)
-        self.MP_Welcome.setGeometry(QtCore.QRect(330, 100, 350, 200))
+        self.MP_Welcome.setGeometry(QtCore.QRect(400, 80, 300, 150))
         self.MP_Welcome.setStyleSheet("background: transparent;")
         self.MP_Welcome.setText("")
         self.MP_Welcome.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPWEL.png')))
         self.MP_Welcome.setScaledContents(True)
         self.MP_Welcome.setObjectName("MP_Welcome")
         self.MP_TO_PENPAL = QtWidgets.QLabel(Main_Page)
-        self.MP_TO_PENPAL.setGeometry(QtCore.QRect(630, 100, 350, 200))
+        self.MP_TO_PENPAL.setGeometry(QtCore.QRect(650, 80, 300, 150))
         self.MP_TO_PENPAL.setStyleSheet("background: transparent;")
         self.MP_TO_PENPAL.setText("")
         self.MP_TO_PENPAL.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPWEL (2).png')))
@@ -473,6 +473,76 @@ class Ui_Main_Page(object):
 "background: transparent;\n"
 "")
         self.MP_NotificationPB.setObjectName("MP_NotificationPB")
+
+        
+
+          # Create toggle buttons
+        self.interestButton = QtWidgets.QPushButton(Main_Page)
+        self.interestButton.setGeometry(QtCore.QRect(400, 300, 190, 40))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(False)
+        self.interestButton.setFont(font)
+        self.interestButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.interestButton.setStyleSheet("color:rgb(255, 255, 255);\n"
+        "font: 700 14pt \"Times New Roman\";\n"
+        "border-color: rgb(229, 141, 118);\n"
+        "border: 3px solid #FFFFFF;\n"
+        "border-radius: 20px;\n"
+        "background: orange;\n"
+        "")
+        self.interestButton.setText("Interest")
+        self.interestButton.setCheckable(True)
+        self.interestButton.setObjectName("interestButton")
+
+        self.locationButton = QtWidgets.QPushButton(Main_Page)
+        self.locationButton.setGeometry(QtCore.QRect(620, 300, 150, 40))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(False)
+        self.locationButton.setFont(font)
+        self.locationButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.locationButton.setStyleSheet("color:rgb(255, 255, 255);\n"
+        "font: 700 14pt \"Times New Roman\";\n"
+        "border-color: rgb(229, 141, 118);\n"
+        "border: 3px solid #FFFFFF;\n"
+        "border-radius: 20px;\n"
+        "background: orange;\n"
+        "")
+        self.locationButton.setText("Location")
+        self.locationButton.setCheckable(True)
+        self.locationButton.setObjectName("locationButton")
+
+
+        self.mutualFriendsButton = QtWidgets.QPushButton(Main_Page)
+        self.mutualFriendsButton.setGeometry(QtCore.QRect(800, 300, 200, 40))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(False)
+        self.mutualFriendsButton.setFont(font)
+        self.mutualFriendsButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mutualFriendsButton.setStyleSheet("color:rgb(255, 255, 255);\n"
+        "font: 700 14pt \"Times New Roman\";\n"
+        "border-color: rgb(229, 141, 118);\n"
+        "border: 3px solid #FFFFFF;\n"
+        "border-radius: 20px;\n"
+        "background: orange;\n"
+        "")
+        self.mutualFriendsButton.setText("Mutual Friends")
+        self.mutualFriendsButton.setCheckable(True)
+        self.mutualFriendsButton.setObjectName("mutualFriendsButton")
+        
+        # Connect buttons to toggle function
+        self.interestButton.toggled.connect(lambda: self.toggle_button(self.interestButton))
+        self.locationButton.toggled.connect(lambda: self.toggle_button(self.locationButton))
+        self.mutualFriendsButton.toggled.connect(lambda: self.toggle_button(self.mutualFriendsButton))
+        
        
        
 
@@ -486,6 +556,9 @@ class Ui_Main_Page(object):
         self.MP_LeftArrow.raise_()
         self.MP_RightArrow.raise_()
         self.MP_NotificationPB.raise_()
+        self.interestButton.raise_()
+        self.mutualFriendsButton.raise_()
+        self.locationButton.raise_()
 
         self.retranslateUi(Main_Page)
         QtCore.QMetaObject.connectSlotsByName(Main_Page)
@@ -510,7 +583,24 @@ class Ui_Main_Page(object):
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
         self.MP_NotificationPB.setText(_translate("Main_Page", "NOTIFICATION"))
 
-#USERNAME DISPLAY
+    def toggle_button(self, button):
+        if button.isChecked():
+                button.setStyleSheet("color:rgb(255, 255, 255);\n"
+                                "font: 700 14pt \"Times New Roman\";\n"
+                                "border-color: rgb(229, 141, 118);\n"
+                                "border: 3px solid #FFFFFF;\n"
+                                "border-radius: 20px;\n"
+                                "background: green;\n"
+                                "")
+        else:
+                button.setStyleSheet("color:rgb(255, 255, 255);\n"
+                                "font: 700 14pt \"Times New Roman\";\n"
+                                "border-color: rgb(229, 141, 118);\n"
+                                "border: 3px solid #FFFFFF;\n"
+                                "border-radius: 20px;\n"
+                                "background: orange;\n"
+                                "")
+        #USERNAME DISPLAY
         self.username = "Default Username"  # Set a default username
         self.display_username()
 
