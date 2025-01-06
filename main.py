@@ -79,7 +79,7 @@ class SplashScreen(QDialog):
         self.animation.start()
 
 
-        QTimer.singleShot(4000, self.close_splash)
+        QTimer.singleShot(1000, self.close_splash)
 
 
     def close_splash(self):
