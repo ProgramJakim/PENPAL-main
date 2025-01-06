@@ -246,7 +246,7 @@ class Ui_LogIn(object):
             color: #FFFFFF;
             border: 2px solid #FFFFFF;
             background: transparent;
-            border-radius: 5px;
+            border-radius: 18px;
         """)
         self.LIbackButton.setObjectName("Back")
         

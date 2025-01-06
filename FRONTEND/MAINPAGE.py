@@ -75,7 +75,7 @@ class Ui_Main_Page(object):
 "text-shadow: 2px 2px 5px #821B1A; /* Dark red shadow *")
         self.MP_UPusername.setObjectName("MP_UPusername")
         self.MP_ProfilePB = QtWidgets.QPushButton(self.LI_Header)
-        self.MP_ProfilePB.setGeometry(QtCore.QRect(815, 30, 200, 45))
+        self.MP_ProfilePB.setGeometry(QtCore.QRect(815, 30, 190, 45))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(14)
@@ -92,7 +92,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_ProfilePB.setObjectName("MP_ProfilePB")
         self.MP_MenuPB = QtWidgets.QPushButton(self.LI_Header)
-        self.MP_MenuPB.setGeometry(QtCore.QRect(1020, 30, 200, 45))
+        self.MP_MenuPB.setGeometry(QtCore.QRect(1020, 30, 190, 45))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(14)
@@ -109,7 +109,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_MenuPB.setObjectName("MP_MenuPB")
         self.MP_LogoutPB = QtWidgets.QPushButton(self.LI_Header)
-        self.MP_LogoutPB.setGeometry(QtCore.QRect(1225, 30, 200, 45))
+        self.MP_LogoutPB.setGeometry(QtCore.QRect(1225, 30, 190, 45))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(14)
@@ -125,24 +125,9 @@ class Ui_Main_Page(object):
 "background: transparent;\n"
 "")
         self.MP_LogoutPB.setObjectName("MP_LogoutPB")
-        self.MP_Shape3 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape3.setGeometry(QtCore.QRect(830, 430, 350, 490))
-        self.MP_Shape3.setStyleSheet("background-color: rgb(255, 240, 216);\n"
-"border-radius: 5px;\n"
-"border: 3px solid #BE7928;")
-        self.MP_Shape3.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.MP_Shape3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.MP_Shape3.setObjectName("MP_Shape3")
-        self.MP_Shape2 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape2.setGeometry(QtCore.QRect(650, 390, 350, 490))
-        self.MP_Shape2.setStyleSheet("background-color: rgb(255, 240, 216);\n"
-"border-radius: 5px;\n"
-"border: 3px solid #BE7928;")
-        self.MP_Shape2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.MP_Shape2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.MP_Shape2.setObjectName("MP_Shape2")
+      
         self.MP_Shape1 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape1.setGeometry(QtCore.QRect(450, 350, 350, 490))
+        self.MP_Shape1.setGeometry(QtCore.QRect(530, 350, 350, 490))
         self.MP_Shape1.setStyleSheet("background-color: rgb(255, 240, 216);\n"
 "border-radius: 5px;\n"
 "border: 3px solid #BE7928;")
@@ -430,6 +415,8 @@ class Ui_Main_Page(object):
                 color: #000000;
             }
         """)
+        # Set tooltip
+        self.MP_LeftArrow.setToolTip("NEXT")
 
 # Create the ADD button
         self.MP_RightArrow = QPushButton("  ", Main_Page)
@@ -465,18 +452,40 @@ class Ui_Main_Page(object):
                 color: #000000;
             }
         """)
+        # Set tooltip
+        self.MP_RightArrow.setToolTip("ADD")
 
+ # Create the Notification button
+        self.MP_NotificationPB = QtWidgets.QPushButton(self.LI_Header)
+        self.MP_NotificationPB.setGeometry(QtCore.QRect(590, 30, 210, 45))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(False)
+        self.MP_NotificationPB.setFont(font)
+        self.MP_NotificationPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.MP_NotificationPB.setStyleSheet("color:rgb(255, 255, 255);\n"
+"font: 700 14pt \"Times New Roman\";\n"
+"border-color: rgb(229, 141, 118);\n"
+"border: 3px solid #FFFFFF;\n"
+"border-radius: 20px;\n"
+"background: transparent;\n"
+"")
+        self.MP_NotificationPB.setObjectName("MP_NotificationPB")
+       
+       
 
         
         self.LI_Header.raise_()
-        self.MP_Shape3.raise_()
-        self.MP_Shape2.raise_()
+       
         self.MP_Shape1.raise_()
         self.MP_DescriptionText.raise_()
         self.MP_Welcome.raise_()
         self.MP_TO_PENPAL.raise_()
         self.MP_LeftArrow.raise_()
         self.MP_RightArrow.raise_()
+        self.MP_NotificationPB.raise_()
 
         self.retranslateUi(Main_Page)
         QtCore.QMetaObject.connectSlotsByName(Main_Page)
@@ -499,7 +508,7 @@ class Ui_Main_Page(object):
         self.MP_Preference4.setText(_translate("Main_Page", "Pref.4"))
         self.MP_Preference5.setText(_translate("Main_Page", "Pref.5"))
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
-      
+        self.MP_NotificationPB.setText(_translate("Main_Page", "NOTIFICATION"))
 
 #USERNAME DISPLAY
         self.username = "Default Username"  # Set a default username
