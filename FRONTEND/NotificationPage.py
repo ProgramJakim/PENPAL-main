@@ -50,7 +50,7 @@ class NotificationWindow(QDialog):
          
 
         self.accepted_requests_list = QListWidget(self)
-        self.accepted_requests_list.setGeometry(0, 160, 400, 270)  # Set geometry (x, y, width, height)
+        self.accepted_requests_list.setGeometry(0, 160, 430, 270)  # Set geometry (x, y, width, height)
         self.accepted_requests_list.setStyleSheet("background-color: #FCF2F3; border: none;")  # Set container background to white
         self.accepted_requests_list.setStyleSheet("""
             background-color: #FCF2F3; 
@@ -76,7 +76,7 @@ class NotificationWindow(QDialog):
 
       
         self.pending_requests_list = QListWidget(self)
-        self.pending_requests_list.setGeometry(0, 430, 400, 300)  # Set geometry (x, y, width, height)
+        self.pending_requests_list.setGeometry(0, 430, 430, 300)  # Set geometry (x, y, width, height)
         self.pending_requests_list.setStyleSheet("background-color: #FCF2F3; border: none;")  # Set container background to white
         self.pending_requests_list.setStyleSheet("""
             background-color: #FCF2F3; 
@@ -101,10 +101,6 @@ class NotificationWindow(QDialog):
         """)  # Set container background to white and customize scrollbar
 
 
-        # Divider for users added in the system
-        self.users_added_label = QLabel("Users Added in the System", self)
-        self.users_added_label.setGeometry(485, 105, 400, 30)  # Set geometry (x, y, width, height)
-        self.users_added_label.setStyleSheet("font: 16px 'Rockwell'; color: #7A0C0C;")
 
         self.users_added_list = QListWidget(self)
         self.users_added_list.setGeometry(480, 160, 425, 570)  # Set geometry (x, y, width, height)
@@ -135,8 +131,9 @@ class NotificationWindow(QDialog):
         self.users_added_list.clear()
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
         for user in users:
+            item_text = f"You add {user}!"
             item = QListWidgetItem(self.users_added_list)
-            widget = ListItemWidget(user, image_path)
+            widget = ListItemWidget(item_text, image_path)
             item.setSizeHint(widget.sizeHint())
             self.users_added_list.setItemWidget(item, widget)
 
@@ -156,7 +153,7 @@ class NotificationWindow(QDialog):
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
         print(f"Setting pending requests: {requests}")  # Debugging line
         for username in requests:
-            item_text = f"{username} added you"
+            item_text = f"{username} Added you!"
             item = QListWidgetItem(self.pending_requests_list)
             widget = ListItemWidget(item_text, image_path)
             item.setSizeHint(widget.sizeHint())

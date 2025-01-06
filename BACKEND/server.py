@@ -372,8 +372,13 @@ def accept_friend_request():
     
 @app.route('/get_users_added', methods=['GET'])
 def get_users_added():
+    username = request.args.get('username')  # Get the currently logged-in username from the request
+
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
     try:
-        db_cursor.execute("SELECT username FROM users")
+        db_cursor.execute("SELECT to_user FROM friend_requests WHERE from_user = %s AND status = 'accepted'", (username,))
         users_added = [row[0] for row in db_cursor.fetchall()]
         return jsonify({"users_added": users_added}), 200
     except mysql.connector.Error as err:

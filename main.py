@@ -783,12 +783,10 @@ class MainApp:
    #NOTIFICATION WINDOW
     def open_notification_window(self):
         # Fetch notifications data
-        users_added = self.fetch_users_added()
+        username = self.logInUI.username  # Get the logged-in username
+        users_added = self.fetch_users_added(username)
         accepted_requests = self.fetch_accepted_friends()  # Call the method to get the list of accepted friends
         pending_requests = self.fetch_pending_friend_requests()  # Fetch pending friend requests
-
-        # Debugging line
-        print(f"Pending requests to set: {pending_requests}")
 
         # Set the data in the notification window
         self.notificationWindow.set_users_added(users_added)
@@ -801,10 +799,10 @@ class MainApp:
         # Show the notification window
         self.notificationWindow.exec_()
 
-    def fetch_users_added(self):
-        # Fetch the list of users added in the system
+    def fetch_users_added(self, username):
+        # Fetch the list of users added by the currently logged-in user
         try:
-            response = requests.get('http://127.0.0.1:5000/get_users_added')
+            response = requests.get('http://127.0.0.1:5000/get_users_added', params={'username': username})
             if response.status_code == 200:
                 return response.json().get('users_added', [])
             else:
