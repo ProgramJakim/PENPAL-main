@@ -1,5 +1,5 @@
 #annie
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget, QListWidgetItem
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
 from PyQt5 import QtCore 
@@ -785,10 +785,18 @@ class MainApp:
         # Fetch notifications data
         users_added = self.fetch_users_added()
         accepted_requests = self.fetch_accepted_friends()  # Call the method to get the list of accepted friends
+        pending_requests = self.fetch_pending_friend_requests()  # Fetch pending friend requests
+
+        # Debugging line
+        print(f"Pending requests to set: {pending_requests}")
 
         # Set the data in the notification window
         self.notificationWindow.set_users_added(users_added)
         self.notificationWindow.set_accepted_requests(accepted_requests)
+        self.notificationWindow.set_pending_requests(pending_requests or [])
+
+        # Set the data in the friend menu
+        self.display_pending_friend_requests(pending_requests)
 
         # Show the notification window
         self.notificationWindow.exec_()
@@ -824,6 +832,8 @@ class MainApp:
             print(f"Request exception: {str(e)}")
             self.show_error_message(f"Request failed: {str(e)}")
             return []
+        
+            
 
     def display_accepted_friends(self, accepted_friends):
         accepted_friends_labels = [
@@ -900,17 +910,19 @@ class MainApp:
             response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests', params={'username': username})
             if response.status_code == 200:
                 pending_requests = response.json().get('pending_requests', [])
-                self.display_pending_friend_requests(pending_requests)
+                print(f"Fetched pending requests: {pending_requests}")  # Debugging line
+                return pending_requests
             else:
                 print(f"Error: Received status code {response.status_code}")
                 print(f"Response content: {response.content}")
                 self.show_error_message("Failed to fetch pending friend requests.")
+                return []
         except requests.exceptions.RequestException as e:
             print(f"Request exception: {str(e)}")
             self.show_error_message(f"Request failed: {str(e)}")
+            return []
 
     def display_pending_friend_requests(self, pending_requests):
-        _translate = QtCore.QCoreApplication.translate
         friend_request_labels = [
             self.friendMenuUI.FM_FriendRequest1,
             self.friendMenuUI.FM_FriendRequest2,
@@ -926,9 +938,9 @@ class MainApp:
 
         for i, label in enumerate(friend_request_labels):
             if i < len(pending_requests):
-                label.setText(_translate("FriendMenu", f"{pending_requests[i]}"))
+                label.setText(pending_requests[i])
             else:
-                label.setText(_translate("FriendMenu", ""))
+                label.setText("")
     
 
 
