@@ -89,17 +89,6 @@ def signup():
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
 
-def validate_password(password):
-    if len(password) < 8:
-        return "Password must be at least 8 characters long."
-    if not any(char.isdigit() for char in password):
-        return "Password must include at least one number."
-    if not any(char.isupper() for char in password):
-        return "Password must include at least one uppercase letter."
-    if not any(char in "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|" for char in password):
-        return "Password must include at least one special character."
-    return None
-
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -267,7 +256,9 @@ def get_all_users():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
 
+#RECOMMENDATION ONE USER DISPLAY
 @app.route('/get_one_user', methods=['GET'])
 def get_one_user():
     current_username = request.args.get('current_username')
@@ -305,7 +296,9 @@ def get_one_user():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
 
+#RECORD FRIEND REQUEST OF A USER TO DATABASE
 @app.route('/send_friend_request', methods=['POST'])
 def send_friend_request():
     data = request.get_json()
@@ -325,7 +318,8 @@ def send_friend_request():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-    
+
+#GET FRIEND REQUEST  TO SHOW IN MENU FRIENDREQUESTLIST
 @app.route('/get_pending_friend_requests', methods=['GET'])
 def get_pending_friend_requests():
     username = request.args.get('username')
@@ -341,6 +335,7 @@ def get_pending_friend_requests():
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
+#ACCEPT FRIEND REQUEST: 'UPDATE' STATUS TO 'ACCEPTED'
 @app.route('/accept_friend_request', methods=['POST'])
 def accept_friend_request():
     data = request.get_json()
@@ -369,21 +364,9 @@ def accept_friend_request():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-    
-@app.route('/get_users_added', methods=['GET'])
-def get_users_added():
-    try:
-        db_cursor.execute("SELECT username FROM users")
-        users_added = [row[0] for row in db_cursor.fetchall()]
-        return jsonify({"users_added": users_added}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
 
-
-
-    
+#GET ACCEPTED FRIENDS AND DISPLAY TO FRIENDLIST
 @app.route('/get_accepted_friends', methods=['GET'])
 def get_accepted_friends():
     username = request.args.get('username')
@@ -402,26 +385,8 @@ def get_accepted_friends():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-    
-<<<<<<< HEAD
-<<<<<<< HEAD
-@app.route('/get_all_users_interests', methods=['GET'])
-def get_all_users_interests():
-    try:
-        db_cursor.execute("SELECT username, interest FROM user_interests")
-        user_interests = db_cursor.fetchall()
-        interests_dict = {}
-        for username, interest in user_interests:
-            if username not in interests_dict:
-                interests_dict[username] = []
-            interests_dict[username].append(interest)
-        return jsonify({"user_interests": interests_dict}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
-=======
-=======
->>>>>>> annie
+
+#SELECT ALL 'FROM_USERS' TO DISPLAY IN ADDED NOTIFICATION
 @app.route('/get_users_added_notification', methods=['GET'])
 def get_users_added_notification():
     username = request.args.get('username')  # Get the currently logged-in username from the request
@@ -436,7 +401,8 @@ def get_users_added_notification():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-    
+
+#GET FROM_USER TO DISPLAY FRIEND REQUEST IN PENDING NOTIFICATION
 @app.route('/get_pending_friend_requests_notification', methods=['GET'])
 def get_pending_friend_requests_notification():
     username = request.args.get('username')
@@ -454,10 +420,6 @@ def get_pending_friend_requests_notification():
     
 
     
-<<<<<<< HEAD
->>>>>>> draft
-=======
->>>>>>> annie
 
 
 if __name__ == '__main__':

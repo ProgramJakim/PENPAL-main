@@ -151,7 +151,6 @@ class NotificationWindow(QDialog):
     def set_pending_requests_notification(self, requests):
         self.pending_requests_list.clear()
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
-        print(f"Setting pending requests: {requests}")  # Debugging line
         for username in requests:
             item_text = f"{username} Added you!"
             item = QListWidgetItem(self.pending_requests_list)
