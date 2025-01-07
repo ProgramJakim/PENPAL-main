@@ -31,6 +31,17 @@ ph = PasswordHasher()  # Initialize Argon2 Password Hasher
 def sample():
     return jsonify({"message": "I AM A SAMPLE GET ENDPOINT"}), 200
 
+def validate_password(password):
+    if len(password) < 8:
+        return "Password must be at least 8 characters long."
+    if not any(char.isdigit() for char in password):
+        return "Password must include at least one number."
+    if not any(char.isupper() for char in password):
+        return "Password must include at least one uppercase letter."
+    if not any(char in "!@#$%^&*()-_=+[]{};:'\",.<>?/\\|" for char in password):
+        return "Password must include at least one special character."
+    return None
+
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()

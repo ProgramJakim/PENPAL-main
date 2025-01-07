@@ -451,6 +451,10 @@ class MainApp:
             # Send the data to the backend to create the account
             response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
 
+            # Log the response for debugging
+            print(f"Response status code: {response.status_code}")
+            print(f"Response content: {response.content}")
+
             if response.status_code == 201:
                 self.show_success_message("Account created successfully!")
 
@@ -465,6 +469,9 @@ class MainApp:
 
                 self.clear_error_message()  # Clear any existing error messages
 
+                # Reset the click counts and total clicks
+                self.reset_click_counts()
+
                 self.show_success_message("You can continue creating another account or stay here.")
 
                 return True  # Indicate that the sign-up process succeeded
@@ -476,6 +483,13 @@ class MainApp:
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
         return False  # Indicate failure
+
+    def reset_click_counts(self):
+        for button in self.click_counts:
+            self.click_counts[button] = 0
+        self.total_clicks = 0
+        self.interestPageUI.placeholderText.setText("0 selected")
+
     def clear_error_message(self):
         # Assuming you have a QLabel named error_message_label for displaying error messages
         self.error_message_label.setText("")
