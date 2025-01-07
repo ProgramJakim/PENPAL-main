@@ -341,7 +341,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_Preference5.setObjectName("MP_Preference5")
         self.MP_DescriptionText = QtWidgets.QLabel(Main_Page)
-        self.MP_DescriptionText.setGeometry(QtCore.QRect(190, 250, 1011, 91))
+        self.MP_DescriptionText.setGeometry(QtCore.QRect(190, 190, 980, 91))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -359,14 +359,14 @@ class Ui_Main_Page(object):
 "")
         self.MP_DescriptionText.setObjectName("MP_DescriptionText")
         self.MP_Welcome = QtWidgets.QLabel(Main_Page)
-        self.MP_Welcome.setGeometry(QtCore.QRect(330, 100, 350, 200))
+        self.MP_Welcome.setGeometry(QtCore.QRect(400, 80, 300, 150))
         self.MP_Welcome.setStyleSheet("background: transparent;")
         self.MP_Welcome.setText("")
         self.MP_Welcome.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPWEL.png')))
         self.MP_Welcome.setScaledContents(True)
         self.MP_Welcome.setObjectName("MP_Welcome")
         self.MP_TO_PENPAL = QtWidgets.QLabel(Main_Page)
-        self.MP_TO_PENPAL.setGeometry(QtCore.QRect(630, 100, 350, 200))
+        self.MP_TO_PENPAL.setGeometry(QtCore.QRect(650, 80, 300, 150))
         self.MP_TO_PENPAL.setStyleSheet("background: transparent;")
         self.MP_TO_PENPAL.setText("")
         self.MP_TO_PENPAL.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPWEL (2).png')))
@@ -533,6 +533,7 @@ class Ui_Main_Page(object):
         self.interestButton.toggled.connect(lambda: self.toggle_button(self.interestButton))
         self.locationButton.toggled.connect(lambda: self.toggle_button(self.locationButton))
         self.mutualFriendsButton.toggled.connect(lambda: self.toggle_button(self.mutualFriendsButton))
+        
        
        
 
@@ -549,7 +550,6 @@ class Ui_Main_Page(object):
         self.interestButton.raise_()
         self.mutualFriendsButton.raise_()
         self.locationButton.raise_()
-
 
         self.retranslateUi(Main_Page)
         QtCore.QMetaObject.connectSlotsByName(Main_Page)
@@ -575,8 +575,26 @@ class Ui_Main_Page(object):
         self.MP_NotificationPB.setText(_translate("Main_Page", "NOTIFICATION"))
         self.MP_LeftArrow.setText(_translate("Main_Page", "<<<"))
         self.MP_RightArrow.setText(_translate("Main_Page", ">>>"))
+        
 
-#USERNAME DISPLAY
+    def toggle_button(self, button):
+        if button.isChecked():
+                button.setStyleSheet("color:rgb(255, 255, 255);\n"
+                                "font: 700 14pt \"Times New Roman\";\n"
+                                "border-color: rgb(229, 141, 118);\n"
+                                "border: 3px solid #FFFFFF;\n"
+                                "border-radius: 20px;\n"
+                                "background: green;\n"
+                                "")
+        else:
+                button.setStyleSheet("color:rgb(255, 255, 255);\n"
+                                "font: 700 14pt \"Times New Roman\";\n"
+                                "border-color: rgb(229, 141, 118);\n"
+                                "border: 3px solid #FFFFFF;\n"
+                                "border-radius: 20px;\n"
+                                "background: orange;\n"
+                                "")
+        #USERNAME DISPLAY
         self.username = "Default Username"  # Set a default username
         self.display_username()
 
