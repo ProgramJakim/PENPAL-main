@@ -311,6 +311,20 @@ class MainApp:
         self.friendMenuUI.FM_Accept9PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest9.text()))
         self.friendMenuUI.FM_Accept10PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest10.text()))
 
+
+        self.friendMenuUI.FM_Decline1PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest1.text()))
+        self.friendMenuUI.FM_Decline2PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest2.text()))
+        self.friendMenuUI.FM_Decline3PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest3.text()))
+        self.friendMenuUI.FM_Decline4PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest4.text()))
+        self.friendMenuUI.FM_Decline5PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest5.text()))
+        self.friendMenuUI.FM_Decline6PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest6.text()))
+        self.friendMenuUI.FM_Decline7PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest7.text()))
+        self.friendMenuUI.FM_Decline8PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest8.text()))
+        self.friendMenuUI.FM_Decline9PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest9.text()))
+        self.friendMenuUI.FM_Decline10PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest10.text()))
+
+
+
         # AccountSettings Buttons
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
         self.accountSettingsUI.AS_MenuPB.clicked.connect(self.openFriendMenuFromAccountSettings)
@@ -732,7 +746,70 @@ class MainApp:
                 self.show_error_message(f"Error: {error_message}")
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
+    
 
+    #FRIEND MENU
+    def openMainPageFromFriendMenu(self):
+        self.friendMenuWindow.close()
+        self.mainPageWindow.show()
+    def openAccountSettingsFromFrienMenu(self):
+        self.friendMenuWindow.close()
+        self.accountSettingsWindow.show()
+    
+    def openHomePageFromFriendMenu(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+
+        # Close the Friend Menu window and show the Home Page window
+        self.friendMenuWindow.close()
+        self.homePageWindow.show()
+
+
+    def fetch_pending_friend_requests(self):
+        username = self.logInUI.username  # Get the logged-in username
+
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests', params={'username': username})
+            if response.status_code == 200:
+                pending_requests = response.json().get('pending_requests', [])
+                self.display_pending_friend_requests(pending_requests)
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch pending friend requests.")
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def display_pending_friend_requests(self, pending_requests):
+        _translate = QtCore.QCoreApplication.translate
+        friend_request_labels = [
+            self.friendMenuUI.FM_FriendRequest1,
+            self.friendMenuUI.FM_FriendRequest2,
+            self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4,
+            self.friendMenuUI.FM_FriendRequest5,
+            self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7,
+            self.friendMenuUI.FM_FriendRequest8,
+            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest10
+        ]
+
+        for i, label in enumerate(friend_request_labels):
+            if i < len(pending_requests):
+                label.setText(_translate("FriendMenu", f"{pending_requests[i]}"))
+            else:
+                label.setText(_translate("FriendMenu", ""))
+    
 
     def accept_friend_request(self, from_user):
         to_user = self.logInUI.username
@@ -774,6 +851,92 @@ class MainApp:
             if label.text() == "":
                 label.setText(accepted_friend)
                 break
+
+    def decline_friend_request(self, from_user):
+            to_user = self.logInUI.username
+
+
+            data = {
+                'from_user': from_user,
+                'to_user': to_user
+            }
+
+
+            try:
+                response = requests.post('http://127.0.0.1:5000/decline_friend_request', json=data)
+                if response.status_code == 200:
+                    self.show_success_message("Friend request declined successfully")
+                    self.remove_friend_request(from_user)
+                else:
+                    error_message = response.json().get('error', 'Unknown error occurred')
+                    self.show_error_message(f"Error: {error_message}")
+            except requests.exceptions.RequestException as e:
+                self.show_error_message(f"Request failed: {str(e)}")
+
+    def decline_friend_request(self, from_user):
+        to_user = self.logInUI.username
+
+        data = {
+            'from_user': from_user,
+            'to_user': to_user
+        }
+
+        try:
+            response = requests.post('http://127.0.0.1:5000/decline_friend_request', json=data)
+            if response.status_code == 200:
+                self.show_success_message("Friend request declined successfully")
+                self.remove_friend_request(from_user)
+            else:
+                error_message = response.json().get('error', 'Unknown error occurred')
+                self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def remove_friend_request(self, from_user):
+        friend_request_labels = [
+            self.friendMenuUI.FM_FriendRequest1,
+            self.friendMenuUI.FM_FriendRequest2,
+            self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4,
+            self.friendMenuUI.FM_FriendRequest5,
+            self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7,
+            self.friendMenuUI.FM_FriendRequest8,
+            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest10
+        ]
+        accept_buttons = [
+            self.friendMenuUI.FM_Accept1PB,
+            self.friendMenuUI.FM_Accept2PB,
+            self.friendMenuUI.FM_Accept3PB,
+            self.friendMenuUI.FM_Accept4PB,
+            self.friendMenuUI.FM_Accept5PB,
+            self.friendMenuUI.FM_Accept6PB,
+            self.friendMenuUI.FM_Accept7PB,
+            self.friendMenuUI.FM_Accept8PB,
+            self.friendMenuUI.FM_Accept9PB,
+            self.friendMenuUI.FM_Accept10PB
+        ]
+        decline_buttons = [
+            self.friendMenuUI.FM_Decline1PB,
+            self.friendMenuUI.FM_Decline2PB,
+            self.friendMenuUI.FM_Decline3PB,
+            self.friendMenuUI.FM_Decline4PB,
+            self.friendMenuUI.FM_Decline5PB,
+            self.friendMenuUI.FM_Decline6PB,
+            self.friendMenuUI.FM_Decline7PB,
+            self.friendMenuUI.FM_Decline8PB,
+            self.friendMenuUI.FM_Decline9PB,
+            self.friendMenuUI.FM_Decline10PB
+        ]
+        for i, label in enumerate(friend_request_labels):
+            if label.text() == from_user:
+                label.setText("")
+                accept_buttons[i].setVisible(False)
+                decline_buttons[i].setVisible(False)
+                break
+
+
     
     #NOTIFICATION WINDOW
     def open_notification_window(self):
@@ -893,67 +1056,6 @@ class MainApp:
 
    
     
-    #FRIEND MENU
-    def openMainPageFromFriendMenu(self):
-        self.friendMenuWindow.close()
-        self.mainPageWindow.show()
-    def openAccountSettingsFromFrienMenu(self):
-        self.friendMenuWindow.close()
-        self.accountSettingsWindow.show()
-    
-    def openHomePageFromFriendMenu(self):
-        try:
-            response = requests.post('http://127.0.0.1:5000/logout')
-            if response.status_code == 200:
-                self.show_success_message("Logged out successfully")
-                # Reset displayed_users list
-                self.displayed_users = set()
-            else:
-                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message("Logout failed", f"An error occurred: {e}")
-
-        # Close the Friend Menu window and show the Home Page window
-        self.friendMenuWindow.close()
-        self.homePageWindow.show()
-
-
-    def fetch_pending_friend_requests(self):
-        username = self.logInUI.username  # Get the logged-in username
-
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests', params={'username': username})
-            if response.status_code == 200:
-                pending_requests = response.json().get('pending_requests', [])
-                self.display_pending_friend_requests(pending_requests)
-            else:
-                print(f"Error: Received status code {response.status_code}")
-                print(f"Response content: {response.content}")
-                self.show_error_message("Failed to fetch pending friend requests.")
-        except requests.exceptions.RequestException as e:
-            print(f"Request exception: {str(e)}")
-            self.show_error_message(f"Request failed: {str(e)}")
-
-    def display_pending_friend_requests(self, pending_requests):
-        _translate = QtCore.QCoreApplication.translate
-        friend_request_labels = [
-            self.friendMenuUI.FM_FriendRequest1,
-            self.friendMenuUI.FM_FriendRequest2,
-            self.friendMenuUI.FM_FriendRequest3,
-            self.friendMenuUI.FM_FriendRequest4,
-            self.friendMenuUI.FM_FriendRequest5,
-            self.friendMenuUI.FM_FriendRequest6,
-            self.friendMenuUI.FM_FriendRequest7,
-            self.friendMenuUI.FM_FriendRequest8,
-            self.friendMenuUI.FM_FriendRequest9,
-            self.friendMenuUI.FM_FriendRequest10
-        ]
-
-        for i, label in enumerate(friend_request_labels):
-            if i < len(pending_requests):
-                label.setText(_translate("FriendMenu", f"{pending_requests[i]}"))
-            else:
-                label.setText(_translate("FriendMenu", ""))
     
 
 

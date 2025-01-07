@@ -369,6 +369,29 @@ def accept_friend_request():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/decline_friend_request', methods=['POST'])
+def decline_friend_request():
+    data = request.get_json()
+    from_user = data.get('from_user')
+    to_user = data.get('to_user')
+
+    if not from_user or not to_user:
+        return jsonify({"error": "Both from_user and to_user are required"}), 400
+
+    try:
+        # Update the status of the friend request to 'rejected'
+        db_cursor.execute(
+            "UPDATE friend_requests SET status = 'rejected' WHERE from_user = %s AND to_user = %s",
+            (from_user, to_user)
+        )
+        db_connection.commit()
+
+        return jsonify({"message": "Friend request declined successfully"}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."})
+
     
 @app.route('/get_users_added', methods=['GET'])
 def get_users_added():
