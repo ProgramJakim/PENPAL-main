@@ -390,7 +390,6 @@ class MainApp:
 
         # Check if all fields are filled
         if not username or not password or not location or not gender or not gmail:
-            self.show_error_message("Please fill in all the required fields.")
             return False  # Indicate that the sign-up process should not continue
 
         # Validate password
