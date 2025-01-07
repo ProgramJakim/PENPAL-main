@@ -803,12 +803,40 @@ class MainApp:
             self.friendMenuUI.FM_FriendRequest9,
             self.friendMenuUI.FM_FriendRequest10
         ]
+        accept_buttons = [
+            self.friendMenuUI.FM_Accept1PB,
+            self.friendMenuUI.FM_Accept2PB,
+            self.friendMenuUI.FM_Accept3PB,
+            self.friendMenuUI.FM_Accept4PB,
+            self.friendMenuUI.FM_Accept5PB,
+            self.friendMenuUI.FM_Accept6PB,
+            self.friendMenuUI.FM_Accept7PB,
+            self.friendMenuUI.FM_Accept8PB,
+            self.friendMenuUI.FM_Accept9PB,
+            self.friendMenuUI.FM_Accept10PB
+        ]
+        decline_buttons = [
+            self.friendMenuUI.FM_Decline1PB,
+            self.friendMenuUI.FM_Decline2PB,
+            self.friendMenuUI.FM_Decline3PB,
+            self.friendMenuUI.FM_Decline4PB,
+            self.friendMenuUI.FM_Decline5PB,
+            self.friendMenuUI.FM_Decline6PB,
+            self.friendMenuUI.FM_Decline7PB,
+            self.friendMenuUI.FM_Decline8PB,
+            self.friendMenuUI.FM_Decline9PB,
+            self.friendMenuUI.FM_Decline10PB
+        ]
 
         for i, label in enumerate(friend_request_labels):
             if i < len(pending_requests):
                 label.setText(_translate("FriendMenu", f"{pending_requests[i]}"))
+                accept_buttons[i].setVisible(True)
+                decline_buttons[i].setVisible(True)
             else:
                 label.setText(_translate("FriendMenu", ""))
+                accept_buttons[i].setVisible(False)
+                decline_buttons[i].setVisible(False)
     
 
     def accept_friend_request(self, from_user):
