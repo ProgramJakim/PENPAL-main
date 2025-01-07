@@ -61,6 +61,8 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `social_media_link` varchar(255) DEFAULT NULL,
   `gmail` varchar(255) DEFAULT NULL
+  `ResetCode` varchar(50) DEFAULT NULL,
+  `ResetCodeExpiry` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
