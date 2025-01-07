@@ -578,19 +578,36 @@ class MainApp:
 
     
     def openMAINPage(self):
-        # Assuming user_id and username are obtained after successful login
-        user_id = self.logInUI.user_id  # Replace with actual user_id
-        username = self.logInUI.username  # Replace with actual username
+        username = self.logInUI.LI_UsernameLE.text()
+        password = self.logInUI.LI_PasswordLE.text()
 
-        # Set user info in the main page UI
-        self.mainPageUI.set_user_info(user_id, username)
+        data = {
+            'username': username,
+            'password': password
+        }
 
-        # Show the main page window
-        self.logInWindow.close()
-        self.mainPageWindow.show()
+        try:
+            response = requests.post('http://127.0.0.1:5000/login', json=data)
+            if response.status_code == 200:
+                user_data = response.json()
+                self.logInUI.user_id = user_data['user_id']
+                self.logInUI.username = user_data['username']
 
-        # Load the first user immediately
-        self.load_next_user()
+                # Set user info in the main page UI
+                self.mainPageUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
+
+                # Show the main page window
+                self.logInWindow.close()
+                self.mainPageWindow.show()
+
+                # Load the first user immediately
+                self.load_next_user()
+            else:
+                error_message = response.json().get('error', '')
+                if error_message:
+                    self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
 
     #MAINPAGE methods
 
