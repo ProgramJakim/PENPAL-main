@@ -781,19 +781,22 @@ class MainApp:
         accepted_requests = self.fetch_accepted_friends()  # Call the method to get the list of accepted friends
 
         # Set the data in the notification window
-        self.notificationWindow.set_users_added(users_added)
-        self.notificationWindow.set_accepted_requests(accepted_requests)
+        self.notificationWindow.set_users_added_notification(users_added)
+        self.notificationWindow.set_accepted_requests_notification(accepted_requests)
 
         # Show the notification window
         self.notificationWindow.exec_()
 
     def fetch_users_added(self):
-        # Fetch the list of users added in the system
+        username = self.logInUI.username  # Get the logged-in username
+
         try:
-            response = requests.get('http://127.0.0.1:5000/get_users_added')
+            response = requests.get('http://127.0.0.1:5000/get_users_added_notification', params={'username': username})
             if response.status_code == 200:
                 return response.json().get('users_added', [])
             else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
                 self.show_error_message("Failed to fetch users added.")
                 return []
         except requests.exceptions.RequestException as e:
