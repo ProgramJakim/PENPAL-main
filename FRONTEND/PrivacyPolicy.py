@@ -65,8 +65,7 @@ class Ui_PrivacyPolicy(object):
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(18)
-        font.setBold(True)
-        font.setWeight(75)
+        print(f"Setting font size for PP_PrivacyPolicyLBL: {font.pointSize()}")  # Debug statement
         self.PP_PrivacyPolicyLBL.setFont(font)
         self.PP_PrivacyPolicyLBL.setStyleSheet("color: rgb(122, 12, 12);\n"
 "background: transparent;")
@@ -103,6 +102,7 @@ class Ui_PrivacyPolicy(object):
         font.setBold(True)
         font.setUnderline(True)
         font.setWeight(75)
+        print(f"Setting font size for PP_BackPB: {font.pointSize()}")  # Debug statement
         self.PP_BackPB.setFont(font)
         self.PP_BackPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.PP_BackPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"

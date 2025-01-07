@@ -53,7 +53,8 @@ class SplashScreen(QDialog):
         # Add system name
         self.label = QLabel("Penpal:\nA Social Media\n Friend Recommendation System", self)
         font = QFont()
-        font.setPointSize(30)
+        font.setPointSize(30)  # Ensure the font size is set to a positive value
+        print(f"Setting font size for SplashScreen label: {font.pointSize()}")  # Debug statement
         self.label.setFont(font)
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setStyleSheet("color: white;")  # Set text color to white
@@ -119,36 +120,44 @@ class MainApp:
         # Setup UI for the WelcomePage window
         self.welcomePageUI = Ui_WelcomePage()
         self.welcomePageUI.setupUi(self.welcomePageWindow)
+        self.print_font_sizes(self.welcomePageWindow)
 
 
         # Setup UI for the login window
         self.logInUI = Ui_LogIn()
         self.logInUI.setupUi(self.logInWindow)
+        self.print_font_sizes(self.logInWindow)
 
         # Setup UI for the WelcomePage window
         self.forgotPassUi = Ui_ForgotPassword_Fullpage()
         self.forgotPassUi.setupUi(self.forgotPasswordWindow)
+        self.print_font_sizes(self.forgotPasswordWindow)
 
 
         # Setup UI for the signup window
         self.signUpUI = Ui_SignUp()
         self.signUpUI.setupUi(self.signUpWindow)
+        self.print_font_sizes(self.signUpWindow)
 
          # Define error_message_label for displaying error messages
         self.error_message_label = QLabel(self.signUpWindow)
         self.error_message_label.setStyleSheet("color: red;")
         self.error_message_label.setAlignment(Qt.AlignCenter)
-        self.signUpWindow.layout().addWidget(self.error_message_label)
+        # Ensure the layout is a valid layout before adding the widget
+        if self.signUpWindow.layout() is not None:
+            self.signUpWindow.layout().addWidget(self.error_message_label)
 
 
         # Setup UI for the homepage window
         self.homePageUI = Ui_Homepage()
         self.homePageUI.setupUi(self.homePageWindow)
+        self.print_font_sizes(self.homePageWindow)
 
 
        # Setup UI for the interest page window
         self.interestPageUI = Ui_Interest()
         self.interestPageUI.setupUi(self.interestPageWindow)
+        self.print_font_sizes(self.interestPageWindow)
 
 
         # Setup UI for the main page window
@@ -156,38 +165,51 @@ class MainApp:
         self.mainPageUI.setupUi(self.mainPageWindow)
         self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
         self.displayed_users = set()  # Keep track of displayed users
+        self.print_font_sizes(self.mainPageWindow)
 
 
 
         # Setup UI for the account settings window
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
+        self.print_font_sizes(self.accountSettingsWindow)
         
         # Setup UI for the Change Profile window
         self.changeProfileUI = Ui_ChangeProfile()
         self.changeProfileUI.setupUi(self.changeProfileWindow)
+        self.print_font_sizes(self.changeProfileWindow)
 
 
         # Setup UI for the AboutUS window
         self.aboutUsUI = Ui_AboutUs()
         self.aboutUsUI.setupUi(self.aboutUsWindow)
+        self.print_font_sizes(self.aboutUsWindow)
 
         # Setup UI for the Contact U Window
         self.contactUsUi =  Ui_ContactUs()
         self.contactUsUi.setupUi( self.contactUsWindow)
+        self.print_font_sizes(self.contactUsWindow)
 
         # Setup Ui for the privacyPolicy
         self.privacyPolicyUI = Ui_PrivacyPolicy()
         self.privacyPolicyUI.setupUi(self.privacyPolicyWindow)
+        self.print_font_sizes(self.privacyPolicyWindow)
 
         # Setup Ui for termsConditionsWindow 
         self.termsConditionsUI = Ui_TermsAndCondition()
         self.termsConditionsUI.setupUi(self.termsWindow)
+        self.print_font_sizes(self.termsWindow)
 
          # Setup UI for the friend menu window 
         self.friendMenuUI = Ui_FriendMenu()
         self.friendMenuUI.setupUi(self.friendMenuWindow)
+        self.print_font_sizes(self.friendMenuWindow)
 
+    def print_font_sizes(self, widget):
+        for child in widget.findChildren(QWidget):
+            font = child.font()
+            if font.pointSize() <= 0:
+                print(f"Warning: Font size for widget {child.objectName()} is {font.pointSize()}")
 
 
     def connect_buttons(self):

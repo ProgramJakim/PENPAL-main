@@ -68,7 +68,7 @@ class Ui_Main_Page(object):
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(26)
-        font.setBold(False)
+        print(f"Setting font size for MP_UPusername: {font.pointSize()}")  # Debug statement
         self.MP_UPusername.setFont(font)
         self.MP_UPusername.setStyleSheet("background: transparent; /* Ensures no background color */\n"
 "color: rgb(255, 255, 255); /* White text */\n"
@@ -81,6 +81,7 @@ class Ui_Main_Page(object):
         font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
+        print(f"Setting font size for MP_ProfilePB: {font.pointSize()}")  # Debug statement
         self.MP_ProfilePB.setFont(font)
         self.MP_ProfilePB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.MP_ProfilePB.setStyleSheet("color:rgb(255, 255, 255);\n"
@@ -98,6 +99,7 @@ class Ui_Main_Page(object):
         font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
+        print(f"Setting font size for MP_MenuPB: {font.pointSize()}")  # Debug statement
         self.MP_MenuPB.setFont(font)
         self.MP_MenuPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.MP_MenuPB.setStyleSheet("color:rgb(255, 255, 255);\n"
@@ -115,6 +117,7 @@ class Ui_Main_Page(object):
         font.setPointSize(14)
         font.setBold(True)
         font.setItalic(False)
+        print(f"Setting font size for MP_LogoutPB: {font.pointSize()}")  # Debug statement
         self.MP_LogoutPB.setFont(font)
         self.MP_LogoutPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.MP_LogoutPB.setStyleSheet("color:rgb(255, 255, 255);\n"
@@ -367,6 +370,7 @@ class Ui_Main_Page(object):
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
         font.setBold(False)
+        print(f"Setting font size for MP_DescriptionText: {font.pointSize()}")  # Debug statement
         self.MP_DescriptionText.setFont(font)
         self.MP_DescriptionText.setStyleSheet("color: rgb(190, 121, 40); font-size: 30px;\n"
 "background: transparent;\n"

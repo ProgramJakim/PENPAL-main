@@ -66,6 +66,7 @@ class Ui_Homepage(object):
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
+        print(f"Setting font size for LogIn_2: {font.pointSize()}")  # Debug statement
         self.LogIn_2.setFont(font)
         self.LogIn_2.setCursor(QCursor(Qt.PointingHandCursor))
         self.LogIn_2.setStyleSheet("""
@@ -86,6 +87,10 @@ class Ui_Homepage(object):
         # Create the SignUp button
         self.SignUp = QPushButton("SIGN UP", content_widget)
         self.SignUp.setGeometry(QRect(1130, 516, 200, 60))
+        font = QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(-1)
+        print(f"Setting font size for SignUp: {font.pointSize()}")  # Debug statement
         self.SignUp.setFont(font)
         self.SignUp.setCursor(QCursor(Qt.PointingHandCursor))
         self.SignUp.setStyleSheet("""
@@ -106,6 +111,10 @@ class Ui_Homepage(object):
         # Create the About Us button
         self.AboutUs = QPushButton("About Us", content_widget)
         self.AboutUs.setGeometry(QRect(858, 2131, 150, 45))
+        font = QFont()
+        font.setFamily("Rockwell Condensed")
+        font.setPointSize(-1)
+        print(f"Setting font size for AboutUs: {font.pointSize()}")  # Debug statement
         self.AboutUs.setFont(font)
         self.AboutUs.setCursor(QCursor(Qt.PointingHandCursor))
         self.AboutUs.setStyleSheet("""

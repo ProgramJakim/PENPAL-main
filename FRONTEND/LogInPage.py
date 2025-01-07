@@ -49,6 +49,7 @@ class Ui_LogIn(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for LI_HeaderIcon: {font.pointSize()}")  # Debug statement
         self.LI_HeaderIcon.setFont(font)
         self.LI_HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
@@ -81,6 +82,7 @@ class Ui_LogIn(object):
         font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
+        print(f"Setting font size for LI_StatementLBL: {font.pointSize()}")  # Debug statement
         self.LI_StatementLBL.setFont(font)
         self.LI_StatementLBL.setStyleSheet("color: rgb(122, 12, 12);\n"
 "background: transparent;")
@@ -117,6 +119,7 @@ class Ui_LogIn(object):
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(36)
+        print(f"Setting font size for LI_LogInToPenpal: {font.pointSize()}")  # Debug statement
         self.LI_LogInToPenpal.setFont(font)
         self.LI_LogInToPenpal.setStyleSheet("color: rgb(122, 12, 12);\n"
 "background: transparent;")
@@ -128,6 +131,7 @@ class Ui_LogIn(object):
         font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
+        print(f"Setting font size for LI_UsernameLBL: {font.pointSize()}")  # Debug statement
         self.LI_UsernameLBL.setFont(font)
         self.LI_UsernameLBL.setStyleSheet("color: rgb(122, 12, 12);\n"
 "background: transparent;")
@@ -139,6 +143,7 @@ class Ui_LogIn(object):
         font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
+        print(f"Setting font size for LI_PasswordLBL: {font.pointSize()}")  # Debug statement
         self.LI_PasswordLBL.setFont(font)
         self.LI_PasswordLBL.setStyleSheet("color: rgb(122, 12, 12);\n"
 "background: transparent;")
@@ -162,6 +167,7 @@ class Ui_LogIn(object):
         font.setBold(True)
         font.setUnderline(True)
         font.setWeight(75)
+        print(f"Setting font size for LI_LogInPB: {font.pointSize()}")  # Debug statement
         self.LI_LogInPB.setFont(font)
         self.LI_LogInPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.LI_LogInPB.setStyleSheet("border-color: rgb(229, 141, 118);\n"

@@ -47,6 +47,7 @@ class Ui_Interest(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for HeaderIcon: {font.pointSize()}")  # Debug statement
         self.HeaderIcon.setFont(font)
         self.HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
@@ -80,6 +81,7 @@ class Ui_Interest(object):
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
+        print(f"Setting font size for INTpushButton: {font.pointSize()}")  # Debug statement
         self.INTpushButton.setFont(font)
         self.INTpushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.INTpushButton.setStyleSheet("background:rgb(255, 187, 173);\n"
@@ -114,6 +116,7 @@ class Ui_Interest(object):
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
+        print(f"Setting font size for AUtext1: {font.pointSize()}")  # Debug statement
         self.AUtext1.setFont(font)
         self.AUtext1.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.AUtext1.setStyleSheet("font-size: 30px;\n"
@@ -753,6 +756,7 @@ class Ui_Interest(object):
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
+        print(f"Setting font size for INTpushButton: {font.pointSize()}")  # Debug statement
         self.INTpushButton.setFont(font)
         self.INTpushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.INTpushButton.setStyleSheet("background:rgb(255, 187, 173);\n"

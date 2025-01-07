@@ -43,6 +43,7 @@ class Ui_OTP_Fullpage(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for OTP_HeaderIcon: {font.pointSize()}")  # Debug statement
         self.OTP_HeaderIcon.setFont(font)
         self.OTP_HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
@@ -68,7 +69,7 @@ class Ui_OTP_Fullpage(object):
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
-        font.setBold(False)
+        print(f"Setting font size for OTP_Word: {font.pointSize()}")  # Debug statement
         self.OTP_Word.setFont(font)
         self.OTP_Word.setStyleSheet("color: rgb(122, 12, 12); font-size: 23px;")
         self.OTP_Word.setObjectName("OTP_Word")
@@ -103,7 +104,7 @@ class Ui_OTP_Fullpage(object):
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
-        font.setBold(False)
+        print(f"Setting font size for label_5: {font.pointSize()}")  # Debug statement
         self.label_5.setFont(font)
         self.label_5.setStyleSheet("color: rgb(220, 97, 88); font-size: 23px;\n"
 "background: transparent;\n"
@@ -120,7 +121,7 @@ class Ui_OTP_Fullpage(object):
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(16)
-        font.setBold(False)
+        print(f"Setting font size for ForgotPassTEXT: {font.pointSize()}")  # Debug statement
         self.ForgotPassTEXT.setFont(font)
         self.ForgotPassTEXT.setStyleSheet("color:rgb(122, 12, 12);")
         self.ForgotPassTEXT.setObjectName("ForgotPassTEXT")
@@ -148,7 +149,7 @@ class Ui_OTP_Fullpage(object):
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
-        font.setBold(False)
+        print(f"Setting font size for OTP_TextWord: {font.pointSize()}")  # Debug statement
         self.OTP_TextWord.setFont(font)
         self.OTP_TextWord.setStyleSheet("color: rgb(122, 12, 12); font-size: 18px;\n"
 "background: transparent;\n"
@@ -178,7 +179,7 @@ class Ui_OTP_Fullpage(object):
         font = QtGui.QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
-        font.setBold(False)
+        print(f"Setting font size for label_6: {font.pointSize()}")  # Debug statement
         self.label_6.setFont(font)
         self.label_6.setStyleSheet("color: rgb(220, 97, 88); font-size: 23px;\n"
 "background: transparent;\n"

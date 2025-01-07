@@ -46,6 +46,7 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for LI_HeaderIcon: {font.pointSize()}")  # Debug statement
         self.LI_HeaderIcon.setFont(font)
         self.LI_HeaderIcon.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
@@ -66,6 +67,7 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for HP_Icon: {font.pointSize()}")  # Debug statement
         self.HP_Icon.setFont(font)
         self.HP_Icon.setStyleSheet("background: transparent;\n"
 "border: clear;")
@@ -78,6 +80,7 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for LI_Icon: {font.pointSize()}")  # Debug statement
         self.LI_Icon.setFont(font)
         self.LI_Icon.setStyleSheet("border: 1px solid transparent;\n"
 "background: transparent;")
@@ -134,6 +137,7 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setFamily("Courier New")
         font.setPointSize(-1)
+        print(f"Setting font size for HPtext5: {font.pointSize()}")  # Debug statement
         self.HPtext5.setFont(font)
         self.HPtext5.setStyleSheet("font-size: 20px;\n"
 "text-align: center;\n"
@@ -151,6 +155,7 @@ class Ui_Dialog(object):
         font.setPointSize(-1)
         font.setBold(True)
         font.setWeight(75)
+        print(f"Setting font size for HPtext3: {font.pointSize()}")  # Debug statement
         self.HPtext3.setFont(font)
         self.HPtext3.setStyleSheet("font-size: 30px;\n"
 "text-align: center;\n"
@@ -168,6 +173,7 @@ class Ui_Dialog(object):
         font.setPointSize(-1)
         font.setBold(True)
         font.setWeight(75)
+        print(f"Setting font size for HPtext4: {font.pointSize()}")  # Debug statement
         self.HPtext4.setFont(font)
         self.HPtext4.setStyleSheet("font-size: 30px;\n"
 "text-align: center;\n"
@@ -192,6 +198,7 @@ class Ui_Dialog(object):
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
+        print(f"Setting font size for Aus: {font.pointSize()}")  # Debug statement
         self.Aus.setFont(font)
         self.Aus.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.Aus.setStyleSheet("font:30px;\n"
@@ -209,6 +216,7 @@ class Ui_Dialog(object):
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
+        print(f"Setting font size for ctu: {font.pointSize()}")  # Debug statement
         self.ctu.setFont(font)
         self.ctu.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.ctu.setStyleSheet("font:30px;\n"
@@ -226,6 +234,7 @@ class Ui_Dialog(object):
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
+        print(f"Setting font size for trmsCon: {font.pointSize()}")  # Debug statement
         self.trmsCon.setFont(font)
         self.trmsCon.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.trmsCon.setStyleSheet("font:30px;\n"
@@ -243,6 +252,7 @@ class Ui_Dialog(object):
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
+        print(f"Setting font size for priPly: {font.pointSize()}")  # Debug statement
         self.priPly.setFont(font)
         self.priPly.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.priPly.setStyleSheet("font:30px;\n"
@@ -257,6 +267,7 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for Shape1: {font.pointSize()}")  # Debug statement
         self.Shape1.setFont(font)
         self.Shape1.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;\n"
@@ -270,6 +281,7 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for RV_FBT1: {font.pointSize()}")  # Debug statement
         self.RV_FBT1.setFont(font)
         self.RV_FBT1.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;\n"
@@ -283,6 +295,7 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for RV_FBT2: {font.pointSize()}")  # Debug statement
         self.RV_FBT2.setFont(font)
         self.RV_FBT2.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;\n"
@@ -305,6 +318,7 @@ class Ui_Dialog(object):
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
+        print(f"Setting font size for SendReview: {font.pointSize()}")  # Debug statement
         self.SendReview.setFont(font)
         self.SendReview.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SendReview.setStyleSheet("font:25px;\n"

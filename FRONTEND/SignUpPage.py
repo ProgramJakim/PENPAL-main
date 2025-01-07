@@ -85,6 +85,7 @@ class Ui_SignUp(object):
         font = QtGui.QFont()
         font.setFamily("Lucida Handwriting")
         font.setPointSize(28)
+        print(f"Setting font size for SU_WelcomeBackLBL: {font.pointSize()}")  # Debug statement
         self.SU_WelcomeBackLBL.setFont(font)
         self.SU_WelcomeBackLBL.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
@@ -107,6 +108,11 @@ class Ui_SignUp(object):
 "text-color: #E58D76;\n"
 "\n"
 "")
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(9)
+        print(f"Setting font size for SU_LogInPB: {font.pointSize()}")  # Debug statement
+        self.SU_LogInPB.setFont(font)
         self.SU_LogInPB.setObjectName("SU_LogInPB")
         
 #Icon Image
@@ -127,6 +133,7 @@ class Ui_SignUp(object):
         font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
+        print(f"Setting font size for SU_UsernameLBL: {font.pointSize()}")  # Debug statement
         self.SU_UsernameLBL.setFont(font)
         self.SU_UsernameLBL.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
@@ -140,6 +147,7 @@ class Ui_SignUp(object):
         font.setPointSize(16)
         font.setBold(True)
         font.setWeight(75)
+        print(f"Setting font size for SU_PasswordLBL: {font.pointSize()}")  # Debug statement
         self.SU_PasswordLBL.setFont(font)
         self.SU_PasswordLBL.setStyleSheet("color: rgb(98, 65, 66);\n"
 "background: transparent;")
@@ -175,6 +183,11 @@ class Ui_SignUp(object):
 "box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);\n"
 "background: transparent;\n"
 "")
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(9)
+        print(f"Setting font size for SU_SignUpPB: {font.pointSize()}")  # Debug statement
+        self.SU_SignUpPB.setFont(font)
         self.SU_SignUpPB.setObjectName("SU_SignUpPB")
 
 
