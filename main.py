@@ -934,26 +934,37 @@ class MainApp:
             print(f"Request exception: {str(e)}")
             self.show_error_message(f"Request failed: {str(e)}")
 
+
     def display_pending_friend_requests(self, pending_requests):
         _translate = QtCore.QCoreApplication.translate
         friend_request_labels = [
-            self.friendMenuUI.FM_FriendRequest1,
-            self.friendMenuUI.FM_FriendRequest2,
-            self.friendMenuUI.FM_FriendRequest3,
-            self.friendMenuUI.FM_FriendRequest4,
-            self.friendMenuUI.FM_FriendRequest5,
-            self.friendMenuUI.FM_FriendRequest6,
-            self.friendMenuUI.FM_FriendRequest7,
-            self.friendMenuUI.FM_FriendRequest8,
-            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest1, self.friendMenuUI.FM_FriendRequest2, self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4, self.friendMenuUI.FM_FriendRequest5, self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7, self.friendMenuUI.FM_FriendRequest8, self.friendMenuUI.FM_FriendRequest9,
             self.friendMenuUI.FM_FriendRequest10
+        ]
+        accept_buttons = [
+            self.friendMenuUI.FM_Accept1PB, self.friendMenuUI.FM_Accept2PB, self.friendMenuUI.FM_Accept3PB,
+            self.friendMenuUI.FM_Accept4PB, self.friendMenuUI.FM_Accept5PB, self.friendMenuUI.FM_Accept6PB,
+            self.friendMenuUI.FM_Accept7PB, self.friendMenuUI.FM_Accept8PB, self.friendMenuUI.FM_Accept9PB,
+            self.friendMenuUI.FM_Accept10PB
+        ]
+        decline_buttons = [
+            self.friendMenuUI.FM_Decline1PB, self.friendMenuUI.FM_Decline2PB, self.friendMenuUI.FM_Decline3PB,
+            self.friendMenuUI.FM_Decline4PB, self.friendMenuUI.FM_Decline5PB, self.friendMenuUI.FM_Decline6PB,
+            self.friendMenuUI.FM_Decline7PB, self.friendMenuUI.FM_Decline8PB, self.friendMenuUI.FM_Decline9PB,
+            self.friendMenuUI.FM_Decline10PB
         ]
 
         for i, label in enumerate(friend_request_labels):
             if i < len(pending_requests):
                 label.setText(_translate("FriendMenu", f"{pending_requests[i]}"))
+                accept_buttons[i].setVisible(True)
+                decline_buttons[i].setVisible(True)
             else:
-                label.setText(_translate("FriendMenu", ""))
+                label.setText("")
+                accept_buttons[i].setVisible(False)
+                decline_buttons[i].setVisible(False)
     
 
 
