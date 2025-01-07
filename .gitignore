@@ -1,2 +1,5 @@
 flask_session
 __pycache__
+credentials.bak
+credentials.dat
+credentials.dir
