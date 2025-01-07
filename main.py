@@ -106,13 +106,20 @@ class MainApp:
         self.forgotPasswordWindow = QWidget()
         self.friendMenuWindow = QDialog()
         self.changeProfileWindow = QDialog()
-       
+        self.initUI()
 
         # Setup UI for all windows
         self.setup_ui()
 
         # Connect buttons to their respective methods
         self.connect_buttons()
+
+    def initUI(self):
+        # Initialize and set up the account settings window
+        self.accountSettings_ui = Ui_AccountSettings()
+        self.accountSettings_ui.setupUi(self.accountSettingsWindow)
+        self.accountSettings_ui.mainPageWindow = self.mainPageWindow  # Pass the main window reference
+        self.accountSettings_ui.username = "example_username"  # Set the username attribute
 
 
     def setup_ui(self):
@@ -236,6 +243,7 @@ class MainApp:
 
         # InterestPage buttons
         self.interestPageUI.INTpushButton.clicked.connect(self.on_done_clicked)
+  
          # Dictionary to keep track of click counts
         self.click_counts = {
                 "pushButton_1": 0,
@@ -289,7 +297,9 @@ class MainApp:
         self.accountSettingsUI.AS_MenuPB.clicked.connect(self.openFriendMenuFromAccountSettings)
         self.accountSettingsUI.AS_LogOutPB.clicked.connect(self.openHomepageFromAccountSettings)
         self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
-
+        # Connect the save changes button to the change_social_link method
+        self.accountSettingsUI.AS_SaveChangesPB.clicked.connect(self.save_changes)
+    
         # FriendMenu Buttons
         self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
         self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
@@ -667,14 +677,38 @@ class MainApp:
             else:
                 self.show_error_message("Logout failed", "Failed to log out. Please try again.")
         except requests.exceptions.RequestException as e:
-            self.show_error_message("Logout failed", f"An error occurred: {e}")
-            
+            self.show_error_message("Logout failed", f"An error occurred: {e}")         
         self.accountSettingsWindow.close()
         self.homePageWindow.show()
+
     def openChangeProfileFromAccountSettings(self):
         self.changeProfileUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.accountSettingsWindow.close()
         self.changeProfileWindow.show()
+
+    def save_changes(self):
+        new_email = self.accountSettingsUI.AS_EnterNewEmLE.text()
+        confirm_email = self.accountSettingsUI.AS_ConfirmNewEmLE_.text()
+        if new_email == confirm_email:
+            print(f"New email: {new_email}, Confirm email: {confirm_email}")
+            self.accountSettingsUI.change_email(new_email, confirm_email)
+        else:
+            print("email do not match. Please try again.")
+
+        new_social_link = self.accountSettingsUI.AS_EnterNewSocialLinkLE.text()
+        confirm_social_link = self.accountSettingsUI.AS_ConfirmNewSocialLinkLE.text()
+        if new_social_link == confirm_social_link:
+            print(f"New social link: {new_social_link}, Confirm social link: {confirm_social_link}")
+            self.accountSettingsUI.change_social_link(new_social_link, confirm_social_link)
+        else:
+            print("Social links do not match. Please try again.")
+
+
+    def go_to_home_page(self):
+        if self.accountSettingsWindow:
+            self.accountSettingsWindow.close()
+        if self.homePageWindow:
+            self.homePageWindow.show()
 
     # FriendMenu methods
     def openMainPageFromFriendMenu(self):
@@ -686,11 +720,19 @@ class MainApp:
     def openHomePageFromFriendMenu(self):
         self.friendMenuWindow.close()
         self.homePageWindow.show()
+    def openFriendMenu(self):
+        self.friendMenuUI.load_friends(self.logInUI.username)
+        self.mainPageWindow.close()
+        self.friendMenuWindow.show()
 
     # ChangeProifle methods
     def openAccountSettingsFromChangeProfile(self):
         self.changeProfileWindow.close()
         self.accountSettingsWindow.show()
+
+    
+
+    
 
 
     def run(self):
