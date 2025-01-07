@@ -533,6 +533,7 @@ class Ui_Main_Page(object):
         self.interestButton.toggled.connect(lambda: self.toggle_button(self.interestButton))
         self.locationButton.toggled.connect(lambda: self.toggle_button(self.locationButton))
         self.mutualFriendsButton.toggled.connect(lambda: self.toggle_button(self.mutualFriendsButton))
+        self.MP_RightArrow.clicked.connect(self.load_recommendations)
         
        
        
@@ -619,7 +620,65 @@ class Ui_Main_Page(object):
             print(f"Error fetching username: {e}")
             return "Unknown User"
         
- #RECOMMENDED USERS DISPLAY 
+    def load_recommendations(self):
+        if self.interestButton.isChecked():
+            self.recommend_friends_by_interests()
+        elif self.locationButton.isChecked():
+            self.recommend_friends_by_location()
+        elif self.mutualFriendsButton.isChecked():
+            self.recommend_friends_by_mutual_friends()
+
+    def recommend_friends_by_interests(self):
+        username = self.MP_UPusername.text()
+        try:
+            response = requests.get('http://127.0.0.1:5000/recommend_friends_by_interests', params={'username': username})
+            if response.status_code == 200:
+                recommendations = response.json().get('recommendations', [])
+                self.display_recommendations(recommendations)
+            else:
+                self.show_error_message("Failed to fetch recommendations.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def recommend_friends_by_location(self):
+        username = self.MP_UPusername.text()
+        try:
+            response = requests.get('http://127.0.0.1:5000/recommend_friends_by_location', params={'username': username})
+            if response.status_code == 200:
+                recommendations = response.json().get('recommendations', [])
+                self.display_recommendations(recommendations)
+            else:
+                self.show_error_message("Failed to fetch recommendations.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def recommend_friends_by_mutual_friends(self):
+        username = self.MP_UPusername.text()
+        try:
+            response = requests.get('http://127.0.0.1:5000/recommend_friends_by_mutual_friends', params={'username': username})
+            if response.status_code == 200:
+                recommendations = response.json().get('recommendations', [])
+                self.display_recommendations(recommendations)
+            else:
+                self.show_error_message("Failed to fetch recommendations.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def display_recommendations(self, recommendations):
+        if recommendations:
+            self.MP_Username.setText(recommendations[0])
+            # Update other UI elements with user data as needed
+        else:
+            self.show_error_message("No recommendations available.")
+
+    def show_error_message(self, message):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Critical)
+        msg.setText(message)
+        msg.setWindowTitle("Error")
+        msg.exec_()
+
+#RECOMMENDED USERS DISPLAY 
   
 
 

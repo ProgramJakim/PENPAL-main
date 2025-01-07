@@ -5,6 +5,7 @@ from passlib.hash import argon2
 import logging
 from mysql.connector import errorcode
 from argon2 import PasswordHasher
+from recomMENUCODE import SocialMediaGraph
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -26,6 +27,7 @@ db_connection = mysql.connector.connect(
 db_cursor = db_connection.cursor()
 
 ph = PasswordHasher()  # Initialize Argon2 Password Hasher
+sm_graph = SocialMediaGraph()
 
 @app.route("/sample", methods=['GET'])
 def sample():
@@ -428,10 +430,24 @@ def get_pending_friend_requests_notification():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-    
 
-    
+@app.route('/recommend_friends_by_interests', methods=['GET'])
+def recommend_friends_by_interests():
+    username = request.args.get('username')
+    recommendations = sm_graph.recommend_friends_by_interests(username)
+    return jsonify({"recommendations": recommendations})
 
+@app.route('/recommend_friends_by_location', methods=['GET'])
+def recommend_friends_by_location():
+    username = request.args.get('username')
+    recommendations = sm_graph.recommend_friends_by_location(username)
+    return jsonify({"recommendations": recommendations})
+
+@app.route('/recommend_friends_by_mutual_friends', methods=['GET'])
+def recommend_friends_by_mutual_friends():
+    username = request.args.get('username')
+    recommendations = sm_graph.recommend_friends_by_mutual_friends(username)
+    return jsonify({"recommendations": recommendations})
 
 if __name__ == '__main__':
     app.run(debug=True)
