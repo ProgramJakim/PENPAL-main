@@ -824,6 +824,13 @@ class Ui_AccountSettings(object):
         else:
             print("Social links do not match. Please try again.")
 
+    def change_email(self, new_email, confirm_email):
+        if new_email == confirm_email:
+            self.update_email_in_server(new_email)
+            self.AS_EmailDisplay.setText(new_email)
+        else:
+            print("Emails do not match. Please try again.")
+
         
     def get_preferences_from_server(self):
         try:
@@ -868,11 +875,29 @@ class Ui_AccountSettings(object):
             print(f"Error deleting account: {e}")
             QtWidgets.QMessageBox.critical(self.AccountSettings, "Error", f"Error deleting account: {e}")
 
+
+    def update_email_in_server(self, new_email):
+        try:
+            print(f"Sending request to update email to: {new_email}")
+            response = requests.post("http://localhost:5000/update_user_email", json={"username": self.username, "email": new_email})
+            print(f"Response status code: {response.status_code}, Response text: {response.text}")
+            if response.status_code == 200:
+                print("Email updated successfully.")
+            else:
+                print(f"Failed to update email. Status code: {response.status_code}, Response: {response.text}")
+        except requests.RequestException as e:
+            print(f"Error updating email: {e}")
+
     def save_changes(self):
         new_social_link = self.AS_EnterNewSocialLinkLE.text()
         confirm_social_link = self.AS_ConfirmNewSocialLinkLE.text()
         self.change_social_link(new_social_link, confirm_social_link)
         self.display_social_link()
+
+        new_email = self.AS_EnterNewEmLE.text()
+        confirm_email = self.AS_ConfirmNewEmLE_.text()
+        self.change_email(new_email, confirm_email)
+        self.display_email()
 
 if __name__ == "__main__":
     import sys

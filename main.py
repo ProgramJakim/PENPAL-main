@@ -299,7 +299,7 @@ class MainApp:
         self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
         # Connect the save changes button to the change_social_link method
         self.accountSettingsUI.AS_SaveChangesPB.clicked.connect(self.save_changes)
-
+    
         # FriendMenu Buttons
         self.friendMenuUI.FM_HomePB.clicked.connect(self.openMainPageFromFriendMenu)
         self.friendMenuUI.FM_LogOutPB.clicked.connect(self.openHomePageFromFriendMenu)
@@ -687,6 +687,14 @@ class MainApp:
         self.changeProfileWindow.show()
 
     def save_changes(self):
+        new_email = self.accountSettingsUI.AS_EnterNewEmLE.text()
+        confirm_email = self.accountSettingsUI.AS_ConfirmNewEmLE_.text()
+        if new_email == confirm_email:
+            print(f"New email: {new_email}, Confirm email: {confirm_email}")
+            self.accountSettingsUI.change_email(new_email, confirm_email)
+        else:
+            print("email do not match. Please try again.")
+
         new_social_link = self.accountSettingsUI.AS_EnterNewSocialLinkLE.text()
         confirm_social_link = self.accountSettingsUI.AS_ConfirmNewSocialLinkLE.text()
         if new_social_link == confirm_social_link:
