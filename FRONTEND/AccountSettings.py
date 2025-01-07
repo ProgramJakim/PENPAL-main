@@ -13,6 +13,10 @@ from PyQt5.QtWidgets import QMessageBox
 import os
 import sys
 import requests
+import hashlib
+from argon2 import PasswordHasher
+
+ph = PasswordHasher()
 
 # Get the absolute path of the current directory
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -824,12 +828,6 @@ class Ui_AccountSettings(object):
         else:
             print("Social links do not match. Please try again.")
 
-    def change_email(self, new_email, confirm_email):
-        if new_email == confirm_email:
-            self.update_email_in_server(new_email)
-            self.AS_EmailDisplay.setText(new_email)
-        else:
-            print("Emails do not match. Please try again.")
 
         
     def get_preferences_from_server(self):
@@ -888,6 +886,35 @@ class Ui_AccountSettings(object):
         except requests.RequestException as e:
             print(f"Error updating email: {e}")
 
+    def update_password_in_server(self, hashed_password):
+        try:
+            response = requests.post("http://localhost:5000/update_user_password", json={"username": self.username, "password": hashed_password})
+            if response.status_code == 200:
+                print("Password updated successfully.")
+            else:
+                print("Failed to update password.")
+        except requests.RequestException as e:
+            print(f"Error updating password: {e}")
+            
+    def display_password(self):
+        pass
+
+    def change_email(self, new_email, confirm_email):
+        if new_email == confirm_email:
+            self.update_email_in_server(new_email)
+            self.AS_EmailDisplay.setText(new_email)
+        else:
+            print("Emails do not match. Please try again.") 
+
+    def change_password(self, new_password, confirm_password):
+        if new_password == confirm_password:
+            hashed_password = ph.hash(new_password)
+            self.update_password_in_server(hashed_password)
+            QtWidgets.QMessageBox.information(self.AccountSettings, "Success", "Password updated successfully")
+        else:
+            print("Passwords do not match. Please try again.")
+
+
     def save_changes(self):
         new_social_link = self.AS_EnterNewSocialLinkLE.text()
         confirm_social_link = self.AS_ConfirmNewSocialLinkLE.text()
@@ -898,6 +925,12 @@ class Ui_AccountSettings(object):
         confirm_email = self.AS_ConfirmNewEmLE_.text()
         self.change_email(new_email, confirm_email)
         self.display_email()
+
+        new_password = self.AS_EnterNewPassLE.text()
+        confirm_password = self.AS_EnterNewPassLE.text()
+        self.change_password(new_password, confirm_password)
+
+        
 
 if __name__ == "__main__":
     import sys

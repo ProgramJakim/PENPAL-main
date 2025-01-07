@@ -703,6 +703,17 @@ class MainApp:
         else:
             print("Social links do not match. Please try again.")
 
+        new_password = self.accountSettingsUI.AS_EnterNewPassLE.text()
+        confirm_password = self.accountSettingsUI.AS_ConfirmNewPass.text()
+        if new_password == confirm_password:
+            print(f"New password: {new_password}, Confirm password: {confirm_password}")
+            self.accountSettingsUI.change_password(new_password, confirm_password)
+        else:
+            print("Passwords do not match. Please try again.")
+
+    def display_password_change_success(self):
+        print("Password updated successfully in the system.")
+    # Update any UI elements or application state as needed
 
     def go_to_home_page(self):
         if self.accountSettingsWindow:
