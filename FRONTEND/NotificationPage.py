@@ -127,28 +127,36 @@ class NotificationWindow(QDialog):
         """)  # Set container background to white and customize scrollbar
 
 
-    def set_users_added(self, users):
+    def set_users_added_notification(self, users):
         self.users_added_list.clear()
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
         for user in users:
+<<<<<<< HEAD
             item_text = f"You add {user}!"
+=======
+            item_text = f"You added {user}!"
+>>>>>>> draft
             item = QListWidgetItem(self.users_added_list)
             widget = ListItemWidget(item_text, image_path)
             item.setSizeHint(widget.sizeHint())
             self.users_added_list.setItemWidget(item, widget)
 
-    def set_accepted_requests(self, requests):
+    def set_accepted_requests_notification(self, requests):
         self.accepted_requests_list.clear()
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
         for username in requests:
-            item_text = f"{username} Accepted you! You're now friends"
+            item_text = f"You're now friends with {username}! "
             item = QListWidgetItem(self.accepted_requests_list)
             widget = ListItemWidget(item_text, image_path)
             item.setSizeHint(widget.sizeHint())
             self.accepted_requests_list.setItemWidget(item, widget)
 
 
+<<<<<<< HEAD
     def set_pending_requests(self, requests):
+=======
+    def set_pending_requests_notification(self, requests):
+>>>>>>> draft
         self.pending_requests_list.clear()
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
         print(f"Setting pending requests: {requests}")  # Debugging line
