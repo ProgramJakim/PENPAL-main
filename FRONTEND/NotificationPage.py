@@ -131,11 +131,7 @@ class NotificationWindow(QDialog):
         self.users_added_list.clear()
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
         for user in users:
-<<<<<<< HEAD
-            item_text = f"You add {user}!"
-=======
             item_text = f"You added {user}!"
->>>>>>> draft
             item = QListWidgetItem(self.users_added_list)
             widget = ListItemWidget(item_text, image_path)
             item.setSizeHint(widget.sizeHint())
@@ -152,11 +148,7 @@ class NotificationWindow(QDialog):
             self.accepted_requests_list.setItemWidget(item, widget)
 
 
-<<<<<<< HEAD
-    def set_pending_requests(self, requests):
-=======
     def set_pending_requests_notification(self, requests):
->>>>>>> draft
         self.pending_requests_list.clear()
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
         print(f"Setting pending requests: {requests}")  # Debugging line
