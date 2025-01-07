@@ -202,7 +202,7 @@ class Ui_OTP_Fullpage(object):
         self.OTP_Word.setText(_translate("OTP_Fullpage", "OTP:"))
         self.label_5.setText(_translate("OTP_Fullpage", "SUBMIT"))
         self.ForgotPassTEXT.setText(_translate("OTP_Fullpage", "FORGOT PASSWORD"))
-        self.OTP_TextWord.setText(_translate("OTP_Fullpage", "Please check your email address for the  Required OTP to verify your account."))
+        self.OTP_TextWord.setText(_translate("OTP_Fullpage", "Please check your email address for the Required OTP to verify your account."))
         self.label_6.setText(_translate("OTP_Fullpage", "RESEND"))
 
 
