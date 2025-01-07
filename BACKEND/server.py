@@ -411,7 +411,7 @@ def get_users_added_notification():
         return jsonify({"error": "Username is required"}), 400
 
     try:
-        db_cursor.execute("SELECT to_user FROM friend_requests WHERE from_user = %s AND status = 'accepted'", (username,))
+        db_cursor.execute("SELECT to_user FROM friend_requests WHERE from_user = %s AND status IN ('accepted', 'pending', 'rejected')", (username,))
         users_added = [row[0] for row in db_cursor.fetchall()]
         return jsonify({"users_added": users_added}), 200
     except mysql.connector.Error as err:

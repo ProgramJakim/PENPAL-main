@@ -141,7 +141,7 @@ class NotificationWindow(QDialog):
         self.accepted_requests_list.clear()
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
         for username in requests:
-            item_text = f"{username} Accepted you! You're now friends"
+            item_text = f"You're now friends with {username}! "
             item = QListWidgetItem(self.accepted_requests_list)
             widget = ListItemWidget(item_text, image_path)
             item.setSizeHint(widget.sizeHint())
