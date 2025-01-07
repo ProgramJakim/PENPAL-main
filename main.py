@@ -779,24 +779,6 @@ class MainApp:
             if label.text() == "":
                 label.setText(accepted_friend)
                 break
-<<<<<<< HEAD
-   
-   #NOTIFICATION WINDOW
-    def open_notification_window(self):
-        # Fetch notifications data
-        username = self.logInUI.username  # Get the logged-in username
-        users_added = self.fetch_users_added(username)
-        accepted_requests = self.fetch_accepted_friends()  # Call the method to get the list of accepted friends
-        pending_requests = self.fetch_pending_friend_requests()  # Fetch pending friend requests
-
-        # Set the data in the notification window
-        self.notificationWindow.set_users_added(users_added)
-        self.notificationWindow.set_accepted_requests(accepted_requests)
-        self.notificationWindow.set_pending_requests(pending_requests or [])
-
-        # Set the data in the friend menu
-        self.display_pending_friend_requests(pending_requests)
-=======
     
     #NOTIFICATION WINDOW
     def open_notification_window(self):
@@ -810,17 +792,10 @@ class MainApp:
         self.notificationWindow.set_users_added_notification(users_added)
         self.notificationWindow.set_accepted_requests_notification(accepted_requests)
         self.notificationWindow.set_pending_requests_notification(pending_requests or [])
->>>>>>> draft
 
         # Show the notification window
         self.notificationWindow.exec_()
 
-<<<<<<< HEAD
-    def fetch_users_added(self, username):
-        # Fetch the list of users added by the currently logged-in user
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_users_added', params={'username': username})
-=======
 
 
     def fetch_users_added_notification(self):
@@ -828,7 +803,6 @@ class MainApp:
 
         try:
             response = requests.get('http://127.0.0.1:5000/get_users_added_notification', params={'username': username})
->>>>>>> draft
             if response.status_code == 200:
                 return response.json().get('users_added', [])
             else:
@@ -859,10 +833,6 @@ class MainApp:
             self.show_error_message(f"Request failed: {str(e)}")
             return []
         
-<<<<<<< HEAD
-            
-=======
->>>>>>> draft
 
     def display_accepted_friends(self, accepted_friends):
         accepted_friends_labels = [

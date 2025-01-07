@@ -408,22 +408,6 @@ def get_accepted_friends():
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
     
-<<<<<<< HEAD
-@app.route('/get_all_users_interests', methods=['GET'])
-def get_all_users_interests():
-    try:
-        db_cursor.execute("SELECT username, interest FROM user_interests")
-        user_interests = db_cursor.fetchall()
-        interests_dict = {}
-        for username, interest in user_interests:
-            if username not in interests_dict:
-                interests_dict[username] = []
-            interests_dict[username].append(interest)
-        return jsonify({"user_interests": interests_dict}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
-=======
 @app.route('/get_users_added_notification', methods=['GET'])
 def get_users_added_notification():
     username = request.args.get('username')  # Get the currently logged-in username from the request
@@ -456,7 +440,6 @@ def get_pending_friend_requests_notification():
     
 
     
->>>>>>> draft
 
 @app.route('/get_mutual_friends', methods=['GET'])
 def get_mutual_friends():
