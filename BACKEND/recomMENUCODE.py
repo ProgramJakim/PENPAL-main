@@ -1,6 +1,3 @@
-<<<<<<< HEAD:recom.py
-#lagay mo dito iyong mga gui code mo @king or @zyra
-=======
 import mysql.connector  
 import networkx as nx
 import bcrypt
@@ -678,4 +675,3 @@ def main():
 if __name__ == "__main__":
     main()
 
->>>>>>> annie:BACKEND/recomMENUCODE.py
