@@ -404,6 +404,7 @@ def get_accepted_friends():
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
     
 <<<<<<< HEAD
+<<<<<<< HEAD
 @app.route('/get_all_users_interests', methods=['GET'])
 def get_all_users_interests():
     try:
@@ -419,6 +420,8 @@ def get_all_users_interests():
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
 =======
+=======
+>>>>>>> annie
 @app.route('/get_users_added_notification', methods=['GET'])
 def get_users_added_notification():
     username = request.args.get('username')  # Get the currently logged-in username from the request
@@ -451,109 +454,11 @@ def get_pending_friend_requests_notification():
     
 
     
+<<<<<<< HEAD
 >>>>>>> draft
+=======
+>>>>>>> annie
 
-@app.route('/get_mutual_friends', methods=['GET'])
-def get_mutual_friends():
-    username = request.args.get('username')
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
-
-    try:
-        db_cursor.execute("""
-            SELECT user2 FROM friendships WHERE user1 = %s
-            UNION
-            SELECT user1 FROM friendships WHERE user2 = %s
-        """, (username, username))
-        user_friends = [row[0] for row in db_cursor.fetchall()]
-
-        mutual_friends_dict = {}
-        for friend in user_friends:
-            db_cursor.execute("""
-                SELECT user2 FROM friendships WHERE user1 = %s
-                UNION
-                SELECT user1 FROM friendships WHERE user2 = %s
-            """, (friend, friend))
-            mutual_friends = [row[0] for row in db_cursor.fetchall() if row[0] != username]
-            mutual_friends_dict[friend] = mutual_friends
-
-        return jsonify({"mutual_friends": mutual_friends_dict}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
-
-@app.route('/get_users_by_location', methods=['GET'])
-def get_users_by_location():
-    location = request.args.get('location')
-    if not location:
-        return jsonify({"error": "Location is required"}), 400
-
-    try:
-        db_cursor.execute("SELECT username FROM users WHERE location = %s", (location,))
-        users = [row[0] for row in db_cursor.fetchall()]
-        return jsonify({"users": users}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
-@app.route('/get_combined_score_users', methods=['GET'])
-def get_combined_score_users():
-    username = request.args.get('username')
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
-
-    try:
-        # Fetch user interests
-        db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
-        user_interests = [row[0] for row in db_cursor.fetchall()]
-
-        # Fetch user friends
-        db_cursor.execute("""
-            SELECT user2 FROM friendships WHERE user1 = %s
-            UNION
-            SELECT user1 FROM friendships WHERE user2 = %s
-        """, (username, username))
-        user_friends = [row[0] for row in db_cursor.fetchall()]
-
-        # Fetch user location
-        db_cursor.execute("SELECT location FROM users WHERE username = %s", (username,))
-        user_location = db_cursor.fetchone()[0]
-
-        # Fetch all users and calculate scores
-        db_cursor.execute("SELECT username, age, gender, location FROM users WHERE username != %s", (username,))
-        all_users = db_cursor.fetchall()
-        user_scores = []
-
-        for user in all_users:
-            other_username, age, gender, location = user
-
-            # Calculate interest score
-            db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (other_username,))
-            other_user_interests = [row[0] for row in db_cursor.fetchall()]
-            common_interests = set(user_interests).intersection(set(other_user_interests))
-            interest_score = len(common_interests)
-
-            # Calculate mutual friends score
-            db_cursor.execute("""
-                SELECT user2 FROM friendships WHERE user1 = %s
-                UNION
-                SELECT user1 FROM friendships WHERE user2 = %s
-            """, (other_username, other_username))
-            other_user_friends = [row[0] for row in db_cursor.fetchall()]
-            mutual_friends = set(user_friends).intersection(set(other_user_friends))
-            mutual_friends_score = len(mutual_friends) * 2
-
-            # Calculate location score
-            location_score = 3 if user_location == location else 0
-
-            # Calculate total score
-            total_score = interest_score + mutual_friends_score + location_score
-            user_scores.append((other_username, total_score))
-
-        sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
-        return jsonify({"sorted_users": sorted_users}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
