@@ -236,6 +236,25 @@ def get_user_interests():
         print(f"Error: {err}")
         return jsonify({"error": "Database error"}), 500
     
+@app.route('/update_user_interests', methods=['POST'])
+def update_user_interests():
+    data = request.get_json()
+    username = data.get('username')
+    interests = data.get('interests')
+
+    if not username or not interests:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    try:
+        db_cursor.execute("DELETE FROM user_interests WHERE username = %s", (username,))
+        for interest in interests:
+            db_cursor.execute("INSERT INTO user_interests (username, interest) VALUES (%s, %s)", (username, interest))
+        db_connection.commit()
+        return jsonify({"message": "Interests updated successfully"}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
 #EMAIL DISPLAY
 
 @app.route('/get_user_email', methods=['GET'])

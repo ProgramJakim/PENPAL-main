@@ -167,6 +167,7 @@ class MainApp:
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
         
+        
         # Setup UI for the Change Profile window
         self.changeProfileUI = Ui_ChangeProfile()
         self.changeProfileUI.setupUi(self.changeProfileWindow)
@@ -338,6 +339,7 @@ class MainApp:
         self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
         # Connect the save changes button to the change_social_link method
         self.accountSettingsUI.AS_SaveChangesPB.clicked.connect(self.save_changes)
+        
 
 
 
@@ -410,6 +412,7 @@ class MainApp:
         location = self.signUpUI.SU_LocationLE.text()
         social_media_link = self.signUpUI.SU_SocialLinkLE.text()
         gmail = self.signUpUI.SU_EmailLE.text()  # New field for Gmail account
+        selected_interests = self.signUpUI.selected_interests  # Retrieve selected interests
 
         # Check if all fields are filled
         if not username or not password or not location or not gender or not gmail:
@@ -431,6 +434,11 @@ class MainApp:
 
         # Get selected interests
         selected_interests = self.get_selected_interests()
+
+        # Check if interests are selected
+        if len(selected_interests) < 5:
+            self.show_error_message("Please select at least five interests.")
+            return False 
 
         # Check if interests are selected
         if len(selected_interests) < 5:
@@ -487,7 +495,11 @@ class MainApp:
                 self.signUpUI.SU_LocationLE.clear()
                 self.signUpUI.SU_SocialLinkLE.clear()
                 self.signUpUI.SU_EmailLE.clear()  # Clear the Gmail field
-
+                self.signUpUI.SU_EmailLE.clear() 
+                # Reset selected interests
+                self.total_clicks = 0
+                self.click_counts = {button_name: 0 for button_name in self.click_counts}
+                self.interestPageUI.placeholderText.setText("0 selected")  # Update the display to show 0 selected
                 self.show_success_message("You can continue creating another account or stay here.")
                 self.clear_error_message()
                 return True  # Indicate that the sign-up process succeeded
@@ -598,9 +610,17 @@ class MainApp:
 
     def on_done_clicked(self):
         selected_interests = self.get_selected_interests()
+        
+        if len(selected_interests) < 5:
+            self.show_error_message("Please select at least five interests.")
+            return
+        
         self.show_selected_interests(selected_interests)
         self.interestPageWindow.close()
         self.signUpWindow.show()
+        
+        # Ensure the selected interests are retained
+        self.signUpUI.selected_interests = selected_interests
 
     
     def openMAINPage(self):
