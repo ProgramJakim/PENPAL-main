@@ -74,7 +74,7 @@ def signup():
         )
         db_connection.commit()
 
-         # Save interests in the user_interests table
+        # Save interests in the user_interests table
         for interest in interests:
             db_cursor.execute(
                 "INSERT INTO user_interests (username, interest) VALUES (%s, %s)",
@@ -83,12 +83,10 @@ def signup():
         db_connection.commit()
         
         logging.info("User account created successfully!")
-        print(f"Hashed password for {username}: {hashed_password}")
         return jsonify({"message": "Account created successfully!"}), 201
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-
 
 def validate_password(password):
     if len(password) < 8:

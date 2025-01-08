@@ -489,7 +489,7 @@ class MainApp:
                 self.signUpUI.SU_EmailLE.clear()  # Clear the Gmail field
 
                 self.show_success_message("You can continue creating another account or stay here.")
-                self.clear_error_message
+                self.clear_error_message()
                 return True  # Indicate that the sign-up process succeeded
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
