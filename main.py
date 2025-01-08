@@ -209,16 +209,18 @@ class MainApp:
         # ForgotPass buttons
         self.forgotPassUi.FPbackButton.clicked.connect(self.openLogInFromForgotPass)
        
-        # SignUpPage buttons
-        self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
+        # SignUpPage buttons neww
         self.signUpUI.SU_InterestPB.clicked.connect(self.openInterestPage)
         self.signUpUI.SU_TermsandPrivacyChB.clicked.connect(self.open_terms_conditions_page_from_signup)
-        try:
-            self.signUpUI.SU_SignUpPB.clicked.disconnect()
-        except TypeError:
-            pass
-        self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup)
-        self.signUpUI.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
+        
+        if hasattr(self.signUpUI.SU_SignUpPB, 'clicked'):
+            try:
+                self.signUpUI.SU_SignUpPB.clicked.disconnect()
+            except TypeError:
+                pass
+        self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup_origin)
+        
+        self.signUpUI.SU_LogInPB.clicked.connect(self.on_sign_up_button_click)
 
         
         # Terms&Conditions Buttons
@@ -400,7 +402,7 @@ class MainApp:
         self.forgotPasswordWindow.close()
         self.logInWindow.show()
 
-    def handle_signup(self):
+    def handle_signup_origin(self):
         print("handle_signup called")  # Debug statement
         username = self.signUpUI.SU_UsernameLE.text()
         password = self.signUpUI.SU_PasswordLE.text()
@@ -474,6 +476,7 @@ class MainApp:
             response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
 
             if response.status_code == 201:
+                self.clear_error_message()  # Clear any existing error messages
                 self.show_success_message("Account created successfully!")
 
                 # Clear the input fields after sign-up
@@ -485,10 +488,8 @@ class MainApp:
                 self.signUpUI.SU_SocialLinkLE.clear()
                 self.signUpUI.SU_EmailLE.clear()  # Clear the Gmail field
 
-                self.clear_error_message()  # Clear any existing error messages
-
                 self.show_success_message("You can continue creating another account or stay here.")
-
+                self.clear_error_message
                 return True  # Indicate that the sign-up process succeeded
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
@@ -533,6 +534,7 @@ class MainApp:
         # Updated pattern to allow periods in the path
         pattern = r"^(https?://)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}(/[\w\-\.]*)*$"
         return bool(re.match(pattern, social_link))
+    
     def on_sign_up_button_click(self):
         if self.handle_signup():  # If sign-up is successful, proceed
            self.backtoLogInPage()
