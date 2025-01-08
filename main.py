@@ -483,6 +483,9 @@ class MainApp:
 
                 self.show_success_message("You can continue creating another account or stay here.")
 
+                # Reset the selected interests count
+                self.reset_selected_interests()
+
                 return True  # Indicate that the sign-up process succeeded
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
@@ -492,6 +495,12 @@ class MainApp:
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
         return False  # Indicate failure
+
+    def reset_selected_interests(self):
+        self.click_counts = {key: 0 for key in self.click_counts}
+        self.total_clicks = 0
+        self.interestPageUI.placeholderText.setText("0 selected")
+
     def clear_error_message(self):
         # Assuming you have a QLabel named error_message_label for displaying error messages
         self.error_message_label.setText("")
