@@ -907,3 +907,5 @@ if __name__ == "__main__":
     ui.setupUi(AccountSettings)
     AccountSettings.show()
     sys.exit(app.exec_())
+
+

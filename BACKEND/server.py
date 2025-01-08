@@ -275,10 +275,20 @@ def get_one_user():
     displayed_users = request.args.getlist('displayed_users')  # Get the list of displayed users
 
     try:
-        # Exclude the current user, logged-in user, and already displayed users
+        # Exclude the current user, logged-in user, already displayed users, friends, and pending friend requests
         placeholders = ', '.join(['%s'] * (len(displayed_users) + 2))
-        query = f"SELECT username, age, gender, location FROM users WHERE username NOT IN ({placeholders}) LIMIT 1"
-        params = [current_username, logged_in_username] + displayed_users
+        query = f"""
+            SELECT username, age, gender, location 
+            FROM users 
+            WHERE username NOT IN ({placeholders})
+            AND username NOT IN (
+                SELECT to_user FROM friend_requests WHERE from_user = %s AND status IN ('pending', 'accepted')
+                UNION
+                SELECT from_user FROM friend_requests WHERE to_user = %s AND status IN ('pending', 'accepted')
+            )
+            LIMIT 1
+        """
+        params = [current_username, logged_in_username] + displayed_users + [logged_in_username, logged_in_username]
         db_cursor.execute(query, params)
         user = db_cursor.fetchone()
         if user:
@@ -296,6 +306,156 @@ def get_one_user():
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
 
+@app.route('/send_friend_request', methods=['POST'])
+def send_friend_request():
+    data = request.get_json()
+    from_user = data.get('from_user')
+    to_user = data.get('to_user')
+
+    if not from_user or not to_user:
+        return jsonify({"error": "Both from_user and to_user are required"}), 400
+
+    try:
+        db_cursor.execute(
+            "INSERT INTO friend_requests (from_user, to_user, status) VALUES (%s, %s, 'pending')",
+            (from_user, to_user)
+        )
+        db_connection.commit()
+        return jsonify({"message": "Friend request sent successfully", "added_user": to_user}), 201
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
+@app.route('/get_pending_friend_requests', methods=['GET'])
+def get_pending_friend_requests():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT from_user FROM friend_requests WHERE to_user = %s AND status = 'pending'", (username,))
+        pending_requests = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"pending_requests": pending_requests}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/accept_friend_request', methods=['POST'])
+def accept_friend_request():
+    data = request.get_json()
+    from_user = data.get('from_user')
+    to_user = data.get('to_user')
+
+    if not from_user or not to_user:
+        return jsonify({"error": "Both from_user and to_user are required"}), 400
+
+    try:
+        # Update the status of the friend request to 'accepted'
+        db_cursor.execute(
+            "UPDATE friend_requests SET status = 'accepted' WHERE from_user = %s AND to_user = %s",
+            (from_user, to_user)
+        )
+        db_connection.commit()
+
+        # Insert the friendship into the friendships table
+        db_cursor.execute(
+            "INSERT INTO friendships (user1, user2) VALUES (%s, %s)",
+            (to_user, from_user)
+        )
+        db_connection.commit()
+
+        return jsonify({"message": "Friend request accepted and friendship recorded successfully"}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/decline_friend_request', methods=['POST'])
+def decline_friend_request():
+    data = request.get_json()
+    from_user = data.get('from_user')
+    to_user = data.get('to_user')
+
+    if not from_user or not to_user:
+        return jsonify({"error": "Both from_user and to_user are required"}), 400
+
+    try:
+        # Update the status of the friend request to 'rejected'
+        db_cursor.execute(
+            "UPDATE friend_requests SET status = 'rejected' WHERE from_user = %s AND to_user = %s",
+            (from_user, to_user)
+        )
+        db_connection.commit()
+
+        return jsonify({"message": "Friend request declined successfully"}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."})
+
+    
+@app.route('/get_users_added', methods=['GET'])
+def get_users_added():
+    try:
+        db_cursor.execute("SELECT username FROM users")
+        users_added = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"users_added": users_added}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+
+
+
+    
+@app.route('/get_accepted_friends', methods=['GET'])
+def get_accepted_friends():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("""
+            SELECT user2 FROM friendships WHERE user1 = %s
+            UNION
+            SELECT user1 FROM friendships WHERE user2 = %s
+        """, (username, username))
+        accepted_friends = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"accepted_friends": accepted_friends}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
+@app.route('/get_users_added_notification', methods=['GET'])
+def get_users_added_notification():
+    username = request.args.get('username')  # Get the currently logged-in username from the request
+
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT to_user FROM friend_requests WHERE from_user = %s AND status IN ('accepted', 'pending', 'rejected')", (username,))
+        users_added = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"users_added": users_added}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
+@app.route('/get_pending_friend_requests_notification', methods=['GET'])
+def get_pending_friend_requests_notification():
+    username = request.args.get('username')
+    
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT from_user FROM friend_requests WHERE to_user = %s AND status = 'pending'", (username,))
+        pending_requests = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"pending_requests": pending_requests}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
 @app.route('/delete_account', methods=['DELETE'])
 def delete_account():
     try:
@@ -388,6 +548,117 @@ def update_user_email():
         logging.error(f"Database error: {err}")
         return jsonify({"error": f"Database error occurred: {err}"}), 500
 
+
+#RECOMMENDATION API
+@app.route('/get_all_users_interests', methods=['GET'])
+def get_all_users_interests():
+    try:
+        db_cursor.execute("SELECT username, interest FROM user_interests")
+        user_interests = {}
+        for row in db_cursor.fetchall():
+            username, interest = row
+            if username not in user_interests:
+                user_interests[username] = []
+            user_interests[username].append(interest)
+        return jsonify({"user_interests": user_interests}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/get_mutual_friends', methods=['GET'])
+def get_mutual_friends():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        # Get friends of the user
+        db_cursor.execute("""
+            SELECT user2 FROM friendships WHERE user1 = %s
+            UNION 
+            SELECT user1 FROM friendships WHERE user2 = %s
+        """, (username, username))
+        friends = {row[0] for row in db_cursor.fetchall()}
+
+        # Get mutual friends
+        mutual_friends = {}
+        for friend in friends:
+            db_cursor.execute("""
+                SELECT user2 FROM friendships WHERE user1 = %s
+                UNION 
+                SELECT user1 FROM friendships WHERE user2 = %s
+            """, (friend, friend))
+            mutual_friends[friend] = [row[0] for row in db_cursor.fetchall() if row[0] != username and row[0] not in friends]
+
+        return jsonify({"mutual_friends": mutual_friends}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/get_users_by_location', methods=['GET'])
+def get_users_by_location():
+    location = request.args.get('location')
+    if not location:
+        return jsonify({"error": "Location is required"}), 400
+
+    try:
+        db_cursor.execute("SELECT username FROM users WHERE location = %s", (location,))
+        users = [row[0] for row in db_cursor.fetchall()]
+        return jsonify({"users": users}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/get_combined_score_users', methods=['GET'])
+def get_combined_score_users():
+    username = request.args.get('username')
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+
+    try:
+        # Fetch user interests
+        db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
+        user_interests = {row[0] for row in db_cursor.fetchall()}
+
+        # Fetch all other users' interests and exclude current friends
+        db_cursor.execute("""
+            SELECT u.username, ui.interest 
+            FROM users u
+            JOIN user_interests ui ON u.username = ui.username
+            WHERE u.username != %s 
+            AND u.username NOT IN (
+                SELECT user2 FROM friendships WHERE user1 = %s
+                UNION
+                SELECT user1 FROM friendships WHERE user2 = %s
+            )
+        """, (username, username, username))
+
+        potential_friends = {}
+        for other_user, interest in db_cursor.fetchall():
+            if other_user not in potential_friends:
+                potential_friends[other_user] = set()
+            potential_friends[other_user].add(interest)
+
+        # Calculate shared interests
+        recommendations = {
+            user: user_interests.intersection(interests)
+            for user, interests in potential_friends.items()
+        }
+
+        # Filter out users with no shared interests and sort by the number of shared interests
+        sorted_recommendations = {
+            user: shared_interests
+            for user, shared_interests in sorted(recommendations.items(), key=lambda item: len(item[1]), reverse=True)
+            if shared_interests
+        }
+
+        return jsonify({"sorted_users": list(sorted_recommendations.items())}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
     
+
+
 if __name__ == '__main__':
     app.run(debug=True)
