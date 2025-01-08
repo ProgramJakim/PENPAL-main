@@ -1,13 +1,13 @@
-#annie
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
-from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
-from PyQt5 import QtCore 
+
 import os
 import sys
 import requests
 import re
 from datetime import datetime
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
+from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
+from PyQt5 import QtCore 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
@@ -213,6 +213,10 @@ class MainApp:
         self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
         self.signUpUI.SU_InterestPB.clicked.connect(self.openInterestPage)
         self.signUpUI.SU_TermsandPrivacyChB.clicked.connect(self.open_terms_conditions_page_from_signup)
+        try:
+            self.signUpUI.SU_SignUpPB.clicked.disconnect()
+        except TypeError:
+            pass
         self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup)
         self.signUpUI.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
 
@@ -396,8 +400,8 @@ class MainApp:
         self.forgotPasswordWindow.close()
         self.logInWindow.show()
 
-    # SignUpPage methods
     def handle_signup(self):
+        print("handle_signup called")  # Debug statement
         username = self.signUpUI.SU_UsernameLE.text()
         password = self.signUpUI.SU_PasswordLE.text()
         gender = self.signUpUI.SU_GenderCB.currentText()
@@ -447,6 +451,7 @@ class MainApp:
         try:
             # First, check if the username exists
             response = requests.post('http://127.0.0.1:5000/check_username', json=data)
+            print(f"Response status code: {response.status_code}")  # Debug statement
 
             if response.status_code == 400:  # Assuming the backend returns 400 if the username exists
                 self.show_error_message("Username already exists. Please choose another username.")
@@ -462,7 +467,7 @@ class MainApp:
                 'location': location,
                 'social_media_link': social_media_link,
                 'gmail': gmail,  # Include the Gmail field in the sign-up data
-                'interests': self.get_selected_interests()  # Include the selected interests
+                'interests': selected_interests  # Include the selected interests
             }
 
             # Send the data to the backend to create the account
@@ -493,6 +498,7 @@ class MainApp:
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
         return False  # Indicate failure
+
     def clear_error_message(self):
         # Assuming you have a QLabel named error_message_label for displaying error messages
         self.error_message_label.setText("")
@@ -536,6 +542,7 @@ class MainApp:
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
+        
     def open_terms_conditions_page_from_signup(self):
         self.signUpWindow.close()
         self.termsWindow.show()
@@ -595,19 +602,42 @@ class MainApp:
 
     
     def openMAINPage(self):
-        # Assuming user_id and username are obtained after successful login
-        user_id = self.logInUI.user_id  # Replace with actual user_id
-        username = self.logInUI.username  # Replace with actual username
+        username = self.logInUI.LI_UsernameLE.text()
+        password = self.logInUI.LI_PasswordLE.text()
 
-        # Set user info in the main page UI
-        self.mainPageUI.set_user_info(user_id, username)
 
-        # Show the main page window
-        self.logInWindow.close()
-        self.mainPageWindow.show()
+        data = {
+            'username': username,
+            'password': password
+        }
 
-        # Load the first user immediately
-        self.load_next_user()
+
+        try:
+            response = requests.post('http://127.0.0.1:5000/login', json=data)
+            if response.status_code == 200:
+                user_data = response.json()
+                self.logInUI.user_id = user_data['user_id']
+                self.logInUI.username = user_data['username']
+
+
+                # Set user info in the main page UI
+                self.mainPageUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
+
+
+                # Show the main page window
+                self.logInWindow.close()
+                self.mainPageWindow.show()
+
+
+                # Load the first user immediately
+                self.load_next_user()
+            else:
+                error_message = response.json().get('error', '')
+                if error_message:
+                    self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
 
     #MAINPAGE methods
 
