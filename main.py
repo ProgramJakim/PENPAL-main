@@ -645,16 +645,26 @@ class MainApp:
         try:
             response = requests.post('http://127.0.0.1:5000/login', json=data)
             if response.status_code == 200:
-                self.mainPageUI.MP_UPusername.setText(username)  # Set the logged-in username
-                self.mainPageUI.set_user_info(self.logInUI.user_id, username)  # Set user info in the main page UI
+                user_data = response.json()
+                self.logInUI.user_id = user_data['user_id']
+                self.logInUI.username = user_data['username']
+
+                # Set user info in the main page UI
+                self.mainPageUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
+
+                # Show the main page window
                 self.logInWindow.close()
                 self.mainPageWindow.show()
-                self.load_next_user()  # Load the first user immediately
+
+                # Load the first user immediately
+                self.load_next_user()
             else:
-                self.show_error_message("Login failed", "Invalid username or password.")
+                error_message = response.json().get('error', '')
+                if error_message:
+                    self.show_error_message(f"Error: {error_message}")
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
-    #...
+
 
 
     #MAINPAGE methods
