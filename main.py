@@ -325,11 +325,14 @@ class MainApp:
 
 
 
-        # AccountSettings Buttons
+       # AccountSettings Buttons
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
         self.accountSettingsUI.AS_MenuPB.clicked.connect(self.openFriendMenuFromAccountSettings)
         self.accountSettingsUI.AS_LogOutPB.clicked.connect(self.openHomepageFromAccountSettings)
         self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
+        # Connect the save changes button to the change_social_link method
+        self.accountSettingsUI.AS_SaveChangesPB.clicked.connect(self.save_changes)
+
 
 
         # ChangeProfile BUttons
@@ -1113,6 +1116,31 @@ class MainApp:
         self.changeProfileUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.accountSettingsWindow.close()
         self.changeProfileWindow.show()
+
+    def save_changes(self):
+        new_email = self.accountSettingsUI.AS_EnterNewEmLE.text()
+        confirm_email = self.accountSettingsUI.AS_ConfirmNewEmLE_.text()
+        if new_email == confirm_email:
+            print(f"New email: {new_email}, Confirm email: {confirm_email}")
+            self.accountSettingsUI.change_email(new_email, confirm_email)
+        else:
+            print("email do not match. Please try again.")
+
+        new_social_link = self.accountSettingsUI.AS_EnterNewSocialLinkLE.text()
+        confirm_social_link = self.accountSettingsUI.AS_ConfirmNewSocialLinkLE.text()
+        if new_social_link == confirm_social_link:
+            print(f"New social link: {new_social_link}, Confirm social link: {confirm_social_link}")
+            self.accountSettingsUI.change_social_link(new_social_link, confirm_social_link)
+        else:
+            print("Social links do not match. Please try again.")
+
+
+    def go_to_home_page(self):
+        if self.accountSettingsWindow:
+            self.accountSettingsWindow.close()
+        if self.homePageWindow:
+            self.homePageWindow.show()
+
 
 
     # ChangeProifle methods
