@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 import os
 import sys
 import requests
@@ -22,10 +23,12 @@ Account_Settings_assets_folder = os.path.join(current_directory, '..', 'resource
 
 class Ui_AccountSettings(object):
     def setupUi(self, AccountSettings):
+        self.AccountSettings = AccountSettings  # Store the AccountSettings object
         AccountSettings.setObjectName("AccountSettings")
         AccountSettings.setFixedSize(1440, 850)
         self.user_id = None
         self.username = None
+        self.AccountSettings = None 
         
 #Header
         self.AS_Header = QtWidgets.QFrame(AccountSettings)
@@ -471,6 +474,7 @@ class Ui_AccountSettings(object):
         self.AS_SaveChangesPB.setStyleSheet("background-color: rgb(255, 187, 173);\n"
 "")
         self.AS_SaveChangesPB.setObjectName("AS_SaveChangesPB")
+        self.AS_SaveChangesPB.clicked.connect(self.save_changes)
         
 #Enter New Password Line Edit (Text Box)
         self.AS_EnterNewPassLE = QtWidgets.QLineEdit(AccountSettings)
@@ -521,6 +525,8 @@ class Ui_AccountSettings(object):
 "color: rgb(255, 255, 255);\n"
 "")
         self.AS_DeleteAccPB.setObjectName("AS_DeleteAccPB")
+         # Connect the button to delete_account method
+        self.AS_DeleteAccPB.clicked.connect(self.delete_account)
         
 #Edit Avatar Push Button
         self.AS_EditAvatarPB = QtWidgets.QPushButton(AccountSettings)
@@ -798,7 +804,33 @@ class Ui_AccountSettings(object):
                 return "Unknown Social Link"
         except requests.RequestException as e:
             print(f"Error fetching social link: {e}")
-            return "Unknown Social Link"
+            return "Unknown Social Link"  
+
+    def update_social_link_in_server(self, new_social_link):
+        try:
+            print(f"Updating social link for user: {self.username} to {new_social_link}")
+            response = requests.post("http://localhost:5000/update_user_social_link", json={"username": self.username, "social_link": new_social_link})
+            if response.status_code == 200:
+                print("Social link updated successfully.")
+            else:
+                print(f"Failed to update social link. Status code: {response.status_code}, Response: {response.text}")
+        except requests.RequestException as e:
+                print(f"Error updating social link: {e}")
+
+    def change_social_link(self, new_social_link, confirm_social_link):
+        if new_social_link == confirm_social_link:
+            self.update_social_link_in_server(new_social_link)
+            self.AS_SocialLinkDisplay.setText(new_social_link)
+        else:
+            print("Social links do not match. Please try again.")
+
+    def change_email(self, new_email, confirm_email):
+        if new_email == confirm_email:
+            self.update_email_in_server(new_email)
+            self.AS_EmailDisplay.setText(new_email)
+        else:
+            print("Emails do not match. Please try again.")
+
         
     def get_preferences_from_server(self):
         try:
@@ -821,6 +853,52 @@ class Ui_AccountSettings(object):
         except requests.RequestException as e:
                 print(f"Error fetching email: {e}")
                 return "Unknown Email"
+        
+    def delete_account(self): #1
+        reply = QMessageBox.question(self.AccountSettings, 'Delete Account', 'Are you sure you want to delete your account?', QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            # Call the method to delete the account from the database
+            self.delete_account_from_database()
+
+            
+    def delete_account_from_database(self):
+        try:
+            response = requests.delete("http://localhost:5000/delete_account", json={"username": self.username})
+            if response.status_code == 200:
+                print("Account deleted successfully")
+                QtWidgets.QMessageBox.information(self.AccountSettings, "Account Deleted", "Your account has been deleted.")
+                self.go_to_home_page() 
+            else:
+                print("Failed to delete account")
+                QtWidgets.QMessageBox.warning(self.AccountSettings, "Error", "Failed to delete account.")
+        except Exception as e:
+            print(f"Error deleting account: {e}")
+            QtWidgets.QMessageBox.critical(self.AccountSettings, "Error", f"Error deleting account: {e}")
+
+
+    def update_email_in_server(self, new_email):
+        try:
+            print(f"Sending request to update email to: {new_email}")
+            response = requests.post("http://localhost:5000/update_user_email", json={"username": self.username, "email": new_email})
+            print(f"Response status code: {response.status_code}, Response text: {response.text}")
+            if response.status_code == 200:
+                print("Email updated successfully.")
+            else:
+                print(f"Failed to update email. Status code: {response.status_code}, Response: {response.text}")
+        except requests.RequestException as e:
+            print(f"Error updating email: {e}")
+
+    def save_changes(self):
+        new_social_link = self.AS_EnterNewSocialLinkLE.text()
+        confirm_social_link = self.AS_ConfirmNewSocialLinkLE.text()
+        self.change_social_link(new_social_link, confirm_social_link)
+        self.display_social_link()
+
+        new_email = self.AS_EnterNewEmLE.text()
+        confirm_email = self.AS_ConfirmNewEmLE_.text()
+        self.change_email(new_email, confirm_email)
+        self.display_email()
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -829,3 +907,5 @@ if __name__ == "__main__":
     ui.setupUi(AccountSettings)
     AccountSettings.show()
     sys.exit(app.exec_())
+
+
