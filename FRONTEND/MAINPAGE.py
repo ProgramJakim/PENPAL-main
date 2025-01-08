@@ -481,6 +481,7 @@ class Ui_Main_Page(object):
 
         
 
+
           # Create toggle buttons
         self.interestButton = QtWidgets.QPushButton(Main_Page)
         self.interestButton.setGeometry(QtCore.QRect(400, 300, 190, 40))
@@ -609,7 +610,7 @@ class Ui_Main_Page(object):
                                 "background: orange;\n"
                                 "")
         #USERNAME DISPLAY
-        self.username = "Default Username"  # Set a default username
+        self.username = ""  # Set a default username
         self.display_username()
 
     def set_user_info(self, user_id, username):

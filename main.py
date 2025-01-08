@@ -637,38 +637,24 @@ class MainApp:
         username = self.logInUI.LI_UsernameLE.text()
         password = self.logInUI.LI_PasswordLE.text()
 
-
         data = {
             'username': username,
             'password': password
         }
 
-
         try:
             response = requests.post('http://127.0.0.1:5000/login', json=data)
             if response.status_code == 200:
-                user_data = response.json()
-                self.logInUI.user_id = user_data['user_id']
-                self.logInUI.username = user_data['username']
-
-
-                # Set user info in the main page UI
-                self.mainPageUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
-
-
-                # Show the main page window
+                self.mainPageUI.MP_UPusername.setText(username)  # Set the logged-in username
+                self.mainPageUI.set_user_info(self.logInUI.user_id, username)  # Set user info in the main page UI
                 self.logInWindow.close()
                 self.mainPageWindow.show()
-
-
-                # Load the first user immediately
-                self.load_next_user()
+                self.load_next_user()  # Load the first user immediately
             else:
-                error_message = response.json().get('error', '')
-                if error_message:
-                    self.show_error_message(f"Error: {error_message}")
+                self.show_error_message("Login failed", "Invalid username or password.")
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
+    #...
 
 
     #MAINPAGE methods
@@ -1144,13 +1130,6 @@ class MainApp:
             self.show_error_message(f"Request failed: {str(e)}")
             return []
         
-    
-
-
-   
-    
-    
-
 
     # AccountSettings methods
     def openMAINPAGEfromAccountSettings(self):
@@ -1283,9 +1262,18 @@ class MainApp:
         self.clear_user_display()
        
         # Display the sorted users
-        for user, score in users:
+        for user in users:
             # Add user details to the UI
             self.mainPageUI.MP_Username.setText(user)
+            self.mainPageUI.MP_Age
+            self.mainPageUI.MP_Gender
+            self.mainPageUI.MP_Location
+            self.mainPageUI.MP_Preference1
+            self.mainPageUI.MP_Preference2
+            self.mainPageUI.MP_Preference3
+            self.mainPageUI.MP_Preference4
+            self.mainPageUI.MP_Preference5
+            
             # Assuming you have labels or other UI elements to display user details
             # self.mainPageUI.MP_Age.setText(f"Age: {user['age']}")
             # self.mainPageUI.MP_Gender.setText(f"Gender: {user['gender']}")
@@ -1295,6 +1283,10 @@ class MainApp:
             # self.mainPageUI.MP_Preference3.setText(user['preferences'][2] if len(user['preferences']) > 2 else "Pref.3")
             # self.mainPageUI.MP_Preference4.setText(user['preferences'][3] if len(user['preferences']) > 3 else "Pref.4")
             # self.mainPageUI.MP_Preference5.setText(user['preferences'][4] if len(user['preferences']) > 4 else "Pref.5")
+        
+        # Ensure the currently logged-in user's username is displayed
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
+    #...
 
 
     def toggle_button(self, button):
@@ -1304,6 +1296,11 @@ class MainApp:
             self.fetch_users_by_mutual_friends()
         elif button == self.locationButton:
             self.fetch_users_by_location()
+        elif button == self.combinedScoreButton:
+            self.fetch_users_by_combined_score()
+
+        # Ensure the currently logged-in user's username is displayed
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.LI_UsernameLE.text())
 
 
 
