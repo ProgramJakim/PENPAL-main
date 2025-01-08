@@ -465,6 +465,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_NotificationPB.setObjectName("MP_NotificationPB")
 
+<<<<<<< HEAD
 #ADD THE IMAGE MP_ArrowLeft in 250, 520, 90, 90
         self.MP_ArrowLeft = QtWidgets.QLabel(Main_Page)
         self.MP_ArrowLeft.setGeometry(QtCore.QRect(180, 470, 200, 200))
@@ -479,6 +480,8 @@ class Ui_Main_Page(object):
         self.MP_ArrowLeft.setScaledContents(True)
         self.MP_ArrowLeft.setObjectName("MP_ArrowLeft")
 
+=======
+>>>>>>> c74d3800a01359b39aa73eeaa3abae59af42de81
         
 
           # Create toggle buttons
@@ -587,8 +590,13 @@ class Ui_Main_Page(object):
         self.MP_Preference5.setText(_translate("Main_Page", "Pref.5"))
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
         self.MP_NotificationPB.setText(_translate("Main_Page", "NOTIFICATION"))
+<<<<<<< HEAD
         self.MP_LeftArrow.setText(_translate("Main_Page", "SKIP"))
         self.MP_RightArrow.setText(_translate("Main_Page", "ADD"))
+=======
+        self.MP_LeftArrow.setText(_translate("Main_Page", "<<<"))
+        self.MP_RightArrow.setText(_translate("Main_Page", ">>>"))
+>>>>>>> c74d3800a01359b39aa73eeaa3abae59af42de81
         
 
     def toggle_button(self, button):

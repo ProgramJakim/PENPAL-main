@@ -117,6 +117,13 @@ class MainApp:
         # Connect buttons to their respective methods
         self.connect_buttons()
 
+    def initUI(self):
+        # Initialize and set up the account settings window
+        self.accountSettings_ui = Ui_AccountSettings()
+        self.accountSettings_ui.setupUi(self.accountSettingsWindow)
+        self.accountSettings_ui.mainPageWindow = self.mainPageWindow  # Pass the main window reference
+        self.accountSettings_ui.username = "example_username"  # Set the username attribute
+
 
     def setup_ui(self):
         # Setup UI for the WelcomePage window
@@ -242,6 +249,7 @@ class MainApp:
 
         # InterestPage buttons
         self.interestPageUI.INTpushButton.clicked.connect(self.on_done_clicked)
+  
          # Dictionary to keep track of click counts
         self.click_counts = {
                 "pushButton_1": 0,
@@ -668,6 +676,7 @@ class MainApp:
             self.mainPageUI.MP_Preference5.setText(preferences[4] if len(preferences) > 4 else "Pref.5")
         else:
             self.show_error_message("No user data available.")
+<<<<<<< HEAD
 
     def handle_left_button_click(self):
         # Increment the left button click counter
@@ -1089,6 +1098,437 @@ class MainApp:
     
     
 
+=======
+>>>>>>> c74d3800a01359b39aa73eeaa3abae59af42de81
+
+    def handle_left_button_click(self):
+        # Increment the left button click counter
+        self.mainPageUI.MP_LeftArrow += 1
+
+        # Check if the counter has reached 2
+        if self.mainPageUI.MP_LeftArrow >= 2:
+            self.show_error_message("No more users available after multiple attempts.")
+            self.clear_user_display()
+            # Reset the counter
+            self.mainPageUI.MP_LeftArrow = 0
+        else:
+            self.load_next_user()
+
+    def load_next_user(self):
+        max_retries = 3  # Set a limit for the number of retries
+        retries = 0
+
+        while retries < max_retries:
+            try:
+                current_username = self.mainPageUI.MP_Username.text()
+                self.displayed_users.add(current_username)  # Add current user to displayed users
+
+                response = requests.get('http://127.0.0.1:5000/get_one_user', params={
+                    'current_username': current_username,
+                    'logged_in_username': self.logInUI.username,  # Pass the logged-in username
+                    'displayed_users': list(self.displayed_users)  # Pass the list of displayed users
+                })
+                if response.status_code == 200:
+                    user = response.json().get('user', {})
+                    self.display_user(user)
+                    return  # Exit the loop if a user is found
+                elif response.status_code == 404:
+                    # No more users available, reset the displayed_users set and try again
+                    self.displayed_users.clear()
+                    retries += 1
+                else:
+                    print(f"Error: Received status code {response.status_code}")
+                    print(f"Response content: {response.content}")
+                    self.show_error_message("Failed to fetch user.")
+                    return
+            except requests.exceptions.RequestException as e:
+                print(f"Request exception: {str(e)}")
+                self.show_error_message(f"Request failed: {str(e)}")
+                return
+        
+
+    def clear_user_display(self):
+        self.mainPageUI.MP_Username.setText("")
+        self.mainPageUI.MP_Age.setText("")
+        self.mainPageUI.MP_Gender.setText("")
+        self.mainPageUI.MP_Location.setText("")
+        self.mainPageUI.MP_Preference1.setText("")
+        self.mainPageUI.MP_Preference2.setText("")
+        self.mainPageUI.MP_Preference3.setText("")
+        self.mainPageUI.MP_Preference4.setText("")
+        self.mainPageUI.MP_Preference5.setText("")
+        self.mainPageUI.MP_Preference.setText("")
+
+    def send_friend_request(self):
+        current_username = self.mainPageUI.MP_Username.text()
+        logged_in_username = self.logInUI.username
+
+        data = {
+            'from_user': logged_in_username,
+            'to_user': current_username
+        }
+
+        try:
+            response = requests.post('http://127.0.0.1:5000/send_friend_request', json=data)
+            if response.status_code == 201:
+                response_data = response.json()
+                added_user = response_data.get("added_user")
+                self.show_success_message(f"{added_user} added!")
+                self.displayed_users.add(added_user)  # Add the user to the displayed users set
+                self.load_next_user()  # Load the next user
+            else:
+                error_message = response.json().get('error', 'Unknown error occurred')
+                self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+    
+
+    #FRIEND MENU
+    def openMainPageFromFriendMenu(self):
+        self.friendMenuWindow.close()
+        self.mainPageWindow.show()
+<<<<<<< HEAD
+    def openFriendMenuFromAccountSettings(self):
+        self.accountSettingsWindow.close()
+        self.friendMenuWindow.show()
+    
+    def openHomepageFromAccountSettings(self):
+=======
+    def openAccountSettingsFromFrienMenu(self):
+        self.friendMenuWindow.close()
+        self.accountSettingsWindow.show()
+    
+    def openHomePageFromFriendMenu(self):
+>>>>>>> c74d3800a01359b39aa73eeaa3abae59af42de81
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+
+        # Close the Friend Menu window and show the Home Page window
+        self.friendMenuWindow.close()
+        self.homePageWindow.show()
+
+
+    def fetch_pending_friend_requests(self):
+        username = self.logInUI.username  # Get the logged-in username
+
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests', params={'username': username})
+            if response.status_code == 200:
+                pending_requests = response.json().get('pending_requests', [])
+                self.display_pending_friend_requests(pending_requests)
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch pending friend requests.")
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def display_pending_friend_requests(self, pending_requests):
+        _translate = QtCore.QCoreApplication.translate
+        friend_request_labels = [
+            self.friendMenuUI.FM_FriendRequest1,
+            self.friendMenuUI.FM_FriendRequest2,
+            self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4,
+            self.friendMenuUI.FM_FriendRequest5,
+            self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7,
+            self.friendMenuUI.FM_FriendRequest8,
+            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest10
+        ]
+        accept_buttons = [
+            self.friendMenuUI.FM_Accept1PB,
+            self.friendMenuUI.FM_Accept2PB,
+            self.friendMenuUI.FM_Accept3PB,
+            self.friendMenuUI.FM_Accept4PB,
+            self.friendMenuUI.FM_Accept5PB,
+            self.friendMenuUI.FM_Accept6PB,
+            self.friendMenuUI.FM_Accept7PB,
+            self.friendMenuUI.FM_Accept8PB,
+            self.friendMenuUI.FM_Accept9PB,
+            self.friendMenuUI.FM_Accept10PB
+        ]
+        decline_buttons = [
+            self.friendMenuUI.FM_Decline1PB,
+            self.friendMenuUI.FM_Decline2PB,
+            self.friendMenuUI.FM_Decline3PB,
+            self.friendMenuUI.FM_Decline4PB,
+            self.friendMenuUI.FM_Decline5PB,
+            self.friendMenuUI.FM_Decline6PB,
+            self.friendMenuUI.FM_Decline7PB,
+            self.friendMenuUI.FM_Decline8PB,
+            self.friendMenuUI.FM_Decline9PB,
+            self.friendMenuUI.FM_Decline10PB
+        ]
+
+        for i, label in enumerate(friend_request_labels):
+            if i < len(pending_requests):
+                label.setText(_translate("FriendMenu", f"{pending_requests[i]}"))
+                accept_buttons[i].setVisible(True)
+                decline_buttons[i].setVisible(True)
+            else:
+                label.setText(_translate("FriendMenu", ""))
+                accept_buttons[i].setVisible(False)
+                decline_buttons[i].setVisible(False)
+    
+
+    def accept_friend_request(self, from_user):
+        to_user = self.logInUI.username
+
+        data = {
+            'from_user': from_user,
+            'to_user': to_user
+        }
+
+        try:
+            response = requests.post('http://127.0.0.1:5000/accept_friend_request', json=data)
+            if response.status_code == 200:
+                self.show_success_message("Friend request accepted successfully")
+                self.update_accepted_friends(from_user)
+                self.remove_friend_request(from_user)
+            else:
+                error_message = response.json().get('error', 'Unknown error occurred')
+                self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def update_accepted_friends(self, accepted_friend):
+        accepted_friends_labels = [
+            self.friendMenuUI.FM_AcceptedFriend1,
+            self.friendMenuUI.FM_AcceptedFriend2,
+            self.friendMenuUI.FM_AcceptedFriend3,
+            self.friendMenuUI.FM_AcceptedFriend4,
+            self.friendMenuUI.FM_AcceptedFriend5,
+            self.friendMenuUI.FM_AcceptedFriend6,
+            self.friendMenuUI.FM_AcceptedFriend7,
+            self.friendMenuUI.FM_AcceptedFriend8,
+            self.friendMenuUI.FM_AcceptedFriend9,
+            self.friendMenuUI.FM_AcceptedFriend10,
+            self.friendMenuUI.FM_AcceptedFriend11,
+            self.friendMenuUI.FM_AcceptedFriend12
+        ]
+
+        for label in accepted_friends_labels:
+            if label.text() == "":
+                label.setText(accepted_friend)
+                break
+
+    def decline_friend_request(self, from_user):
+            to_user = self.logInUI.username
+
+
+            data = {
+                'from_user': from_user,
+                'to_user': to_user
+            }
+
+
+            try:
+                response = requests.post('http://127.0.0.1:5000/decline_friend_request', json=data)
+                if response.status_code == 200:
+                    self.show_success_message("Friend request declined successfully")
+                    self.remove_friend_request(from_user)
+                else:
+                    error_message = response.json().get('error', 'Unknown error occurred')
+                    self.show_error_message(f"Error: {error_message}")
+            except requests.exceptions.RequestException as e:
+                self.show_error_message(f"Request failed: {str(e)}")
+
+    def decline_friend_request(self, from_user):
+        to_user = self.logInUI.username
+
+        data = {
+            'from_user': from_user,
+            'to_user': to_user
+        }
+
+        try:
+            response = requests.post('http://127.0.0.1:5000/decline_friend_request', json=data)
+            if response.status_code == 200:
+                self.show_success_message("Friend request declined successfully")
+                self.remove_friend_request(from_user)
+            else:
+                error_message = response.json().get('error', 'Unknown error occurred')
+                self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def remove_friend_request(self, from_user):
+        friend_request_labels = [
+            self.friendMenuUI.FM_FriendRequest1,
+            self.friendMenuUI.FM_FriendRequest2,
+            self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4,
+            self.friendMenuUI.FM_FriendRequest5,
+            self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7,
+            self.friendMenuUI.FM_FriendRequest8,
+            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest10
+        ]
+        accept_buttons = [
+            self.friendMenuUI.FM_Accept1PB,
+            self.friendMenuUI.FM_Accept2PB,
+            self.friendMenuUI.FM_Accept3PB,
+            self.friendMenuUI.FM_Accept4PB,
+            self.friendMenuUI.FM_Accept5PB,
+            self.friendMenuUI.FM_Accept6PB,
+            self.friendMenuUI.FM_Accept7PB,
+            self.friendMenuUI.FM_Accept8PB,
+            self.friendMenuUI.FM_Accept9PB,
+            self.friendMenuUI.FM_Accept10PB
+        ]
+        decline_buttons = [
+            self.friendMenuUI.FM_Decline1PB,
+            self.friendMenuUI.FM_Decline2PB,
+            self.friendMenuUI.FM_Decline3PB,
+            self.friendMenuUI.FM_Decline4PB,
+            self.friendMenuUI.FM_Decline5PB,
+            self.friendMenuUI.FM_Decline6PB,
+            self.friendMenuUI.FM_Decline7PB,
+            self.friendMenuUI.FM_Decline8PB,
+            self.friendMenuUI.FM_Decline9PB,
+            self.friendMenuUI.FM_Decline10PB
+        ]
+        for i, label in enumerate(friend_request_labels):
+            if label.text() == from_user:
+                label.setText("")
+                accept_buttons[i].setVisible(False)
+                decline_buttons[i].setVisible(False)
+                break
+
+
+    
+    #NOTIFICATION WINDOW
+    def open_notification_window(self):
+        # Fetch notifications data
+        username = self.logInUI.username  # Get the logged-in username
+        users_added = self.fetch_users_added_notification()
+        accepted_requests = self.fetch_accepted_friends()  # Call the method to get the list of accepted friends
+        pending_requests = self.fetch_pending_friend_requests_notification()  # Fetch pending friend requests
+
+        # Set the data in the notification window
+        self.notificationWindow.set_users_added_notification(users_added)
+        self.notificationWindow.set_accepted_requests_notification(accepted_requests)
+        self.notificationWindow.set_pending_requests_notification(pending_requests or [])
+
+        # Show the notification window
+        self.notificationWindow.exec_()
+
+
+
+    def fetch_users_added_notification(self):
+        username = self.logInUI.username  # Get the logged-in username
+
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_users_added_notification', params={'username': username})
+            if response.status_code == 200:
+                return response.json().get('users_added', [])
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch users added.")
+                return []
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+            return []
+        
+    def fetch_accepted_friends(self):
+        username = self.logInUI.username  # Get the logged-in username
+
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_accepted_friends', params={'username': username})
+            if response.status_code == 200:
+                accepted_friends = response.json().get('accepted_friends', [])
+                self.display_accepted_friends(accepted_friends)  # Corrected method call
+                return accepted_friends  # Return the list of accepted friends
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch accepted friends.")
+                return []
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+            return []
+        
+
+    def display_accepted_friends(self, accepted_friends):
+        accepted_friends_labels = [
+            self.friendMenuUI.FM_AcceptedFriend1,
+            self.friendMenuUI.FM_AcceptedFriend2,
+            self.friendMenuUI.FM_AcceptedFriend3,
+            self.friendMenuUI.FM_AcceptedFriend4,
+            self.friendMenuUI.FM_AcceptedFriend5,
+            self.friendMenuUI.FM_AcceptedFriend6,
+            self.friendMenuUI.FM_AcceptedFriend7,
+            self.friendMenuUI.FM_AcceptedFriend8,
+            self.friendMenuUI.FM_AcceptedFriend9,
+            self.friendMenuUI.FM_AcceptedFriend10,
+            self.friendMenuUI.FM_AcceptedFriend11,
+            self.friendMenuUI.FM_AcceptedFriend12
+        ]
+
+        for i, label in enumerate(accepted_friends_labels):
+            if i < len(accepted_friends):
+                label.setText(accepted_friends[i])
+            else:
+                label.setText("")
+    
+    def remove_friend_request(self, from_user):
+        friend_request_labels = [
+            self.friendMenuUI.FM_FriendRequest1,
+            self.friendMenuUI.FM_FriendRequest2,
+            self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4,
+            self.friendMenuUI.FM_FriendRequest5,
+            self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7,
+            self.friendMenuUI.FM_FriendRequest8,
+            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest10
+        ]
+        for label in friend_request_labels:
+            if label.text() == from_user:
+                label.setText("")
+                break
+    
+    def fetch_pending_friend_requests_notification(self):
+        username = self.logInUI.username  # Get the logged-in username
+
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests_notification', params={'username': username})
+            if response.status_code == 200:
+                pending_requests = response.json().get('pending_requests', [])
+                self.notificationWindow.set_pending_requests_notification(pending_requests)
+                return pending_requests
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch pending friend requests.")
+                return []
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+            return []
+        
+    
+
+
+   
+    
+    
+
 
     # AccountSettings methods
     def openMAINPAGEfromAccountSettings(self):
@@ -1108,10 +1548,10 @@ class MainApp:
             else:
                 self.show_error_message("Logout failed", "Failed to log out. Please try again.")
         except requests.exceptions.RequestException as e:
-            self.show_error_message("Logout failed", f"An error occurred: {e}")
-            
+            self.show_error_message("Logout failed", f"An error occurred: {e}")         
         self.accountSettingsWindow.close()
         self.homePageWindow.show()
+
     def openChangeProfileFromAccountSettings(self):
         self.changeProfileUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.accountSettingsWindow.close()
