@@ -127,7 +127,7 @@ class Ui_Main_Page(object):
         self.MP_LogoutPB.setObjectName("MP_LogoutPB")
       
         self.MP_Shape1 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape1.setGeometry(QtCore.QRect(530, 350, 350, 490))
+        self.MP_Shape1.setGeometry(QtCore.QRect(490, 350, 450, 490))
         self.MP_Shape1.setStyleSheet("background-color: rgb(255, 240, 216);\n"
 "border-radius: 5px;\n"
 "border: 3px solid #BE7928;")
@@ -135,14 +135,14 @@ class Ui_Main_Page(object):
         self.MP_Shape1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.MP_Shape1.setObjectName("MP_Shape1")
         self.MP_Profile_Display = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Profile_Display.setGeometry(QtCore.QRect(100, 20, 150, 101))
+        self.MP_Profile_Display.setGeometry(QtCore.QRect(150, 20, 150, 101))
         self.MP_Profile_Display.setStyleSheet("border: none;")
         self.MP_Profile_Display.setText("")
         self.MP_Profile_Display.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'GPfp.png')))
         self.MP_Profile_Display.setScaledContents(True)
         self.MP_Profile_Display.setObjectName("MP_Profile_Display")
         self.MP_Username = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Username.setGeometry(QtCore.QRect(130, 90, 488, 100))
+        self.MP_Username.setGeometry(QtCore.QRect(180, 90, 488, 100))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(3)
