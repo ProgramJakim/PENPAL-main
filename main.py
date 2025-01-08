@@ -152,6 +152,7 @@ class MainApp:
        # Setup UI for the interest page window
         self.interestPageUI = Ui_Interest()
         self.interestPageUI.setupUi(self.interestPageWindow)
+        self.selected_interests = []
 
 
         # Setup UI for the main page window
@@ -412,7 +413,7 @@ class MainApp:
         location = self.signUpUI.SU_LocationLE.text()
         social_media_link = self.signUpUI.SU_SocialLinkLE.text()
         gmail = self.signUpUI.SU_EmailLE.text()  # New field for Gmail account
-        selected_interests = self.signUpUI.selected_interests  # Retrieve selected interests
+        selected_interests = self.selected_interests  # Retrieve selected interests
 
         # Check if all fields are filled
         if not username or not password or not location or not gender or not gmail:
@@ -548,11 +549,22 @@ class MainApp:
         return bool(re.match(pattern, social_link))
     
     def on_sign_up_button_click(self):
-        if self.handle_signup():  # If sign-up is successful, proceed
-           self.backtoLogInPage()
+        if self.handle_signup_origin():  # If sign-up is successful, proceed
+            self.backtoLogInPage()
         else:
-            # If there's an issue (password, social link, etc.), the user will have to fix it
-            pass
+            # If there's an issue, show a message box asking if the user wants to continue
+            reply = QMessageBox.question(
+                self.signUpWindow,
+                'Continue Sign Up?',
+                'Are you sure you want to stop the sign-up process?',
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No
+            )
+            if reply == QMessageBox.Yes:
+                self.backtoLogInPage()
+            else:
+                # Stay in the sign-up window
+                pass
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
@@ -619,8 +631,6 @@ class MainApp:
         self.interestPageWindow.close()
         self.signUpWindow.show()
         
-        # Ensure the selected interests are retained
-        self.signUpUI.selected_interests = selected_interests
 
     
     def openMAINPage(self):
