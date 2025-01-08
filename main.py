@@ -1,13 +1,13 @@
-#annie
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
-from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
-from PyQt5 import QtCore 
+
 import os
 import sys
 import requests
 import re
 from datetime import datetime
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
+from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
+from PyQt5 import QtCore 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
@@ -152,6 +152,7 @@ class MainApp:
        # Setup UI for the interest page window
         self.interestPageUI = Ui_Interest()
         self.interestPageUI.setupUi(self.interestPageWindow)
+        self.selected_interests = []
 
 
         # Setup UI for the main page window
@@ -166,6 +167,7 @@ class MainApp:
         # Setup UI for the account settings window
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
+        
         
         # Setup UI for the Change Profile window
         self.changeProfileUI = Ui_ChangeProfile()
@@ -209,12 +211,18 @@ class MainApp:
         # ForgotPass buttons
         self.forgotPassUi.FPbackButton.clicked.connect(self.openLogInFromForgotPass)
        
-        # SignUpPage buttons
-        self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
+        # SignUpPage buttons neww
         self.signUpUI.SU_InterestPB.clicked.connect(self.openInterestPage)
         self.signUpUI.SU_TermsandPrivacyChB.clicked.connect(self.open_terms_conditions_page_from_signup)
-        self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup)
-        self.signUpUI.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
+        
+        if hasattr(self.signUpUI.SU_SignUpPB, 'clicked'):
+            try:
+                self.signUpUI.SU_SignUpPB.clicked.disconnect()
+            except TypeError:
+                pass
+        self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup_origin)
+        
+        self.signUpUI.SU_LogInPB.clicked.connect(self.on_sign_up_button_click)
 
         
         # Terms&Conditions Buttons
@@ -311,11 +319,29 @@ class MainApp:
         self.friendMenuUI.FM_Accept9PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest9.text()))
         self.friendMenuUI.FM_Accept10PB.clicked.connect(lambda: self.accept_friend_request(self.friendMenuUI.FM_FriendRequest10.text()))
 
-        # AccountSettings Buttons
+
+        self.friendMenuUI.FM_Decline1PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest1.text()))
+        self.friendMenuUI.FM_Decline2PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest2.text()))
+        self.friendMenuUI.FM_Decline3PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest3.text()))
+        self.friendMenuUI.FM_Decline4PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest4.text()))
+        self.friendMenuUI.FM_Decline5PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest5.text()))
+        self.friendMenuUI.FM_Decline6PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest6.text()))
+        self.friendMenuUI.FM_Decline7PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest7.text()))
+        self.friendMenuUI.FM_Decline8PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest8.text()))
+        self.friendMenuUI.FM_Decline9PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest9.text()))
+        self.friendMenuUI.FM_Decline10PB.clicked.connect(lambda: self.decline_friend_request(self.friendMenuUI.FM_FriendRequest10.text()))
+
+
+
+       # AccountSettings Buttons
         self.accountSettingsUI.AS_HomePB.clicked.connect(self.openMAINPAGEfromAccountSettings)
         self.accountSettingsUI.AS_MenuPB.clicked.connect(self.openFriendMenuFromAccountSettings)
         self.accountSettingsUI.AS_LogOutPB.clicked.connect(self.openHomepageFromAccountSettings)
         self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
+        # Connect the save changes button to the change_social_link method
+        self.accountSettingsUI.AS_SaveChangesPB.clicked.connect(self.save_changes)
+        
+
 
 
         # ChangeProfile BUttons
@@ -379,14 +405,15 @@ class MainApp:
         self.forgotPasswordWindow.close()
         self.logInWindow.show()
 
-    # SignUpPage methods
-    def handle_signup(self):
+    def handle_signup_origin(self):
+        print("handle_signup called")  # Debug statement
         username = self.signUpUI.SU_UsernameLE.text()
         password = self.signUpUI.SU_PasswordLE.text()
         gender = self.signUpUI.SU_GenderCB.currentText()
         location = self.signUpUI.SU_LocationLE.text()
         social_media_link = self.signUpUI.SU_SocialLinkLE.text()
         gmail = self.signUpUI.SU_EmailLE.text()  # New field for Gmail account
+        selected_interests = self.selected_interests  # Retrieve selected interests
 
         # Check if all fields are filled
         if not username or not password or not location or not gender or not gmail:
@@ -412,6 +439,11 @@ class MainApp:
         # Check if interests are selected
         if len(selected_interests) < 5:
             self.show_error_message("Please select at least five interests.")
+            return False 
+
+        # Check if interests are selected
+        if len(selected_interests) < 5:
+            self.show_error_message("Please select at least five interests.")
             return False  # Indicate that the sign-up process should not continue
 
         # Check if terms and conditions are accepted
@@ -430,6 +462,7 @@ class MainApp:
         try:
             # First, check if the username exists
             response = requests.post('http://127.0.0.1:5000/check_username', json=data)
+            print(f"Response status code: {response.status_code}")  # Debug statement
 
             if response.status_code == 400:  # Assuming the backend returns 400 if the username exists
                 self.show_error_message("Username already exists. Please choose another username.")
@@ -445,7 +478,7 @@ class MainApp:
                 'location': location,
                 'social_media_link': social_media_link,
                 'gmail': gmail,  # Include the Gmail field in the sign-up data
-                'interests': self.get_selected_interests()  # Include the selected interests
+                'interests': selected_interests  # Include the selected interests
             }
 
             # Send the data to the backend to create the account
@@ -456,6 +489,7 @@ class MainApp:
             print(f"Response content: {response.content}")
 
             if response.status_code == 201:
+                self.clear_error_message()  # Clear any existing error messages
                 self.show_success_message("Account created successfully!")
 
                 # Clear the input fields after sign-up
@@ -466,14 +500,22 @@ class MainApp:
                 self.signUpUI.SU_LocationLE.clear()
                 self.signUpUI.SU_SocialLinkLE.clear()
                 self.signUpUI.SU_EmailLE.clear()  # Clear the Gmail field
+<<<<<<< HEAD
 
                 self.clear_error_message()  # Clear any existing error messages
 
                 # Reset the click counts and total clicks
                 self.reset_click_counts()
 
+=======
+                self.signUpUI.SU_EmailLE.clear() 
+                # Reset selected interests
+                self.total_clicks = 0
+                self.click_counts = {button_name: 0 for button_name in self.click_counts}
+                self.interestPageUI.placeholderText.setText("0 selected")  # Update the display to show 0 selected
+>>>>>>> origin/DRAFT
                 self.show_success_message("You can continue creating another account or stay here.")
-
+                self.clear_error_message()
                 return True  # Indicate that the sign-up process succeeded
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
@@ -484,12 +526,15 @@ class MainApp:
             self.show_error_message(f"Request failed: {str(e)}")
         return False  # Indicate failure
 
+<<<<<<< HEAD
     def reset_click_counts(self):
         for button in self.click_counts:
             self.click_counts[button] = 0
         self.total_clicks = 0
         self.interestPageUI.placeholderText.setText("0 selected")
 
+=======
+>>>>>>> origin/DRAFT
     def clear_error_message(self):
         # Assuming you have a QLabel named error_message_label for displaying error messages
         self.error_message_label.setText("")
@@ -524,15 +569,28 @@ class MainApp:
         # Updated pattern to allow periods in the path
         pattern = r"^(https?://)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}(/[\w\-\.]*)*$"
         return bool(re.match(pattern, social_link))
+    
     def on_sign_up_button_click(self):
-        if self.handle_signup():  # If sign-up is successful, proceed
-           self.backtoLogInPage()
+        if self.handle_signup_origin():  # If sign-up is successful, proceed
+            self.backtoLogInPage()
         else:
-            # If there's an issue (password, social link, etc.), the user will have to fix it
-            pass
+            # If there's an issue, show a message box asking if the user wants to continue
+            reply = QMessageBox.question(
+                self.signUpWindow,
+                'Continue Sign Up?',
+                'Are you sure you want to stop the sign-up process?',
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No
+            )
+            if reply == QMessageBox.Yes:
+                self.backtoLogInPage()
+            else:
+                # Stay in the sign-up window
+                pass
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
+        
     def open_terms_conditions_page_from_signup(self):
         self.signUpWindow.close()
         self.termsWindow.show()
@@ -586,25 +644,50 @@ class MainApp:
 
     def on_done_clicked(self):
         selected_interests = self.get_selected_interests()
+        
+        if len(selected_interests) < 5:
+            self.show_error_message("Please select at least five interests.")
+            return
+        
         self.show_selected_interests(selected_interests)
         self.interestPageWindow.close()
         self.signUpWindow.show()
+        
 
     
     def openMAINPage(self):
-        # Assuming user_id and username are obtained after successful login
-        user_id = self.logInUI.user_id  # Replace with actual user_id
-        username = self.logInUI.username  # Replace with actual username
+        username = self.logInUI.LI_UsernameLE.text()
+        password = self.logInUI.LI_PasswordLE.text()
 
-        # Set user info in the main page UI
-        self.mainPageUI.set_user_info(user_id, username)
+        data = {
+            'username': username,
+            'password': password
+        }
 
-        # Show the main page window
-        self.logInWindow.close()
-        self.mainPageWindow.show()
+        try:
+            response = requests.post('http://127.0.0.1:5000/login', json=data)
+            if response.status_code == 200:
+                user_data = response.json()
+                self.logInUI.user_id = user_data['user_id']
+                self.logInUI.username = user_data['username']
 
-        # Load the first user immediately
-        self.load_next_user()
+                # Set user info in the main page UI
+                self.mainPageUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
+
+                # Show the main page window
+                self.logInWindow.close()
+                self.mainPageWindow.show()
+
+                # Load the first user immediately
+                self.load_next_user()
+            else:
+                error_message = response.json().get('error', '')
+                if error_message:
+                    self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
 
     #MAINPAGE methods
 
@@ -746,7 +829,98 @@ class MainApp:
                 self.show_error_message(f"Error: {error_message}")
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
+    
 
+    #FRIEND MENU
+    def openMainPageFromFriendMenu(self):
+        self.friendMenuWindow.close()
+        self.mainPageWindow.show()
+    def openAccountSettingsFromFrienMenu(self):
+        self.friendMenuWindow.close()
+        self.accountSettingsWindow.show()
+    
+    def openHomePageFromFriendMenu(self):
+        try:
+            response = requests.post('http://127.0.0.1:5000/logout')
+            if response.status_code == 200:
+                self.show_success_message("Logged out successfully")
+                # Reset displayed_users list
+                self.displayed_users = set()
+            else:
+                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message("Logout failed", f"An error occurred: {e}")
+
+        # Close the Friend Menu window and show the Home Page window
+        self.friendMenuWindow.close()
+        self.homePageWindow.show()
+
+
+    def fetch_pending_friend_requests(self):
+        username = self.logInUI.username  # Get the logged-in username
+
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests', params={'username': username})
+            if response.status_code == 200:
+                pending_requests = response.json().get('pending_requests', [])
+                self.display_pending_friend_requests(pending_requests)
+            else:
+                print(f"Error: Received status code {response.status_code}")
+                print(f"Response content: {response.content}")
+                self.show_error_message("Failed to fetch pending friend requests.")
+        except requests.exceptions.RequestException as e:
+            print(f"Request exception: {str(e)}")
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def display_pending_friend_requests(self, pending_requests):
+        _translate = QtCore.QCoreApplication.translate
+        friend_request_labels = [
+            self.friendMenuUI.FM_FriendRequest1,
+            self.friendMenuUI.FM_FriendRequest2,
+            self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4,
+            self.friendMenuUI.FM_FriendRequest5,
+            self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7,
+            self.friendMenuUI.FM_FriendRequest8,
+            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest10
+        ]
+        accept_buttons = [
+            self.friendMenuUI.FM_Accept1PB,
+            self.friendMenuUI.FM_Accept2PB,
+            self.friendMenuUI.FM_Accept3PB,
+            self.friendMenuUI.FM_Accept4PB,
+            self.friendMenuUI.FM_Accept5PB,
+            self.friendMenuUI.FM_Accept6PB,
+            self.friendMenuUI.FM_Accept7PB,
+            self.friendMenuUI.FM_Accept8PB,
+            self.friendMenuUI.FM_Accept9PB,
+            self.friendMenuUI.FM_Accept10PB
+        ]
+        decline_buttons = [
+            self.friendMenuUI.FM_Decline1PB,
+            self.friendMenuUI.FM_Decline2PB,
+            self.friendMenuUI.FM_Decline3PB,
+            self.friendMenuUI.FM_Decline4PB,
+            self.friendMenuUI.FM_Decline5PB,
+            self.friendMenuUI.FM_Decline6PB,
+            self.friendMenuUI.FM_Decline7PB,
+            self.friendMenuUI.FM_Decline8PB,
+            self.friendMenuUI.FM_Decline9PB,
+            self.friendMenuUI.FM_Decline10PB
+        ]
+
+        for i, label in enumerate(friend_request_labels):
+            if i < len(pending_requests):
+                label.setText(_translate("FriendMenu", f"{pending_requests[i]}"))
+                accept_buttons[i].setVisible(True)
+                decline_buttons[i].setVisible(True)
+            else:
+                label.setText(_translate("FriendMenu", ""))
+                accept_buttons[i].setVisible(False)
+                decline_buttons[i].setVisible(False)
+    
 
     def accept_friend_request(self, from_user):
         to_user = self.logInUI.username
@@ -788,6 +962,92 @@ class MainApp:
             if label.text() == "":
                 label.setText(accepted_friend)
                 break
+
+    def decline_friend_request(self, from_user):
+            to_user = self.logInUI.username
+
+
+            data = {
+                'from_user': from_user,
+                'to_user': to_user
+            }
+
+
+            try:
+                response = requests.post('http://127.0.0.1:5000/decline_friend_request', json=data)
+                if response.status_code == 200:
+                    self.show_success_message("Friend request declined successfully")
+                    self.remove_friend_request(from_user)
+                else:
+                    error_message = response.json().get('error', 'Unknown error occurred')
+                    self.show_error_message(f"Error: {error_message}")
+            except requests.exceptions.RequestException as e:
+                self.show_error_message(f"Request failed: {str(e)}")
+
+    def decline_friend_request(self, from_user):
+        to_user = self.logInUI.username
+
+        data = {
+            'from_user': from_user,
+            'to_user': to_user
+        }
+
+        try:
+            response = requests.post('http://127.0.0.1:5000/decline_friend_request', json=data)
+            if response.status_code == 200:
+                self.show_success_message("Friend request declined successfully")
+                self.remove_friend_request(from_user)
+            else:
+                error_message = response.json().get('error', 'Unknown error occurred')
+                self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+    def remove_friend_request(self, from_user):
+        friend_request_labels = [
+            self.friendMenuUI.FM_FriendRequest1,
+            self.friendMenuUI.FM_FriendRequest2,
+            self.friendMenuUI.FM_FriendRequest3,
+            self.friendMenuUI.FM_FriendRequest4,
+            self.friendMenuUI.FM_FriendRequest5,
+            self.friendMenuUI.FM_FriendRequest6,
+            self.friendMenuUI.FM_FriendRequest7,
+            self.friendMenuUI.FM_FriendRequest8,
+            self.friendMenuUI.FM_FriendRequest9,
+            self.friendMenuUI.FM_FriendRequest10
+        ]
+        accept_buttons = [
+            self.friendMenuUI.FM_Accept1PB,
+            self.friendMenuUI.FM_Accept2PB,
+            self.friendMenuUI.FM_Accept3PB,
+            self.friendMenuUI.FM_Accept4PB,
+            self.friendMenuUI.FM_Accept5PB,
+            self.friendMenuUI.FM_Accept6PB,
+            self.friendMenuUI.FM_Accept7PB,
+            self.friendMenuUI.FM_Accept8PB,
+            self.friendMenuUI.FM_Accept9PB,
+            self.friendMenuUI.FM_Accept10PB
+        ]
+        decline_buttons = [
+            self.friendMenuUI.FM_Decline1PB,
+            self.friendMenuUI.FM_Decline2PB,
+            self.friendMenuUI.FM_Decline3PB,
+            self.friendMenuUI.FM_Decline4PB,
+            self.friendMenuUI.FM_Decline5PB,
+            self.friendMenuUI.FM_Decline6PB,
+            self.friendMenuUI.FM_Decline7PB,
+            self.friendMenuUI.FM_Decline8PB,
+            self.friendMenuUI.FM_Decline9PB,
+            self.friendMenuUI.FM_Decline10PB
+        ]
+        for i, label in enumerate(friend_request_labels):
+            if label.text() == from_user:
+                label.setText("")
+                accept_buttons[i].setVisible(False)
+                decline_buttons[i].setVisible(False)
+                break
+
+
     
     #NOTIFICATION WINDOW
     def open_notification_window(self):
@@ -902,6 +1162,7 @@ class MainApp:
             self.show_error_message(f"Request failed: {str(e)}")
             return []
         
+<<<<<<< HEAD
     
 
 
@@ -981,6 +1242,8 @@ class MainApp:
                 decline_buttons[i].setVisible(False)
     
 
+=======
+>>>>>>> origin/DRAFT
 
     # AccountSettings methods
     def openMAINPAGEfromAccountSettings(self):
@@ -1009,11 +1272,150 @@ class MainApp:
         self.accountSettingsWindow.close()
         self.changeProfileWindow.show()
 
+    def save_changes(self):
+        new_email = self.accountSettingsUI.AS_EnterNewEmLE.text()
+        confirm_email = self.accountSettingsUI.AS_ConfirmNewEmLE_.text()
+        if new_email == confirm_email:
+            print(f"New email: {new_email}, Confirm email: {confirm_email}")
+            self.accountSettingsUI.change_email(new_email, confirm_email)
+        else:
+            print("email do not match. Please try again.")
+
+        new_social_link = self.accountSettingsUI.AS_EnterNewSocialLinkLE.text()
+        confirm_social_link = self.accountSettingsUI.AS_ConfirmNewSocialLinkLE.text()
+        if new_social_link == confirm_social_link:
+            print(f"New social link: {new_social_link}, Confirm social link: {confirm_social_link}")
+            self.accountSettingsUI.change_social_link(new_social_link, confirm_social_link)
+        else:
+            print("Social links do not match. Please try again.")
+
+
+    def go_to_home_page(self):
+        if self.accountSettingsWindow:
+            self.accountSettingsWindow.close()
+        if self.homePageWindow:
+            self.homePageWindow.show()
+
+
 
     # ChangeProifle methods
     def openAccountSettingsFromChangeProfile(self):
         self.changeProfileWindow.close()
         self.accountSettingsWindow.show()
+
+     #RECOMMENDATIONS LOGIC
+    def fetch_users_by_interests(self):
+        logged_in_username = self.logInUI.username
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_all_users_interests')
+            if response.status_code == 200:
+                user_interests = response.json().get('user_interests', {})
+                logged_in_user_interests = set(user_interests.get(logged_in_username, []))
+                user_scores = []
+                for username, interests in user_interests.items():
+                    if username != logged_in_username:
+                        common_interests = logged_in_user_interests.intersection(set(interests))
+                        user_scores.append((username, len(common_interests)))
+                sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
+                self.display_users(sorted_users)
+            else:
+                self.show_error_message("Failed to fetch users by interests.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
+    def fetch_users_by_mutual_friends(self):
+        logged_in_username = self.logInUI.username
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_mutual_friends', params={'username': logged_in_username})
+            if response.status_code == 200:
+                mutual_friends_dict = response.json().get('mutual_friends', {})
+                user_scores = []
+                for username, mutual_friends in mutual_friends_dict.items():
+                    user_scores.append((username, len(mutual_friends)))
+                sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
+                self.display_users(sorted_users)
+            else:
+                self.show_error_message("Failed to fetch users by mutual friends.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
+    def fetch_users_by_location(self):
+        logged_in_username = self.logInUI.username
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_user_location', params={'username': logged_in_username})
+            if response.status_code == 200:
+                user_location = response.json().get('location', "")
+                response = requests.get('http://127.0.0.1:5000/get_users_by_location', params={'location': user_location})
+                if response.status_code == 200:
+                    users = response.json().get('users', [])
+                    self.display_users([(user, 0) for user in users])
+                else:
+                    self.show_error_message("Failed to fetch users by location.")
+            else:
+                self.show_error_message("Failed to fetch user location.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
+    def fetch_users_by_combined_score(self):
+        logged_in_username = self.logInUI.username
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_combined_score_users', params={'username': logged_in_username})
+            if response.status_code == 200:
+                sorted_users = response.json().get('sorted_users', [])
+                self.display_users(sorted_users)
+            else:
+                self.show_error_message("Failed to fetch users by combined score.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+   
+    def display_users(self, users):
+        # Clear the current display
+        self.clear_user_display()
+       
+        # Display the sorted users
+        for user in users:
+            # Add user details to the UI
+            self.mainPageUI.MP_Username.setText(user)
+            self.mainPageUI.MP_Age
+            self.mainPageUI.MP_Gender
+            self.mainPageUI.MP_Location
+            self.mainPageUI.MP_Preference1
+            self.mainPageUI.MP_Preference2
+            self.mainPageUI.MP_Preference3
+            self.mainPageUI.MP_Preference4
+            self.mainPageUI.MP_Preference5
+            
+            # Assuming you have labels or other UI elements to display user details
+            # self.mainPageUI.MP_Age.setText(f"Age: {user['age']}")
+            # self.mainPageUI.MP_Gender.setText(f"Gender: {user['gender']}")
+            # self.mainPageUI.MP_Location.setText(f"Location: {user['location']}")
+            # self.mainPageUI.MP_Preference1.setText(user['preferences'][0] if len(user['preferences']) > 0 else "Pref.1")
+            # self.mainPageUI.MP_Preference2.setText(user['preferences'][1] if len(user['preferences']) > 1 else "Pref.2")
+            # self.mainPageUI.MP_Preference3.setText(user['preferences'][2] if len(user['preferences']) > 2 else "Pref.3")
+            # self.mainPageUI.MP_Preference4.setText(user['preferences'][3] if len(user['preferences']) > 3 else "Pref.4")
+            # self.mainPageUI.MP_Preference5.setText(user['preferences'][4] if len(user['preferences']) > 4 else "Pref.5")
+        
+        # Ensure the currently logged-in user's username is displayed
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
+    #...
+
+
+    def toggle_button(self, button):
+        if button == self.interestButton:
+            self.fetch_users_by_interests()
+        elif button == self.mutualFriendsButton:
+            self.fetch_users_by_mutual_friends()
+        elif button == self.locationButton:
+            self.fetch_users_by_location()
+        elif button == self.combinedScoreButton:
+            self.fetch_users_by_combined_score()
+
+        # Ensure the currently logged-in user's username is displayed
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.LI_UsernameLE.text())
+
 
 
 
