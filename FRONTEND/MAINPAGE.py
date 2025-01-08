@@ -381,7 +381,7 @@ class Ui_Main_Page(object):
         self.MP_GroupImage.setObjectName("MP_GroupImage")
         self.MP_GroupImage.raise_()
 
-# Create the REJECT button
+# Create the SKIP button
         self.MP_LeftArrow = QPushButton("  ", Main_Page)
         self.MP_LeftArrow.setGeometry(QRect(300, 520, 90, 90))
         font = QFont()
@@ -464,6 +464,20 @@ class Ui_Main_Page(object):
 "background: transparent;\n"
 "")
         self.MP_NotificationPB.setObjectName("MP_NotificationPB")
+
+#ADD THE IMAGE MP_ArrowLeft in 250, 520, 90, 90
+        self.MP_ArrowLeft = QtWidgets.QLabel(Main_Page)
+        self.MP_ArrowLeft.setGeometry(QtCore.QRect(180, 470, 200, 200))
+        self.MP_ArrowLeft.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowLeft.png')))
+        self.MP_ArrowLeft.setScaledContents(True)
+        self.MP_ArrowLeft.setObjectName("MP_ArrowLeft")
+
+#ADD THE IMAGE MP_ArrowLeft in 250, 520, 90, 90
+        self.MP_ArrowLeft = QtWidgets.QLabel(Main_Page)
+        self.MP_ArrowLeft.setGeometry(QtCore.QRect(1010, 470, 200, 200))
+        self.MP_ArrowLeft.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowRight.png')))
+        self.MP_ArrowLeft.setScaledContents(True)
+        self.MP_ArrowLeft.setObjectName("MP_ArrowLeft")
 
         
 
@@ -573,8 +587,8 @@ class Ui_Main_Page(object):
         self.MP_Preference5.setText(_translate("Main_Page", "Pref.5"))
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
         self.MP_NotificationPB.setText(_translate("Main_Page", "NOTIFICATION"))
-        self.MP_LeftArrow.setText(_translate("Main_Page", "<<<"))
-        self.MP_RightArrow.setText(_translate("Main_Page", ">>>"))
+        self.MP_LeftArrow.setText(_translate("Main_Page", "SKIP"))
+        self.MP_RightArrow.setText(_translate("Main_Page", "ADD"))
         
 
     def toggle_button(self, button):
