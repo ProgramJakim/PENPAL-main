@@ -732,6 +732,28 @@ class Ui_FriendMenu(object):
         self.retranslateUi(FriendMenu)
         QtCore.QMetaObject.connectSlotsByName(FriendMenu)
 
+        self.FM_Accept1PB.setVisible(False)
+        self.FM_Accept2PB.setVisible(False)
+        self.FM_Accept3PB.setVisible(False)
+        self.FM_Accept4PB.setVisible(False)
+        self.FM_Accept5PB.setVisible(False)
+        self.FM_Accept6PB.setVisible(False)
+        self.FM_Accept7PB.setVisible(False)
+        self.FM_Accept8PB.setVisible(False)
+        self.FM_Accept9PB.setVisible(False)
+        self.FM_Accept10PB.setVisible(False)
+
+        self.FM_Decline1PB.setVisible(False)
+        self.FM_Decline2PB.setVisible(False)
+        self.FM_Decline3PB.setVisible(False)
+        self.FM_Decline4PB.setVisible(False)
+        self.FM_Decline5PB.setVisible(False)
+        self.FM_Decline6PB.setVisible(False)
+        self.FM_Decline7PB.setVisible(False)
+        self.FM_Decline8PB.setVisible(False)
+        self.FM_Decline9PB.setVisible(False)
+        self.FM_Decline10PB.setVisible(False)
+
     def retranslateUi(self, FriendMenu):
         _translate = QtCore.QCoreApplication.translate
         FriendMenu.setWindowTitle(_translate("FriendMenu", "Dialog"))

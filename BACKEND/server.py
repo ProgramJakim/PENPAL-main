@@ -369,6 +369,29 @@ def accept_friend_request():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/decline_friend_request', methods=['POST'])
+def decline_friend_request():
+    data = request.get_json()
+    from_user = data.get('from_user')
+    to_user = data.get('to_user')
+
+    if not from_user or not to_user:
+        return jsonify({"error": "Both from_user and to_user are required"}), 400
+
+    try:
+        # Update the status of the friend request to 'rejected'
+        db_cursor.execute(
+            "UPDATE friend_requests SET status = 'rejected' WHERE from_user = %s AND to_user = %s",
+            (from_user, to_user)
+        )
+        db_connection.commit()
+
+        return jsonify({"message": "Friend request declined successfully"}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."})
+
     
 @app.route('/get_users_added', methods=['GET'])
 def get_users_added():
@@ -432,6 +455,100 @@ def get_pending_friend_requests_notification():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
+@app.route('/delete_account', methods=['DELETE'])
+def delete_account():
+    try:
+        data = request.get_json()
+        username = data['username']
+
+        # Delete user interests
+        db_cursor.execute("DELETE FROM user_interests WHERE username = %s", (username,))
+        db_connection.commit()
+
+        # Delete user account
+        db_cursor.execute("DELETE FROM users WHERE username = %s", (username,))
+        db_connection.commit()
+
+        logging.info(f"User account {username} deleted successfully!")
+        return jsonify({"message": "Account deleted successfully!"}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
+    
+
+# Database connection
+def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="penpaldb"
+    )
+
+@app.route('/update_user_social_link', methods=['POST'])
+def update_user_social_link():
+    data = request.json
+    username = data.get('username')
+    new_social_link = data.get('social_link')
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE users SET social_media_link = %s WHERE username = %s", (new_social_link, username))
+        conn.commit()
+        
+        if cursor.rowcount > 0:
+            response = jsonify({"message": "Social link updated successfully"})
+            status_code = 200
+        else:
+            response = jsonify({"message": "User not found"})
+            status_code = 404
+        
+        cursor.close()
+        conn.close()
+        return response, status_code
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": f"Database error occurred: {err}"}), 500
+    
+@app.route('/update_user_email', methods=['POST'])
+def update_user_email():
+    data = request.json
+    username = data.get('username')
+    new_email = data.get('email')
+    
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Check if the user exists
+        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+        user = cursor.fetchone()
+        if not user:
+            cursor.close()
+            conn.close()
+            return jsonify({"message": "User not found"}), 404
+        
+        # Update the email
+        cursor.execute("UPDATE users SET gmail = %s WHERE username = %s", (new_email, username))
+        conn.commit()
+        
+        if cursor.rowcount > 0:
+            response = jsonify({"message": "Email updated successfully"})
+            status_code = 200
+        else:
+            response = jsonify({"message": "No changes made to email"})
+            status_code = 200
+        
+        cursor.close()
+        conn.close()
+        return response, status_code
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": f"Database error occurred: {err}"}), 500
+
+
     
 
     
