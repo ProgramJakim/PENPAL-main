@@ -127,7 +127,7 @@ class Ui_Main_Page(object):
         self.MP_LogoutPB.setObjectName("MP_LogoutPB")
       
         self.MP_Shape1 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape1.setGeometry(QtCore.QRect(530, 350, 350, 490))
+        self.MP_Shape1.setGeometry(QtCore.QRect(490, 350, 450, 490))
         self.MP_Shape1.setStyleSheet("background-color: rgb(255, 240, 216);\n"
 "border-radius: 5px;\n"
 "border: 3px solid #BE7928;")
@@ -135,14 +135,14 @@ class Ui_Main_Page(object):
         self.MP_Shape1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.MP_Shape1.setObjectName("MP_Shape1")
         self.MP_Profile_Display = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Profile_Display.setGeometry(QtCore.QRect(100, 20, 150, 101))
+        self.MP_Profile_Display.setGeometry(QtCore.QRect(150, 20, 150, 101))
         self.MP_Profile_Display.setStyleSheet("border: none;")
         self.MP_Profile_Display.setText("")
         self.MP_Profile_Display.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'GPfp.png')))
         self.MP_Profile_Display.setScaledContents(True)
         self.MP_Profile_Display.setObjectName("MP_Profile_Display")
         self.MP_Username = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Username.setGeometry(QtCore.QRect(130, 90, 488, 100))
+        self.MP_Username.setGeometry(QtCore.QRect(180, 90, 488, 100))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(3)
@@ -381,7 +381,7 @@ class Ui_Main_Page(object):
         self.MP_GroupImage.setObjectName("MP_GroupImage")
         self.MP_GroupImage.raise_()
 
-# Create the REJECT button
+# Create the SKIP button
         self.MP_LeftArrow = QPushButton("  ", Main_Page)
         self.MP_LeftArrow.setGeometry(QRect(300, 520, 90, 90))
         font = QFont()
@@ -465,8 +465,28 @@ class Ui_Main_Page(object):
 "")
         self.MP_NotificationPB.setObjectName("MP_NotificationPB")
 
+<<<<<<< HEAD
         
 
+=======
+#ADD THE IMAGE MP_ArrowLeft in 250, 520, 90, 90
+        self.MP_ArrowLeft = QtWidgets.QLabel(Main_Page)
+        self.MP_ArrowLeft.setGeometry(QtCore.QRect(180, 470, 200, 200))
+        self.MP_ArrowLeft.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowLeft.png')))
+        self.MP_ArrowLeft.setScaledContents(True)
+        self.MP_ArrowLeft.setObjectName("MP_ArrowLeft")
+
+#ADD THE IMAGE MP_ArrowLeft in 250, 520, 90, 90
+        self.MP_ArrowLeft = QtWidgets.QLabel(Main_Page)
+        self.MP_ArrowLeft.setGeometry(QtCore.QRect(1010, 470, 200, 200))
+        self.MP_ArrowLeft.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowRight.png')))
+        self.MP_ArrowLeft.setScaledContents(True)
+        self.MP_ArrowLeft.setObjectName("MP_ArrowLeft")
+
+        
+
+
+>>>>>>> origin/draft
           # Create toggle buttons
         self.interestButton = QtWidgets.QPushButton(Main_Page)
         self.interestButton.setGeometry(QtCore.QRect(400, 300, 190, 40))
@@ -573,8 +593,13 @@ class Ui_Main_Page(object):
         self.MP_Preference5.setText(_translate("Main_Page", "Pref.5"))
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
         self.MP_NotificationPB.setText(_translate("Main_Page", "NOTIFICATION"))
+<<<<<<< HEAD
         self.MP_LeftArrow.setText(_translate("Main_Page", "<<<"))
         self.MP_RightArrow.setText(_translate("Main_Page", ">>>"))
+=======
+        self.MP_LeftArrow.setText(_translate("Main_Page", "SKIP"))
+        self.MP_RightArrow.setText(_translate("Main_Page", "ADD"))
+>>>>>>> origin/draft
         
 
     def toggle_button(self, button):
@@ -595,7 +620,11 @@ class Ui_Main_Page(object):
                                 "background: orange;\n"
                                 "")
         #USERNAME DISPLAY
+<<<<<<< HEAD
         self.username = "Default Username"  # Set a default username
+=======
+        self.username = ""  # Set a default username
+>>>>>>> origin/draft
         self.display_username()
 
     def set_user_info(self, user_id, username):

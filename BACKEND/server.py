@@ -1,3 +1,4 @@
+#new
 from flask import Flask, request, jsonify, session
 from flask_session import Session
 import mysql.connector
@@ -20,7 +21,7 @@ db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="penpaldb"
+    database="penpaldbaccount"
 )
 
 db_cursor = db_connection.cursor()
@@ -73,7 +74,7 @@ def signup():
         )
         db_connection.commit()
 
-         # Save interests in the user_interests table
+        # Save interests in the user_interests table
         for interest in interests:
             db_cursor.execute(
                 "INSERT INTO user_interests (username, interest) VALUES (%s, %s)",
@@ -82,12 +83,10 @@ def signup():
         db_connection.commit()
         
         logging.info("User account created successfully!")
-        print(f"Hashed password for {username}: {hashed_password}")
         return jsonify({"message": "Account created successfully!"}), 201
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
-
 
 def validate_password(password):
     if len(password) < 8:
@@ -236,6 +235,25 @@ def get_user_interests():
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         return jsonify({"error": "Database error"}), 500
+    
+@app.route('/update_user_interests', methods=['POST'])
+def update_user_interests():
+    data = request.get_json()
+    username = data.get('username')
+    interests = data.get('interests')
+
+    if not username or not interests:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    try:
+        db_cursor.execute("DELETE FROM user_interests WHERE username = %s", (username,))
+        for interest in interests:
+            db_cursor.execute("INSERT INTO user_interests (username, interest) VALUES (%s, %s)", (username, interest))
+        db_connection.commit()
+        return jsonify({"message": "Interests updated successfully"}), 200
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
     
 #EMAIL DISPLAY
 
@@ -483,7 +501,7 @@ def get_db_connection():
         host="localhost",
         user="root",
         password="",
-        database="penpaldb"
+        database="penpaldbaccount"
     )
 
 @app.route('/update_user_social_link', methods=['POST'])

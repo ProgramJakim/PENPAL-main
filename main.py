@@ -1,13 +1,13 @@
-#annie
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
-from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
-from PyQt5 import QtCore 
+
 import os
 import sys
 import requests
 import re
 from datetime import datetime
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
+from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
+from PyQt5 import QtCore 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
@@ -152,6 +152,7 @@ class MainApp:
        # Setup UI for the interest page window
         self.interestPageUI = Ui_Interest()
         self.interestPageUI.setupUi(self.interestPageWindow)
+        self.selected_interests = []
 
 
         # Setup UI for the main page window
@@ -166,6 +167,7 @@ class MainApp:
         # Setup UI for the account settings window
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
+        
         
         # Setup UI for the Change Profile window
         self.changeProfileUI = Ui_ChangeProfile()
@@ -209,12 +211,18 @@ class MainApp:
         # ForgotPass buttons
         self.forgotPassUi.FPbackButton.clicked.connect(self.openLogInFromForgotPass)
        
-        # SignUpPage buttons
-        self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
+        # SignUpPage buttons neww
         self.signUpUI.SU_InterestPB.clicked.connect(self.openInterestPage)
         self.signUpUI.SU_TermsandPrivacyChB.clicked.connect(self.open_terms_conditions_page_from_signup)
-        self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup)
-        self.signUpUI.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
+        
+        if hasattr(self.signUpUI.SU_SignUpPB, 'clicked'):
+            try:
+                self.signUpUI.SU_SignUpPB.clicked.disconnect()
+            except TypeError:
+                pass
+        self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup_origin)
+        
+        self.signUpUI.SU_LogInPB.clicked.connect(self.on_sign_up_button_click)
 
         
         # Terms&Conditions Buttons
@@ -332,6 +340,7 @@ class MainApp:
         self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
         # Connect the save changes button to the change_social_link method
         self.accountSettingsUI.AS_SaveChangesPB.clicked.connect(self.save_changes)
+        
 
 
 
@@ -401,14 +410,15 @@ class MainApp:
         self.forgotPasswordWindow.close()
         self.logInWindow.show()
 
-    # SignUpPage methods
-    def handle_signup(self):
+    def handle_signup_origin(self):
+        print("handle_signup called")  # Debug statement
         username = self.signUpUI.SU_UsernameLE.text()
         password = self.signUpUI.SU_PasswordLE.text()
         gender = self.signUpUI.SU_GenderCB.currentText()
         location = self.signUpUI.SU_LocationLE.text()
         social_media_link = self.signUpUI.SU_SocialLinkLE.text()
         gmail = self.signUpUI.SU_EmailLE.text()  # New field for Gmail account
+        selected_interests = self.selected_interests  # Retrieve selected interests
 
         # Check if all fields are filled
         if not username or not password or not location or not gender or not gmail:
@@ -434,6 +444,11 @@ class MainApp:
         # Check if interests are selected
         if len(selected_interests) < 5:
             self.show_error_message("Please select at least five interests.")
+            return False 
+
+        # Check if interests are selected
+        if len(selected_interests) < 5:
+            self.show_error_message("Please select at least five interests.")
             return False  # Indicate that the sign-up process should not continue
 
         # Check if terms and conditions are accepted
@@ -452,6 +467,7 @@ class MainApp:
         try:
             # First, check if the username exists
             response = requests.post('http://127.0.0.1:5000/check_username', json=data)
+            print(f"Response status code: {response.status_code}")  # Debug statement
 
             if response.status_code == 400:  # Assuming the backend returns 400 if the username exists
                 self.show_error_message("Username already exists. Please choose another username.")
@@ -467,13 +483,14 @@ class MainApp:
                 'location': location,
                 'social_media_link': social_media_link,
                 'gmail': gmail,  # Include the Gmail field in the sign-up data
-                'interests': self.get_selected_interests()  # Include the selected interests
+                'interests': selected_interests  # Include the selected interests
             }
 
             # Send the data to the backend to create the account
             response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
 
             if response.status_code == 201:
+                self.clear_error_message()  # Clear any existing error messages
                 self.show_success_message("Account created successfully!")
 
                 # Clear the input fields after sign-up
@@ -484,11 +501,13 @@ class MainApp:
                 self.signUpUI.SU_LocationLE.clear()
                 self.signUpUI.SU_SocialLinkLE.clear()
                 self.signUpUI.SU_EmailLE.clear()  # Clear the Gmail field
-
-                self.clear_error_message()  # Clear any existing error messages
-
+                self.signUpUI.SU_EmailLE.clear() 
+                # Reset selected interests
+                self.total_clicks = 0
+                self.click_counts = {button_name: 0 for button_name in self.click_counts}
+                self.interestPageUI.placeholderText.setText("0 selected")  # Update the display to show 0 selected
                 self.show_success_message("You can continue creating another account or stay here.")
-
+                self.clear_error_message()
                 return True  # Indicate that the sign-up process succeeded
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
@@ -498,6 +517,7 @@ class MainApp:
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
         return False  # Indicate failure
+
     def clear_error_message(self):
         # Assuming you have a QLabel named error_message_label for displaying error messages
         self.error_message_label.setText("")
@@ -532,15 +552,28 @@ class MainApp:
         # Updated pattern to allow periods in the path
         pattern = r"^(https?://)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}(/[\w\-\.]*)*$"
         return bool(re.match(pattern, social_link))
+    
     def on_sign_up_button_click(self):
-        if self.handle_signup():  # If sign-up is successful, proceed
-           self.backtoLogInPage()
+        if self.handle_signup_origin():  # If sign-up is successful, proceed
+            self.backtoLogInPage()
         else:
-            # If there's an issue (password, social link, etc.), the user will have to fix it
-            pass
+            # If there's an issue, show a message box asking if the user wants to continue
+            reply = QMessageBox.question(
+                self.signUpWindow,
+                'Continue Sign Up?',
+                'Are you sure you want to stop the sign-up process?',
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No
+            )
+            if reply == QMessageBox.Yes:
+                self.backtoLogInPage()
+            else:
+                # Stay in the sign-up window
+                pass
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
+        
     def open_terms_conditions_page_from_signup(self):
         self.signUpWindow.close()
         self.termsWindow.show()
@@ -594,25 +627,50 @@ class MainApp:
 
     def on_done_clicked(self):
         selected_interests = self.get_selected_interests()
+        
+        if len(selected_interests) < 5:
+            self.show_error_message("Please select at least five interests.")
+            return
+        
         self.show_selected_interests(selected_interests)
         self.interestPageWindow.close()
         self.signUpWindow.show()
+        
 
     
     def openMAINPage(self):
-        # Assuming user_id and username are obtained after successful login
-        user_id = self.logInUI.user_id  # Replace with actual user_id
-        username = self.logInUI.username  # Replace with actual username
+        username = self.logInUI.LI_UsernameLE.text()
+        password = self.logInUI.LI_PasswordLE.text()
 
-        # Set user info in the main page UI
-        self.mainPageUI.set_user_info(user_id, username)
+        data = {
+            'username': username,
+            'password': password
+        }
 
-        # Show the main page window
-        self.logInWindow.close()
-        self.mainPageWindow.show()
+        try:
+            response = requests.post('http://127.0.0.1:5000/login', json=data)
+            if response.status_code == 200:
+                user_data = response.json()
+                self.logInUI.user_id = user_data['user_id']
+                self.logInUI.username = user_data['username']
 
-        # Load the first user immediately
-        self.load_next_user()
+                # Set user info in the main page UI
+                self.mainPageUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
+
+                # Show the main page window
+                self.logInWindow.close()
+                self.mainPageWindow.show()
+
+                # Load the first user immediately
+                self.load_next_user()
+            else:
+                error_message = response.json().get('error', '')
+                if error_message:
+                    self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
 
     #MAINPAGE methods
 
@@ -1087,13 +1145,6 @@ class MainApp:
             self.show_error_message(f"Request failed: {str(e)}")
             return []
         
-    
-
-
-   
-    
-    
-
 
     # AccountSettings methods
     def openMAINPAGEfromAccountSettings(self):
@@ -1226,9 +1277,18 @@ class MainApp:
         self.clear_user_display()
        
         # Display the sorted users
-        for user, score in users:
+        for user in users:
             # Add user details to the UI
             self.mainPageUI.MP_Username.setText(user)
+            self.mainPageUI.MP_Age
+            self.mainPageUI.MP_Gender
+            self.mainPageUI.MP_Location
+            self.mainPageUI.MP_Preference1
+            self.mainPageUI.MP_Preference2
+            self.mainPageUI.MP_Preference3
+            self.mainPageUI.MP_Preference4
+            self.mainPageUI.MP_Preference5
+            
             # Assuming you have labels or other UI elements to display user details
             # self.mainPageUI.MP_Age.setText(f"Age: {user['age']}")
             # self.mainPageUI.MP_Gender.setText(f"Gender: {user['gender']}")
@@ -1238,6 +1298,10 @@ class MainApp:
             # self.mainPageUI.MP_Preference3.setText(user['preferences'][2] if len(user['preferences']) > 2 else "Pref.3")
             # self.mainPageUI.MP_Preference4.setText(user['preferences'][3] if len(user['preferences']) > 3 else "Pref.4")
             # self.mainPageUI.MP_Preference5.setText(user['preferences'][4] if len(user['preferences']) > 4 else "Pref.5")
+        
+        # Ensure the currently logged-in user's username is displayed
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
+    #...
 
 
     def toggle_button(self, button):
@@ -1247,6 +1311,11 @@ class MainApp:
             self.fetch_users_by_mutual_friends()
         elif button == self.locationButton:
             self.fetch_users_by_location()
+        elif button == self.combinedScoreButton:
+            self.fetch_users_by_combined_score()
+
+        # Ensure the currently logged-in user's username is displayed
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.LI_UsernameLE.text())
 
 
 
