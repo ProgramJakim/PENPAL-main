@@ -1148,6 +1148,102 @@ class MainApp:
         self.changeProfileWindow.close()
         self.accountSettingsWindow.show()
 
+     #RECOMMENDATIONS LOGIC
+    def fetch_users_by_interests(self):
+        logged_in_username = self.logInUI.username
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_all_users_interests')
+            if response.status_code == 200:
+                user_interests = response.json().get('user_interests', {})
+                logged_in_user_interests = set(user_interests.get(logged_in_username, []))
+                user_scores = []
+                for username, interests in user_interests.items():
+                    if username != logged_in_username:
+                        common_interests = logged_in_user_interests.intersection(set(interests))
+                        user_scores.append((username, len(common_interests)))
+                sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
+                self.display_users(sorted_users)
+            else:
+                self.show_error_message("Failed to fetch users by interests.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
+    def fetch_users_by_mutual_friends(self):
+        logged_in_username = self.logInUI.username
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_mutual_friends', params={'username': logged_in_username})
+            if response.status_code == 200:
+                mutual_friends_dict = response.json().get('mutual_friends', {})
+                user_scores = []
+                for username, mutual_friends in mutual_friends_dict.items():
+                    user_scores.append((username, len(mutual_friends)))
+                sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
+                self.display_users(sorted_users)
+            else:
+                self.show_error_message("Failed to fetch users by mutual friends.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
+    def fetch_users_by_location(self):
+        logged_in_username = self.logInUI.username
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_user_location', params={'username': logged_in_username})
+            if response.status_code == 200:
+                user_location = response.json().get('location', "")
+                response = requests.get('http://127.0.0.1:5000/get_users_by_location', params={'location': user_location})
+                if response.status_code == 200:
+                    users = response.json().get('users', [])
+                    self.display_users([(user, 0) for user in users])
+                else:
+                    self.show_error_message("Failed to fetch users by location.")
+            else:
+                self.show_error_message("Failed to fetch user location.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+
+
+    def fetch_users_by_combined_score(self):
+        logged_in_username = self.logInUI.username
+        try:
+            response = requests.get('http://127.0.0.1:5000/get_combined_score_users', params={'username': logged_in_username})
+            if response.status_code == 200:
+                sorted_users = response.json().get('sorted_users', [])
+                self.display_users(sorted_users)
+            else:
+                self.show_error_message("Failed to fetch users by combined score.")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
+   
+    def display_users(self, users):
+        # Clear the current display
+        self.clear_user_display()
+       
+        # Display the sorted users
+        for user, score in users:
+            # Add user details to the UI
+            self.mainPageUI.MP_Username.setText(user)
+            # Assuming you have labels or other UI elements to display user details
+            # self.mainPageUI.MP_Age.setText(f"Age: {user['age']}")
+            # self.mainPageUI.MP_Gender.setText(f"Gender: {user['gender']}")
+            # self.mainPageUI.MP_Location.setText(f"Location: {user['location']}")
+            # self.mainPageUI.MP_Preference1.setText(user['preferences'][0] if len(user['preferences']) > 0 else "Pref.1")
+            # self.mainPageUI.MP_Preference2.setText(user['preferences'][1] if len(user['preferences']) > 1 else "Pref.2")
+            # self.mainPageUI.MP_Preference3.setText(user['preferences'][2] if len(user['preferences']) > 2 else "Pref.3")
+            # self.mainPageUI.MP_Preference4.setText(user['preferences'][3] if len(user['preferences']) > 3 else "Pref.4")
+            # self.mainPageUI.MP_Preference5.setText(user['preferences'][4] if len(user['preferences']) > 4 else "Pref.5")
+
+
+    def toggle_button(self, button):
+        if button == self.interestButton:
+            self.fetch_users_by_interests()
+        elif button == self.mutualFriendsButton:
+            self.fetch_users_by_mutual_friends()
+        elif button == self.locationButton:
+            self.fetch_users_by_location()
+
+
 
 
     def run(self):
