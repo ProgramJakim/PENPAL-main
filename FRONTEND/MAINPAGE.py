@@ -594,8 +594,6 @@ class Ui_Main_Page(object):
                                 "border-radius: 20px;\n"
                                 "background: orange;\n"
                                 "")
-        #USERNAME DISPLAY
-        self.username = "Default Username"  # Set a default username
         self.display_username()
 
     def set_user_info(self, user_id, username):
