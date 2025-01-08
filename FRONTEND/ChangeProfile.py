@@ -347,6 +347,8 @@ class Ui_ChangeProfile(object):
     def select_profile_picture(self, profile_picture):
         self.selected_profile_picture = profile_picture  # Step 2: Update the variable
         print(f"Selected profile picture: {self.selected_profile_picture}")  # Debug statement
+        # Update the default profile picture preview
+        self.CP_DefaultProfile.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder, self.selected_profile_picture)))
 
     def save_changes(self):
         if self.selected_profile_picture:
