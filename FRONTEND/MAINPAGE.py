@@ -582,9 +582,11 @@ class Ui_Main_Page(object):
         self.MP_LeftArrow.raise_()
         self.MP_RightArrow.raise_()
         self.MP_NotificationPB.raise_()
+        self.MP_MutualFriends.raise_()
         self.interestButton.raise_()
         self.mutualFriendsButton.raise_()
         self.locationButton.raise_()
+        self.MP_MutualFriends.raise_()
 
         self.retranslateUi(Main_Page)
         QtCore.QMetaObject.connectSlotsByName(Main_Page)
@@ -654,6 +656,7 @@ class Ui_Main_Page(object):
             print(f"Error fetching username: {e}")
             return "Unknown User"
         
+ 
  #RECOMMENDED USERS DISPLAY 
   
 

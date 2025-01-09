@@ -566,114 +566,44 @@ def update_user_email():
         logging.error(f"Database error: {err}")
         return jsonify({"error": f"Database error occurred: {err}"}), 500
 
-
-#RECOMMENDATION API
-@app.route('/get_all_users_interests', methods=['GET'])
-def get_all_users_interests():
-    try:
-        db_cursor.execute("SELECT username, interest FROM user_interests")
-        user_interests = {}
-        for row in db_cursor.fetchall():
-            username, interest = row
-            if username not in user_interests:
-                user_interests[username] = []
-            user_interests[username].append(interest)
-        return jsonify({"user_interests": user_interests}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
-
-@app.route('/get_mutual_friends', methods=['GET'])
-def get_mutual_friends():
+@app.route('/get_mutual_friends_count', methods=['GET'])
+def get_mutual_friends_count():
     username = request.args.get('username')
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
+    other_user = request.args.get('other_user')
+
+    if not username or not other_user:
+        return jsonify({"error": "Both username and other_user are required"}), 400
 
     try:
         # Get friends of the user
         db_cursor.execute("""
             SELECT user2 FROM friendships WHERE user1 = %s
-            UNION 
+            UNION
             SELECT user1 FROM friendships WHERE user2 = %s
         """, (username, username))
-        friends = {row[0] for row in db_cursor.fetchall()}
+        user_friends = {row[0] for row in db_cursor.fetchall()}
 
-        # Get mutual friends
-        mutual_friends = {}
-        for friend in friends:
-            db_cursor.execute("""
-                SELECT user2 FROM friendships WHERE user1 = %s
-                UNION 
-                SELECT user1 FROM friendships WHERE user2 = %s
-            """, (friend, friend))
-            mutual_friends[friend] = [row[0] for row in db_cursor.fetchall() if row[0] != username and row[0] not in friends]
-
-        return jsonify({"mutual_friends": mutual_friends}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
-
-@app.route('/get_users_by_location', methods=['GET'])
-def get_users_by_location():
-    location = request.args.get('location')
-    if not location:
-        return jsonify({"error": "Location is required"}), 400
-
-    try:
-        db_cursor.execute("SELECT username FROM users WHERE location = %s", (location,))
-        users = [row[0] for row in db_cursor.fetchall()]
-        return jsonify({"users": users}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
-
-@app.route('/get_combined_score_users', methods=['GET'])
-def get_combined_score_users():
-    username = request.args.get('username')
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
-
-    try:
-        # Fetch user interests
-        db_cursor.execute("SELECT interest FROM user_interests WHERE username = %s", (username,))
-        user_interests = {row[0] for row in db_cursor.fetchall()}
-
-        # Fetch all other users' interests and exclude current friends
+        # Get friends of the other user
         db_cursor.execute("""
-            SELECT u.username, ui.interest 
-            FROM users u
-            JOIN user_interests ui ON u.username = ui.username
-            WHERE u.username != %s 
-            AND u.username NOT IN (
-                SELECT user2 FROM friendships WHERE user1 = %s
-                UNION
-                SELECT user1 FROM friendships WHERE user2 = %s
-            )
-        """, (username, username, username))
+            SELECT user2 FROM friendships WHERE user1 = %s
+            UNION
+            SELECT user1 FROM friendships WHERE user2 = %s
+        """, (other_user, other_user))
+        other_user_friends = {row[0] for row in db_cursor.fetchall()}
 
-        potential_friends = {}
-        for other_user, interest in db_cursor.fetchall():
-            if other_user not in potential_friends:
-                potential_friends[other_user] = set()
-            potential_friends[other_user].add(interest)
+        # Calculate mutual friends
+        mutual_friends = user_friends.intersection(other_user_friends)
+        mutual_count = len(mutual_friends)
 
-        # Calculate shared interests
-        recommendations = {
-            user: user_interests.intersection(interests)
-            for user, interests in potential_friends.items()
-        }
-
-        # Filter out users with no shared interests and sort by the number of shared interests
-        sorted_recommendations = {
-            user: shared_interests
-            for user, shared_interests in sorted(recommendations.items(), key=lambda item: len(item[1]), reverse=True)
-            if shared_interests
-        }
-
-        return jsonify({"sorted_users": list(sorted_recommendations.items())}), 200
+        # Only show mutual friends if the user has friends
+        if user_friends:
+            return jsonify({"mutual_count": mutual_count}), 200
+        else:
+            return jsonify({"mutual_count": 0}), 200
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
 
     
 
