@@ -792,6 +792,14 @@ class MainApp:
             self.clear_user_display()
 
     def prompt_browse_again(self):
+        if len(self.displayed_users) == 1:
+            QMessageBox.information(
+                self.mainPageWindow,
+                'Last User',
+                'This is the last user available.'
+            )
+            return
+
         reply = QMessageBox.question(
             self.mainPageWindow,
             'No more users',
