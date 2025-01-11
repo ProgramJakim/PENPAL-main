@@ -9,6 +9,8 @@ from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
 from PyQt5 import QtCore 
 
+
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
 from LogInPage import Ui_LogIn
@@ -25,7 +27,6 @@ from TermsAndCondition import Ui_TermsAndCondition
 from FriendMenu import Ui_FriendMenu
 from ChangeProfile import Ui_ChangeProfile 
 from NotificationPage import NotificationWindow
-
 
 class SplashScreen(QDialog):
     def __init__(self):
@@ -160,7 +161,7 @@ class MainApp:
         self.mainPageUI.setupUi(self.mainPageWindow)
         self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
         self.displayed_users = set()  # Keep track of displayed users
-        
+        self.first_user = None 
         # Setup UI for NOtification
         self.notificationWindow = NotificationWindow()
 
@@ -347,6 +348,11 @@ class MainApp:
         # ChangeProfile BUttons
         self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
         
+        #RECOMMENDATIONS Buttons
+        self.mainPageUI.interestButton.clicked.connect(self.fetch_users_by_interests)
+        self.mainPageUI.mutualFriendsButton.clicked.connect(self.fetch_users_by_mutual_friends)
+        self.mainPageUI.locationButton.clicked.connect(self.fetch_users_by_location)
+
     # WelcomePage methods
     def open_homepagefromwelcome(self):
         self.welcomePageWindow.close()
@@ -483,6 +489,10 @@ class MainApp:
 
             # Send the data to the backend to create the account
             response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
+
+            # Log the response for debugging
+            print(f"Response status code: {response.status_code}")
+            print(f"Response content: {response.content}")
 
             if response.status_code == 201:
                 self.clear_error_message()  # Clear any existing error messages
@@ -633,29 +643,7 @@ class MainApp:
         
 
     
-    def openMAINPage(self):
-        username = self.logInUI.LI_UsernameLE.text()
-        password = self.logInUI.LI_PasswordLE.text()
-
-        data = {
-            'username': username,
-            'password': password
-        }
-
-        try:
-            response = requests.post('http://127.0.0.1:5000/login', json=data)
-            if response.status_code == 200:
-                self.mainPageUI.MP_UPusername.setText(username)  # Set the logged-in username
-                self.mainPageUI.set_user_info(self.logInUI.user_id, username)  # Set user info in the main page UI
-                self.logInWindow.close()
-                self.mainPageWindow.show()
-                self.load_next_user()  # Load the first user immediately
-            else:
-                self.show_error_message("Login failed", "Invalid username or password.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message(f"Request failed: {str(e)}")
-    #...
-
+    
 
     #MAINPAGE methods
 
@@ -684,6 +672,39 @@ class MainApp:
         # Close the Main Page window and show the Home Page window
         self.mainPageWindow.close()
         self.homePageWindow.show()
+    
+    def openMAINPage(self):
+        username = self.logInUI.LI_UsernameLE.text()
+        password = self.logInUI.LI_PasswordLE.text()
+
+        data = {
+            'username': username,
+            'password': password
+        }
+
+        try:
+            response = requests.post('http://127.0.0.1:5000/login', json=data)
+            if response.status_code == 200:
+                user_data = response.json()
+                self.logInUI.user_id = user_data['user_id']
+                self.logInUI.username = user_data['username']
+                self.logged_in_username = user_data['username']  # Set the logged_in_username attribute
+
+                # Set user info in the main page UI
+                self.mainPageUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
+
+                # Show the main page window
+                self.logInWindow.close()
+                self.mainPageWindow.show()
+
+                # Load the first user immediately
+                self.load_next_user()
+            else:
+                error_message = response.json().get('error', '')
+                if error_message:
+                    self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
 
     def fetch_and_display_user(self, current_username):
         try:
@@ -731,36 +752,63 @@ class MainApp:
             self.load_next_user()
 
     def load_next_user(self):
-        max_retries = 3  # Set a limit for the number of retries
-        retries = 0
+        current_username = self.mainPageUI.MP_UPusername.text()
+        if not current_username:
+            return
 
-        while retries < max_retries:
-            try:
-                current_username = self.mainPageUI.MP_Username.text()
-                self.displayed_users.add(current_username)  # Add current user to displayed users
-
-                response = requests.get('http://127.0.0.1:5000/get_one_user', params={
-                    'current_username': current_username,
-                    'logged_in_username': self.logInUI.username,  # Pass the logged-in username
-                    'displayed_users': list(self.displayed_users)  # Pass the list of displayed users
-                })
-                if response.status_code == 200:
-                    user = response.json().get('user', {})
+        try:
+            response = requests.get('http://localhost:5000/get_one_user', params={
+                'current_username': current_username,
+                'logged_in_username': self.logged_in_username,
+                'displayed_users': list(self.displayed_users)
+            })
+            if response.status_code == 200:
+                user = response.json().get('user')
+                if user:
+                    if not self.first_user:
+                        self.first_user = user['username']  # Set the first user displayed
                     self.display_user(user)
-                    return  # Exit the loop if a user is found
-                elif response.status_code == 404:
-                    # No more users available, reset the displayed_users set and try again
-                    self.displayed_users.clear()
-                    retries += 1
+                    self.displayed_users.add(user['username'])
+
+                    # Fetch mutual friends count
+                    mutual_response = requests.get('http://localhost:5000/get_mutual_friends_count', params={
+                        'username': self.logged_in_username,
+                        'other_user': user['username']
+                    })
+                    if mutual_response.status_code == 200:
+                        mutual_count = mutual_response.json().get('mutual_count', 0)
+                        if mutual_count > 0:
+                            self.mainPageUI.MP_MutualFriends.setText(f"Mutual Friends: {mutual_count}")
+                        else:
+                            self.mainPageUI.MP_MutualFriends.setText("")
+                    else:
+                        self.mainPageUI.MP_MutualFriends.setText("")
                 else:
-                    print(f"Error: Received status code {response.status_code}")
-                    print(f"Response content: {response.content}")
-                    self.show_error_message("Failed to fetch user.")
-                    return
-            except requests.exceptions.RequestException as e:
-                print(f"Request exception: {str(e)}")
-                self.show_error_message(f"Request failed: {str(e)}")
-                return
+                    self.prompt_browse_again()
+            else:
+                self.prompt_browse_again()
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
+            self.clear_user_display()
+
+    def prompt_browse_again(self):
+        reply = QMessageBox.question(
+            self.mainPageWindow,
+            'No more users',
+            'Do you want to browse again?',
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        if reply == QMessageBox.Yes:
+            self.displayed_users.clear()  # Reset the displayed users
+            self.load_first_user()
+        else:
+            self.clear_user_display()
+
+    def load_first_user(self):
+        if self.first_user:
+            self.displayed_users.add(self.first_user)
+            self.load_next_user()
         
 
     def clear_user_display(self):
@@ -804,6 +852,7 @@ class MainApp:
         self.friendMenuWindow.close()
         self.mainPageWindow.show()
     def openAccountSettingsFromFrienMenu(self):
+        self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.friendMenuWindow.close()
         self.accountSettingsWindow.show()
     
@@ -1189,121 +1238,16 @@ class MainApp:
         self.changeProfileWindow.close()
         self.accountSettingsWindow.show()
 
-     #RECOMMENDATIONS LOGIC
-    def fetch_users_by_interests(self):
-        logged_in_username = self.logInUI.username
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_all_users_interests')
-            if response.status_code == 200:
-                user_interests = response.json().get('user_interests', {})
-                logged_in_user_interests = set(user_interests.get(logged_in_username, []))
-                user_scores = []
-                for username, interests in user_interests.items():
-                    if username != logged_in_username:
-                        common_interests = logged_in_user_interests.intersection(set(interests))
-                        user_scores.append((username, len(common_interests)))
-                sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
-                self.display_users(sorted_users)
-            else:
-                self.show_error_message("Failed to fetch users by interests.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message(f"Request failed: {str(e)}")
-
-
-    def fetch_users_by_mutual_friends(self):
-        logged_in_username = self.logInUI.username
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_mutual_friends', params={'username': logged_in_username})
-            if response.status_code == 200:
-                mutual_friends_dict = response.json().get('mutual_friends', {})
-                user_scores = []
-                for username, mutual_friends in mutual_friends_dict.items():
-                    user_scores.append((username, len(mutual_friends)))
-                sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
-                self.display_users(sorted_users)
-            else:
-                self.show_error_message("Failed to fetch users by mutual friends.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message(f"Request failed: {str(e)}")
-
-
-    def fetch_users_by_location(self):
-        logged_in_username = self.logInUI.username
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_user_location', params={'username': logged_in_username})
-            if response.status_code == 200:
-                user_location = response.json().get('location', "")
-                response = requests.get('http://127.0.0.1:5000/get_users_by_location', params={'location': user_location})
-                if response.status_code == 200:
-                    users = response.json().get('users', [])
-                    self.display_users([(user, 0) for user in users])
-                else:
-                    self.show_error_message("Failed to fetch users by location.")
-            else:
-                self.show_error_message("Failed to fetch user location.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message(f"Request failed: {str(e)}")
-
-
-    def fetch_users_by_combined_score(self):
-        logged_in_username = self.logInUI.username
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_combined_score_users', params={'username': logged_in_username})
-            if response.status_code == 200:
-                sorted_users = response.json().get('sorted_users', [])
-                self.display_users(sorted_users)
-            else:
-                self.show_error_message("Failed to fetch users by combined score.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message(f"Request failed: {str(e)}")
-   
-    def display_users(self, users):
-        # Clear the current display
-        self.clear_user_display()
-       
-        # Display the sorted users
-        for user in users:
-            # Add user details to the UI
-            self.mainPageUI.MP_Username.setText(user)
-            self.mainPageUI.MP_Age
-            self.mainPageUI.MP_Gender
-            self.mainPageUI.MP_Location
-            self.mainPageUI.MP_Preference1
-            self.mainPageUI.MP_Preference2
-            self.mainPageUI.MP_Preference3
-            self.mainPageUI.MP_Preference4
-            self.mainPageUI.MP_Preference5
-            
-            # Assuming you have labels or other UI elements to display user details
-            # self.mainPageUI.MP_Age.setText(f"Age: {user['age']}")
-            # self.mainPageUI.MP_Gender.setText(f"Gender: {user['gender']}")
-            # self.mainPageUI.MP_Location.setText(f"Location: {user['location']}")
-            # self.mainPageUI.MP_Preference1.setText(user['preferences'][0] if len(user['preferences']) > 0 else "Pref.1")
-            # self.mainPageUI.MP_Preference2.setText(user['preferences'][1] if len(user['preferences']) > 1 else "Pref.2")
-            # self.mainPageUI.MP_Preference3.setText(user['preferences'][2] if len(user['preferences']) > 2 else "Pref.3")
-            # self.mainPageUI.MP_Preference4.setText(user['preferences'][3] if len(user['preferences']) > 3 else "Pref.4")
-            # self.mainPageUI.MP_Preference5.setText(user['preferences'][4] if len(user['preferences']) > 4 else "Pref.5")
-        
-        # Ensure the currently logged-in user's username is displayed
+    
+    def fetch_users_by_interests(self, username):
+        print ('interest')
         self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
-    #...
-
-
-    def toggle_button(self, button):
-        if button == self.interestButton:
-            self.fetch_users_by_interests()
-        elif button == self.mutualFriendsButton:
-            self.fetch_users_by_mutual_friends()
-        elif button == self.locationButton:
-            self.fetch_users_by_location()
-        elif button == self.combinedScoreButton:
-            self.fetch_users_by_combined_score()
-
-        # Ensure the currently logged-in user's username is displayed
-        self.mainPageUI.MP_UPusername.setText(self.logInUI.LI_UsernameLE.text())
-
-
-
+    def fetch_users_by_mutual_friends(self, username):
+        print ('mutual friends')
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
+    def fetch_users_by_location(self, username):
+        print ('location')
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
 
     def run(self):
         # Show the splash screen

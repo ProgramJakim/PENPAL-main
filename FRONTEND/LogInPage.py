@@ -341,7 +341,7 @@ class Ui_LogIn(object):
 
     def retranslateUi(self, LogIn):
         _translate = QtCore.QCoreApplication.translate
-        LogIn.setWindowTitle(_translate("LogIn", "Dialog"))
+        LogIn.setWindowTitle(_translate("LogIn", "Log in"))
         self.LI_SignUpPB.setText(_translate("LogIn", "Sign Up"))
         self.LI_LogInToPenpal.setText(_translate("LogIn", "Log In to Penpal"))
         self.LI_UsernameLBL.setText(_translate("LogIn", "Username:"))

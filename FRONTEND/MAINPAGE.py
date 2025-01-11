@@ -135,14 +135,14 @@ class Ui_Main_Page(object):
         self.MP_Shape1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.MP_Shape1.setObjectName("MP_Shape1")
         self.MP_Profile_Display = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Profile_Display.setGeometry(QtCore.QRect(150, 20, 150, 101))
+        self.MP_Profile_Display.setGeometry(QtCore.QRect(150, 40, 150, 101))
         self.MP_Profile_Display.setStyleSheet("border: none;")
         self.MP_Profile_Display.setText("")
         self.MP_Profile_Display.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'GPfp.png')))
         self.MP_Profile_Display.setScaledContents(True)
         self.MP_Profile_Display.setObjectName("MP_Profile_Display")
         self.MP_Username = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Username.setGeometry(QtCore.QRect(180, 90, 488, 100))
+        self.MP_Username.setGeometry(QtCore.QRect(180, 100, 488, 100))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(3)
@@ -201,7 +201,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_Gender.setObjectName("MP_Gender")
         self.MP_Location = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Location.setGeometry(QtCore.QRect(30, 250, 351, 71))
+        self.MP_Location.setGeometry(QtCore.QRect(30, 250, 500, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -479,6 +479,26 @@ class Ui_Main_Page(object):
         self.MP_ArrowLeft.setScaledContents(True)
         self.MP_ArrowLeft.setObjectName("MP_ArrowLeft")
 
+# Add mutual friends label
+        self.MP_MutualFriends = QtWidgets.QLabel(self.MP_Shape1)
+        self.MP_MutualFriends.setGeometry(QtCore.QRect(0, 0, 450, 30))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
+        sizePolicy.setHorizontalStretch(5)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.MP_MutualFriends.sizePolicy().hasHeightForWidth())
+        self.MP_MutualFriends.setSizePolicy(sizePolicy)
+        self.MP_MutualFriends.setMinimumSize(QtCore.QSize(200, 50))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(12)
+        font.setBold(True)
+        self.MP_MutualFriends.setFont(font)
+        self.MP_MutualFriends.setStyleSheet("color: rgb(229, 141, 118);")
+        self.MP_MutualFriends.setText("Mutual Friends: 0")
+
+
+
+
         
 
 
@@ -562,16 +582,18 @@ class Ui_Main_Page(object):
         self.MP_LeftArrow.raise_()
         self.MP_RightArrow.raise_()
         self.MP_NotificationPB.raise_()
+        self.MP_MutualFriends.raise_()
         self.interestButton.raise_()
         self.mutualFriendsButton.raise_()
         self.locationButton.raise_()
+        self.MP_MutualFriends.raise_()
 
         self.retranslateUi(Main_Page)
         QtCore.QMetaObject.connectSlotsByName(Main_Page)
 
     def retranslateUi(self, Main_Page):
         _translate = QtCore.QCoreApplication.translate
-        Main_Page.setWindowTitle(_translate("Main_Page", "Dialog"))
+        Main_Page.setWindowTitle(_translate("Main_Page", "Main Page"))
         self.MP_UPusername.setText(_translate("Main_Page", "USERNAME"))
         self.MP_ProfilePB.setText(_translate("Main_Page", "PROFILE"))
         self.MP_MenuPB.setText(_translate("Main_Page", "MENU"))
@@ -634,6 +656,7 @@ class Ui_Main_Page(object):
             print(f"Error fetching username: {e}")
             return "Unknown User"
         
+ 
  #RECOMMENDED USERS DISPLAY 
   
 
