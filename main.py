@@ -1,13 +1,15 @@
-#annie
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
-from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
-from PyQt5 import QtCore 
+
 import os
 import sys
 import requests
 import re
 from datetime import datetime
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
+from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
+from PyQt5 import QtCore 
+
+
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'FRONTEND')))
 from SignUpPage import Ui_SignUp
@@ -25,7 +27,6 @@ from TermsAndCondition import Ui_TermsAndCondition
 from FriendMenu import Ui_FriendMenu
 from ChangeProfile import Ui_ChangeProfile 
 from NotificationPage import NotificationWindow
-
 
 class SplashScreen(QDialog):
     def __init__(self):
@@ -152,6 +153,7 @@ class MainApp:
        # Setup UI for the interest page window
         self.interestPageUI = Ui_Interest()
         self.interestPageUI.setupUi(self.interestPageWindow)
+        self.selected_interests = []
 
 
         # Setup UI for the main page window
@@ -159,13 +161,14 @@ class MainApp:
         self.mainPageUI.setupUi(self.mainPageWindow)
         self.mainPageUI.MP_MenuPB.clicked.connect(self.openFriendMenu)
         self.displayed_users = set()  # Keep track of displayed users
-        
+        self.first_user = None 
         # Setup UI for NOtification
         self.notificationWindow = NotificationWindow()
 
         # Setup UI for the account settings window
         self.accountSettingsUI = Ui_AccountSettings()
         self.accountSettingsUI.setupUi(self.accountSettingsWindow)
+        
         
         # Setup UI for the Change Profile window
         self.changeProfileUI = Ui_ChangeProfile()
@@ -209,12 +212,18 @@ class MainApp:
         # ForgotPass buttons
         self.forgotPassUi.FPbackButton.clicked.connect(self.openLogInFromForgotPass)
        
-        # SignUpPage buttons
-        self.signUpUI.SU_LogInPB.clicked.connect(self.backtoLogInPage)
+        # SignUpPage buttons neww
         self.signUpUI.SU_InterestPB.clicked.connect(self.openInterestPage)
         self.signUpUI.SU_TermsandPrivacyChB.clicked.connect(self.open_terms_conditions_page_from_signup)
-        self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup)
-        self.signUpUI.SU_SignUpPB.clicked.connect(self.on_sign_up_button_click)
+        
+        if hasattr(self.signUpUI.SU_SignUpPB, 'clicked'):
+            try:
+                self.signUpUI.SU_SignUpPB.clicked.disconnect()
+            except TypeError:
+                pass
+        self.signUpUI.SU_SignUpPB.clicked.connect(self.handle_signup_origin)
+        
+        self.signUpUI.SU_LogInPB.clicked.connect(self.on_sign_up_button_click)
 
         
         # Terms&Conditions Buttons
@@ -332,12 +341,18 @@ class MainApp:
         self.accountSettingsUI.AS_EditAvatarPB.clicked.connect(self.openChangeProfileFromAccountSettings)
         # Connect the save changes button to the change_social_link method
         self.accountSettingsUI.AS_SaveChangesPB.clicked.connect(self.save_changes)
+        
 
 
 
         # ChangeProfile BUttons
         self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
         
+        #RECOMMENDATIONS Buttons
+        self.mainPageUI.interestButton.clicked.connect(self.fetch_users_by_interests)
+        self.mainPageUI.mutualFriendsButton.clicked.connect(self.fetch_users_by_mutual_friends)
+        self.mainPageUI.locationButton.clicked.connect(self.fetch_users_by_location)
+
     # WelcomePage methods
     def open_homepagefromwelcome(self):
         self.welcomePageWindow.close()
@@ -396,14 +411,15 @@ class MainApp:
         self.forgotPasswordWindow.close()
         self.logInWindow.show()
 
-    # SignUpPage methods
-    def handle_signup(self):
+    def handle_signup_origin(self):
+        print("handle_signup called")  # Debug statement
         username = self.signUpUI.SU_UsernameLE.text()
         password = self.signUpUI.SU_PasswordLE.text()
         gender = self.signUpUI.SU_GenderCB.currentText()
         location = self.signUpUI.SU_LocationLE.text()
         social_media_link = self.signUpUI.SU_SocialLinkLE.text()
         gmail = self.signUpUI.SU_EmailLE.text()  # New field for Gmail account
+        selected_interests = self.selected_interests  # Retrieve selected interests
 
         # Check if all fields are filled
         if not username or not password or not location or not gender or not gmail:
@@ -429,6 +445,11 @@ class MainApp:
         # Check if interests are selected
         if len(selected_interests) < 5:
             self.show_error_message("Please select at least five interests.")
+            return False 
+
+        # Check if interests are selected
+        if len(selected_interests) < 5:
+            self.show_error_message("Please select at least five interests.")
             return False  # Indicate that the sign-up process should not continue
 
         # Check if terms and conditions are accepted
@@ -447,6 +468,7 @@ class MainApp:
         try:
             # First, check if the username exists
             response = requests.post('http://127.0.0.1:5000/check_username', json=data)
+            print(f"Response status code: {response.status_code}")  # Debug statement
 
             if response.status_code == 400:  # Assuming the backend returns 400 if the username exists
                 self.show_error_message("Username already exists. Please choose another username.")
@@ -462,7 +484,7 @@ class MainApp:
                 'location': location,
                 'social_media_link': social_media_link,
                 'gmail': gmail,  # Include the Gmail field in the sign-up data
-                'interests': self.get_selected_interests()  # Include the selected interests
+                'interests': selected_interests  # Include the selected interests
             }
 
             # Send the data to the backend to create the account
@@ -473,6 +495,7 @@ class MainApp:
             print(f"Response content: {response.content}")
 
             if response.status_code == 201:
+                self.clear_error_message()  # Clear any existing error messages
                 self.show_success_message("Account created successfully!")
 
                 # Clear the input fields after sign-up
@@ -483,14 +506,13 @@ class MainApp:
                 self.signUpUI.SU_LocationLE.clear()
                 self.signUpUI.SU_SocialLinkLE.clear()
                 self.signUpUI.SU_EmailLE.clear()  # Clear the Gmail field
-
-                self.clear_error_message()  # Clear any existing error messages
-
-                # Reset the click counts and total clicks
-                self.reset_click_counts()
-
+                self.signUpUI.SU_EmailLE.clear() 
+                # Reset selected interests
+                self.total_clicks = 0
+                self.click_counts = {button_name: 0 for button_name in self.click_counts}
+                self.interestPageUI.placeholderText.setText("0 selected")  # Update the display to show 0 selected
                 self.show_success_message("You can continue creating another account or stay here.")
-
+                self.clear_error_message()
                 return True  # Indicate that the sign-up process succeeded
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
@@ -500,12 +522,6 @@ class MainApp:
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
         return False  # Indicate failure
-
-    def reset_click_counts(self):
-        for button in self.click_counts:
-            self.click_counts[button] = 0
-        self.total_clicks = 0
-        self.interestPageUI.placeholderText.setText("0 selected")
 
     def clear_error_message(self):
         # Assuming you have a QLabel named error_message_label for displaying error messages
@@ -541,15 +557,28 @@ class MainApp:
         # Updated pattern to allow periods in the path
         pattern = r"^(https?://)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}(/[\w\-\.]*)*$"
         return bool(re.match(pattern, social_link))
+    
     def on_sign_up_button_click(self):
-        if self.handle_signup():  # If sign-up is successful, proceed
-           self.backtoLogInPage()
+        if self.handle_signup_origin():  # If sign-up is successful, proceed
+            self.backtoLogInPage()
         else:
-            # If there's an issue (password, social link, etc.), the user will have to fix it
-            pass
+            # If there's an issue, show a message box asking if the user wants to continue
+            reply = QMessageBox.question(
+                self.signUpWindow,
+                'Continue Sign Up?',
+                'Are you sure you want to stop the sign-up process?',
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No
+            )
+            if reply == QMessageBox.Yes:
+                self.backtoLogInPage()
+            else:
+                # Stay in the sign-up window
+                pass
     def backtoLogInPage(self):
         self.signUpWindow.close()
         self.logInWindow.show()
+        
     def open_terms_conditions_page_from_signup(self):
         self.signUpWindow.close()
         self.termsWindow.show()
@@ -603,25 +632,18 @@ class MainApp:
 
     def on_done_clicked(self):
         selected_interests = self.get_selected_interests()
+        
+        if len(selected_interests) < 5:
+            self.show_error_message("Please select at least five interests.")
+            return
+        
         self.show_selected_interests(selected_interests)
         self.interestPageWindow.close()
         self.signUpWindow.show()
+        
 
     
-    def openMAINPage(self):
-        # Assuming user_id and username are obtained after successful login
-        user_id = self.logInUI.user_id  # Replace with actual user_id
-        username = self.logInUI.username  # Replace with actual username
-
-        # Set user info in the main page UI
-        self.mainPageUI.set_user_info(user_id, username)
-
-        # Show the main page window
-        self.logInWindow.close()
-        self.mainPageWindow.show()
-
-        # Load the first user immediately
-        self.load_next_user()
+    
 
     #MAINPAGE methods
 
@@ -650,6 +672,39 @@ class MainApp:
         # Close the Main Page window and show the Home Page window
         self.mainPageWindow.close()
         self.homePageWindow.show()
+    
+    def openMAINPage(self):
+        username = self.logInUI.LI_UsernameLE.text()
+        password = self.logInUI.LI_PasswordLE.text()
+
+        data = {
+            'username': username,
+            'password': password
+        }
+
+        try:
+            response = requests.post('http://127.0.0.1:5000/login', json=data)
+            if response.status_code == 200:
+                user_data = response.json()
+                self.logInUI.user_id = user_data['user_id']
+                self.logInUI.username = user_data['username']
+                self.logged_in_username = user_data['username']  # Set the logged_in_username attribute
+
+                # Set user info in the main page UI
+                self.mainPageUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
+
+                # Show the main page window
+                self.logInWindow.close()
+                self.mainPageWindow.show()
+
+                # Load the first user immediately
+                self.load_next_user()
+            else:
+                error_message = response.json().get('error', '')
+                if error_message:
+                    self.show_error_message(f"Error: {error_message}")
+        except requests.exceptions.RequestException as e:
+            self.show_error_message(f"Request failed: {str(e)}")
 
     def fetch_and_display_user(self, current_username):
         try:
@@ -697,36 +752,63 @@ class MainApp:
             self.load_next_user()
 
     def load_next_user(self):
-        max_retries = 3  # Set a limit for the number of retries
-        retries = 0
+        current_username = self.mainPageUI.MP_UPusername.text()
+        if not current_username:
+            return
 
-        while retries < max_retries:
-            try:
-                current_username = self.mainPageUI.MP_Username.text()
-                self.displayed_users.add(current_username)  # Add current user to displayed users
-
-                response = requests.get('http://127.0.0.1:5000/get_one_user', params={
-                    'current_username': current_username,
-                    'logged_in_username': self.logInUI.username,  # Pass the logged-in username
-                    'displayed_users': list(self.displayed_users)  # Pass the list of displayed users
-                })
-                if response.status_code == 200:
-                    user = response.json().get('user', {})
+        try:
+            response = requests.get('http://localhost:5000/get_one_user', params={
+                'current_username': current_username,
+                'logged_in_username': self.logged_in_username,
+                'displayed_users': list(self.displayed_users)
+            })
+            if response.status_code == 200:
+                user = response.json().get('user')
+                if user:
+                    if not self.first_user:
+                        self.first_user = user['username']  # Set the first user displayed
                     self.display_user(user)
-                    return  # Exit the loop if a user is found
-                elif response.status_code == 404:
-                    # No more users available, reset the displayed_users set and try again
-                    self.displayed_users.clear()
-                    retries += 1
+                    self.displayed_users.add(user['username'])
+
+                    # Fetch mutual friends count
+                    mutual_response = requests.get('http://localhost:5000/get_mutual_friends_count', params={
+                        'username': self.logged_in_username,
+                        'other_user': user['username']
+                    })
+                    if mutual_response.status_code == 200:
+                        mutual_count = mutual_response.json().get('mutual_count', 0)
+                        if mutual_count > 0:
+                            self.mainPageUI.MP_MutualFriends.setText(f"Mutual Friends: {mutual_count}")
+                        else:
+                            self.mainPageUI.MP_MutualFriends.setText("")
+                    else:
+                        self.mainPageUI.MP_MutualFriends.setText("")
                 else:
-                    print(f"Error: Received status code {response.status_code}")
-                    print(f"Response content: {response.content}")
-                    self.show_error_message("Failed to fetch user.")
-                    return
-            except requests.exceptions.RequestException as e:
-                print(f"Request exception: {str(e)}")
-                self.show_error_message(f"Request failed: {str(e)}")
-                return
+                    self.prompt_browse_again()
+            else:
+                self.prompt_browse_again()
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
+            self.clear_user_display()
+
+    def prompt_browse_again(self):
+        reply = QMessageBox.question(
+            self.mainPageWindow,
+            'No more users',
+            'Do you want to browse again?',
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        if reply == QMessageBox.Yes:
+            self.displayed_users.clear()  # Reset the displayed users
+            self.load_first_user()
+        else:
+            self.clear_user_display()
+
+    def load_first_user(self):
+        if self.first_user:
+            self.displayed_users.add(self.first_user)
+            self.load_next_user()
         
 
     def clear_user_display(self):
@@ -1096,74 +1178,6 @@ class MainApp:
             self.show_error_message(f"Request failed: {str(e)}")
             return []
         
-    
-
-
-   
-    
-    #FRIEND MENU
-    def openMainPageFromFriendMenu(self):
-        self.friendMenuWindow.close()
-        self.mainPageWindow.show()
-    def openAccountSettingsFromFrienMenu(self):
-        self.friendMenuWindow.close()
-        self.accountSettingsWindow.show()
-    
-    def openHomePageFromFriendMenu(self):
-        try:
-            response = requests.post('http://127.0.0.1:5000/logout')
-            if response.status_code == 200:
-                self.show_success_message("Logged out successfully")
-                # Reset displayed_users list
-                self.displayed_users = set()
-            else:
-                self.show_error_message("Logout failed", "Failed to log out. Please try again.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message("Logout failed", f"An error occurred: {e}")
-
-        # Close the Friend Menu window and show the Home Page window
-        self.friendMenuWindow.close()
-        self.homePageWindow.show()
-
-
-    def fetch_pending_friend_requests(self):
-        username = self.logInUI.username  # Get the logged-in username
-
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests', params={'username': username})
-            if response.status_code == 200:
-                pending_requests = response.json().get('pending_requests', [])
-                self.display_pending_friend_requests(pending_requests)
-            else:
-                print(f"Error: Received status code {response.status_code}")
-                print(f"Response content: {response.content}")
-                self.show_error_message("Failed to fetch pending friend requests.")
-        except requests.exceptions.RequestException as e:
-            print(f"Request exception: {str(e)}")
-            self.show_error_message(f"Request failed: {str(e)}")
-
-    def display_pending_friend_requests(self, pending_requests):
-        _translate = QtCore.QCoreApplication.translate
-        friend_request_labels = [
-            self.friendMenuUI.FM_FriendRequest1,
-            self.friendMenuUI.FM_FriendRequest2,
-            self.friendMenuUI.FM_FriendRequest3,
-            self.friendMenuUI.FM_FriendRequest4,
-            self.friendMenuUI.FM_FriendRequest5,
-            self.friendMenuUI.FM_FriendRequest6,
-            self.friendMenuUI.FM_FriendRequest7,
-            self.friendMenuUI.FM_FriendRequest8,
-            self.friendMenuUI.FM_FriendRequest9,
-            self.friendMenuUI.FM_FriendRequest10
-        ]
-
-        for i, label in enumerate(friend_request_labels):
-            if i < len(pending_requests):
-                label.setText(_translate("FriendMenu", f"{pending_requests[i]}"))
-            else:
-                label.setText(_translate("FriendMenu", ""))
-    
-
 
     # AccountSettings methods
     def openMAINPAGEfromAccountSettings(self):
@@ -1223,103 +1237,16 @@ class MainApp:
         self.changeProfileWindow.close()
         self.accountSettingsWindow.show()
 
-     #RECOMMENDATIONS LOGIC
-    def fetch_users_by_interests(self):
-        logged_in_username = self.logInUI.username
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_all_users_interests')
-            if response.status_code == 200:
-                user_interests = response.json().get('user_interests', {})
-                logged_in_user_interests = set(user_interests.get(logged_in_username, []))
-                user_scores = []
-                for username, interests in user_interests.items():
-                    if username != logged_in_username:
-                        common_interests = logged_in_user_interests.intersection(set(interests))
-                        user_scores.append((username, len(common_interests)))
-                sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
-                self.display_users(sorted_users)
-            else:
-                self.show_error_message("Failed to fetch users by interests.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message(f"Request failed: {str(e)}")
-
-
-    def fetch_users_by_mutual_friends(self):
-        logged_in_username = self.logInUI.username
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_mutual_friends', params={'username': logged_in_username})
-            if response.status_code == 200:
-                mutual_friends_dict = response.json().get('mutual_friends', {})
-                user_scores = []
-                for username, mutual_friends in mutual_friends_dict.items():
-                    user_scores.append((username, len(mutual_friends)))
-                sorted_users = sorted(user_scores, key=lambda x: x[1], reverse=True)
-                self.display_users(sorted_users)
-            else:
-                self.show_error_message("Failed to fetch users by mutual friends.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message(f"Request failed: {str(e)}")
-
-
-    def fetch_users_by_location(self):
-        logged_in_username = self.logInUI.username
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_user_location', params={'username': logged_in_username})
-            if response.status_code == 200:
-                user_location = response.json().get('location', "")
-                response = requests.get('http://127.0.0.1:5000/get_users_by_location', params={'location': user_location})
-                if response.status_code == 200:
-                    users = response.json().get('users', [])
-                    self.display_users([(user, 0) for user in users])
-                else:
-                    self.show_error_message("Failed to fetch users by location.")
-            else:
-                self.show_error_message("Failed to fetch user location.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message(f"Request failed: {str(e)}")
-
-
-    def fetch_users_by_combined_score(self):
-        logged_in_username = self.logInUI.username
-        try:
-            response = requests.get('http://127.0.0.1:5000/get_combined_score_users', params={'username': logged_in_username})
-            if response.status_code == 200:
-                sorted_users = response.json().get('sorted_users', [])
-                self.display_users(sorted_users)
-            else:
-                self.show_error_message("Failed to fetch users by combined score.")
-        except requests.exceptions.RequestException as e:
-            self.show_error_message(f"Request failed: {str(e)}")
-   
-    def display_users(self, users):
-        # Clear the current display
-        self.clear_user_display()
-       
-        # Display the sorted users
-        for user, score in users:
-            # Add user details to the UI
-            self.mainPageUI.MP_Username.setText(user)
-            # Assuming you have labels or other UI elements to display user details
-            # self.mainPageUI.MP_Age.setText(f"Age: {user['age']}")
-            # self.mainPageUI.MP_Gender.setText(f"Gender: {user['gender']}")
-            # self.mainPageUI.MP_Location.setText(f"Location: {user['location']}")
-            # self.mainPageUI.MP_Preference1.setText(user['preferences'][0] if len(user['preferences']) > 0 else "Pref.1")
-            # self.mainPageUI.MP_Preference2.setText(user['preferences'][1] if len(user['preferences']) > 1 else "Pref.2")
-            # self.mainPageUI.MP_Preference3.setText(user['preferences'][2] if len(user['preferences']) > 2 else "Pref.3")
-            # self.mainPageUI.MP_Preference4.setText(user['preferences'][3] if len(user['preferences']) > 3 else "Pref.4")
-            # self.mainPageUI.MP_Preference5.setText(user['preferences'][4] if len(user['preferences']) > 4 else "Pref.5")
-
-
-    def toggle_button(self, button):
-        if button == self.interestButton:
-            self.fetch_users_by_interests()
-        elif button == self.mutualFriendsButton:
-            self.fetch_users_by_mutual_friends()
-        elif button == self.locationButton:
-            self.fetch_users_by_location()
-
-
-
+    
+    def fetch_users_by_interests(self, username):
+        print ('interest')
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
+    def fetch_users_by_mutual_friends(self, username):
+        print ('mutual friends')
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
+    def fetch_users_by_location(self, username):
+        print ('location')
+        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
 
     def run(self):
         # Show the splash screen
