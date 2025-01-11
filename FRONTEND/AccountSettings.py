@@ -251,7 +251,7 @@ class Ui_AccountSettings(object):
         
 #Location Display
         self.AS_LocationDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 380, 131, 41))
+        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 380, 400, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)

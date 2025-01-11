@@ -127,7 +127,7 @@ class Ui_Main_Page(object):
         self.MP_LogoutPB.setObjectName("MP_LogoutPB")
       
         self.MP_Shape1 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape1.setGeometry(QtCore.QRect(460, 350, 500, 490))
+        self.MP_Shape1.setGeometry(QtCore.QRect(450, 350, 510, 490))
         self.MP_Shape1.setStyleSheet("background-color: rgb(255, 240, 216);\n"
 "border-radius: 5px;\n"
 "border: 3px solid #BE7928;")
@@ -481,13 +481,13 @@ class Ui_Main_Page(object):
 
 # Add mutual friends label
         self.MP_MutualFriends = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_MutualFriends.setGeometry(QtCore.QRect(0, 0, 175, 30))
+        self.MP_MutualFriends.setGeometry(QtCore.QRect(0, 0, 510, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.MP_MutualFriends.sizePolicy().hasHeightForWidth())
         self.MP_MutualFriends.setSizePolicy(sizePolicy)
-        self.MP_MutualFriends.setMinimumSize(QtCore.QSize(500, 50))
+        self.MP_MutualFriends.setMinimumSize(QtCore.QSize(510, 50))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(12)
@@ -498,7 +498,7 @@ class Ui_Main_Page(object):
 
 # Add a button to view the list of mutual friends
         self.MP_ViewMutualFriendsButton = QtWidgets.QPushButton(self.MP_MutualFriends)
-        self.MP_ViewMutualFriendsButton.setGeometry(QtCore.QRect(393, 5, 100, 40))
+        self.MP_ViewMutualFriendsButton.setGeometry(QtCore.QRect(375, 5, 130, 40))
         self.MP_ViewMutualFriendsButton.setText("View Mutual/s")
         self.MP_ViewMutualFriendsButton.setStyleSheet("background-color: rgb(228, 141, 118); color: white;")
         self.MP_ViewMutualFriendsButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))

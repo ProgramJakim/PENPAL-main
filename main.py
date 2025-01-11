@@ -782,9 +782,10 @@ class MainApp:
                         mutual_count = mutual_data.get('mutual_count', 0)
                         mutual_friends = mutual_data.get('mutual_friends', [])
                         if mutual_count > 0:
-                            self.mainPageUI.MP_MutualFriends.setText(f"Mutual Friend/s: {mutual_count}")
+                            self.mainPageUI.MP_MutualFriends.setText(f"Mutual Friend{'s' if mutual_count > 1 else ''}: {mutual_count}")
                             self.mainPageUI.MP_MutualFriendsList.setText(", ".join(mutual_friends))
                             self.mainPageUI.MP_MutualFriends.show()
+                            self.mainPageUI.MP_ViewMutualFriendsButton.setText(f"View Mutual Friend{'s' if mutual_count > 1 else ''}")
                             self.mainPageUI.MP_ViewMutualFriendsButton.show()
                         else:
                             self.mainPageUI.MP_MutualFriends.hide()
@@ -808,7 +809,9 @@ class MainApp:
     def show_mutual_friends_list(self):
         mutual_friends_list = self.mainPageUI.MP_MutualFriendsList.text().split(", ")
         mutual_friends_str = "\n".join(mutual_friends_list)
-        QMessageBox.information(self.mainPageWindow, "Mutual Friends", mutual_friends_str)
+        mutual_friends_count = len(mutual_friends_list)
+        title = "Mutual Friend" if mutual_friends_count == 1 else "Mutual Friends"
+        QMessageBox.information(self.mainPageWindow, title, mutual_friends_str)
     
     def highlight_common_interests(self, other_username):
         try:
