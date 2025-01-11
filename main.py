@@ -825,6 +825,13 @@ class MainApp:
                     other_user_interests = set(response.json().get('interests', []))
                     common_interests = logged_in_user_interests.intersection(other_user_interests)
 
+                    # Reset styles for all interest labels
+                    for label in self.mainPageUI.interest_labels:
+                        label.setStyleSheet("color: rgb(122, 12, 12);\n"
+                                            "border: none;\n"
+                                            "font: 700 12pt \"Rockwell\";\n"
+                                            "background: none;\n")
+
                     # Highlight common interests
                     for interest in common_interests:
                         for label in self.mainPageUI.interest_labels:
