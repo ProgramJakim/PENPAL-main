@@ -499,7 +499,7 @@ class Ui_Main_Page(object):
 # Add a button to view the list of mutual friends
         self.MP_ViewMutualFriendsButton = QtWidgets.QPushButton(self.MP_MutualFriends)
         self.MP_ViewMutualFriendsButton.setGeometry(QtCore.QRect(393, 5, 100, 40))
-        self.MP_ViewMutualFriendsButton.setText("View Mutuals")
+        self.MP_ViewMutualFriendsButton.setText("View Mutual/s")
         self.MP_ViewMutualFriendsButton.setStyleSheet("background-color: rgb(228, 141, 118); color: white;")
         self.MP_ViewMutualFriendsButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 

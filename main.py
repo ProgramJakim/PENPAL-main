@@ -752,9 +752,6 @@ class MainApp:
         else:
             self.load_next_user()
 
-    def show_mutual_friends_list(self):
-        mutual_friends_list = self.mainPageUI.MP_MutualFriendsList.text()
-        QtWidgets.QMessageBox.information(self, "Mutual Friends", mutual_friends_list)
 
     def load_next_user(self):
         current_username = self.mainPageUI.MP_UPusername.text()
@@ -785,13 +782,17 @@ class MainApp:
                         mutual_count = mutual_data.get('mutual_count', 0)
                         mutual_friends = mutual_data.get('mutual_friends', [])
                         if mutual_count > 0:
-                            self.mainPageUI.MP_MutualFriends.setText(f"Mutual Friends: {mutual_count}")
+                            self.mainPageUI.MP_MutualFriends.setText(f"Mutual Friend/s: {mutual_count}")
                             self.mainPageUI.MP_MutualFriendsList.setText(", ".join(mutual_friends))
+                            self.mainPageUI.MP_MutualFriends.show()
+                            self.mainPageUI.MP_ViewMutualFriendsButton.show()
                         else:
-                            self.mainPageUI.MP_MutualFriends.setText("Mutual Friends: 0")
+                            self.mainPageUI.MP_MutualFriends.hide()
+                            self.mainPageUI.MP_ViewMutualFriendsButton.hide()
                             self.mainPageUI.MP_MutualFriendsList.setText("")
                     else:
-                        self.mainPageUI.MP_MutualFriends.setText("Mutual Friends: 0")
+                        self.mainPageUI.MP_MutualFriends.hide()
+                        self.mainPageUI.MP_ViewMutualFriendsButton.hide()
                         self.mainPageUI.MP_MutualFriendsList.setText("")
                 else:
                     self.prompt_browse_again()
