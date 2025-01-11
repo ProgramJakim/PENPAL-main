@@ -776,13 +776,18 @@ class MainApp:
                         'other_user': user['username']
                     })
                     if mutual_response.status_code == 200:
-                        mutual_count = mutual_response.json().get('mutual_count', 0)
+                        mutual_data = mutual_response.json()
+                        mutual_count = mutual_data.get('mutual_count', 0)
+                        mutual_friends = mutual_data.get('mutual_friends', [])
                         if mutual_count > 0:
                             self.mainPageUI.MP_MutualFriends.setText(f"Mutual Friends: {mutual_count}")
+                            self.mainPageUI.MP_MutualFriendsList.setText(", ".join(mutual_friends))
                         else:
                             self.mainPageUI.MP_MutualFriends.setText("")
+                            self.mainPageUI.MP_MutualFriendsList.setText("")
                     else:
                         self.mainPageUI.MP_MutualFriends.setText("")
+                        self.mainPageUI.MP_MutualFriendsList.setText("")
                 else:
                     self.prompt_browse_again()
             else:

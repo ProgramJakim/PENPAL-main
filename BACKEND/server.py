@@ -613,9 +613,9 @@ def get_mutual_friends_count():
 
         # Only show mutual friends if the user has friends
         if user_friends:
-            return jsonify({"mutual_count": mutual_count}), 200
+            return jsonify({"mutual_count": mutual_count, "mutual_friends": list(mutual_friends)}), 200
         else:
-            return jsonify({"mutual_count": 0}), 200
+            return jsonify({"mutual_count": 0, "mutual_friends": []}), 200
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500

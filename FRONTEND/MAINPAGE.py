@@ -481,13 +481,13 @@ class Ui_Main_Page(object):
 
 # Add mutual friends label
         self.MP_MutualFriends = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_MutualFriends.setGeometry(QtCore.QRect(0, 0, 500, 30))
+        self.MP_MutualFriends.setGeometry(QtCore.QRect(0, 0, 175, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.MP_MutualFriends.sizePolicy().hasHeightForWidth())
         self.MP_MutualFriends.setSizePolicy(sizePolicy)
-        self.MP_MutualFriends.setMinimumSize(QtCore.QSize(200, 50))
+        self.MP_MutualFriends.setMinimumSize(QtCore.QSize(175, 50))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(12)
@@ -496,13 +496,26 @@ class Ui_Main_Page(object):
         self.MP_MutualFriends.setStyleSheet("color: rgb(229, 141, 118);")
         self.MP_MutualFriends.setText("Mutual Friends: 0")
 
+         # Add mutual friends list label
+        self.MP_MutualFriendsList = QtWidgets.QLabel(self.MP_Shape1)
+        self.MP_MutualFriendsList.setGeometry(QtCore.QRect(172, 0, 328, 30))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
+        sizePolicy.setHorizontalStretch(5)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.MP_MutualFriendsList.sizePolicy().hasHeightForWidth())
+        self.MP_MutualFriendsList.setSizePolicy(sizePolicy)
+        self.MP_MutualFriendsList.setMinimumSize(QtCore.QSize(200, 50))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(12)
+        font.setBold(True)
+        self.MP_MutualFriendsList.setFont(font)
+        self.MP_MutualFriendsList.setStyleSheet("color: rgb(229, 141, 118);")
+        self.MP_MutualFriendsList.setText("")
+        self.MP_MutualFriendsList.setObjectName("MP_MutualFriendsList")
 
+       
 
-
-        
-
-
-          # Create toggle buttons
         self.interestButton = QtWidgets.QPushButton(Main_Page)
         self.interestButton.setGeometry(QtCore.QRect(400, 300, 190, 40))
         font = QtGui.QFont()
