@@ -287,6 +287,8 @@ class Ui_ChangeProfile(object):
 "color: rgb(122, 12, 12);")
         self.CP_Username.setScaledContents(True)
         self.CP_Username.setObjectName("CP_Username")
+
+        self.display_profile_picture()
         
         self.CP_BackgroundImage.raise_()
         self.CP_ProfileFrame.raise_()
@@ -353,20 +355,47 @@ class Ui_ChangeProfile(object):
 
     def save_changes(self):
         if self.selected_profile_picture:
-                print(f"Saving profile picture: {self.selected_profile_picture}")  # Debug statement
-                default_profile_path = os.path.join(Change_Profile_assets_folder, "default_profile.png")
-                selected_profile_path = os.path.join(Change_Profile_assets_folder, self.selected_profile_picture)
-                try:
-                    shutil.copyfile(selected_profile_path, default_profile_path)
-                    print(f"Copied {selected_profile_path} to {default_profile_path}")  # Debug statement
-                    QtWidgets.QMessageBox.information(self.ChangeProfile, "Profile Updated", "Your profile picture has been updated.")
-                    self.close_change_profile()  # Close the Change Profile window and show Profile Settings window
-                except Exception as e:
-                    print(f"Error copying file: {e}")  # Debug statement
-                    QtWidgets.QMessageBox.critical(self.ChangeProfile, "Error", f"Failed to update profile picture: {e}")
-        else:
-             QtWidgets.QMessageBox.warning(self.ChangeProfile, "No Selection", "Please select a profile picture.")
+            print(f"Saving profile picture: {self.selected_profile_picture}")  # Debug statement
+            default_profile_path = os.path.join(Change_Profile_assets_folder, "default_profile.png")
+            selected_profile_path = os.path.join(Change_Profile_assets_folder, self.selected_profile_picture)
+            try:
+                shutil.copyfile(selected_profile_path, default_profile_path)
+                print(f"Copied {selected_profile_path} to {default_profile_path}")  # Debug statement
 
+                # Save the profile picture path in the database
+                self.save_profile_picture_to_db(self.selected_profile_picture)
+
+                QtWidgets.QMessageBox.information(self.ChangeProfile, "Profile Updated", "Your profile picture has been updated.")
+                self.close_change_profile()  # Close the Change Profile window and show Profile Settings window
+            except Exception as e:
+                print(f"Error copying file: {e}")  # Debug statement
+                QtWidgets.QMessageBox.critical(self.ChangeProfile, "Error", f"Failed to update profile picture: {e}")
+        else:
+            QtWidgets.QMessageBox.warning(self.ChangeProfile, "No Selection", "Please select a profile picture.")
+
+    def save_profile_picture_to_db(self, profile_picture):
+        try:
+            response = requests.post("http://localhost:5000/save_profile_picture", json={"username": self.username, "profile_picture": profile_picture})
+            if response.status_code == 200:
+                print("Profile picture saved to database successfully.")
+            else:
+                print("Failed to save profile picture to database.")
+        except requests.RequestException as e:
+            print(f"Error saving profile picture to database: {e}")
+
+    def display_profile_picture(self):
+        try:
+            response = requests.get("http://localhost:5000/get_profile_picture", params={"username": self.username})
+            if response.status_code == 200:
+                profile_picture_path = response.json().get("profile_picture")
+                if profile_picture_path:
+                    self.CP_DefaultProfile.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder, profile_picture_path)))
+                else:
+                    print("No profile picture found for the user.")
+            else:
+                print("Failed to fetch profile picture from database.")
+        except requests.RequestException as e:
+            print(f"Error fetching profile picture from database: {e}")
 
     def close_change_profile(self):
         print("Closing ChangeProfile window and opening AccountSettings window")  # Debug statement

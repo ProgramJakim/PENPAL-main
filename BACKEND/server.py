@@ -21,7 +21,7 @@ db_connection = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="penpaldbaccount"
+    database="penpaldb"
 )
 
 db_cursor = db_connection.cursor()
@@ -517,7 +517,7 @@ def get_db_connection():
         host="localhost",
         user="root",
         password="",
-        database="penpaldbaccount"
+        database="penpaldb"
     )
 
 @app.route('/update_user_social_link', methods=['POST'])
@@ -619,6 +619,32 @@ def get_mutual_friends_count():
     except mysql.connector.Error as err:
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
+
+@app.route('/save_profile_picture', methods=['POST'])
+def save_profile_picture():
+    data = request.json
+    username = data.get('username')
+    profile_picture = data.get('profile_picture')
+    try:
+        db_cursor.execute("UPDATE users SET profile_picture_path = %s WHERE username = %s", (profile_picture, username))
+        db_connection.commit()
+        return jsonify({"message": "Profile picture saved successfully."}), 200
+    except mysql.connector.Error as e:
+        db_connection.rollback()
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/get_profile_picture', methods=['GET'])
+def get_profile_picture():
+    username = request.args.get('username')
+    try:
+        db_cursor.execute("SELECT profile_picture_path FROM users WHERE username = %s", (username,))
+        result = db_cursor.fetchone()
+        if result:
+            return jsonify({"profile_picture": result[0]}), 200
+        else:
+            return jsonify({"profile_picture": None}), 404
+    except mysql.connector.Error as e:
+        return jsonify({"error": str(e)}), 500
 
 
     

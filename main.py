@@ -173,7 +173,7 @@ class MainApp:
         # Setup UI for the Change Profile window
         self.changeProfileUI = Ui_ChangeProfile()
         self.changeProfileUI.setupUi(self.changeProfileWindow)
-
+        self.changeProfileUI.main_window = self 
 
         # Setup UI for the AboutUS window
         self.aboutUsUI = Ui_AboutUs()
