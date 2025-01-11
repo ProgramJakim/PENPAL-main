@@ -33,7 +33,7 @@ class ListItemWidget(QWidget):
 class NotificationWindow(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Notifications")
+        self.setWindowTitle("Notification")
         self.setFixedSize(900, 800)
 
         # Set background image

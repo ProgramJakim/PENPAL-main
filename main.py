@@ -852,6 +852,7 @@ class MainApp:
         self.friendMenuWindow.close()
         self.mainPageWindow.show()
     def openAccountSettingsFromFrienMenu(self):
+        self.accountSettingsUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
         self.friendMenuWindow.close()
         self.accountSettingsWindow.show()
     

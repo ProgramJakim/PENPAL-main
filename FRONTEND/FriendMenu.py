@@ -756,7 +756,7 @@ class Ui_FriendMenu(object):
 
     def retranslateUi(self, FriendMenu):
         _translate = QtCore.QCoreApplication.translate
-        FriendMenu.setWindowTitle(_translate("FriendMenu", "Dialog"))
+        FriendMenu.setWindowTitle(_translate("FriendMenu", "Friend Menu"))
         self.FM_HomePB.setText(_translate("FriendMenu", "Home"))
         self.FM_ProfilePB.setText(_translate("FriendMenu", "Profile"))
         self.FM_LogOutPB.setText(_translate("FriendMenu", "Log Out"))

@@ -201,7 +201,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_Gender.setObjectName("MP_Gender")
         self.MP_Location = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Location.setGeometry(QtCore.QRect(30, 250, 351, 71))
+        self.MP_Location.setGeometry(QtCore.QRect(30, 250, 500, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -593,7 +593,7 @@ class Ui_Main_Page(object):
 
     def retranslateUi(self, Main_Page):
         _translate = QtCore.QCoreApplication.translate
-        Main_Page.setWindowTitle(_translate("Main_Page", "Dialog"))
+        Main_Page.setWindowTitle(_translate("Main_Page", "Main Page"))
         self.MP_UPusername.setText(_translate("Main_Page", "USERNAME"))
         self.MP_ProfilePB.setText(_translate("Main_Page", "PROFILE"))
         self.MP_MenuPB.setText(_translate("Main_Page", "MENU"))
