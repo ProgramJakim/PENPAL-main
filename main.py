@@ -794,6 +794,9 @@ class MainApp:
                         self.mainPageUI.MP_MutualFriends.hide()
                         self.mainPageUI.MP_ViewMutualFriendsButton.hide()
                         self.mainPageUI.MP_MutualFriendsList.setText("")
+
+                    # Fetch and highlight common interests
+                    self.highlight_common_interests(user['username'])
                 else:
                     self.prompt_browse_again()
             else:
@@ -806,7 +809,44 @@ class MainApp:
         mutual_friends_list = self.mainPageUI.MP_MutualFriendsList.text().split(", ")
         mutual_friends_str = "\n".join(mutual_friends_list)
         QMessageBox.information(self.mainPageWindow, "Mutual Friends", mutual_friends_str)
-   
+    
+    def highlight_common_interests(self, other_username):
+        try:
+            response = requests.get('http://localhost:5000/get_user_interests', params={
+                'username': self.logInUI.username
+            })
+            if response.status_code == 200:
+                logged_in_user_interests = set(response.json().get('interests', []))
+
+                response = requests.get('http://localhost:5000/get_user_interests', params={
+                    'username': other_username
+                })
+                if response.status_code == 200:
+                    other_user_interests = set(response.json().get('interests', []))
+                    common_interests = logged_in_user_interests.intersection(other_user_interests)
+
+                    # Highlight common interests
+                    for interest in common_interests:
+                        for label in self.mainPageUI.interest_labels:
+                            if label.text() == interest:
+                                label.setStyleSheet("background-color: yellow;")
+                                if label == self.mainPageUI.MP_Preference1:
+                                    label.setGeometry(QtCore.QRect(30, 360, 190, 30))
+                                elif label == self.mainPageUI.MP_Preference2:
+                                    label.setGeometry(QtCore.QRect(300, 360, 190, 30))
+                                elif label == self.mainPageUI.MP_Preference3:
+                                    label.setGeometry(QtCore.QRect(30, 400, 190, 30))
+                                elif label == self.mainPageUI.MP_Preference4:
+                                    label.setGeometry(QtCore.QRect(300, 400, 190, 30))
+                                elif label == self.mainPageUI.MP_Preference5:
+                                    label.setGeometry(QtCore.QRect(190, 440, 190, 30))
+                else:
+                    print(f"Error: Received status code {response.status_code}")
+            else:
+                print(f"Error: Received status code {response.status_code}")
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
+
     def prompt_browse_again(self):
         if len(self.displayed_users) == 1:
             QMessageBox.information(
