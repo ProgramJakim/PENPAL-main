@@ -847,6 +847,13 @@ class MainApp:
                                     label.setGeometry(QtCore.QRect(300, 400, 190, 30))
                                 elif label == self.mainPageUI.MP_Preference5:
                                     label.setGeometry(QtCore.QRect(190, 440, 190, 30))
+
+                    # Update MP_Preference label with the count of common interests
+                    common_interests_count = len(common_interests)
+                    if common_interests_count > 0:
+                        self.mainPageUI.MP_Preference.setText(f"Preferences: {common_interests_count} same interest{'s' if common_interests_count > 1 else ''}!")
+                    else:
+                        self.mainPageUI.MP_Preference.setText("")
                 else:
                     print(f"Error: Received status code {response.status_code}")
             else:

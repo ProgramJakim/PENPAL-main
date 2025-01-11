@@ -220,7 +220,7 @@ class Ui_Main_Page(object):
 "background: none;")
         self.MP_Location.setObjectName("MP_Location")
         self.MP_Preference = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference.setGeometry(QtCore.QRect(30, 290, 351, 71))
+        self.MP_Preference.setGeometry(QtCore.QRect(30, 315, 200, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
