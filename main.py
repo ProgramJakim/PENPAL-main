@@ -4,7 +4,7 @@ import sys
 import requests
 import re
 from datetime import datetime
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget, QMessageBox
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
 from PyQt5 import QtCore 
@@ -296,7 +296,7 @@ class MainApp:
         self.mainPageUI.MP_LogoutPB.clicked.connect(self.openHomePageFromMainPage)
         self.mainPageUI.MP_LeftArrow.clicked.connect(self.load_next_user)
         self.mainPageUI.MP_RightArrow.clicked.connect(self.send_friend_request)
-
+        
         # Connect the notification button to open the notification window
         self.mainPageUI.MP_NotificationPB.clicked.connect(self.open_notification_window)
 
@@ -352,7 +352,8 @@ class MainApp:
         self.mainPageUI.interestButton.clicked.connect(self.fetch_users_by_interests)
         self.mainPageUI.mutualFriendsButton.clicked.connect(self.fetch_users_by_mutual_friends)
         self.mainPageUI.locationButton.clicked.connect(self.fetch_users_by_location)
-
+        self.mainPageUI.MP_ViewMutualFriendsButton.clicked.connect(self.show_mutual_friends_list)
+    
     # WelcomePage methods
     def open_homepagefromwelcome(self):
         self.welcomePageWindow.close()
@@ -751,6 +752,10 @@ class MainApp:
         else:
             self.load_next_user()
 
+    def show_mutual_friends_list(self):
+        mutual_friends_list = self.mainPageUI.MP_MutualFriendsList.text()
+        QtWidgets.QMessageBox.information(self, "Mutual Friends", mutual_friends_list)
+
     def load_next_user(self):
         current_username = self.mainPageUI.MP_UPusername.text()
         if not current_username:
@@ -759,7 +764,7 @@ class MainApp:
         try:
             response = requests.get('http://localhost:5000/get_one_user', params={
                 'current_username': current_username,
-                'logged_in_username': self.logged_in_username,
+                'logged_in_username': self.logInUI.username,
                 'displayed_users': list(self.displayed_users)
             })
             if response.status_code == 200:
@@ -772,7 +777,7 @@ class MainApp:
 
                     # Fetch mutual friends count
                     mutual_response = requests.get('http://localhost:5000/get_mutual_friends_count', params={
-                        'username': self.logged_in_username,
+                        'username': self.logInUI.username,
                         'other_user': user['username']
                     })
                     if mutual_response.status_code == 200:
@@ -783,10 +788,10 @@ class MainApp:
                             self.mainPageUI.MP_MutualFriends.setText(f"Mutual Friends: {mutual_count}")
                             self.mainPageUI.MP_MutualFriendsList.setText(", ".join(mutual_friends))
                         else:
-                            self.mainPageUI.MP_MutualFriends.setText("")
+                            self.mainPageUI.MP_MutualFriends.setText("Mutual Friends: 0")
                             self.mainPageUI.MP_MutualFriendsList.setText("")
                     else:
-                        self.mainPageUI.MP_MutualFriends.setText("")
+                        self.mainPageUI.MP_MutualFriends.setText("Mutual Friends: 0")
                         self.mainPageUI.MP_MutualFriendsList.setText("")
                 else:
                     self.prompt_browse_again()
@@ -796,6 +801,11 @@ class MainApp:
             print(f"Error: {e}")
             self.clear_user_display()
 
+    def show_mutual_friends_list(self):
+        mutual_friends_list = self.mainPageUI.MP_MutualFriendsList.text().split(", ")
+        mutual_friends_str = "\n".join(mutual_friends_list)
+        QMessageBox.information(self.mainPageWindow, "Mutual Friends", mutual_friends_str)
+   
     def prompt_browse_again(self):
         if len(self.displayed_users) == 1:
             QMessageBox.information(

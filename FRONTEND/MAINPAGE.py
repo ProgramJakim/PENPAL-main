@@ -487,7 +487,7 @@ class Ui_Main_Page(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.MP_MutualFriends.sizePolicy().hasHeightForWidth())
         self.MP_MutualFriends.setSizePolicy(sizePolicy)
-        self.MP_MutualFriends.setMinimumSize(QtCore.QSize(175, 50))
+        self.MP_MutualFriends.setMinimumSize(QtCore.QSize(500, 50))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(12)
@@ -496,24 +496,17 @@ class Ui_Main_Page(object):
         self.MP_MutualFriends.setStyleSheet("color: rgb(229, 141, 118);")
         self.MP_MutualFriends.setText("Mutual Friends: 0")
 
-         # Add mutual friends list label
-        self.MP_MutualFriendsList = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_MutualFriendsList.setGeometry(QtCore.QRect(172, 0, 328, 30))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
-        sizePolicy.setHorizontalStretch(5)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.MP_MutualFriendsList.sizePolicy().hasHeightForWidth())
-        self.MP_MutualFriendsList.setSizePolicy(sizePolicy)
-        self.MP_MutualFriendsList.setMinimumSize(QtCore.QSize(200, 50))
-        font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(12)
-        font.setBold(True)
-        self.MP_MutualFriendsList.setFont(font)
-        self.MP_MutualFriendsList.setStyleSheet("color: rgb(229, 141, 118);")
-        self.MP_MutualFriendsList.setText("")
-        self.MP_MutualFriendsList.setObjectName("MP_MutualFriendsList")
+# Add a button to view the list of mutual friends
+        self.MP_ViewMutualFriendsButton = QtWidgets.QPushButton(self.MP_MutualFriends)
+        self.MP_ViewMutualFriendsButton.setGeometry(QtCore.QRect(393, 5, 100, 40))
+        self.MP_ViewMutualFriendsButton.setText("View Mutuals")
+        self.MP_ViewMutualFriendsButton.setStyleSheet("background-color: rgb(228, 141, 118); color: white;")
+        self.MP_ViewMutualFriendsButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 
+        # Add mutual friends list (hidden QLabel to store the list)
+        self.MP_MutualFriendsList = QtWidgets.QLabel(self.MP_Shape1)
+        self.MP_MutualFriendsList.setGeometry(QtCore.QRect(0, 0, 0, 0))  # Hidden
+        self.MP_MutualFriendsList.setVisible(False)
        
 
         self.interestButton = QtWidgets.QPushButton(Main_Page)
