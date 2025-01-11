@@ -229,7 +229,9 @@ class MainApp:
         # Terms&Conditions Buttons
         self.termsConditionsUI.TAC_BackPB.clicked.connect(self.backtoSignUpFromTermsCondition)
 
-    
+        # Contact Us Buttons
+        self.contactUsUi.CUbackButton.clicked.connect(self.backtoHomePagefromContactUs)
+       
         # HomePage buttons
         self.homePageUI.LogIn_2.clicked.connect(self.openLogInPageFromHomepage)
         self.homePageUI.SignUp.clicked.connect(self.openSignupFromHomepage)
@@ -240,6 +242,7 @@ class MainApp:
         self.homePageUI.about_us_button.clicked.connect(self.open_about_us_page)
         self.homePageUI.contact_us_button.clicked.connect(self.open_contact_us_page)
         self.homePageUI.privacy_policy_button.clicked.connect(self.open_privacy_policy_page)
+        
         
        
 
@@ -591,6 +594,10 @@ class MainApp:
     def backtoSignUpFromTermsCondition(self):
         self.termsWindow.close()
         self.signUpWindow.show()
+
+    def backtoHomePagefromContactUs(self):
+        self.contactUsWindow.close()
+        self.homePageWindow.show()
        
      # Interests methods
     def handle_button_click_number(self, button_name):
