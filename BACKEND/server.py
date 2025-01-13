@@ -490,25 +490,7 @@ def get_pending_friend_requests_notification():
         logging.error(f"Database error: {err}")
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
     
-@app.route('/delete_account', methods=['DELETE'])
-def delete_account():
-    try:
-        data = request.get_json()
-        username = data['username']
 
-        # Delete user interests
-        db_cursor.execute("DELETE FROM user_interests WHERE username = %s", (username,))
-        db_connection.commit()
-
-        # Delete user account
-        db_cursor.execute("DELETE FROM users WHERE username = %s", (username,))
-        db_connection.commit()
-
-        logging.info(f"User account {username} deleted successfully!")
-        return jsonify({"message": "Account deleted successfully!"}), 200
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": "Database error occurred. Please try again later."}), 500
     
 
 # Database connection
@@ -645,117 +627,6 @@ def delete_account():
         return jsonify({"error": "Database error occurred. Please try again later."}), 500
     
 
-# Database connection
-def get_db_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="penpaldb"
-    )
-
-@app.route('/update_user_social_link', methods=['POST'])
-def update_user_social_link():
-    data = request.json
-    username = data.get('username')
-    new_social_link = data.get('social_link')
-    
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("UPDATE users SET social_media_link = %s WHERE username = %s", (new_social_link, username))
-        conn.commit()
-        
-        if cursor.rowcount > 0:
-            response = jsonify({"message": "Social link updated successfully"})
-            status_code = 200
-        else:
-            response = jsonify({"message": "User not found"})
-            status_code = 404
-        
-        cursor.close()
-        conn.close()
-        return response, status_code
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": f"Database error occurred: {err}"}), 500
-    
-@app.route('/update_user_email', methods=['POST'])
-def update_user_email():
-    data = request.json
-    username = data.get('username')
-    new_email = data.get('email')
-    
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        # Check if the user exists
-        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
-        user = cursor.fetchone()
-        if not user:
-            cursor.close()
-            conn.close()
-            return jsonify({"message": "User not found"}), 404
-        
-        # Update the email
-        cursor.execute("UPDATE users SET gmail = %s WHERE username = %s", (new_email, username))
-        conn.commit()
-        
-        if cursor.rowcount > 0:
-            response = jsonify({"message": "Email updated successfully"})
-            status_code = 200
-        else:
-            response = jsonify({"message": "No changes made to email"})
-            status_code = 200
-        
-        cursor.close()
-        conn.close()
-        return response, status_code
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": f"Database error occurred: {err}"}), 500
-    
-@app.route('/update_user_password', methods=['POST'])
-def update_user_password():
-    data = request.json
-    username = data.get('username')
-    new_password = data.get('password')
-    
-    if not username or not new_password:
-        return jsonify({"error": "Username and new password are required"}), 400
-
-    hashed_password = ph.hash(new_password)
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        # Check if the user exists
-        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
-        user = cursor.fetchone()
-        if not user:
-            cursor.close()
-            conn.close()
-            return jsonify({"message": "User not found"}), 404
-        
-        # Update the password
-        cursor.execute("UPDATE users SET password = %s WHERE username = %s", (hashed_password, username))
-        conn.commit()  # Ensure the transaction is committed
-        
-        if cursor.rowcount > 0:
-            response = jsonify({"message": "Password updated successfully"})
-            status_code = 200
-        else:
-            response = jsonify({"message": "No changes made to password"})
-            status_code = 200
-        
-        cursor.close()
-        conn.close()
-        return response, status_code
-    except mysql.connector.Error as err:
-        logging.error(f"Database error: {err}")
-        return jsonify({"error": f"Database error occurred: {err}"}), 500
 
     
 if __name__ == '__main__':
