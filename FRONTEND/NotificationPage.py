@@ -33,7 +33,7 @@ class ListItemWidget(QWidget):
 class NotificationWindow(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Notifications")
+        self.setWindowTitle("Notification")
         self.setFixedSize(900, 800)
 
         # Set background image
@@ -151,7 +151,6 @@ class NotificationWindow(QDialog):
     def set_pending_requests_notification(self, requests):
         self.pending_requests_list.clear()
         image_path = os.path.join(os.path.dirname(__file__), '..', 'resources', 'images', 'DefaultProfile.png')
-        print(f"Setting pending requests: {requests}")  # Debugging line
         for username in requests:
             item_text = f"{username} Sent a Friend Request!"
             item = QListWidgetItem(self.pending_requests_list)

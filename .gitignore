@@ -1,1 +1,12 @@
+<<<<<<< HEAD
 flask_session
+=======
+flask_session
+credentials.bak
+credentials.dat
+<<<<<<< HEAD
+credentials.dir
+=======
+credentials.dir
+>>>>>>> annie
+>>>>>>> origin/annie

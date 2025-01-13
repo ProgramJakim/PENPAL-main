@@ -154,14 +154,23 @@ class Ui_SignUp(object):
 "background: transparent;")
         self.SU_UsernameLE.setObjectName("SU_UsernameLE")
         
-#Password Line Edit (Text Box)
+ # Password Line Edit (Text Box)
         self.SU_PasswordLE = QtWidgets.QLineEdit(self.SU_MainPanel)
         self.SU_PasswordLE.setGeometry(QtCore.QRect(550, 190, 421, 31))
         self.SU_PasswordLE.setStyleSheet("border-color: rgb(229, 141, 118);\n"
-"border: 3px solid #E58D76;\n"
-"border-radius: 5px;\n"
-"background: transparent;")
+        "border: 3px solid #E58D76;\n"
+        "border-radius: 5px;\n"
+        "background: transparent;")
         self.SU_PasswordLE.setObjectName("SU_PasswordLE")
+        self.SU_PasswordLE.setEchoMode(QtWidgets.QLineEdit.Password)  # Hide the text being typed
+
+        # Show Password Checkbox
+        self.SU_ShowPasswordCB = QtWidgets.QCheckBox("Show Password", self.SU_MainPanel)
+        self.SU_ShowPasswordCB.setGeometry(QtCore.QRect(550, 230, 150, 20))
+        self.SU_ShowPasswordCB.setStyleSheet("background: transparent;")
+        self.SU_ShowPasswordCB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))  # Set cursor to pointing hand
+        self.SU_ShowPasswordCB.setObjectName("SU_ShowPasswordCB")
+        self.SU_ShowPasswordCB.stateChanged.connect(self.toggle_password_visibility)
 
 #Sign Up Push Button
         self.SU_SignUpPB= QtWidgets.QPushButton(self.SU_MainPanel)
@@ -195,7 +204,7 @@ class Ui_SignUp(object):
 
 # Date of Birth Label
         self.SU_DOBLBL = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_DOBLBL.setGeometry(QtCore.QRect(490, 240, 500, 31))
+        self.SU_DOBLBL.setGeometry(QtCore.QRect(490, 250, 500, 31))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
@@ -208,7 +217,7 @@ class Ui_SignUp(object):
 
 # Date of Birth Input
         self.SU_DOB = QtWidgets.QDateEdit(self.SU_MainPanel)
-        self.SU_DOB.setGeometry(QtCore.QRect(550, 280, 141, 31))
+        self.SU_DOB.setGeometry(QtCore.QRect(550, 290, 141, 31))
         self.SU_DOB.setCalendarPopup(True)
         self.SU_DOB.setStyleSheet("border-color: rgb(229, 141, 118);\nborder: 3px solid #E58D76;\nborder-radius: 5px;\nbackground: transparent;")
         self.SU_DOB.setObjectName("SU_DOB")
@@ -246,7 +255,7 @@ class Ui_SignUp(object):
         
 #Gender Check Box
         self.SU_GenderCB = QtWidgets.QComboBox(self.SU_MainPanel)
-        self.SU_GenderCB.setGeometry(QtCore.QRect(830, 280, 141, 31))
+        self.SU_GenderCB.setGeometry(QtCore.QRect(830, 290, 141, 31))
         self.SU_GenderCB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.SU_GenderCB.setStyleSheet("border-color: rgb(229, 141, 118);\n"
 "background-color: rgba(229, 141, 118, 0.5);\n"
@@ -260,7 +269,7 @@ class Ui_SignUp(object):
         
 #Gender Label
         self.SU_GenderLBL = QtWidgets.QLabel(self.SU_MainPanel)
-        self.SU_GenderLBL.setGeometry(QtCore.QRect(720, 240, 101, 31))
+        self.SU_GenderLBL.setGeometry(QtCore.QRect(720, 250, 101, 31))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(16)
@@ -391,6 +400,7 @@ class Ui_SignUp(object):
         self.SU_CreateanAccount.raise_()
         self.SU_EmailLBL.raise_()
         self.SU_EmailLE.raise_()
+        self.SU_ShowPasswordCB.raise_()
 
         # Pre-fill the form fields
         self.SU_UsernameLE.setText(username)
@@ -400,14 +410,20 @@ class Ui_SignUp(object):
         self.SU_SocialLinkLE.setText(social_media_link)
         self.SU_EmailLE.setText(gmail)
         self.error_message_label = QLabel() 
+        self.SU_ShowPasswordCB
 
         self.retranslateUi(SignUp)
         QtCore.QMetaObject.connectSlotsByName(SignUp)
 
+    def toggle_password_visibility(self, state):
+        if state == QtCore.Qt.Checked:
+                self.SU_PasswordLE.setEchoMode(QtWidgets.QLineEdit.Normal)
+        else:
+                self.SU_PasswordLE.setEchoMode(QtWidgets.QLineEdit.Password)
 
     def retranslateUi(self, SignUp):
         _translate = QtCore.QCoreApplication.translate
-        SignUp.setWindowTitle(_translate("SignUp", "Dialog"))
+        SignUp.setWindowTitle(_translate("SignUp", "Sign up"))
         self.SU_LogInPB.setText(_translate("SignUp", "Log In"))
         self.SU_UsernameLBL.setText(_translate("SignUp", "Username:"))
         self.SU_PasswordLBL.setText(_translate("SignUp", "Password:"))
@@ -422,6 +438,7 @@ class Ui_SignUp(object):
         self.SU_TermsandPrivacyChB.setText(_translate("SignUp", "Accept the Terms and Condition; Privacy Policy"))
         self.SU_CreateanAccount.setText(_translate("SignUp", "Create an Account"))
         self.SU_EmailLBL.setText(_translate("SignUp", "Email:"))
+
 
 
 if __name__ == "__main__":

@@ -251,7 +251,7 @@ class Ui_AccountSettings(object):
         
 #Location Display
         self.AS_LocationDisplay = QtWidgets.QLabel(AccountSettings)
-        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 380, 131, 41))
+        self.AS_LocationDisplay.setGeometry(QtCore.QRect(290, 380, 400, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(16)
@@ -662,7 +662,7 @@ class Ui_AccountSettings(object):
 
     def retranslateUi(self, AccountSettings):
         _translate = QtCore.QCoreApplication.translate
-        AccountSettings.setWindowTitle(_translate("AccountSettings", "Dialog"))
+        AccountSettings.setWindowTitle(_translate("AccountSettings", "Profile"))
         self.AS_HomePB.setText(_translate("AccountSettings", "Home"))
         self.AS_MenuPB.setText(_translate("AccountSettings", "Menu"))
         self.AS_LogOutPB.setText(_translate("AccountSettings", "Log Out"))
