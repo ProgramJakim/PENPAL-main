@@ -15,6 +15,7 @@ import shelve
 from mysql.connector import errorcode
 from argon2 import PasswordHasher
 ph = PasswordHasher()  # Initialize Argon2 Password Hasher
+from ForgotPass import Ui_ForgotPassword_Fullpage  # Import the Forgot Password UI
 
 # Get the absolute path of the current directory (LogInPage.py)
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -267,7 +268,7 @@ class Ui_LogIn(object):
 
         # Connect buttons
         self.LI_LogInPB.clicked.connect(self.handle_login)
-       
+        self.LI_ForgotPasswordLBL.mousePressEvent = self.openForgotPasswordPage  # Connect to Forgot Password page
         
         # Persistent windows
         self.logInWindow = LogIn
@@ -330,6 +331,11 @@ class Ui_LogIn(object):
         msg_box.setIcon(QMessageBox.Information)
         msg_box.exec_()
    
+    def openForgotPasswordPage(self, event):
+        self.forgotPasswordWindow = QtWidgets.QDialog()
+        self.ui = Ui_ForgotPassword_Fullpage()
+        self.ui.setupUi(self.forgotPasswordWindow)
+        self.forgotPasswordWindow.show()
 
     def openMainAppWindow(self):
         # Create a QWidget for the Homepage

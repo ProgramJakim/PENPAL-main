@@ -128,7 +128,7 @@ class Ui_PrivacyPolicy(object):
 
     def retranslateUi(self, PrivacyPolicy):
         _translate = QtCore.QCoreApplication.translate
-        PrivacyPolicy.setWindowTitle(_translate("PrivacyPolicy", "Dialog"))
+        PrivacyPolicy.setWindowTitle(_translate("PrivacyPolicy", "Privacy Policy"))
         self.PP_PrivacyPolicyLBL.setText(_translate("PrivacyPolicy", "Privacy Policy"))
         self.PP_PrivacyStatementTE.setHtml(_translate("PrivacyPolicy", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"

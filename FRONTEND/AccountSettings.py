@@ -662,7 +662,7 @@ class Ui_AccountSettings(object):
 
     def retranslateUi(self, AccountSettings):
         _translate = QtCore.QCoreApplication.translate
-        AccountSettings.setWindowTitle(_translate("AccountSettings", "Profile"))
+        AccountSettings.setWindowTitle(_translate("AccountSettings", "Account Settings"))
         self.AS_HomePB.setText(_translate("AccountSettings", "Home"))
         self.AS_MenuPB.setText(_translate("AccountSettings", "Menu"))
         self.AS_LogOutPB.setText(_translate("AccountSettings", "Log Out"))

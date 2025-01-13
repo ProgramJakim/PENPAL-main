@@ -9,6 +9,9 @@ class Ui_AboutUs(object):
         # Set the fixed size of the main window
         AboutUs.setFixedSize(1440, 850)
 
+        # Set the window title
+        AboutUs.setWindowTitle("About Us!")
+
         # Create a scroll area
         scroll_area = QScrollArea(AboutUs)
         scroll_area.setWidgetResizable(True)

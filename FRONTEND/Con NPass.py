@@ -179,7 +179,7 @@ class Ui_CNP_Fullpage(object):
 
     def retranslateUi(self, CNP_Fullpage):
         _translate = QtCore.QCoreApplication.translate
-        CNP_Fullpage.setWindowTitle(_translate("CNP_Fullpage", "Dialog"))
+        CNP_Fullpage.setWindowTitle(_translate("CNP_Fullpage", "Confirm Password"))
         self.CNP_EnterPassText.setText(_translate("CNP_Fullpage", "ENTER YOUR NEW PASSWORD:"))
         self.label_5.setText(_translate("CNP_Fullpage", "SUBMIT"))
         self.CNP_ForgotPassTEXT.setText(_translate("CNP_Fullpage", "FORGOT PASSWORD"))

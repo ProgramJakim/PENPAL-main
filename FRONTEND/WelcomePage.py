@@ -12,6 +12,7 @@ class Ui_WelcomePage(object):
         # Set the fixed size of the main window
         WelcomePage.setFixedSize(1440, 850)
         WelcomePage.setObjectName("WelcomePage")
+        WelcomePage.setWindowTitle("Welcome Page!")  # Set the window title
 
         # Create a widget to hold the content
         content_widget = QWidget(WelcomePage)

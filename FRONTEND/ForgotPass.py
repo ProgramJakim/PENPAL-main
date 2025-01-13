@@ -11,6 +11,7 @@
 import os
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from NotificationPage import NotificationWindow  # Import the Notification Window
 
 # Get the absolute path of the current directory (LogInPage.py)
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -82,6 +83,12 @@ class Ui_ForgotPassword_Fullpage(object):
         self.FP_EmailBox.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.FP_EmailBox.setFrameShadow(QtWidgets.QFrame.Raised)
         self.FP_EmailBox.setObjectName("FP_EmailBox")
+        self.FP_EmailInput = QtWidgets.QLineEdit(self.FP_EmailBox)
+        self.FP_EmailInput.setGeometry(QtCore.QRect(10, 5, 300, 26))
+        self.FP_EmailInput.setStyleSheet("background-color: rgb(255, 255, 255); border: none;")
+        self.FP_EmailInput.setObjectName("FP_EmailInput")
+        
+        # Adjust FP_SubmitBox to be clickable
         self.FP_SubmitBox = QtWidgets.QFrame(self.frame)
         self.FP_SubmitBox.setGeometry(QtCore.QRect(300, 410, 119, 36))
         self.FP_SubmitBox.setMinimumSize(QtCore.QSize(119, 36))
@@ -90,28 +97,19 @@ class Ui_ForgotPassword_Fullpage(object):
         self.FP_SubmitBox.setStyleSheet("border-color: rgb(220, 97, 88);\n"
 "border: 3px solid #DC6158;\n"
 "border-radius: 5px;\n"
-"")
+"background-color: rgb(220, 97, 88); color: white;")
         self.FP_SubmitBox.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.FP_SubmitBox.setFrameShadow(QtWidgets.QFrame.Raised)
         self.FP_SubmitBox.setObjectName("FP_SubmitBox")
+        self.FP_SubmitBox.mousePressEvent = self.submit_email
+        
         self.label_5 = QtWidgets.QLabel(self.FP_SubmitBox)
-        self.label_5.setGeometry(QtCore.QRect(32, -23, 350, 81))
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
-        sizePolicy.setHorizontalStretch(5)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
-        self.label_5.setSizePolicy(sizePolicy)
-        self.label_5.setMinimumSize(QtCore.QSize(350, 36))
-        self.label_5.setMaximumSize(QtCore.QSize(16777215, 16777212))
-        font = QtGui.QFont()
-        font.setFamily("Rockwell Condensed")
-        font.setPointSize(-1)
-        font.setBold(False)
-        self.label_5.setFont(font)
-        self.label_5.setStyleSheet("color: rgb(220, 97, 88); font-size: 23px;\n"
-"background: transparent;\n"
-"border: none")
+        self.label_5.setGeometry(QtCore.QRect(0, 0, 119, 36))
+        self.label_5.setStyleSheet("color: white; font-size: 23px; background: transparent; border: none;")
+        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_5.setText("Submit")
         self.label_5.setObjectName("label_5")
+        
         self.ForgotPassTEXT = QtWidgets.QLabel(self.frame)
         self.ForgotPassTEXT.setGeometry(QtCore.QRect(90, 135, 800, 150))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -187,10 +185,33 @@ class Ui_ForgotPassword_Fullpage(object):
             }
         """)
 
+    def submit_email(self, event):
+        email = self.FP_EmailInput.text()
+        if email:
+            # Here you would add the logic to handle the email submission
+            print(f"Email submitted: {email}")
+            # Notify the user to renew password
+            self.show_notification("Please check your email to renew your password.")
+            self.openNotificationWindow()
+        else:
+            print("Please enter an email address.")
+            self.show_notification("Please enter an email address.")
+
+    def openNotificationWindow(self):
+        self.notificationWindow = NotificationWindow()
+        self.notificationWindow.set_users_added_notification(["User1"])  # Example data
+        self.notificationWindow.show()
+
+    def show_notification(self, message):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText(message)
+        msg.setWindowTitle("Notification")
+        msg.exec_()
 
     def retranslateUi(self, ForgotPassword_Fullpage):
         _translate = QtCore.QCoreApplication.translate
-        ForgotPassword_Fullpage.setWindowTitle(_translate("ForgotPassword_Fullpage", "Dialog"))
+        ForgotPassword_Fullpage.setWindowTitle(_translate("ForgotPassword_Fullpage", "Forgot Password"))
         self.FP_EmailText.setText(_translate("ForgotPassword_Fullpage", "EMAIL:"))
         self.label_5.setText(_translate("ForgotPassword_Fullpage", "Submit"))
         self.ForgotPassTEXT.setText(_translate("ForgotPassword_Fullpage", "FORGOT PASSWORD"))
