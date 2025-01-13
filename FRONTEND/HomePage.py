@@ -10,6 +10,7 @@ class Ui_Homepage(object):
         # Set the fixed size of the main window
         Homepage.setFixedSize(1440, 850)
         Homepage.setObjectName("Homepage")
+        Homepage.setWindowTitle("Home Page") 
 
         # Create a scroll area
         scroll_area = QScrollArea(Homepage)

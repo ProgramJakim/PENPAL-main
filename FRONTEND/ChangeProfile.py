@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import os
 import requests
 import re
+import shutil
+from PyQt5.QtWidgets import QMainWindow, QLabel, QDialog # Add this import
+from PyQt5.QtGui import QPixmap
 
 # Get the absolute path of the current directory 
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -24,8 +27,12 @@ Change_Profile_assets_folder = os.path.join(current_directory, '..', 'resources'
 class Ui_ChangeProfile(object):
     def __init__(self):
         self.username = ""  # Initialize the username attribute
+        self.selected_profile_picture = None  # Step 1: Add a variable to store the selected profile picture
+        self.ChangeProfile = None
+        self.main_window = None 
 
     def setupUi(self, ChangeProfile):
+        self.ChangeProfile = ChangeProfile  # Store the ChangeProfile object
         ChangeProfile.setObjectName("Change Profile Picture")
         ChangeProfile.resize(1440, 780)
         
@@ -105,6 +112,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile1.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder ,"profile1.png")))
         self.CP_profile1.setScaledContents(True)
         self.CP_profile1.setObjectName("CP_profile1")
+        self.CP_profile1.mousePressEvent = lambda event: self.select_profile_picture("profile1.png")  # Step 2: Add event handler
         
 #Profile 2
         self.CP_profile2 = QtWidgets.QLabel(ChangeProfile)
@@ -116,6 +124,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile2.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile2.png")))
         self.CP_profile2.setScaledContents(True)
         self.CP_profile2.setObjectName("CP_profile2")
+        self.CP_profile2.mousePressEvent = lambda event: self.select_profile_picture("profile2.png")  # Step 2: Add event handler
         
 #Profile 3
         self.CP_profile3 = QtWidgets.QLabel(ChangeProfile)
@@ -127,6 +136,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile3.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile3.png")))
         self.CP_profile3.setScaledContents(True)
         self.CP_profile3.setObjectName("CP_profile3")
+        self.CP_profile3.mousePressEvent = lambda event: self.select_profile_picture("profile3.png")  # Step 2: Add event handler
         
 #Profile 4
         self.CP_profile4 = QtWidgets.QLabel(ChangeProfile)
@@ -138,6 +148,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile4.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile4.png")))
         self.CP_profile4.setScaledContents(True)
         self.CP_profile4.setObjectName("CP_profile4")
+        self.CP_profile4.mousePressEvent = lambda event: self.select_profile_picture("profile4.png")  # Step 2: Add event handler
         
 #Profile 5
         self.CP_profile5 = QtWidgets.QLabel(ChangeProfile)
@@ -149,6 +160,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile5.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile5.png")))
         self.CP_profile5.setScaledContents(True)
         self.CP_profile5.setObjectName("CP_profile5")
+        self.CP_profile5.mousePressEvent = lambda event: self.select_profile_picture("profile5.png")  # Step 2: Add event handler
         
 #Profile 6
         self.CP_profile6 = QtWidgets.QLabel(ChangeProfile)
@@ -160,6 +172,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile6.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile6.png")))
         self.CP_profile6.setScaledContents(True)
         self.CP_profile6.setObjectName("CP_profile6")
+        self.CP_profile6.mousePressEvent = lambda event: self.select_profile_picture("profile6.png")  # Step 2: Add event handler
         
 #Profile 7
         self.CP_profile7 = QtWidgets.QLabel(ChangeProfile)
@@ -171,6 +184,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile7.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile7.png")))
         self.CP_profile7.setScaledContents(True)
         self.CP_profile7.setObjectName("CP_profile7")
+        self.CP_profile7.mousePressEvent = lambda event: self.select_profile_picture("profile7.png")  # Step 2: Add event handler
         
 #Profile 8
         self.CP_profile8 = QtWidgets.QLabel(ChangeProfile)
@@ -182,6 +196,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile8.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile8.png")))
         self.CP_profile8.setScaledContents(True)
         self.CP_profile8.setObjectName("CP_profile8")
+        self.CP_profile8.mousePressEvent = lambda event: self.select_profile_picture("profile8.png")  # Step 2: Add event handler
         
 #Profile 9
         self.CP_profile9 = QtWidgets.QLabel(ChangeProfile)
@@ -193,6 +208,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile9.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile9.png")))
         self.CP_profile9.setScaledContents(True)
         self.CP_profile9.setObjectName("CP_profile9")
+        self.CP_profile9.mousePressEvent = lambda event: self.select_profile_picture("profile9.png")  # Step 2: Add event handler
         
 #Profile 10
         self.CP_profile10 = QtWidgets.QLabel(ChangeProfile)
@@ -204,6 +220,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile10.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile10.png")))
         self.CP_profile10.setScaledContents(True)
         self.CP_profile10.setObjectName("CP_profile10")
+        self.CP_profile10.mousePressEvent = lambda event: self.select_profile_picture("profile10.png")  # Step 2: Add event handler
         
 #Profile 11
         self.CP_profile11 = QtWidgets.QLabel(ChangeProfile)
@@ -215,6 +232,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile11.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile11.png")))
         self.CP_profile11.setScaledContents(True)
         self.CP_profile11.setObjectName("CP_profile11")
+        self.CP_profile11.mousePressEvent = lambda event: self.select_profile_picture("profile11.png")  # Step 2: Add event handler
         
 #Profile 12
         self.CP_profile12 = QtWidgets.QLabel(ChangeProfile)
@@ -226,6 +244,7 @@ class Ui_ChangeProfile(object):
         self.CP_profile12.setPixmap(QtGui.QPixmap(os.path.join(Change_Profile_assets_folder , "profile12.png")))
         self.CP_profile12.setScaledContents(True)
         self.CP_profile12.setObjectName("CP_profile12")
+        self.CP_profile12.mousePressEvent = lambda event: self.select_profile_picture("profile12.png")  # Step 2: Add event handler
         
 #Cancel Changes Push Button
         self.CP_CancelChangesPB = QtWidgets.QPushButton(ChangeProfile)
@@ -253,6 +272,7 @@ class Ui_ChangeProfile(object):
         self.CP_SaveChangesPB.setStyleSheet("background-color: rgb(255, 187, 173);\n"
 "")
         self.CP_SaveChangesPB.setObjectName("CP_SaveChangesPB")
+        self.CP_SaveChangesPB.clicked.connect(self.save_changes)  # Step 3: Connect the button
 
 #Username Label
         self.CP_Username = QtWidgets.QLabel(ChangeProfile)
@@ -300,6 +320,7 @@ class Ui_ChangeProfile(object):
         self.CP_SaveChangesPB.setText(_translate("ChangeProfile", "Save Changes"))
         self.CP_Username.setText(_translate("ChangeProfile", "Username"))
 
+
 #INFORMATION DISPLAY
         self.display_username()
 
@@ -322,6 +343,68 @@ class Ui_ChangeProfile(object):
         except requests.RequestException as e:
             print(f"Error fetching username: {e}")
             return "Unknown User"
+        
+    def select_profile_picture(self, profile_picture):
+        self.selected_profile_picture = profile_picture  # Step 2: Update the variable
+        print(f"Selected profile picture: {self.selected_profile_picture}")  # Debug statement
+
+    def save_changes(self):
+        if self.selected_profile_picture:
+                print(f"Saving profile picture: {self.selected_profile_picture}")  # Debug statement
+                default_profile_path = os.path.join(Change_Profile_assets_folder, "default_profile.png")
+                selected_profile_path = os.path.join(Change_Profile_assets_folder, self.selected_profile_picture)
+                try:
+                    shutil.copyfile(selected_profile_path, default_profile_path)
+                    print(f"Copied {selected_profile_path} to {default_profile_path}")  # Debug statement
+                    QtWidgets.QMessageBox.information(self.ChangeProfile, "Profile Updated", "Your profile picture has been updated.")
+                    self.close_change_profile()  # Close the Change Profile window and show Profile Settings window
+                except Exception as e:
+                    print(f"Error copying file: {e}")  # Debug statement
+                    QtWidgets.QMessageBox.critical(self.ChangeProfile, "Error", f"Failed to update profile picture: {e}")
+        else:
+             QtWidgets.QMessageBox.warning(self.ChangeProfile, "No Selection", "Please select a profile picture.")
+
+
+    def close_change_profile(self):
+        print("Closing ChangeProfile window and opening AccountSettings window")  # Debug statement
+        self.ChangeProfile.accept()  # Use accept() instead of close() to properly close the dialog
+        if self.main_window:
+            print("main_window is set, calling openAccountSettingsFromChangeProfile")  # Debug statement
+            self.main_window.openAccountSettingsFromChangeProfile()
+        else:
+            print("main_window is not set")
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.initUI()
+        self.initWindows()
+        
+
+    def initUI(self):
+        self.profile_picture_label = QLabel(self)  # Ensure this label is defined
+        self.profile_picture_label.setGeometry(50, 50, 100, 100)
+        self.load_profile_picture()
+
+    def initWindows(self):
+        self.accountSettingsWindow = QDialog()  # Initialize the account settings window
+        
+
+    def load_profile_picture(self):
+        profile_picture_path = os.path.join(Change_Profile_assets_folder, "default_profile.png")
+        if os.path.exists(profile_picture_path):
+            self.profile_picture_label.setPixmap(QPixmap(profile_picture_path))
+        else:
+            print("Default profile picture not found.")  # Debug statement
+
+    def show_change_profile(self):
+        self.change_profile_window = QDialog()
+        self.change_profile_ui = Ui_ChangeProfile()
+        self.change_profile_ui.setupUi(self.change_profile_window)
+        self.change_profile_ui.main_window = self  # Pass the main window reference
+        self.change_profile_ui.CP_SaveChangesPB.clicked.connect(self.load_profile_picture)  # Reload profile picture after saving changes
+        self.change_profile_window.show()
+
 
 
 if __name__ == "__main__":
