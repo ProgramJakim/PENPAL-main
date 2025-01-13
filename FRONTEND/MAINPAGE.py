@@ -75,7 +75,7 @@ class Ui_Main_Page(object):
 "text-shadow: 2px 2px 5px #821B1A; /* Dark red shadow *")
         self.MP_UPusername.setObjectName("MP_UPusername")
         self.MP_ProfilePB = QtWidgets.QPushButton(self.LI_Header)
-        self.MP_ProfilePB.setGeometry(QtCore.QRect(815, 30, 200, 45))
+        self.MP_ProfilePB.setGeometry(QtCore.QRect(815, 30, 190, 45))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(14)
@@ -92,7 +92,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_ProfilePB.setObjectName("MP_ProfilePB")
         self.MP_MenuPB = QtWidgets.QPushButton(self.LI_Header)
-        self.MP_MenuPB.setGeometry(QtCore.QRect(1020, 30, 200, 45))
+        self.MP_MenuPB.setGeometry(QtCore.QRect(1020, 30, 190, 45))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(14)
@@ -109,7 +109,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_MenuPB.setObjectName("MP_MenuPB")
         self.MP_LogoutPB = QtWidgets.QPushButton(self.LI_Header)
-        self.MP_LogoutPB.setGeometry(QtCore.QRect(1225, 30, 200, 45))
+        self.MP_LogoutPB.setGeometry(QtCore.QRect(1225, 30, 190, 45))
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(14)
@@ -125,24 +125,9 @@ class Ui_Main_Page(object):
 "background: transparent;\n"
 "")
         self.MP_LogoutPB.setObjectName("MP_LogoutPB")
-        self.MP_Shape3 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape3.setGeometry(QtCore.QRect(830, 430, 350, 490))
-        self.MP_Shape3.setStyleSheet("background-color: rgb(255, 240, 216);\n"
-"border-radius: 5px;\n"
-"border: 3px solid #BE7928;")
-        self.MP_Shape3.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.MP_Shape3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.MP_Shape3.setObjectName("MP_Shape3")
-        self.MP_Shape2 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape2.setGeometry(QtCore.QRect(650, 390, 350, 490))
-        self.MP_Shape2.setStyleSheet("background-color: rgb(255, 240, 216);\n"
-"border-radius: 5px;\n"
-"border: 3px solid #BE7928;")
-        self.MP_Shape2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.MP_Shape2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.MP_Shape2.setObjectName("MP_Shape2")
+      
         self.MP_Shape1 = QtWidgets.QFrame(Main_Page)
-        self.MP_Shape1.setGeometry(QtCore.QRect(450, 350, 350, 490))
+        self.MP_Shape1.setGeometry(QtCore.QRect(450, 350, 510, 490))
         self.MP_Shape1.setStyleSheet("background-color: rgb(255, 240, 216);\n"
 "border-radius: 5px;\n"
 "border: 3px solid #BE7928;")
@@ -150,14 +135,14 @@ class Ui_Main_Page(object):
         self.MP_Shape1.setFrameShadow(QtWidgets.QFrame.Raised)
         self.MP_Shape1.setObjectName("MP_Shape1")
         self.MP_Profile_Display = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Profile_Display.setGeometry(QtCore.QRect(100, 20, 150, 101))
+        self.MP_Profile_Display.setGeometry(QtCore.QRect(190, 40, 150, 101))
         self.MP_Profile_Display.setStyleSheet("border: none;")
         self.MP_Profile_Display.setText("")
         self.MP_Profile_Display.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'GPfp.png')))
         self.MP_Profile_Display.setScaledContents(True)
         self.MP_Profile_Display.setObjectName("MP_Profile_Display")
         self.MP_Username = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Username.setGeometry(QtCore.QRect(130, 90, 488, 100))
+        self.MP_Username.setGeometry(QtCore.QRect(205, 100, 488, 100))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(3)
@@ -216,7 +201,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_Gender.setObjectName("MP_Gender")
         self.MP_Location = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Location.setGeometry(QtCore.QRect(30, 250, 351, 71))
+        self.MP_Location.setGeometry(QtCore.QRect(30, 250, 500, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -235,7 +220,7 @@ class Ui_Main_Page(object):
 "background: none;")
         self.MP_Location.setObjectName("MP_Location")
         self.MP_Preference = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference.setGeometry(QtCore.QRect(30, 300, 351, 71))
+        self.MP_Preference.setGeometry(QtCore.QRect(30, 315, 200, 30))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -255,13 +240,13 @@ class Ui_Main_Page(object):
 "")
         self.MP_Preference.setObjectName("MP_Preference")
         self.MP_Preference1 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference1.setGeometry(QtCore.QRect(20, 350, 351, 71))
+        self.MP_Preference1.setGeometry(QtCore.QRect(30, 340, 190, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.MP_Preference1.sizePolicy().hasHeightForWidth())
         self.MP_Preference1.setSizePolicy(sizePolicy)
-        self.MP_Preference1.setMinimumSize(QtCore.QSize(351, 36))
+        self.MP_Preference1.setMinimumSize(QtCore.QSize(190, 36))
         self.MP_Preference1.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
@@ -276,13 +261,13 @@ class Ui_Main_Page(object):
 "")
         self.MP_Preference1.setObjectName("MP_Preference1")
         self.MP_Preference2 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference2.setGeometry(QtCore.QRect(190,  350, 351, 71))
+        self.MP_Preference2.setGeometry(QtCore.QRect(300,  340, 190, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.MP_Preference2.sizePolicy().hasHeightForWidth())
         self.MP_Preference2.setSizePolicy(sizePolicy)
-        self.MP_Preference2.setMinimumSize(QtCore.QSize(351, 36))
+        self.MP_Preference2.setMinimumSize(QtCore.QSize(190, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(12)
@@ -296,13 +281,13 @@ class Ui_Main_Page(object):
 "")
         self.MP_Preference2.setObjectName("MP_Preference2")
         self.MP_Preference3 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference3.setGeometry(QtCore.QRect(20, 380, 351, 71))
+        self.MP_Preference3.setGeometry(QtCore.QRect(30, 380, 190, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.MP_Preference3.sizePolicy().hasHeightForWidth())
         self.MP_Preference3.setSizePolicy(sizePolicy)
-        self.MP_Preference3.setMinimumSize(QtCore.QSize(351, 36))
+        self.MP_Preference3.setMinimumSize(QtCore.QSize(190, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(12)
@@ -316,13 +301,13 @@ class Ui_Main_Page(object):
 "")
         self.MP_Preference3.setObjectName("MP_Preference3")
         self.MP_Preference4 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference4.setGeometry(QtCore.QRect(190, 380, 351, 71))
+        self.MP_Preference4.setGeometry(QtCore.QRect(300, 380, 190, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.MP_Preference4.sizePolicy().hasHeightForWidth())
         self.MP_Preference4.setSizePolicy(sizePolicy)
-        self.MP_Preference4.setMinimumSize(QtCore.QSize(351, 36))
+        self.MP_Preference4.setMinimumSize(QtCore.QSize(190, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(12)
@@ -336,13 +321,13 @@ class Ui_Main_Page(object):
 "")
         self.MP_Preference4.setObjectName("MP_Preference4")
         self.MP_Preference5 = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Preference5.setGeometry(QtCore.QRect(120, 410, 351, 71))
+        self.MP_Preference5.setGeometry(QtCore.QRect(190, 410, 190, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.MP_Preference5.sizePolicy().hasHeightForWidth())
         self.MP_Preference5.setSizePolicy(sizePolicy)
-        self.MP_Preference5.setMinimumSize(QtCore.QSize(351, 36))
+        self.MP_Preference5.setMinimumSize(QtCore.QSize(190, 36))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
         font.setPointSize(12)
@@ -356,7 +341,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_Preference5.setObjectName("MP_Preference5")
         self.MP_DescriptionText = QtWidgets.QLabel(Main_Page)
-        self.MP_DescriptionText.setGeometry(QtCore.QRect(190, 250, 1011, 91))
+        self.MP_DescriptionText.setGeometry(QtCore.QRect(190, 190, 980, 91))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
@@ -374,14 +359,14 @@ class Ui_Main_Page(object):
 "")
         self.MP_DescriptionText.setObjectName("MP_DescriptionText")
         self.MP_Welcome = QtWidgets.QLabel(Main_Page)
-        self.MP_Welcome.setGeometry(QtCore.QRect(330, 100, 350, 200))
+        self.MP_Welcome.setGeometry(QtCore.QRect(400, 80, 300, 150))
         self.MP_Welcome.setStyleSheet("background: transparent;")
         self.MP_Welcome.setText("")
         self.MP_Welcome.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPWEL.png')))
         self.MP_Welcome.setScaledContents(True)
         self.MP_Welcome.setObjectName("MP_Welcome")
         self.MP_TO_PENPAL = QtWidgets.QLabel(Main_Page)
-        self.MP_TO_PENPAL.setGeometry(QtCore.QRect(630, 100, 350, 200))
+        self.MP_TO_PENPAL.setGeometry(QtCore.QRect(650, 80, 300, 150))
         self.MP_TO_PENPAL.setStyleSheet("background: transparent;")
         self.MP_TO_PENPAL.setText("")
         self.MP_TO_PENPAL.setPixmap(QtGui.QPixmap(os.path.join(Forget_Pass_assets_folder, 'FPWEL (2).png')))
@@ -396,23 +381,23 @@ class Ui_Main_Page(object):
         self.MP_GroupImage.setObjectName("MP_GroupImage")
         self.MP_GroupImage.raise_()
 
-# Create the REJECT button
+# Create the SKIP button
         self.MP_LeftArrow = QPushButton("  ", Main_Page)
-        self.MP_LeftArrow.setGeometry(QRect(90, 520, 130, 70))
+        self.MP_LeftArrow.setGeometry(QRect(300, 520, 90, 90))
         font = QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
-        font.setBold(False)
+        font.setBold(True)
         font.setItalic(False)
         font.setWeight(50)
         self.MP_LeftArrow.setFont(font)
         self.MP_LeftArrow.setCursor(QCursor(Qt.PointingHandCursor))
         self.MP_LeftArrow.setStyleSheet("""
             font:30px;
-            color: #FFFFFF;
+            color: white;
             border: 2px solid #FFFFFF;
             background: black;
-            border-radius: 5px;
+            border-radius: 45px;
         """)
         self.MP_LeftArrow.setObjectName("  ")
 
@@ -420,70 +405,208 @@ class Ui_Main_Page(object):
         self.MP_LeftArrow.setStyleSheet("""
             QPushButton {
                 font:30px;
-                color: #FFFFFF;
-                border: 2px solid #FFFFFF;
-                background: black;
-                border-radius: 5px;
+                color: white;
+                border: 1px white;
+                background: orange;
+                border-radius: 45px;
             }
             QPushButton:hover {
                 background-color: #FF0000;
                 color: #000000;
             }
         """)
+        # Set tooltip
+        self.MP_LeftArrow.setToolTip("NEXT")
 
 # Create the ADD button
         self.MP_RightArrow = QPushButton("  ", Main_Page)
-        self.MP_RightArrow.setGeometry(QRect(1230, 520, 130, 70))
+        self.MP_RightArrow.setGeometry(QtCore.QRect(1000, 520, 90, 90))  # Make the button square
         font = QFont()
         font.setFamily("Rockwell Condensed")
         font.setPointSize(-1)
-        font.setBold(False)
+        font.setBold(True)
         font.setItalic(False)
         font.setWeight(50)
         self.MP_RightArrow.setFont(font)
         self.MP_RightArrow.setCursor(QCursor(Qt.PointingHandCursor))
         self.MP_RightArrow.setStyleSheet("""
-            font:30px;
-            color: #FFFFFF;
-            border: 2px solid green;
-            background: black;
-            border-radius: 5px;
-        """)
-        self.MP_RightArrow.setObjectName("  ")
-
-         # Add hover effect to change background color
-        self.MP_RightArrow.setStyleSheet("""
             QPushButton {
                 font:30px;
-                color: #FFFFFF;
-                border: 2px solid #FFFFFF;
-                background: black;
-                border-radius: 5px;
+                color: white;
+                border: 1px white;
+                background: orange;
+                border-radius: 45px;
             }
             QPushButton:hover {
                 background-color: #00FF00;
-                color: #000000;
+                color: white;
             }
         """)
+        self.MP_RightArrow.setObjectName("  ")
+        # Set tooltip
+        self.MP_RightArrow.setToolTip("ADD")
 
+ # Create the Notification button
+        self.MP_NotificationPB = QtWidgets.QPushButton(self.LI_Header)
+        self.MP_NotificationPB.setGeometry(QtCore.QRect(590, 30, 210, 45))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(False)
+        self.MP_NotificationPB.setFont(font)
+        self.MP_NotificationPB.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.MP_NotificationPB.setStyleSheet("color:rgb(255, 255, 255);\n"
+"font: 700 14pt \"Times New Roman\";\n"
+"border-color: rgb(229, 141, 118);\n"
+"border: 3px solid #FFFFFF;\n"
+"border-radius: 20px;\n"
+"background: transparent;\n"
+"")
+        self.MP_NotificationPB.setObjectName("MP_NotificationPB")
+
+#ADD THE IMAGE MP_ArrowLeft in 250, 520, 90, 90
+        self.MP_ArrowLeft = QtWidgets.QLabel(Main_Page)
+        self.MP_ArrowLeft.setGeometry(QtCore.QRect(180, 470, 200, 200))
+        self.MP_ArrowLeft.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowLeft.png')))
+        self.MP_ArrowLeft.setScaledContents(True)
+        self.MP_ArrowLeft.setObjectName("MP_ArrowLeft")
+
+#ADD THE IMAGE MP_ArrowLeft in 250, 520, 90, 90
+        self.MP_ArrowLeft = QtWidgets.QLabel(Main_Page)
+        self.MP_ArrowLeft.setGeometry(QtCore.QRect(1010, 470, 200, 200))
+        self.MP_ArrowLeft.setPixmap(QtGui.QPixmap(os.path.join(images_folder, 'MP_ArrowRight.png')))
+        self.MP_ArrowLeft.setScaledContents(True)
+        self.MP_ArrowLeft.setObjectName("MP_ArrowLeft")
+
+# Add mutual friends label
+        self.MP_MutualFriends = QtWidgets.QLabel(self.MP_Shape1)
+        self.MP_MutualFriends.setGeometry(QtCore.QRect(0, 0, 510, 30))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
+        sizePolicy.setHorizontalStretch(5)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.MP_MutualFriends.sizePolicy().hasHeightForWidth())
+        self.MP_MutualFriends.setSizePolicy(sizePolicy)
+        self.MP_MutualFriends.setMinimumSize(QtCore.QSize(510, 50))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(12)
+        font.setBold(True)
+        self.MP_MutualFriends.setFont(font)
+        self.MP_MutualFriends.setStyleSheet("color: rgb(229, 141, 118);")
+        self.MP_MutualFriends.setText("Mutual Friends: 0")
+
+# Add a button to view the list of mutual friends
+        self.MP_ViewMutualFriendsButton = QtWidgets.QPushButton(self.MP_MutualFriends)
+        self.MP_ViewMutualFriendsButton.setGeometry(QtCore.QRect(375, 5, 130, 40))
+        self.MP_ViewMutualFriendsButton.setText("View Mutual/s")
+        self.MP_ViewMutualFriendsButton.setStyleSheet("background-color: rgb(228, 141, 118); color: white;")
+        self.MP_ViewMutualFriendsButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+
+        # Add mutual friends list (hidden QLabel to store the list)
+        self.MP_MutualFriendsList = QtWidgets.QLabel(self.MP_Shape1)
+        self.MP_MutualFriendsList.setGeometry(QtCore.QRect(0, 0, 0, 0))  # Hidden
+        self.MP_MutualFriendsList.setVisible(False)
+       
+
+        self.interestButton = QtWidgets.QPushButton(Main_Page)
+        self.interestButton.setGeometry(QtCore.QRect(400, 300, 190, 40))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(False)
+        self.interestButton.setFont(font)
+        self.interestButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.interestButton.setStyleSheet("color:rgb(255, 255, 255);\n"
+        "font: 700 14pt \"Times New Roman\";\n"
+        "border-color: rgb(229, 141, 118);\n"
+        "border: 3px solid #FFFFFF;\n"
+        "border-radius: 20px;\n"
+        "background: orange;\n"
+        "")
+        self.interestButton.setText("Interest")
+        self.interestButton.setCheckable(True)
+        self.interestButton.setObjectName("interestButton")
+
+        self.locationButton = QtWidgets.QPushButton(Main_Page)
+        self.locationButton.setGeometry(QtCore.QRect(620, 300, 150, 40))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(False)
+        self.locationButton.setFont(font)
+        self.locationButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.locationButton.setStyleSheet("color:rgb(255, 255, 255);\n"
+        "font: 700 14pt \"Times New Roman\";\n"
+        "border-color: rgb(229, 141, 118);\n"
+        "border: 3px solid #FFFFFF;\n"
+        "border-radius: 20px;\n"
+        "background: orange;\n"
+        "")
+        self.locationButton.setText("Location")
+        self.locationButton.setCheckable(True)
+        self.locationButton.setObjectName("locationButton")
+
+
+        self.mutualFriendsButton = QtWidgets.QPushButton(Main_Page)
+        self.mutualFriendsButton.setGeometry(QtCore.QRect(800, 300, 200, 40))
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setItalic(False)
+        self.mutualFriendsButton.setFont(font)
+        self.mutualFriendsButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mutualFriendsButton.setStyleSheet("color:rgb(255, 255, 255);\n"
+        "font: 700 14pt \"Times New Roman\";\n"
+        "border-color: rgb(229, 141, 118);\n"
+        "border: 3px solid #FFFFFF;\n"
+        "border-radius: 20px;\n"
+        "background: orange;\n"
+        "")
+        self.mutualFriendsButton.setText("Mutual Friends")
+        self.mutualFriendsButton.setCheckable(True)
+        self.mutualFriendsButton.setObjectName("mutualFriendsButton")
+        
+        # Connect buttons to toggle function
+        self.interestButton.toggled.connect(lambda: self.toggle_button(self.interestButton))
+        self.locationButton.toggled.connect(lambda: self.toggle_button(self.locationButton))
+        self.mutualFriendsButton.toggled.connect(lambda: self.toggle_button(self.mutualFriendsButton))
+        
+        # Add QLabel widgets for displaying interests
+        self.interest_labels = [
+            self.MP_Preference1,
+            self.MP_Preference2,
+            self.MP_Preference3,
+            self.MP_Preference4,
+            self.MP_Preference5
+        ]
+       
 
         
         self.LI_Header.raise_()
-        self.MP_Shape3.raise_()
-        self.MP_Shape2.raise_()
+       
         self.MP_Shape1.raise_()
         self.MP_DescriptionText.raise_()
         self.MP_Welcome.raise_()
         self.MP_TO_PENPAL.raise_()
         self.MP_LeftArrow.raise_()
         self.MP_RightArrow.raise_()
+        self.MP_NotificationPB.raise_()
+        self.MP_MutualFriends.raise_()
+        self.interestButton.raise_()
+        self.mutualFriendsButton.raise_()
+        self.locationButton.raise_()
+        self.MP_MutualFriends.raise_()
 
         self.retranslateUi(Main_Page)
         QtCore.QMetaObject.connectSlotsByName(Main_Page)
 
     def retranslateUi(self, Main_Page):
         _translate = QtCore.QCoreApplication.translate
-        Main_Page.setWindowTitle(_translate("Main_Page", "Dialog"))
+        Main_Page.setWindowTitle(_translate("Main_Page", "Main Page"))
         self.MP_UPusername.setText(_translate("Main_Page", "USERNAME"))
         self.MP_ProfilePB.setText(_translate("Main_Page", "PROFILE"))
         self.MP_MenuPB.setText(_translate("Main_Page", "MENU"))
@@ -499,10 +622,30 @@ class Ui_Main_Page(object):
         self.MP_Preference4.setText(_translate("Main_Page", "Pref.4"))
         self.MP_Preference5.setText(_translate("Main_Page", "Pref.5"))
         self.MP_DescriptionText.setText(_translate("Main_Page", "<html><head/><body><p align=\"center\">EXPLORE AND CONNECT WITH PEOPLE WHO SHARE YOUR INTERESTS. SWIPE RIGHT </p><p align=\"center\">TO CONNECT, LEFT TO PASS. HAPPY CONNECTING WITH LIKE-MINDED INDIVIDUALS!</p></body></html>"))
-      
+        self.MP_NotificationPB.setText(_translate("Main_Page", "NOTIFICATION"))
+        self.MP_LeftArrow.setText(_translate("Main_Page", "SKIP"))
+        self.MP_RightArrow.setText(_translate("Main_Page", "ADD"))
+        
 
-#USERNAME DISPLAY
-        self.username = "Default Username"  # Set a default username
+    def toggle_button(self, button):
+        if button.isChecked():
+                button.setStyleSheet("color:rgb(255, 255, 255);\n"
+                                "font: 700 14pt \"Times New Roman\";\n"
+                                "border-color: rgb(229, 141, 118);\n"
+                                "border: 3px solid #FFFFFF;\n"
+                                "border-radius: 20px;\n"
+                                "background: green;\n"
+                                "")
+        else:
+                button.setStyleSheet("color:rgb(255, 255, 255);\n"
+                                "font: 700 14pt \"Times New Roman\";\n"
+                                "border-color: rgb(229, 141, 118);\n"
+                                "border: 3px solid #FFFFFF;\n"
+                                "border-radius: 20px;\n"
+                                "background: orange;\n"
+                                "")
+        #USERNAME DISPLAY
+        self.username = ""  # Set a default username
         self.display_username()
 
     def set_user_info(self, user_id, username):
@@ -526,6 +669,7 @@ class Ui_Main_Page(object):
             print(f"Error fetching username: {e}")
             return "Unknown User"
         
+ 
  #RECOMMENDED USERS DISPLAY 
   
 

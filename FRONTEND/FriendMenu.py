@@ -141,10 +141,10 @@ class Ui_FriendMenu(object):
         
 #Friend Request 1
         self.FM_FriendRequest1 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest1.setGeometry(QtCore.QRect(250, 220, 231, 41))
+        self.FM_FriendRequest1.setGeometry(QtCore.QRect(250, 220, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest1.setFont(font)
@@ -154,10 +154,10 @@ class Ui_FriendMenu(object):
         
 #Friend Request 2
         self.FM_FriendRequest2 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest2.setGeometry(QtCore.QRect(250, 270, 231, 41))
+        self.FM_FriendRequest2.setGeometry(QtCore.QRect(250, 270, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest2.setFont(font)
@@ -167,10 +167,10 @@ class Ui_FriendMenu(object):
         
 #Friend Request 3
         self.FM_FriendRequest3 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest3.setGeometry(QtCore.QRect(250, 320, 231, 41))
+        self.FM_FriendRequest3.setGeometry(QtCore.QRect(250, 320, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest3.setFont(font)
@@ -180,10 +180,10 @@ class Ui_FriendMenu(object):
         
 #Friend Request 4
         self.FM_FriendRequest4 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest4.setGeometry(QtCore.QRect(250, 370, 231, 41))
+        self.FM_FriendRequest4.setGeometry(QtCore.QRect(250, 370, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest4.setFont(font)
@@ -193,10 +193,10 @@ class Ui_FriendMenu(object):
         
 #Friend Request 5
         self.FM_FriendRequest5 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest5.setGeometry(QtCore.QRect(250, 420, 231, 41))
+        self.FM_FriendRequest5.setGeometry(QtCore.QRect(250, 420, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest5.setFont(font)
@@ -206,10 +206,10 @@ class Ui_FriendMenu(object):
         
 #Friend Request 6
         self.FM_FriendRequest6 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest6.setGeometry(QtCore.QRect(250, 470, 231, 41))
+        self.FM_FriendRequest6.setGeometry(QtCore.QRect(250, 470, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest6.setFont(font)
@@ -219,10 +219,10 @@ class Ui_FriendMenu(object):
         
 #Friend Request 7
         self.FM_FriendRequest7 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest7.setGeometry(QtCore.QRect(250, 520, 231, 41))
+        self.FM_FriendRequest7.setGeometry(QtCore.QRect(250, 520, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest7.setFont(font)
@@ -232,10 +232,10 @@ class Ui_FriendMenu(object):
         
 #Friend Request 8
         self.FM_FriendRequest8 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest8.setGeometry(QtCore.QRect(250, 570, 231, 41))
+        self.FM_FriendRequest8.setGeometry(QtCore.QRect(250, 570, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest8.setFont(font)
@@ -245,10 +245,10 @@ class Ui_FriendMenu(object):
 
 #Friend Request 9
         self.FM_FriendRequest9 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest9.setGeometry(QtCore.QRect(250, 620, 231, 41))
+        self.FM_FriendRequest9.setGeometry(QtCore.QRect(250, 620, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest9.setFont(font)
@@ -258,10 +258,10 @@ class Ui_FriendMenu(object):
         
 #Friend Request 10
         self.FM_FriendRequest10 = QtWidgets.QLabel(FriendMenu)
-        self.FM_FriendRequest10.setGeometry(QtCore.QRect(250, 670, 241, 41))
+        self.FM_FriendRequest10.setGeometry(QtCore.QRect(250, 670, 500, 41))
         font = QtGui.QFont()
         font.setFamily("Rockwell")
-        font.setPointSize(16)
+        font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.FM_FriendRequest10.setFont(font)
@@ -732,9 +732,31 @@ class Ui_FriendMenu(object):
         self.retranslateUi(FriendMenu)
         QtCore.QMetaObject.connectSlotsByName(FriendMenu)
 
+        self.FM_Accept1PB.setVisible(False)
+        self.FM_Accept2PB.setVisible(False)
+        self.FM_Accept3PB.setVisible(False)
+        self.FM_Accept4PB.setVisible(False)
+        self.FM_Accept5PB.setVisible(False)
+        self.FM_Accept6PB.setVisible(False)
+        self.FM_Accept7PB.setVisible(False)
+        self.FM_Accept8PB.setVisible(False)
+        self.FM_Accept9PB.setVisible(False)
+        self.FM_Accept10PB.setVisible(False)
+
+        self.FM_Decline1PB.setVisible(False)
+        self.FM_Decline2PB.setVisible(False)
+        self.FM_Decline3PB.setVisible(False)
+        self.FM_Decline4PB.setVisible(False)
+        self.FM_Decline5PB.setVisible(False)
+        self.FM_Decline6PB.setVisible(False)
+        self.FM_Decline7PB.setVisible(False)
+        self.FM_Decline8PB.setVisible(False)
+        self.FM_Decline9PB.setVisible(False)
+        self.FM_Decline10PB.setVisible(False)
+
     def retranslateUi(self, FriendMenu):
         _translate = QtCore.QCoreApplication.translate
-        FriendMenu.setWindowTitle(_translate("FriendMenu", "Dialog"))
+        FriendMenu.setWindowTitle(_translate("FriendMenu", "Friend Menu"))
         self.FM_HomePB.setText(_translate("FriendMenu", "Home"))
         self.FM_ProfilePB.setText(_translate("FriendMenu", "Profile"))
         self.FM_LogOutPB.setText(_translate("FriendMenu", "Log Out"))
