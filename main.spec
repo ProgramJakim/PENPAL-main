@@ -3,7 +3,7 @@
 block_cipher = None
 
 a = Analysis(
-    ['main.py'],
+    ['penpalmain.py'],
     pathex=['C:\\Users\\raque\\OneDrive\\Documents\\PENPAL\\PENPAL-main'],
     binaries=[],
     datas=[
@@ -47,7 +47,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='main',
+    name='penpalmain',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

@@ -5,13 +5,11 @@ pip install -r requirements.txt
 Step 2: run the following Commands
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 .\venv\Scripts\activate
-python server.py
 
+Step 3:
+Run the server
+python BACKEND\server.py
 
-step 3:
-Go to main.py then press the play button
-
-
-
-
-
+Step 4:
+Run the main application
+python penpalmain.py
