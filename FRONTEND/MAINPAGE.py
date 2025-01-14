@@ -517,7 +517,7 @@ class Ui_Main_Page(object):
         font.setBold(True)
         font.setItalic(False)
         self.interestButton.setFont(font)
-        self.interestButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.interestButton.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))  # Set to default cursor
         self.interestButton.setStyleSheet("color:rgb(255, 255, 255);\n"
         "font: 700 14pt \"Times New Roman\";\n"
         "border-color: rgb(229, 141, 118);\n"
@@ -526,7 +526,7 @@ class Ui_Main_Page(object):
         "background: orange;\n"
         "")
         self.interestButton.setText("Interest")
-        self.interestButton.setCheckable(True)
+        self.interestButton.setCheckable(False)
         self.interestButton.setObjectName("interestButton")
 
         self.locationButton = QtWidgets.QPushButton(Main_Page)
@@ -537,7 +537,7 @@ class Ui_Main_Page(object):
         font.setBold(True)
         font.setItalic(False)
         self.locationButton.setFont(font)
-        self.locationButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.locationButton.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))  # Set to default cursor
         self.locationButton.setStyleSheet("color:rgb(255, 255, 255);\n"
         "font: 700 14pt \"Times New Roman\";\n"
         "border-color: rgb(229, 141, 118);\n"
@@ -546,9 +546,8 @@ class Ui_Main_Page(object):
         "background: orange;\n"
         "")
         self.locationButton.setText("Location")
-        self.locationButton.setCheckable(True)
+        self.locationButton.setCheckable(False)
         self.locationButton.setObjectName("locationButton")
-
 
         self.mutualFriendsButton = QtWidgets.QPushButton(Main_Page)
         self.mutualFriendsButton.setGeometry(QtCore.QRect(800, 300, 200, 40))
@@ -558,7 +557,7 @@ class Ui_Main_Page(object):
         font.setBold(True)
         font.setItalic(False)
         self.mutualFriendsButton.setFont(font)
-        self.mutualFriendsButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.mutualFriendsButton.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))  # Set to default cursor
         self.mutualFriendsButton.setStyleSheet("color:rgb(255, 255, 255);\n"
         "font: 700 14pt \"Times New Roman\";\n"
         "border-color: rgb(229, 141, 118);\n"
@@ -567,13 +566,8 @@ class Ui_Main_Page(object):
         "background: orange;\n"
         "")
         self.mutualFriendsButton.setText("Mutual Friends")
-        self.mutualFriendsButton.setCheckable(True)
+        self.mutualFriendsButton.setCheckable(False)
         self.mutualFriendsButton.setObjectName("mutualFriendsButton")
-        
-        # Connect buttons to toggle function
-        self.interestButton.toggled.connect(lambda: self.toggle_button(self.interestButton))
-        self.locationButton.toggled.connect(lambda: self.toggle_button(self.locationButton))
-        self.mutualFriendsButton.toggled.connect(lambda: self.toggle_button(self.mutualFriendsButton))
         
         # Add QLabel widgets for displaying interests
         self.interest_labels = [

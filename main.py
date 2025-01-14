@@ -352,9 +352,6 @@ class MainApp:
         self.changeProfileUI.CP_CancelChangesPB.clicked.connect(self.openAccountSettingsFromChangeProfile)
         
         #RECOMMENDATIONS Buttons
-        self.mainPageUI.interestButton.clicked.connect(self.fetch_users_by_interests)
-        self.mainPageUI.mutualFriendsButton.clicked.connect(self.fetch_users_by_mutual_friends)
-        self.mainPageUI.locationButton.clicked.connect(self.fetch_users_by_location)
         self.mainPageUI.MP_ViewMutualFriendsButton.clicked.connect(self.show_mutual_friends_list)
     
     # WelcomePage methods
@@ -1327,16 +1324,7 @@ class MainApp:
         self.accountSettingsWindow.show()
 
     
-    def fetch_users_by_interests(self, username):
-        print ('interest')
-        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
-    def fetch_users_by_mutual_friends(self, username):
-        print ('mutual friends')
-        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
-    def fetch_users_by_location(self, username):
-        print ('location')
-        self.mainPageUI.MP_UPusername.setText(self.logInUI.username)
-
+   
     def run(self):
         # Show the splash screen
         splash = SplashScreen()
