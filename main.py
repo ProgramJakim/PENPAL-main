@@ -207,7 +207,7 @@ class MainApp:
         self.logInUI.LI_SignUpPB.clicked.connect(self.openSignUpPage)
         self.logInUI.LI_LogInPB.clicked.connect(self.openMAINPage)
         self.logInUI.LIbackButton.clicked.connect(self.openHomePageFromLogin)
-        self.logInUI.LI_ForgotPasswordLBL.mousePressEvent = self.handleForgotPasswordClick
+       
         
         # ForgotPass buttons
         self.forgotPassUi.FPbackButton.clicked.connect(self.openLogInFromForgotPass)

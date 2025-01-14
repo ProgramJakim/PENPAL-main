@@ -194,19 +194,6 @@ class Ui_LogIn(object):
 "border-radius: 5px;\n"
 "background: transparent;")
         self.LI_UsernameLE.setObjectName("LI_UsernameLE")
-        self.LI_ForgotPasswordLBL = QtWidgets.QLabel(self.LI_MainPanel)
-        self.LI_ForgotPasswordLBL.setGeometry(QtCore.QRect(240, 450, 151, 31))
-        font = QtGui.QFont()
-        font.setFamily("Times New Roman")
-        font.setPointSize(12)
-        font.setUnderline(True)
-        self.LI_ForgotPasswordLBL.setFont(font)
-        self.LI_ForgotPasswordLBL.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.LI_ForgotPasswordLBL.setStyleSheet("color: rgb(122, 12, 12);\n"
-"background: transparent;\n"
-"text-decoration: underline\n"
-"")
-        self.LI_ForgotPasswordLBL.setObjectName("LI_ForgotPasswordLBL")
         self.label = QtWidgets.QLabel(self.LI_MainPanel)
         self.label.setGeometry(QtCore.QRect(190, 0, 941, 700))
         self.label.setStyleSheet("background: transparent;\n"
@@ -218,7 +205,7 @@ class Ui_LogIn(object):
         self.label.raise_()
         self.LI_SidePanel.raise_()
         self.LI_Icon.raise_()
-        self.LI_ForgotPasswordLBL.raise_()
+      
         self.LI_PasswordLE.raise_()
         self.LI_PasswordLBL.raise_()
         self.LI_UsernameLE.raise_()
@@ -347,7 +334,7 @@ class Ui_LogIn(object):
         self.LI_UsernameLBL.setText(_translate("LogIn", "Username:"))
         self.LI_PasswordLBL.setText(_translate("LogIn", "Password:"))
         self.LI_LogInPB.setText(_translate("LogIn", "Log In"))
-        self.LI_ForgotPasswordLBL.setText(_translate("LogIn", "Forgot Password?"))
+       
 
 if __name__ == "__main__":
     import sys
