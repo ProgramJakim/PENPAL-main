@@ -857,16 +857,16 @@ class MainApp:
 
                     # Update MP_Preference label with the count of common interests
                     common_interests_count = len(common_interests)
-                    if common_interests_count > 0:
-                        self.mainPageUI.MP_Preference.setText(f"Preferences: {common_interests_count} same interest{'s' if common_interests_count > 1 else ''}!")
-                    else:
-                        self.mainPageUI.MP_Preference.setText("")
+                    self.mainPageUI.MP_Preference.setText(f"Preferences: {common_interests_count} same interest{'s' if common_interests_count > 1 else ''}!")
                 else:
                     print(f"Error: Received status code {response.status_code}")
+                    self.mainPageUI.MP_Preference.setText("Preferences: 0 same interests!")
             else:
                 print(f"Error: Received status code {response.status_code}")
+                self.mainPageUI.MP_Preference.setText("Preferences: 0 same interests!")
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
+            self.mainPageUI.MP_Preference.setText("Preferences: 0 same interests!")
 
     def prompt_browse_again(self):
         if len(self.displayed_users) == 1:
