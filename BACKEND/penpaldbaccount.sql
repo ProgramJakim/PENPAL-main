@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2025 at 05:51 PM
+-- Generation Time: Jan 14, 2025 at 04:29 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `penpaldb`
+-- Database: `penpaldbaccount`
 --
 
 -- --------------------------------------------------------
@@ -33,6 +33,15 @@ CREATE TABLE `friendships` (
   `user2` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `friendships`
+--
+
+INSERT INTO `friendships` (`id`, `user1`, `user2`) VALUES
+(8, 'booklover_karen', 'foodie_mika89'),
+(6, 'booklover_karen', 'GroupPenpal'),
+(7, 'booklover_karen', 'traveler_jay24');
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +54,16 @@ CREATE TABLE `friend_requests` (
   `to_user` varchar(50) NOT NULL,
   `status` enum('pending','accepted','rejected') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `friend_requests`
+--
+
+INSERT INTO `friend_requests` (`id`, `from_user`, `to_user`, `status`) VALUES
+(6, 'traveler_jay24', 'gamer_lance', 'pending'),
+(8, 'GroupPenpal', 'booklover_karen', 'accepted'),
+(9, 'traveler_jay24', 'booklover_karen', 'accepted'),
+(10, 'foodie_mika89', 'booklover_karen', 'accepted');
 
 -- --------------------------------------------------------
 
@@ -83,11 +102,7 @@ INSERT INTO `users` (`id`, `username`, `age`, `location`, `gender`, `password`, 
 (16, 'sciencegeek_john', 25, 'Legazpi City, Philippines', 'Male', '$argon2id$v=19$m=65536,t=3,p=4$JyQEgPDe25sz5ry3lnIuhQ$AtBOa2kwNokoWiRpSUxH2lNgsOVz8h5EzFYzH0G6Xyo', 'https://twitter.com/sciencegeekjohn', 'john.science@gmail.com'),
 (17, 'musiclover_anne', 25, 'General Santos City, Philippines', 'Male', '$argon2id$v=19$m=65536,t=3,p=4$l9J6z/k/Z4xRirH2vhdCKA$xmmaoH8dz348Ndu//tSSLn/oIuMuwSmjU/XHSqHjLt0', 'https://www.spotify.com/musicloveranne', 'anne.music@gmail.com'),
 (18, 'photog_mark', 34, 'Dumaguete City, Philippines', 'Male', '$argon2id$v=19$m=65536,t=3,p=4$h5AyplRqbQ3BWMsZQwjhXA$seDivupPM+b4dHDylP+AhbJPvaTmotpbo9iveARXWE8', 'https://www.behance.net/photogmark', 'mark.photo@hotmail.com'),
-(19, 'business_mia', 29, 'Cagayan de Oro, Philippines', 'Male', '$argon2id$v=19$m=65536,t=3,p=4$TIlRSknJ2dtbKwWA8D6HsA$480AyFb6ghhdGonDtP+ZEHs1OOz6sivVGg4/V01MWWc', 'https://www.linkedin.com/in/businessmia', 'mia.business@gmail.com'),
-(20, 'lifestyle_joey', 21, 'Cavite, Philippines', 'Male', '$argon2id$v=19$m=65536,t=3,p=4$gHCOce69VwphLIXw3ltLaQ$k1Vozssa2RLzUMAUMdGCBp5sCqGP4ypheyS4wOpTogo', 'https://www.facebook.com/lifestylejoey', 'joey.lifestyle@gmail.com'),
-(21, 'artsy_sam', 33, 'Taguig, Philippines', 'Female', '$argon2id$v=19$m=65536,t=3,p=4$FiIEYOxda21tDQHAWKu1Vg$MgLroTLjC1knw9mn95FDyDrDIgl9rsPCkVJQSw3zGs8', 'https://www.instagram.com/artsysam', 'sam.artsy@gmail.com'),
-(22, 'techwizard_andrei', 27, 'Pampanga, Philippines', 'Male', '$argon2id$v=19$m=65536,t=3,p=4$B2Cs9T5HSKlVCkHIWYuxdg$zfkfk/8CqYuWctocYbaSxOamYPIIAT08YvtYunx5k8k', 'https://github.com/techwizardandrei', 'andrei.tech@gmail.com'),
-(23, 'bookworm_claire', 20, 'Batangas, Philippines', 'Female', '$argon2id$v=19$m=65536,t=3,p=4$TUkpZSylVArBGGNs7V1r7Q$IMY1TIYRVCeA6bTBtOV8+m2rUhMp05cvbH9s9RZDpHs', 'https://twitter.com/bookwormclaire', 'claire.books@gmail.com');
+(26, 'GroupPenpal', 19, 'Quezon City, Philippines', 'Male', '$argon2id$v=19$m=65536,t=3,p=4$ohRiLGWMEaJUSsl5j5FSag$4W2YXUAc33ynkOzDCLIe0nqsB1R1mHlw+dbsZrBV1Qo', 'https://www.facebook.com/penpalgroup', 'penpalgroup25@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -106,11 +121,6 @@ CREATE TABLE `user_interests` (
 --
 
 INSERT INTO `user_interests` (`id`, `username`, `interest`) VALUES
-(1, 'GroupPenpal', 'PHOTOGRAPHY'),
-(2, 'GroupPenpal', 'EDUCATION'),
-(3, 'GroupPenpal', 'MOVIES'),
-(4, 'GroupPenpal', 'BOOKS'),
-(5, 'GroupPenpal', 'BUSINESS'),
 (6, 'PenpalGroup', 'PHOTOGRAPHY'),
 (7, 'PenpalGroup', 'MUSIC'),
 (8, 'PenpalGroup', 'EDUCATION'),
@@ -196,31 +206,11 @@ INSERT INTO `user_interests` (`id`, `username`, `interest`) VALUES
 (88, 'photog_mark', 'PHOTOGRAPHY'),
 (89, 'photog_mark', 'LIFESTYLE'),
 (90, 'photog_mark', 'SCIENCE'),
-(91, 'business_mia', 'TECHNOLOGY'),
-(92, 'business_mia', 'ARTS'),
-(93, 'business_mia', 'FASHION'),
-(94, 'business_mia', 'EDUCATION'),
-(95, 'business_mia', 'BUSINESS'),
-(96, 'lifestyle_joey', 'ARTS'),
-(97, 'lifestyle_joey', 'PHOTOGRAPHY'),
-(98, 'lifestyle_joey', 'MUSIC'),
-(99, 'lifestyle_joey', 'FASHION'),
-(100, 'lifestyle_joey', 'LIFESTYLE'),
-(101, 'artsy_sam', 'ARTS'),
-(102, 'artsy_sam', 'PHOTOGRAPHY'),
-(103, 'artsy_sam', 'MUSIC'),
-(104, 'artsy_sam', 'TRAVEL'),
-(105, 'artsy_sam', 'FASHION'),
-(106, 'techwizard_andrei', 'TECHNOLOGY'),
-(107, 'techwizard_andrei', 'GAMING'),
-(108, 'techwizard_andrei', 'EDUCATION'),
-(109, 'techwizard_andrei', 'MOVIES'),
-(110, 'techwizard_andrei', 'SCIENCE'),
-(111, 'bookworm_claire', 'ARTS'),
-(112, 'bookworm_claire', 'EDUCATION'),
-(113, 'bookworm_claire', 'BOOKS'),
-(114, 'bookworm_claire', 'LIFESTYLE'),
-(115, 'bookworm_claire', 'SCIENCE');
+(126, 'GroupPenpal', 'ARTS'),
+(127, 'GroupPenpal', 'MUSIC'),
+(128, 'GroupPenpal', 'TRAVEL'),
+(129, 'GroupPenpal', 'COOKING'),
+(130, 'GroupPenpal', 'SCIENCE');
 
 --
 -- Indexes for dumped tables
@@ -264,25 +254,25 @@ ALTER TABLE `user_interests`
 -- AUTO_INCREMENT for table `friendships`
 --
 ALTER TABLE `friendships`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `user_interests`
 --
 ALTER TABLE `user_interests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- Constraints for dumped tables
@@ -301,12 +291,6 @@ ALTER TABLE `friendships`
 ALTER TABLE `friend_requests`
   ADD CONSTRAINT `friend_requests_ibfk_1` FOREIGN KEY (`from_user`) REFERENCES `users` (`username`) ON DELETE CASCADE,
   ADD CONSTRAINT `friend_requests_ibfk_2` FOREIGN KEY (`to_user`) REFERENCES `users` (`username`) ON DELETE CASCADE;
-
---
--- Constraints for table `user_interests`
---
-ALTER TABLE `user_interests`
-  ADD CONSTRAINT `user_interests_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
