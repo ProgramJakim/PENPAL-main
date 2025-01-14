@@ -802,10 +802,15 @@ class MainApp:
 
                     # Fetch and highlight common interests
                     self.highlight_common_interests(user['username'])
+
+                    # Highlight location if it matches
+                    self.highlight_location(user['username'])
                 else:
                     self.prompt_browse_again()
+                    self.clear_user_display()
             else:
                 self.prompt_browse_again()
+                self.clear_user_display()
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
             self.clear_user_display()
@@ -845,29 +850,63 @@ class MainApp:
                             if label.text() == interest:
                                 label.setStyleSheet("background-color: yellow;")
                                 if label == self.mainPageUI.MP_Preference1:
-                                    label.setGeometry(QtCore.QRect(30, 360, 190, 30))
+                                        label.setGeometry(QtCore.QRect(30, 360, 190, 30))
                                 elif label == self.mainPageUI.MP_Preference2:
-                                    label.setGeometry(QtCore.QRect(300, 360, 190, 30))
+                                        label.setGeometry(QtCore.QRect(300, 360, 190, 30))
                                 elif label == self.mainPageUI.MP_Preference3:
-                                    label.setGeometry(QtCore.QRect(30, 400, 190, 30))
+                                        label.setGeometry(QtCore.QRect(30, 400, 190, 30))
                                 elif label == self.mainPageUI.MP_Preference4:
-                                    label.setGeometry(QtCore.QRect(300, 400, 190, 30))
+                                        label.setGeometry(QtCore.QRect(300, 400, 190, 30))
                                 elif label == self.mainPageUI.MP_Preference5:
-                                    label.setGeometry(QtCore.QRect(190, 440, 190, 30))
+                                        label.setGeometry(QtCore.QRect(190, 440, 190, 30))
+
 
                     # Update MP_Preference label with the count of common interests
                     common_interests_count = len(common_interests)
                     self.mainPageUI.MP_Preference.setText(f"Preferences: {common_interests_count} same interest{'s' if common_interests_count > 1 else ''}!")
                 else:
-                    print(f"Error: Received status code {response.status_code}")
+                    print(f"Error: Received status code {response.status_code} for other user's interests")
                     self.mainPageUI.MP_Preference.setText("Preferences: 0 same interests!")
             else:
-                print(f"Error: Received status code {response.status_code}")
+                print(f"Error: Received status code {response.status_code} for logged-in user's interests")
                 self.mainPageUI.MP_Preference.setText("Preferences: 0 same interests!")
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
             self.mainPageUI.MP_Preference.setText("Preferences: 0 same interests!")
+    
+    def highlight_location(self, other_username):
+        try:
+            response = requests.get('http://localhost:5000/get_user_location', params={
+                'username': self.logInUI.username
+            })
+            if response.status_code == 200:
+                logged_in_user_location = response.json().get('location', '')
 
+                response = requests.get('http://localhost:5000/get_user_location', params={
+                    'username': other_username
+                })
+                if response.status_code == 200:
+                    other_user_location = response.json().get('location', '')
+
+                    if logged_in_user_location == other_user_location:
+                        self.mainPageUI.MP_Location.setStyleSheet("background-color: yellow; border:  2px solid rgb(122, 12, 12); color: rgb(122, 12, 12);")
+                        self.mainPageUI.MP_Location.setGeometry(QtCore.QRect(30, 270, 470, 30))
+                    else:
+                        self.mainPageUI.MP_Location.setStyleSheet("border: none; color: rgb(122, 12, 12);")
+                        self.mainPageUI.MP_Location.setGeometry(QtCore.QRect(30, 270, 470, 30))
+                else:
+                    print(f"Error: Received status code {response.status_code} for other user's location")
+                    self.mainPageUI.MP_Location.setStyleSheet("border: none;")
+                    self.mainPageUI.MP_Location.setGeometry(QtCore.QRect(30, 270, 470, 30))
+            else:
+                print(f"Error: Received status code {response.status_code} for logged-in user's location")
+                self.mainPageUI.MP_Location.setStyleSheet("border: none;")
+                self.mainPageUI.MP_Location.setGeometry(QtCore.QRect(30, 270, 470, 30))
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
+            self.mainPageUI.MP_Location.setStyleSheet("border: none;")
+            self.mainPageUI.MP_Location.setGeometry(QtCore.QRect(30, 270, 470, 30))
+   
     def prompt_browse_again(self):
         if len(self.displayed_users) == 1:
             QMessageBox.information(

@@ -204,14 +204,16 @@ def get_user_location():
     if not username:
         return jsonify({"error": "Username is required"}), 400
 
-    db_cursor.execute("SELECT location FROM users WHERE username = %s", (username,))
-    result = db_cursor.fetchone()
-
-    if result:
-        location = result[0]
-        return jsonify({"location": location}), 200
-    else:
-        return jsonify({"error": "User not found"}), 404
+    try:
+        db_cursor.execute("SELECT location FROM users WHERE username = %s", (username,))
+        result = db_cursor.fetchone()
+        if result:
+            return jsonify({"location": result[0]}), 200
+        else:
+            return jsonify({"error": "User not found"}), 404
+    except mysql.connector.Error as err:
+        logging.error(f"Database error: {err}")
+        return jsonify({"error": "Database error occurred. Please try again later."}), 500
     
 # SOCIAL LINK DISPLAY
 

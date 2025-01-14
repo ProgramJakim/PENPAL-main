@@ -201,7 +201,7 @@ class Ui_Main_Page(object):
 "")
         self.MP_Gender.setObjectName("MP_Gender")
         self.MP_Location = QtWidgets.QLabel(self.MP_Shape1)
-        self.MP_Location.setGeometry(QtCore.QRect(30, 250, 500, 71))
+        self.MP_Location.setGeometry(QtCore.QRect(30, 250, 480, 71))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Ignored)
         sizePolicy.setHorizontalStretch(5)
         sizePolicy.setVerticalStretch(0)
