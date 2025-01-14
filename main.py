@@ -1,6 +1,7 @@
 
 import os
 import sys
+import traceback
 import requests
 import re
 from datetime import datetime
@@ -39,12 +40,11 @@ class SplashScreen(QDialog):
         layout = QVBoxLayout(self)
 
 
-        # Add a spacer item to push the content upward
         spacer = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
         layout.addItem(spacer)
 
 
-        # Add logo
+      
         self.logo_label = QLabel(self)
         logo_path = os.path.join(os.path.dirname(__file__), 'resources', 'images', 'Icon.png')
         if os.path.exists(logo_path):
@@ -52,27 +52,26 @@ class SplashScreen(QDialog):
         layout.addWidget(self.logo_label, alignment=Qt.AlignCenter)
 
 
-        # Add system name
+      
         self.label = QLabel("Penpal:\nA Social Media\n Friend Recommendation System", self)
         font = QFont()
         font.setPointSize(30)
         self.label.setFont(font)
         self.label.setAlignment(Qt.AlignCenter)
-        self.label.setStyleSheet("color: white;")  # Set text color to white
+        self.label.setStyleSheet("color: white;")  
         layout.addWidget(self.label)
 
 
-        # Add a spacer item to push the content upward
         spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         layout.addItem(spacer)
 
 
-        # Create opacity effect
+      
         self.opacity_effect = QGraphicsOpacityEffect()
         self.label.setGraphicsEffect(self.opacity_effect)
 
 
-        # Create animation
+     
         self.animation = QPropertyAnimation(self.opacity_effect, b"opacity")
         self.animation.setDuration(500)
         self.animation.setStartValue(0)
@@ -89,11 +88,11 @@ class SplashScreen(QDialog):
 
 class MainApp:
     def __init__(self):
-        # Create the application instance
+      
         self.app = QApplication(sys.argv)
 
 
-        # Create instances for all windows
+       
         self.logInWindow = QMainWindow()
         self.signUpWindow = QMainWindow()
         self.homePageWindow = QWidget()
@@ -108,14 +107,14 @@ class MainApp:
         self.forgotPasswordWindow = QWidget()
         self.friendMenuWindow = QDialog()
         self.changeProfileWindow = QDialog()
-        # Create the notification window
+     
         self.notificationWindow = NotificationWindow()
        
 
-        # Setup UI for all windows
+     
         self.setup_ui()
 
-        # Connect buttons to their respective methods
+       
         self.connect_buttons()
 
 
@@ -413,70 +412,67 @@ class MainApp:
         self.logInWindow.show()
 
     def handle_signup_origin(self):
-        print("handle_signup called")  # Debug statement
+        print("handle_signup called") 
         username = self.signUpUI.SU_UsernameLE.text()
         password = self.signUpUI.SU_PasswordLE.text()
         gender = self.signUpUI.SU_GenderCB.currentText()
         location = self.signUpUI.SU_LocationLE.text()
         social_media_link = self.signUpUI.SU_SocialLinkLE.text()
-        gmail = self.signUpUI.SU_EmailLE.text()  # New field for Gmail account
-        selected_interests = self.selected_interests  # Retrieve selected interests
+        gmail = self.signUpUI.SU_EmailLE.text()  
+        selected_interests = self.selected_interests  
 
-        # Check if all fields are filled
         if not username or not password or not location or not gender or not gmail:
             self.show_error_message("Please fill in all the required fields.")
-            return False  # Indicate that the sign-up process should not continue
+            return False  
 
-        # Validate password
+      
         password_issue = self.validate_password(password)
         if password_issue:
             self.show_error_message(f"Error: {password_issue}. Please re-enter your password.")
-            self.signUpUI.SU_PasswordLE.clear()  # Clear the password field to prompt re-entry
-            return False  # Indicate that the sign-up process should not continue
+            self.signUpUI.SU_PasswordLE.clear()  
+            return False 
 
-        # Validate social media link
+     
         if not self.validate_social_link():
             self.show_error_message("Invalid social media link. Please enter a valid link.")
-            self.signUpUI.SU_SocialLinkLE.clear()  # Clear the link field to prompt re-entry
-            return False  # Indicate that the sign-up process should not continue
+            self.signUpUI.SU_SocialLinkLE.clear()  
+            return False 
 
-        # Get selected interests
+
         selected_interests = self.get_selected_interests()
 
-        # Check if interests are selected
+    
         if len(selected_interests) < 5:
             self.show_error_message("Please select at least five interests.")
             return False 
 
-        # Check if interests are selected
         if len(selected_interests) < 5:
             self.show_error_message("Please select at least five interests.")
-            return False  # Indicate that the sign-up process should not continue
+            return False  
 
-        # Check if terms and conditions are accepted
         terms_accepted = self.signUpUI.SU_TermsandPrivacyChB.isChecked()
         if not terms_accepted:
             self.show_error_message("You must accept the Terms and Conditions to create an account.")
-            return False  # Indicate that the sign-up process should not continue
+            return False  
 
-        dob = self.signUpUI.SU_DOB.date().toPyDate()  # Assuming you have a QDateEdit for date of birth
+        dob = self.signUpUI.SU_DOB.date().toPyDate()
         today = datetime.today()
         age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
 
-        # Check if username already exists
+
         data = {'username': username}
 
         try:
-            # First, check if the username exists
+         
             response = requests.post('http://127.0.0.1:5000/check_username', json=data)
-            print(f"Response status code: {response.status_code}")  # Debug statement
+            print(f"Response status code: {response.status_code}")  
 
-            if response.status_code == 400:  # Assuming the backend returns 400 if the username exists
+            if response.status_code == 400:  
                 self.show_error_message("Username already exists. Please choose another username.")
-                self.signUpUI.SU_UsernameLE.clear()  # Clear the username field to prompt re-entry
-                return False  # Indicate that the sign-up process should not continue
+                self.signUpUI.SU_UsernameLE.clear()  
+                return False  
 
-            # If the username is available, proceed with the sign-up process
+
             sign_up_data = {
                 'username': username,
                 'password': password,
@@ -484,48 +480,48 @@ class MainApp:
                 'gender': gender,
                 'location': location,
                 'social_media_link': social_media_link,
-                'gmail': gmail,  # Include the Gmail field in the sign-up data
-                'interests': selected_interests  # Include the selected interests
+                'gmail': gmail,  
+                'interests': selected_interests 
             }
 
-            # Send the data to the backend to create the account
+            
             response = requests.post('http://127.0.0.1:5000/signup', json=sign_up_data)
 
-            # Log the response for debugging
+            
             print(f"Response status code: {response.status_code}")
             print(f"Response content: {response.content}")
 
             if response.status_code == 201:
-                self.clear_error_message()  # Clear any existing error messages
+                self.clear_error_message() 
                 self.show_success_message("Account created successfully!")
 
-                # Clear the input fields after sign-up
+               
                 self.signUpUI.SU_UsernameLE.clear()
                 self.signUpUI.SU_PasswordLE.clear()
-                self.signUpUI.SU_DOB.setDate(QtCore.QDate.currentDate())  # Reset to current date
-                self.signUpUI.SU_GenderCB.setCurrentIndex(0)  # Reset to first item (if applicable)
+                self.signUpUI.SU_DOB.setDate(QtCore.QDate.currentDate())  
+                self.signUpUI.SU_GenderCB.setCurrentIndex(0)  
                 self.signUpUI.SU_LocationLE.clear()
                 self.signUpUI.SU_SocialLinkLE.clear()
-                self.signUpUI.SU_EmailLE.clear()  # Clear the Gmail field
+                self.signUpUI.SU_EmailLE.clear()  
                 self.signUpUI.SU_EmailLE.clear() 
-                # Reset selected interests
+
                 self.total_clicks = 0
                 self.click_counts = {button_name: 0 for button_name in self.click_counts}
-                self.interestPageUI.placeholderText.setText("0 selected")  # Update the display to show 0 selected
+                self.interestPageUI.placeholderText.setText("0 selected")  
                 self.show_success_message("You can continue creating another account or stay here.")
                 self.clear_error_message()
-                return True  # Indicate that the sign-up process succeeded
+                return True 
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
                 self.show_error_message(f"Error: {error_message}")
-                return False  # Indicate failure
+                return False 
 
         except requests.exceptions.RequestException as e:
             self.show_error_message(f"Request failed: {str(e)}")
-        return False  # Indicate failure
+        return False 
 
     def clear_error_message(self):
-        # Assuming you have a QLabel named error_message_label for displaying error messages
+       
         self.error_message_label.setText("")
 
     def show_success_message(self, message):
@@ -555,15 +551,15 @@ class MainApp:
 
     def validate_social_link(self):
         social_link = self.signUpUI.SU_SocialLinkLE.text()
-        # Updated pattern to allow periods in the path
+        
         pattern = r"^(https?://)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}(/[\w\-\.]*)*$"
         return bool(re.match(pattern, social_link))
     
     def on_sign_up_button_click(self):
-        if self.handle_signup_origin():  # If sign-up is successful, proceed
+        if self.handle_signup_origin():  
             self.backtoLogInPage()
         else:
-            # If there's an issue, show a message box asking if the user wants to continue
+           
             reply = QMessageBox.question(
                 self.signUpWindow,
                 'Continue Sign Up?',
@@ -574,7 +570,7 @@ class MainApp:
             if reply == QMessageBox.Yes:
                 self.backtoLogInPage()
             else:
-                # Stay in the sign-up window
+               
                 pass
     def backtoLogInPage(self):
         self.signUpWindow.close()
@@ -587,7 +583,7 @@ class MainApp:
         self.signUpWindow.close()
         self.interestPageWindow.show()
 
-    # Terms&Conditions methods
+  
     def backtoSignUpFromTermsCondition(self):
         self.termsWindow.close()
         self.signUpWindow.show()
@@ -596,17 +592,17 @@ class MainApp:
         self.contactUsWindow.close()
         self.homePageWindow.show()
        
-     # Interests methods
+   
     def handle_button_click_number(self, button_name):
-        # Check if the button has already been clicked
+        
         if self.click_counts[button_name] == 0:
-            # Increment the total click count only if the button is clicked for the first time
+           
             self.total_clicks += 1
 
-        # Increment the click count for the button
+  
         self.click_counts[button_name] += 1
 
-        # Update the placeholder text with the new total count
+        
         self.interestPageUI.placeholderText.setText(f"{self.total_clicks} selected")
 
 
@@ -667,14 +663,14 @@ class MainApp:
             response = requests.post('http://127.0.0.1:5000/logout')
             if response.status_code == 200:
                 self.show_success_message("Logged out successfully")
-                # Reset displayed_users list
+              
                 self.displayed_users = set()
             else:
                 self.show_error_message("Logout failed", "Failed to log out. Please try again.")
         except requests.exceptions.RequestException as e:
             self.show_error_message("Logout failed", f"An error occurred: {e}")
 
-        # Close the Main Page window and show the Home Page window
+       
         self.mainPageWindow.close()
         self.homePageWindow.show()
     
@@ -693,16 +689,15 @@ class MainApp:
                 user_data = response.json()
                 self.logInUI.user_id = user_data['user_id']
                 self.logInUI.username = user_data['username']
-                self.logged_in_username = user_data['username']  # Set the logged_in_username attribute
+                self.logged_in_username = user_data['username'] 
 
-                # Set user info in the main page UI
+
                 self.mainPageUI.set_user_info(self.logInUI.user_id, self.logInUI.username)
 
-                # Show the main page window
+              
                 self.logInWindow.close()
                 self.mainPageWindow.show()
 
-                # Load the first user immediately
                 self.load_next_user()
             else:
                 error_message = response.json().get('error', '')
@@ -715,7 +710,7 @@ class MainApp:
         try:
             response = requests.get('http://127.0.0.1:5000/get_one_user', params={
                 'current_username': current_username,
-                'logged_in_username': self.logInUI.username  # Pass the logged-in username
+                'logged_in_username': self.logInUI.username
             })
             if response.status_code == 200:
                 user = response.json().get('user', {})
@@ -744,14 +739,14 @@ class MainApp:
             self.show_error_message("No user data available.")
 
     def handle_left_button_click(self):
-        # Increment the left button click counter
+      
         self.mainPageUI.MP_LeftArrow += 1
 
-        # Check if the counter has reached 2
+     
         if self.mainPageUI.MP_LeftArrow >= 2:
             self.show_error_message("No more users available after multiple attempts.")
             self.clear_user_display()
-            # Reset the counter
+          
             self.mainPageUI.MP_LeftArrow = 0
         else:
             self.load_next_user()
@@ -772,11 +767,11 @@ class MainApp:
                 user = response.json().get('user')
                 if user:
                     if not self.first_user:
-                        self.first_user = user['username']  # Set the first user displayed
+                        self.first_user = user['username'] 
                     self.display_user(user)
                     self.displayed_users.add(user['username'])
 
-                    # Fetch mutual friends count
+                 
                     mutual_response = requests.get('http://localhost:5000/get_mutual_friends_count', params={
                         'username': self.logInUI.username,
                         'other_user': user['username']
@@ -800,10 +795,10 @@ class MainApp:
                         self.mainPageUI.MP_ViewMutualFriendsButton.hide()
                         self.mainPageUI.MP_MutualFriendsList.setText("")
 
-                    # Fetch and highlight common interests
+           
                     self.highlight_common_interests(user['username'])
 
-                    # Highlight location if it matches
+              
                     self.highlight_location(user['username'])
                 else:
                     self.prompt_browse_again()
@@ -837,14 +832,13 @@ class MainApp:
                     other_user_interests = set(response.json().get('interests', []))
                     common_interests = logged_in_user_interests.intersection(other_user_interests)
 
-                    # Reset styles for all interest labels
+               
                     for label in self.mainPageUI.interest_labels:
                         label.setStyleSheet("color: rgb(122, 12, 12);\n"
                                             "border: none;\n"
                                             "font: 700 12pt \"Rockwell\";\n"
                                             "background: none;\n")
 
-                    # Highlight common interests
                     for interest in common_interests:
                         for label in self.mainPageUI.interest_labels:
                             if label.text() == interest:
@@ -861,7 +855,7 @@ class MainApp:
                                         label.setGeometry(QtCore.QRect(190, 440, 190, 30))
 
 
-                    # Update MP_Preference label with the count of common interests
+       
                     common_interests_count = len(common_interests)
                     self.mainPageUI.MP_Preference.setText(f"Preferences: {common_interests_count} same interest{'s' if common_interests_count > 1 else ''}!")
                 else:
@@ -924,7 +918,7 @@ class MainApp:
             QMessageBox.No
         )
         if reply == QMessageBox.Yes:
-            self.displayed_users.clear()  # Reset the displayed users
+            self.displayed_users.clear()
             self.load_first_user()
         else:
             self.clear_user_display()
@@ -962,8 +956,8 @@ class MainApp:
                 response_data = response.json()
                 added_user = response_data.get("added_user")
                 self.show_success_message(f"{added_user} added!")
-                self.displayed_users.add(added_user)  # Add the user to the displayed users set
-                self.load_next_user()  # Load the next user
+                self.displayed_users.add(added_user)  
+                self.load_next_user()
             else:
                 error_message = response.json().get('error', 'Unknown error occurred')
                 self.show_error_message(f"Error: {error_message}")
@@ -985,20 +979,19 @@ class MainApp:
             response = requests.post('http://127.0.0.1:5000/logout')
             if response.status_code == 200:
                 self.show_success_message("Logged out successfully")
-                # Reset displayed_users list
+              
                 self.displayed_users = set()
             else:
                 self.show_error_message("Logout failed", "Failed to log out. Please try again.")
         except requests.exceptions.RequestException as e:
             self.show_error_message("Logout failed", f"An error occurred: {e}")
 
-        # Close the Friend Menu window and show the Home Page window
         self.friendMenuWindow.close()
         self.homePageWindow.show()
 
 
     def fetch_pending_friend_requests(self):
-        username = self.logInUI.username  # Get the logged-in username
+        username = self.logInUI.username  
 
         try:
             response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests', params={'username': username})
@@ -1192,11 +1185,11 @@ class MainApp:
     
     #NOTIFICATION WINDOW
     def open_notification_window(self):
-        # Fetch notifications data
-        username = self.logInUI.username  # Get the logged-in username
+      
+        username = self.logInUI.username 
         users_added = self.fetch_users_added_notification()
-        accepted_requests = self.fetch_accepted_friends()  # Call the method to get the list of accepted friends
-        pending_requests = self.fetch_pending_friend_requests_notification()  # Fetch pending friend requests
+        accepted_requests = self.fetch_accepted_friends()  
+        pending_requests = self.fetch_pending_friend_requests_notification() 
 
         # Set the data in the notification window
         self.notificationWindow.set_users_added_notification(users_added)
@@ -1209,7 +1202,7 @@ class MainApp:
 
 
     def fetch_users_added_notification(self):
-        username = self.logInUI.username  # Get the logged-in username
+        username = self.logInUI.username  
 
         try:
             response = requests.get('http://127.0.0.1:5000/get_users_added_notification', params={'username': username})
@@ -1225,14 +1218,14 @@ class MainApp:
             return []
         
     def fetch_accepted_friends(self):
-        username = self.logInUI.username  # Get the logged-in username
+        username = self.logInUI.username
 
         try:
             response = requests.get('http://127.0.0.1:5000/get_accepted_friends', params={'username': username})
             if response.status_code == 200:
                 accepted_friends = response.json().get('accepted_friends', [])
-                self.display_accepted_friends(accepted_friends)  # Corrected method call
-                return accepted_friends  # Return the list of accepted friends
+                self.display_accepted_friends(accepted_friends)  
+                return accepted_friends  
             else:
                 print(f"Error: Received status code {response.status_code}")
                 print(f"Response content: {response.content}")
@@ -1285,7 +1278,7 @@ class MainApp:
                 break
     
     def fetch_pending_friend_requests_notification(self):
-        username = self.logInUI.username  # Get the logged-in username
+        username = self.logInUI.username  
 
         try:
             response = requests.get('http://127.0.0.1:5000/get_pending_friend_requests_notification', params={'username': username})
@@ -1317,7 +1310,7 @@ class MainApp:
             response = requests.post('http://127.0.0.1:5000/logout')
             if response.status_code == 200:
                 self.show_success_message("Logged out successfully")
-                # Reset displayed_users list
+              
                 self.displayed_users = set()
             else:
                 self.show_error_message("Logout failed", "Failed to log out. Please try again.")
@@ -1365,13 +1358,21 @@ class MainApp:
     
    
     def run(self):
-        # Show the splash screen
+      
         splash = SplashScreen()
         if splash.exec_() == QDialog.Accepted:
-            # Show the welcome page after the splash screen
+            
             self.welcomePageWindow.show()
             sys.exit(self.app.exec_())
 
+    def main():
+        try:
+            mainApp = MainApp()
+            mainApp.run()
+        except Exception as e:
+            print(f"Unhandled exception: {e}")
+            traceback.print_exc()
+            sys.exit(1)
 
 # Run the application
 if __name__ == "__main__":
