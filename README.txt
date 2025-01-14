@@ -13,5 +13,5 @@ python BACKEND/server.py [for database mysql:xammp]
 Note: The executable file only includes the main application (`penpalmain.py`). Ensure the server is running before starting the main application.
 
 Step 4:
-Run the main application
+Run the penpalmain.py application
 Double-click the `start_app.bat` file to start the main application.
