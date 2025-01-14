@@ -7,6 +7,15 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 .\venv\Scripts\activate
 
 Step 3:
+Ensure that XAMPP is installed and the MySQL service is running.
+
+Step 4:
+Import the SQL scripts into your MySQL database.
+The SQL scripts are located in the `BACKEND` folder:
+- `penpaldb.sql`
+- `penpaldbaccount.sql [with accounts]`
+
+Step 5:
 Run the penpalmain.py application
 python penpalmain.py
 
