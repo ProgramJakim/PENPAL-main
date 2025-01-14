@@ -5,6 +5,7 @@ import traceback
 import requests
 import re
 from datetime import datetime
+import subprocess
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QDialog, QVBoxLayout, QLabel, QSizePolicy, QSpacerItem, QGraphicsOpacityEffect, QMessageBox, QListWidget, QMessageBox
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, QPropertyAnimation, QTimer
@@ -1368,15 +1369,20 @@ class MainApp:
     def main():
         try:
             mainApp = MainApp()
-            mainApp.run()
         except Exception as e:
             print(f"Unhandled exception: {e}")
             traceback.print_exc()
             sys.exit(1)
 
-# Run the application
+def start_server():
+    server_path = os.path.join(os.path.dirname(__file__), 'BACKEND', 'server.py')
+    subprocess.Popen(['python', server_path])
+
 if __name__ == "__main__":
+    start_server()
+    app = QApplication(sys.argv)
     mainApp = MainApp()
+    mainApp.run()
     mainApp.run()
 
 
